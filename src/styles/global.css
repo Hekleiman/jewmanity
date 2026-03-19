@@ -1,0 +1,83 @@
+@import "tailwindcss";
+
+@theme {
+  /* === COLORS (verified from Figma) === */
+  --color-primary: #3783A3;
+  --color-primary-hover: #2D6B85;
+  --color-primary-light: #E8F4F8;
+
+  --color-bg-page: #FAF8F5;
+  --color-bg-section-alt: #F5F2ED;
+  --color-bg-footer: #2C5F6F;
+
+  --color-text-heading: #262626;
+  --color-text-body: #46525F;
+  --color-text-muted: #6B7280;
+
+  --color-border-card: rgba(26, 43, 74, 0.1);
+
+  /* === TYPOGRAPHY (verified from Figma) === */
+  --font-heading: 'Manrope', sans-serif;
+  --font-body: 'Inter', sans-serif;
+
+  /* === SPACING === */
+  --radius-card: 24px;
+  --radius-button: 100px;
+  --radius-nav: 1000px;
+}
+
+/* @font-face declarations */
+@font-face {
+  font-family: 'Manrope';
+  src: url('/fonts/manrope-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Manrope';
+  src: url('/fonts/manrope-500.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/inter-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/inter-500.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* === BASE STYLES === */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-bg-page);
+  color: var(--color-text-body);
+  font-family: var(--font-body);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  color: var(--color-text-heading);
+}
+
+/* Smooth scroll but respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}

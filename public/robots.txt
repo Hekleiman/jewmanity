@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://jewmanity.org/sitemap-index.xml
