@@ -75,18 +75,13 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--color-text-heading);
 }
 
-/* GSAP animation initial state — hidden until animated in */
-[data-animate] {
-  opacity: 0;
-}
-
 /* Smooth scroll but respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
 
-  /* Show all elements immediately when animations are disabled */
+  /* Safety net: ensure animated elements stay visible when animations are disabled */
   [data-animate] {
     opacity: 1 !important;
   }
