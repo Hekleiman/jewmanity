@@ -10,12 +10,12 @@ interface Props {
 const { heading, subtitle, backgroundImage, ctaText, ctaHref } = Astro.props;
 ---
 
-<section class="relative flex min-h-[50vh] items-center justify-center overflow-hidden md:min-h-[55vh]">
+<section class="relative flex min-h-[55vh] items-center justify-center overflow-hidden md:min-h-[60vh]">
   {backgroundImage ? (
     <img
       src={backgroundImage}
       alt=""
-      class="absolute inset-0 h-full w-full object-cover"
+      class="absolute inset-0 h-full w-full object-cover object-[center_25%]"
       width="1920"
       height="1080"
       loading="eager"
