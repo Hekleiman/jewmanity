@@ -1,0 +1,47 @@
+---
+interface Props {
+  heading: string;
+  subtitle?: string;
+  backgroundImage?: string;
+  ctaText?: string;
+  ctaHref?: string;
+}
+
+const { heading, subtitle, backgroundImage, ctaText, ctaHref } = Astro.props;
+---
+
+<section class="relative flex min-h-[50vh] items-center justify-center overflow-hidden md:min-h-[55vh]">
+  {backgroundImage ? (
+    <img
+      src={backgroundImage}
+      alt=""
+      class="absolute inset-0 h-full w-full object-cover"
+      width="1920"
+      height="1080"
+      loading="eager"
+    />
+  ) : (
+    <!-- Replace with actual hero image -->
+    <div class="absolute inset-0 bg-gradient-to-br from-[#3a6b7a] to-[#5a8a7a]"></div>
+  )}
+  <div class="absolute inset-0 bg-black/40"></div>
+
+  <div class="relative z-10 mx-auto max-w-[800px] px-6 pt-20 text-center">
+    <h1 data-animate="hero-fade-up" class="font-heading text-[clamp(32px,5vw,56px)] font-medium leading-[1.15] text-white">
+      {heading}
+    </h1>
+    {subtitle && (
+      <p data-animate="hero-fade-up" class="mx-auto mt-5 max-w-[600px] font-heading text-[clamp(16px,2.5vw,20px)] font-normal leading-relaxed text-white/85">
+        {subtitle}
+      </p>
+    )}
+    {ctaText && ctaHref && (
+      <a
+        href={ctaHref}
+        class="mt-8 inline-block rounded-[100px] bg-[#FAF8F5] px-8 py-3 font-heading text-base font-medium text-primary transition-colors hover:bg-white"
+      >
+        {ctaText}
+      </a>
+    )}
+  </div>
+</section>

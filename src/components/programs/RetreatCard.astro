@@ -1,0 +1,37 @@
+---
+interface Props {
+  title: string;
+  location: string;
+  description: string;
+  href: string;
+  image?: string;
+}
+
+const { title, location, description, href, image } = Astro.props;
+---
+
+<article class="group overflow-hidden rounded-[24px] border-[0.5px] border-border-card bg-white shadow-[0px_16px_32px_rgba(12,12,13,0.1),0px_4px_4px_rgba(12,12,13,0.05)] transition-shadow hover:shadow-[0px_20px_40px_rgba(12,12,13,0.14),0px_6px_6px_rgba(12,12,13,0.07)]">
+  {image ? (
+    <img src={image} alt={title || 'Retreat'} class="h-52 w-full object-cover" width="600" height="400" loading="lazy" />
+  ) : (
+    <div class="h-52 bg-gradient-to-br from-primary/20 to-primary/5"></div>
+  )}
+  <div class="p-5">
+    <h3 class="font-body text-lg font-medium leading-7 text-text-heading">
+      {title}
+    </h3>
+    <p class="mt-1 font-body text-sm text-text-muted">
+      {location}
+    </p>
+    <p class="mt-3 font-body text-sm leading-relaxed text-text-body">
+      {description}
+    </p>
+    <a
+      href={href}
+      class="mt-4 inline-flex items-center gap-1 font-body text-sm font-medium text-primary transition-colors hover:text-primary-hover"
+    >
+      Read Story
+      <span aria-hidden="true">&rarr;</span>
+    </a>
+  </div>
+</article>

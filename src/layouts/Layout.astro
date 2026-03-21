@@ -1,5 +1,8 @@
 ---
 import '../styles/global.css';
+import Navigation from '../components/Navigation.astro';
+import MobileMenu from '../components/MobileMenu.astro';
+import Footer from '../components/Footer.astro';
 
 interface Props {
   title?: string;
@@ -12,6 +15,8 @@ const {
   description = 'Jewmanity is a 501(c)(3) nonprofit supporting mental health and healing for Jewish and Israeli communities through retreats, peer support, education, and ongoing care.',
   ogImage = '/og-default.png',
 } = Astro.props;
+
+const canonicalUrl = `https://jewmanity.org${Astro.url.pathname}`;
 ---
 <!doctype html>
 <html lang="en">
@@ -19,18 +24,74 @@ const {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
+    <meta name="author" content="Jewmanity" />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#3783A3" />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href={canonicalUrl} />
+
+    <!-- Open Graph -->
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImage} />
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Jewmanity" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
+
+    <!-- Font preloads -->
+    <link rel="preload" href="/fonts/manrope-500.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin />
+
+    <!-- Structured Data -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "NonprofitOrganization",
+      "name": "Jewmanity",
+      "url": "https://jewmanity.org",
+      "logo": "https://jewmanity.org/images/logo.png",
+      "description": "A 501(c)(3) nonprofit supporting mental health and healing for Jewish and Israeli communities.",
+      "foundingDate": "2019",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "San Diego",
+        "addressRegion": "CA",
+        "addressCountry": "US"
+      },
+      "sameAs": []
+    })} />
+
+    <!-- Snipcart E-Commerce -->
+    <link rel="preconnect" href="https://app.snipcart.com" />
+    <link rel="stylesheet" href="https://cdn.snipcart.com/themes/v3.7.1/default/snipcart.css" />
+    <script async src="https://cdn.snipcart.com/themes/v3.7.1/default/snipcart.js"></script>
+    <div hidden id="snipcart" data-api-key="YzI4MTdlM2YtN2U2NS00YTIxLWE1NGUtNWUwOTU3YzFhZjJkNjM5MDk2MjU4MDY4MDc3ODg1" data-config-modal-style="side"></div>
+    <!-- NOTE: This is the TEST API key. Switch to live key before production deployment. -->
   </head>
   <body class="bg-bg-page text-text-body font-body antialiased">
-    <!-- Navigation will go here (Phase 0B) -->
-    <main>
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:bg-white focus:text-primary focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-lg">
+      Skip to content
+    </a>
+    <Navigation />
+    <MobileMenu />
+    <main id="main-content">
       <slot />
     </main>
-    <!-- Footer will go here (Phase 0B) -->
+    <Footer />
+    <script>
+      import { initAnimations } from '../scripts/animations';
+
+      document.addEventListener('DOMContentLoaded', initAnimations);
+      document.addEventListener('astro:page-load', initAnimations);
+    </script>
   </body>
 </html>

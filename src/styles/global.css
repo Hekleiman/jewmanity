@@ -8,7 +8,7 @@
 
   --color-bg-page: #FAF8F5;
   --color-bg-section-alt: #F5F2ED;
-  --color-bg-footer: #2C5F6F;
+  --color-bg-footer: #244755;
 
   --color-text-heading: #262626;
   --color-text-body: #46525F;
@@ -75,9 +75,19 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--color-text-heading);
 }
 
+/* GSAP animation initial state — hidden until animated in */
+[data-animate] {
+  opacity: 0;
+}
+
 /* Smooth scroll but respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  /* Show all elements immediately when animations are disabled */
+  [data-animate] {
+    opacity: 1 !important;
   }
 }

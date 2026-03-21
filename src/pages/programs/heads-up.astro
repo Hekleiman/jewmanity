@@ -1,9 +1,31 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import HeroSection from '../../components/shared/HeroSection.astro';
+import SafeHaven from '../../components/programs/SafeHaven.astro';
+import WhoWeSupport from '../../components/programs/WhoWeSupport.astro';
+import RetreatExperience from '../../components/programs/RetreatExperience.astro';
+import EvidenceBasedCare from '../../components/programs/EvidenceBasedCare.astro';
+import WhatsIncluded from '../../components/programs/WhatsIncluded.astro';
+import CommunityPowered from '../../components/programs/CommunityPowered.astro';
+import ImpactStats from '../../components/programs/ImpactStats.astro';
+import CTASection from '../../components/shared/CTASection.astro';
 ---
-<Layout title="Heads Up | Jewmanity">
-  <div class="min-h-screen flex items-center justify-center flex-col gap-4">
-    <h1 class="text-3xl font-heading font-medium text-text-heading">Heads Up</h1>
-    <p class="text-text-muted">Coming soon — Phase 1</p>
-  </div>
+<Layout title="Heads Up Healing Retreats | Jewmanity" description="A comprehensive rehabilitation retreat in San Diego supporting Israeli soldiers and their loved ones experiencing PTSD and ongoing trauma.">
+  <HeroSection
+    heading="Heads Up"
+    subtitle="A comprehensive rehabilitation retreat in San Diego, designed to support Israeli soldiers and their loved ones experiencing PTSD and ongoing trauma"
+    backgroundImage="/images/hero/heads-up.jpg"
+  />
+  <SafeHaven />
+  <WhoWeSupport />
+  <RetreatExperience />
+  <EvidenceBasedCare />
+  <WhatsIncluded />
+  <CommunityPowered />
+  <ImpactStats />
+  <CTASection
+    heading="Creating Space for Healing"
+    subtitle="Healing from trauma requires safety, compassion, and community. Your support helps us provide these essential spaces where Israeli soldiers and their loved ones can begin to recover, reconnect, and rebuild."
+    primaryCta={{ text: 'Support Healing', href: '/donate' }}
+  />
 </Layout>

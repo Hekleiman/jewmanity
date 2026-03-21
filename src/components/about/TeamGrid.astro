@@ -1,0 +1,68 @@
+---
+import TeamMember from './TeamMember.astro';
+
+interface Member {
+  name: string;
+  role: string;
+  bio: string;
+  image?: string;
+}
+
+interface Props {
+  members?: Member[];
+}
+
+const fallbackMembers: Member[] = [
+  {
+    name: 'Belinda Donner',
+    role: 'CEO & Founder',
+    bio: 'Rooted in legacy and driven by compassion, Belinda brings heart, creativity, and a deep commitment to community-building at Jewmanity.',
+    image: '/images/team/member-1.jpg',
+  },
+  {
+    name: 'Andrew Donner',
+    role: 'Founding Board Member',
+    bio: 'With decades of leadership and operational experience, Andrew provides steady guidance to help Jewmanity grow with purpose and impact.',
+    image: '/images/team/member-2.jpg',
+  },
+  {
+    name: 'Shai Gino',
+    role: 'Executive Director',
+    bio: 'A proven leader shaped by service and resilience, Shai leads Jewmanity with courage, clarity, and an unwavering focus on helping others.',
+    image: '/images/team/member-3.jpg',
+  },
+  {
+    name: 'Rabbi Avi Libman',
+    role: 'Board Member',
+    bio: 'A trusted spiritual and community leader, Rabbi Libman helps strengthen Jewmanity\'s mission through connection, education, and shared values.',
+    image: '/images/team/member-4.jpg',
+  },
+];
+
+const { members: cmsMembers } = Astro.props;
+const teamMembers = cmsMembers && cmsMembers.length > 0 ? cmsMembers : fallbackMembers;
+---
+
+<section class="py-16 md:py-20 lg:py-24">
+  <div class="mx-auto max-w-[1200px] px-6">
+    <div class="mb-12 text-center" data-animate="fade-up">
+      <h2 class="font-heading text-[clamp(28px,4vw,36px)] font-medium leading-tight text-text-heading">
+        Our Team
+      </h2>
+      <p class="mx-auto mt-4 max-w-[700px] font-heading text-[clamp(16px,2.2vw,20px)] font-normal leading-relaxed text-text-body">
+        A group of leaders, advocates, and community members united by compassion, lived experience, and a shared commitment to healing.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 gap-8 sm:grid-cols-2" data-animate="stagger">
+      {teamMembers.map((member) => (
+        <TeamMember
+          name={member.name}
+          role={member.role}
+          bio={member.bio}
+          image={member.image}
+        />
+      ))}
+    </div>
+  </div>
+</section>

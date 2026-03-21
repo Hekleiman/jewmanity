@@ -1,9 +1,155 @@
 ---
 import Layout from '../layouts/Layout.astro';
 ---
-<Layout title="Privacy Policy | Jewmanity">
-  <div class="min-h-screen flex items-center justify-center flex-col gap-4">
-    <h1 class="text-3xl font-heading font-medium text-text-heading">Privacy Policy</h1>
-    <p class="text-text-muted">Coming soon — Phase 1</p>
-  </div>
+<Layout title="Privacy Policy | Jewmanity" description="How Jewmanity collects, uses, and protects your personal information.">
+  <section id="privacy-hero" class="bg-primary-light py-20 pt-32 md:py-24 md:pt-36">
+    <div class="mx-auto max-w-[800px] px-6 text-center">
+      <h1 class="font-heading text-[clamp(32px,5vw,48px)] font-medium leading-tight text-text-heading">
+        Privacy Policy
+      </h1>
+      <p class="mt-3 font-heading text-lg text-text-muted">Last updated: March 2026</p>
+    </div>
+  </section>
+
+  <section id="privacy-content" class="py-16 md:py-20">
+    <div class="prose-legal mx-auto max-w-[800px] px-6">
+      <h2>Information We Collect</h2>
+      <p>
+        Jewmanity collects information you voluntarily provide when using our website, including:
+      </p>
+      <ul>
+        <li>Contact information (name, email address) submitted through our contact and volunteer forms</li>
+        <li>Donation information processed through our third-party donation platform (Donorbox)</li>
+        <li>Purchase information processed through our third-party shop platform (Snipcart)</li>
+        <li>Email addresses submitted through our newsletter signup</li>
+        <li>Usage data collected automatically (browser type, pages visited, referring site) through standard web analytics</li>
+      </ul>
+
+      <h2>How We Use Your Information</h2>
+      <p>We use the information we collect to:</p>
+      <ul>
+        <li>Respond to your inquiries and support requests</li>
+        <li>Process donations and purchases</li>
+        <li>Send newsletters and program updates (only if you opted in)</li>
+        <li>Improve our website and programs</li>
+        <li>Comply with legal obligations</li>
+      </ul>
+
+      <h2>Third-Party Services</h2>
+      <p>We use the following third-party services that may collect data:</p>
+      <ul>
+        <li><strong>Donorbox</strong> for donation processing (see Donorbox Privacy Policy)</li>
+        <li><strong>Snipcart</strong> for merchandise purchases (see Snipcart Privacy Policy)</li>
+        <li><strong>Formspree</strong> for form submissions (see Formspree Privacy Policy)</li>
+        <li><strong>Vercel</strong> for website hosting (see Vercel Privacy Policy)</li>
+      </ul>
+      <p>We do not sell, rent, or share your personal information with third parties for marketing purposes.</p>
+
+      <h2>Data Security</h2>
+      <p>
+        We implement reasonable security measures to protect your personal information. However, no method of
+        transmission over the internet is 100% secure, and we cannot guarantee absolute security.
+      </p>
+
+      <h2>Cookies</h2>
+      <p>
+        Our website may use essential cookies for basic functionality. We do not use advertising or tracking cookies.
+      </p>
+
+      <h2>Your Rights</h2>
+      <p>You have the right to:</p>
+      <ul>
+        <li>Request access to the personal information we hold about you</li>
+        <li>Request correction or deletion of your personal information</li>
+        <li>Opt out of newsletter communications at any time</li>
+        <li>Contact us with any privacy-related concerns</li>
+      </ul>
+
+      <h2>Children's Privacy</h2>
+      <p>
+        Our website is not directed at children under the age of 13, and we do not knowingly collect personal
+        information from children.
+      </p>
+
+      <h2>Changes to This Policy</h2>
+      <p>
+        We may update this Privacy Policy from time to time. Changes will be posted on this page with an updated
+        revision date.
+      </p>
+
+      <h2>Contact Us</h2>
+      <p>
+        If you have questions about this Privacy Policy, please contact us through our
+        <a href="/get-involved/contact">contact page</a> or email us at
+        <a href="mailto:info@jewmanity.org">info@jewmanity.org</a>.
+      </p>
+    </div>
+  </section>
 </Layout>
+
+<style>
+  .prose-legal h2 {
+    font-family: var(--font-heading);
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 1.3;
+    color: var(--color-text-heading);
+    margin-top: 48px;
+    margin-bottom: 16px;
+  }
+
+  .prose-legal h2:first-child {
+    margin-top: 0;
+  }
+
+  .prose-legal p {
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 28px;
+    color: var(--color-text-body);
+    margin-bottom: 16px;
+  }
+
+  .prose-legal ul {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 16px;
+  }
+
+  .prose-legal ul li {
+    position: relative;
+    padding-left: 24px;
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 28px;
+    color: var(--color-text-body);
+    margin-bottom: 8px;
+  }
+
+  .prose-legal ul li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 10px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--color-primary);
+  }
+
+  .prose-legal strong {
+    font-weight: 500;
+  }
+
+  .prose-legal a {
+    color: var(--color-primary);
+    text-decoration: none;
+    transition: text-decoration 0.2s;
+  }
+
+  .prose-legal a:hover {
+    text-decoration: underline;
+  }
+</style>

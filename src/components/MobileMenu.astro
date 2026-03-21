@@ -1,0 +1,271 @@
+---
+interface Props {}
+
+interface NavItem {
+  label: string;
+  href: string;
+  children?: { label: string; href: string }[];
+}
+
+const navItems: NavItem[] = [
+  { label: 'Home', href: '/' },
+  {
+    label: 'About',
+    href: '/about/story',
+    children: [
+      { label: 'Our Story', href: '/about/story' },
+      { label: 'Our Team', href: '/about/team' },
+      { label: 'Community Stories', href: '/about/community-stories' },
+    ],
+  },
+  {
+    label: 'Programs',
+    href: '/programs/heads-up',
+    children: [
+      { label: 'Heads Up', href: '/programs/heads-up' },
+      { label: 'Past Retreats', href: '/programs/past-retreats' },
+    ],
+  },
+  {
+    label: 'Community',
+    href: '/community/fighting-antisemitism',
+    children: [
+      { label: 'Fighting Antisemitism', href: '/community/fighting-antisemitism' },
+      { label: 'Recipes', href: '/community/recipes' },
+    ],
+  },
+  {
+    label: 'Get Involved',
+    href: '/get-involved/volunteer',
+    children: [
+      { label: 'Volunteer', href: '/get-involved/volunteer' },
+      { label: 'Contact', href: '/get-involved/contact' },
+    ],
+  },
+  { label: 'Resources', href: '/resources' },
+  { label: 'Shop', href: '/shop' },
+];
+
+const currentPath = Astro.url.pathname;
+
+function isActive(item: NavItem): boolean {
+  if (currentPath === item.href || currentPath === item.href + '/') return true;
+  if (item.children) {
+    return item.children.some(
+      (child) => currentPath === child.href || currentPath === child.href + '/'
+    );
+  }
+  return false;
+}
+---
+
+<!-- Mobile Nav Bar -->
+<nav
+  id="mobile-nav"
+  aria-label="Mobile navigation"
+  class="fixed top-5 left-1/2 z-50 flex w-[95%] max-w-[600px] -translate-x-1/2 items-center justify-between rounded-[1000px] bg-[rgba(250,248,245,0.9)] px-5 py-3 pr-3 backdrop-blur-[12px] transition-shadow duration-300 lg:hidden"
+>
+  <!-- Logo -->
+  <a href="/" aria-label="Jewmanity home" class="shrink-0">
+    <img src="/images/logo.png" alt="Jewmanity" width="50" height="33" class="h-8 w-auto" />
+  </a>
+
+  <!-- CTA Button -->
+  <a
+    href="/donate"
+    class="rounded-full bg-primary px-5 py-2.5 font-heading text-sm font-medium text-white transition-colors hover:bg-primary-hover"
+  >
+    Support Healing
+  </a>
+
+  <!-- Hamburger Button -->
+  <button
+    id="mobile-menu-toggle"
+    type="button"
+    aria-label="Open menu"
+    aria-expanded="false"
+    aria-controls="mobile-menu-panel"
+    class="flex h-10 w-10 items-center justify-center rounded-full transition-colors hover:bg-black/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+  >
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M3 7H21M3 12H21M3 17H21" stroke="#3783A3" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+  </button>
+</nav>
+
+<!-- Mobile Menu Panel -->
+<div
+  id="mobile-menu-panel"
+  class="fixed inset-0 z-[60] translate-x-full bg-bg-page transition-transform duration-300 ease-in-out lg:hidden"
+  aria-hidden="true"
+>
+  <div class="flex h-full flex-col overflow-y-auto px-6 py-6">
+    <!-- Header with close button -->
+    <div class="flex items-center justify-end">
+      <button
+        id="mobile-menu-close"
+        type="button"
+        aria-label="Close menu"
+        class="flex h-10 w-10 items-center justify-center rounded-full transition-colors hover:bg-black/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+      >
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M6 6L18 18M6 18L18 6" stroke="#3783A3" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Nav Links -->
+    <ul class="mt-8 flex flex-col gap-2">
+      {navItems.map((item) => (
+        <li>
+          {item.children ? (
+            <div class="mobile-accordion">
+              <button
+                type="button"
+                class:list={[
+                  'flex w-full items-center justify-between rounded-lg px-4 py-3 font-heading text-lg font-medium transition-colors hover:bg-black/5',
+                  isActive(item) ? 'text-primary' : 'text-text-heading',
+                ]}
+                aria-expanded="false"
+              >
+                {item.label}
+                <svg
+                  class="h-5 w-5 transition-transform duration-200"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  aria-hidden="true"
+                >
+                  <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+              <ul class="hidden flex-col gap-1 pl-4" role="group">
+                {item.children.map((child) => (
+                  <li>
+                    <a
+                      href={child.href}
+                      class:list={[
+                        'block rounded-lg px-4 py-2 font-body text-base transition-colors hover:bg-black/5',
+                        (currentPath === child.href || currentPath === child.href + '/')
+                          ? 'text-primary font-medium'
+                          : 'text-text-body',
+                      ]}
+                    >
+                      {child.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : (
+            <a
+              href={item.href}
+              class:list={[
+                'block rounded-lg px-4 py-3 font-heading text-lg font-medium transition-colors hover:bg-black/5',
+                isActive(item) ? 'text-primary' : 'text-text-heading',
+              ]}
+            >
+              {item.label}
+            </a>
+          )}
+        </li>
+      ))}
+    </ul>
+
+    <!-- Bottom CTA -->
+    <div class="mt-auto pt-8 pb-4">
+      <a
+        href="/donate"
+        class="block w-full rounded-full bg-primary py-3.5 text-center font-heading text-base font-medium text-white transition-colors hover:bg-primary-hover"
+      >
+        Support Healing
+      </a>
+    </div>
+  </div>
+</div>
+
+<style>
+  #mobile-nav.nav-scrolled {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  }
+
+  #mobile-menu-panel.is-open {
+    transform: translateX(0);
+  }
+
+  .mobile-accordion[data-expanded='true'] > ul {
+    display: flex;
+  }
+
+  .mobile-accordion[data-expanded='true'] > button svg {
+    transform: rotate(180deg);
+  }
+</style>
+
+<script>
+  const toggle = document.getElementById('mobile-menu-toggle');
+  const closeBtn = document.getElementById('mobile-menu-close');
+  const panel = document.getElementById('mobile-menu-panel');
+  const mobileNav = document.getElementById('mobile-nav');
+
+  function openMenu() {
+    if (!panel || !toggle) return;
+    panel.classList.add('is-open');
+    panel.setAttribute('aria-hidden', 'false');
+    toggle.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeMenu() {
+    if (!panel || !toggle) return;
+    panel.classList.remove('is-open');
+    panel.setAttribute('aria-hidden', 'true');
+    toggle.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+
+  toggle?.addEventListener('click', openMenu);
+  closeBtn?.addEventListener('click', closeMenu);
+
+  // Close on Escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && panel?.classList.contains('is-open')) {
+      closeMenu();
+    }
+  });
+
+  // Close on click outside (clicking the backdrop area)
+  panel?.addEventListener('click', (e) => {
+    if (e.target === panel) {
+      closeMenu();
+    }
+  });
+
+  // Accordion behavior
+  document.querySelectorAll('.mobile-accordion > button').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const accordion = btn.parentElement;
+      if (!accordion) return;
+      const isExpanded = accordion.getAttribute('data-expanded') === 'true';
+      accordion.setAttribute('data-expanded', isExpanded ? 'false' : 'true');
+      btn.setAttribute('aria-expanded', isExpanded ? 'false' : 'true');
+    });
+  });
+
+  // Scroll shadow for mobile nav
+  if (mobileNav) {
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          if (window.scrollY > 50) {
+            mobileNav.classList.add('nav-scrolled');
+          } else {
+            mobileNav.classList.remove('nav-scrolled');
+          }
+          ticking = false;
+        });
+        ticking = true;
+      }
+    });
+  }
+</script>

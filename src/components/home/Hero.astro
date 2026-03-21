@@ -1,0 +1,34 @@
+---
+interface Props {}
+---
+
+<section
+  id="hero"
+  class="relative flex min-h-[60vh] items-center justify-center overflow-hidden lg:min-h-[100vh] md:min-h-[60vh]"
+>
+  <img src="/images/hero/homepage.jpg" alt="Jewish community members gathering together in support" class="absolute inset-0 h-full w-full object-cover" width="1920" height="1080" loading="eager" />
+  <div class="absolute inset-0 bg-black/40"></div>
+
+  <div class="relative z-10 mx-auto max-w-[800px] px-6 pt-20 text-center">
+    <h1
+      data-animate="hero-fade-up"
+      class="font-heading text-[clamp(36px,5vw,64px)] font-medium leading-[1.1] text-white"
+    >
+      Supporting healing and resilience for the Jewish Community
+    </h1>
+    <p
+      data-animate="hero-fade-up"
+      class="mx-auto mt-6 max-w-[600px] font-heading text-[clamp(16px,2.5vw,20px)] font-normal leading-relaxed text-white/85"
+    >
+      Jewmanity provides compassionate mental health support for Israelis and
+      Jewish individuals navigating PTSD and trauma.
+    </p>
+    <a
+      data-animate="hero-scale-in"
+      href="/about/story"
+      class="mt-8 inline-block rounded-[100px] bg-[#FAF8F5] px-8 py-3 font-heading text-base font-medium text-primary transition-colors hover:bg-white sm:w-auto"
+    >
+      Learn About Our Work
+    </a>
+  </div>
+</section>

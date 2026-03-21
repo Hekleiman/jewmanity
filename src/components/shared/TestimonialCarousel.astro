@@ -1,0 +1,74 @@
+---
+interface Testimonial {
+  quote: string;
+  author: string;
+  context: string;
+}
+
+interface Props {
+  heading: string;
+  subtitle?: string;
+  testimonials: Testimonial[];
+}
+
+const { heading, subtitle, testimonials } = Astro.props;
+const activeTestimonial = testimonials[0];
+---
+
+<section id="testimonials" class="bg-bg-section-alt py-16 md:py-20 lg:py-24">
+  <div class="mx-auto max-w-[1200px] px-6">
+    <div class="mb-12 text-center">
+      <h2 class="font-heading text-[clamp(28px,4vw,36px)] font-medium leading-tight text-text-heading">
+        {heading}
+      </h2>
+      {subtitle && (
+        <p class="mx-auto mt-4 max-w-[700px] font-body text-[15px] leading-relaxed text-text-body md:text-base">
+          {subtitle}
+        </p>
+      )}
+    </div>
+
+    <div class="mx-auto max-w-[800px]">
+      <div class="relative rounded-2xl border-[0.5px] border-border-card bg-white p-8 shadow-[0px_8px_16px_rgba(12,12,13,0.06),0px_2px_4px_rgba(12,12,13,0.04)] md:p-10">
+        <!-- Quote icon -->
+        <svg class="mb-4 h-8 w-8 text-primary/30" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true">
+          <path d="M10 8C5.6 8 2 11.6 2 16v8h8v-8H6c0-2.2 1.8-4 4-4V8zm16 0c-4.4 0-8 3.6-8 8v8h8v-8h-4c0-2.2 1.8-4 4-4V8z"/>
+        </svg>
+        <blockquote>
+          <p class="font-body text-base italic leading-relaxed text-text-body md:text-lg">
+            "{activeTestimonial.quote}"
+          </p>
+        </blockquote>
+        <p class="mt-6 font-body text-sm font-medium text-text-heading">
+          &mdash; {activeTestimonial.author}
+        </p>
+        <p class="mt-1 font-body text-sm text-text-muted">
+          {activeTestimonial.context}
+        </p>
+      </div>
+
+      <!-- Navigation -->
+      <div class="mt-8 flex items-center justify-center gap-6">
+        <button class="flex h-8 w-8 items-center justify-center rounded-full border border-border-card text-text-muted transition-colors hover:border-primary hover:text-primary" aria-label="Previous testimonial">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <div class="flex items-center gap-2" aria-label="Testimonial navigation">
+          {testimonials.map((_, i) => (
+            <button
+              class={`h-2.5 w-2.5 rounded-full ${i === 0 ? 'bg-primary' : 'bg-gray-300'}`}
+              aria-label={`Testimonial ${i + 1}`}
+              aria-current={i === 0 ? 'true' : undefined}
+            ></button>
+          ))}
+        </div>
+        <button class="flex h-8 w-8 items-center justify-center rounded-full border border-border-card text-text-muted transition-colors hover:border-primary hover:text-primary" aria-label="Next testimonial">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>

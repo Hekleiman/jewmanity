@@ -1,18 +1,63 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import ProductDetail from '../../components/shop/ProductDetail.astro';
+import { getProducts } from '../../lib/sanity';
 
-export function getStaticPaths() {
-  // Placeholder — will be populated from Sanity CMS in Phase 3
+const fallbackProduct = {
+  name: 'Pink Trucker Hat',
+  price: '$30',
+  priceNum: '30.00',
+  description: "Wear your values with pride. This comfortable trucker hat represents more than style—it's a statement of solidarity and support for healing within the Jewish community.",
+  features: [
+    'Premium mesh backing for breathability',
+    'Adjustable snapback closure for perfect fit',
+    'Embroidered Jewmanity logo symbolizing unity',
+    'Soft, structured crown for all-day comfort',
+    'Unisex design suitable for everyone',
+  ],
+  image: '/images/products/pink-trucker-hat.jpg',
+};
+
+export async function getStaticPaths() {
+  let products: any[] = [];
+  try {
+    products = await getProducts();
+  } catch (e) {
+    console.warn('Sanity fetch failed for product paths, using fallback');
+  }
+
+  if (products.length > 0) {
+    return products.map((product: any) => ({
+      params: { slug: product.slug.current },
+      props: { product },
+    }));
+  }
+
   return [
-    { params: { slug: 'example' } },
+    { params: { slug: 'heads-up-water-bottle' } },
+    { params: { slug: 'black-trucker-hat' } },
+    { params: { slug: 'pink-trucker-hat' } },
   ];
 }
 
 const { slug } = Astro.params;
+const cmsProduct = Astro.props.product || null;
+
+const productName = cmsProduct?.title || fallbackProduct.name;
+const productPrice = cmsProduct ? `$${cmsProduct.price}` : fallbackProduct.price;
+const productPriceNum = cmsProduct ? cmsProduct.price.toFixed(2) : fallbackProduct.priceNum;
+const productDescription = cmsProduct?.description || fallbackProduct.description;
+const productFeatures = cmsProduct?.features || fallbackProduct.features;
 ---
-<Layout title={`${slug} | Jewmanity`}>
-  <div class="min-h-screen flex items-center justify-center flex-col gap-4">
-    <h1 class="text-3xl font-heading font-medium text-text-heading">{slug}</h1>
-    <p class="text-text-muted">Dynamic page — Phase 1</p>
-  </div>
+<Layout title={`${productName} | Jewmanity`} description={productDescription}>
+  <ProductDetail
+    id="pink-trucker-hat"
+    name={productName}
+    price={productPrice}
+    priceNum={productPriceNum}
+    description={productDescription}
+    features={productFeatures}
+    image={fallbackProduct.image}
+    slug={slug ?? 'pink-trucker-hat'}
+  />
 </Layout>

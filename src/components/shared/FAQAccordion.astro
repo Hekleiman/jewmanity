@@ -1,0 +1,49 @@
+---
+interface FAQItem {
+  question: string;
+  answer: string;
+}
+
+interface Props {
+  heading?: string;
+  subtitle?: string;
+  items: FAQItem[];
+}
+
+const { heading, subtitle, items } = Astro.props;
+---
+
+<section id="faq" class="py-16 md:py-20 lg:py-24">
+  <div class="mx-auto max-w-[800px] px-6">
+    {heading && (
+      <div class="mb-12 text-center">
+        <h2 class="font-heading text-[clamp(28px,4vw,36px)] font-medium leading-tight text-text-heading">
+          {heading}
+        </h2>
+        {subtitle && (
+          <p class="mx-auto mt-4 max-w-[600px] font-body text-[15px] leading-relaxed text-text-body md:text-base">
+            {subtitle}
+          </p>
+        )}
+      </div>
+    )}
+
+    <div class="divide-y divide-border-card">
+      {items.map((item) => (
+        <details class="group">
+          <summary class="flex cursor-pointer items-center justify-between gap-4 py-5 font-body text-base font-medium text-text-heading transition-colors hover:text-primary md:text-lg [&::-webkit-details-marker]:hidden list-none">
+            {item.question}
+            <svg class="h-5 w-5 shrink-0 text-text-muted transition-transform group-open:rotate-180" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path d="M5 7.5l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </summary>
+          <div class="pb-5 pr-8">
+            <p class="font-body text-sm leading-relaxed text-text-body md:text-[15px]">
+              {item.answer}
+            </p>
+          </div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>

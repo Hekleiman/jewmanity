@@ -1,0 +1,44 @@
+---
+interface Props {
+  name: string;
+  role: string;
+  bio: string;
+  image?: string;
+}
+
+const { name, role, bio, image } = Astro.props;
+---
+
+<article class="overflow-hidden rounded-[24px] border-[0.5px] border-border-card bg-white shadow-[0px_16px_32px_rgba(12,12,13,0.1),0px_4px_4px_rgba(12,12,13,0.05)] transition-shadow hover:shadow-[0px_20px_40px_rgba(12,12,13,0.14),0px_6px_6px_rgba(12,12,13,0.07)]">
+  {image ? (
+    <img
+      src={image}
+      alt={name}
+      class="aspect-[4/3] w-full object-cover"
+      width="400"
+      height="400"
+      loading="lazy"
+    />
+  ) : (
+    <!-- Replace with actual team photo -->
+    <div class="aspect-[4/3] w-full bg-gradient-to-br from-primary/30 to-primary/10"></div>
+  )}
+
+  <div class="p-6">
+    <h3 class="font-heading text-lg font-semibold leading-snug text-text-heading">
+      {name}
+    </h3>
+    <p class="mt-1 font-body text-sm font-medium leading-6 text-primary">
+      {role}
+    </p>
+    <p class="mt-3 font-body text-sm leading-6 text-text-body">
+      {bio}
+    </p>
+    <a
+      href="#"
+      class="mt-4 inline-block font-body text-sm font-medium text-primary transition-colors hover:text-primary-hover"
+    >
+      Read More &rarr;
+    </a>
+  </div>
+</article>

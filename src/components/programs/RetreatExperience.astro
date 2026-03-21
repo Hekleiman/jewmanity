@@ -1,0 +1,78 @@
+---
+interface Props {}
+
+interface ExperienceItem {
+  icon: string;
+  title: string;
+  description: string;
+}
+
+const items: ExperienceItem[] = [
+  {
+    icon: 'grounding',
+    title: 'Arrival & Grounding',
+    description: 'The retreat opens with a day of safety and comfort. Participants are welcomed into a peaceful environment where they can begin to let go of hypervigilance and embrace a sense of security, trust, and community from the first day onward.',
+  },
+  {
+    icon: 'healing',
+    title: 'Inner Healing',
+    description: 'Through group therapy sessions, mindfulness practices, and body-based healing modalities, participants begin to process their experiences in a supported environment. This stage introduces self-compassion, emotional regulation, and reconnection with identity.',
+  },
+  {
+    icon: 'connection',
+    title: 'Community Connection',
+    description: 'Healing deepens in community. Through outdoor adventures, group activities, shared meals, and emotional experiences and rituals, connections are formed that extend well beyond the retreat. The bonds created become lifelong networks of mutual strength and support.',
+  },
+];
+---
+
+<section id="retreat-experience" class="py-16 md:py-20 lg:py-24">
+  <div class="mx-auto max-w-[1200px] px-6">
+    <div class="mb-12 text-center" data-animate="fade-up">
+      <h2 class="font-heading text-[clamp(28px,4vw,36px)] font-medium leading-tight text-text-heading">
+        The Retreat Experience
+      </h2>
+      <p class="mx-auto mt-4 max-w-[600px] font-body text-[15px] leading-relaxed text-text-body md:text-base">
+        A carefully designed journey from arrival to reconnection
+      </p>
+    </div>
+
+    <div class="mx-auto max-w-[800px] space-y-6" data-animate="stagger">
+      {items.map((item) => (
+        <div class="flex gap-5 rounded-2xl border-[0.5px] border-border-card bg-white p-6 shadow-[0px_8px_16px_rgba(12,12,13,0.06),0px_2px_4px_rgba(12,12,13,0.04)] md:p-8">
+          <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary-light text-primary">
+            {item.icon === 'grounding' && (
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M12 22V12m0 0l-4 4m4-4l4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M20 6a8 8 0 10-16 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+                <circle cx="12" cy="5" r="2" stroke="currentColor" stroke-width="1.8" fill="none"/>
+              </svg>
+            )}
+            {item.icon === 'healing' && (
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M12 21s-7-4.5-7-10a4.5 4.5 0 019 0 4.5 4.5 0 019 0c0 5.5-7 10-7 10z" stroke="currentColor" stroke-width="1.8" fill="none"/>
+                <path d="M12 13v-3m0 0V7m0 3H9m3 0h3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              </svg>
+            )}
+            {item.icon === 'connection' && (
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.8" fill="none"/>
+                <circle cx="16" cy="8" r="3" stroke="currentColor" stroke-width="1.8" fill="none"/>
+                <path d="M3 20c0-2.8 2.2-5 5-5s5 2.2 5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+                <path d="M13 20c0-2.8 2.2-5 5-5s5 2.2 5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+              </svg>
+            )}
+          </div>
+          <div>
+            <h3 class="font-body text-lg font-medium text-text-heading">
+              {item.title}
+            </h3>
+            <p class="mt-2 font-body text-sm leading-relaxed text-text-body md:text-[15px]">
+              {item.description}
+            </p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,9 +1,22 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import HeroSection from '../../components/shared/HeroSection.astro';
+import StoryContent from '../../components/about/StoryContent.astro';
+import ValuesGrid from '../../components/about/ValuesGrid.astro';
+import CTASection from '../../components/shared/CTASection.astro';
 ---
-<Layout title="Our Story | Jewmanity">
-  <div class="min-h-screen flex items-center justify-center flex-col gap-4">
-    <h1 class="text-3xl font-heading font-medium text-text-heading">Our Story</h1>
-    <p class="text-text-muted">Coming soon — Phase 1</p>
-  </div>
+<Layout title="Our Story | Jewmanity" description="Learn how Jewmanity was founded to address the unique mental health challenges faced by Jewish and Israeli communities through trauma-informed care.">
+  <HeroSection
+    heading="Creating space for healing, connection, and resilience"
+    subtitle="Supporting Jewish and Israeli communities navigating trauma, PTSD, and cultural stress with compassion and care."
+    backgroundImage="/images/hero/about-story.jpg"
+  />
+  <StoryContent />
+  <ValuesGrid />
+  <CTASection
+    heading="Join Us in Supporting Healing"
+    subtitle="Whether through volunteering, donating, or simply spreading awareness, your support helps us create a safer, more connected community for those navigating trauma."
+    primaryCta={{ text: 'Support Healing', href: '/donate' }}
+    secondaryCta={{ text: 'Become a Volunteer', href: '/get-involved/volunteer' }}
+  />
 </Layout>

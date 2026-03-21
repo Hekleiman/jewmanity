@@ -1,0 +1,72 @@
+---
+import ProductCard from './ProductCard.astro';
+
+interface Product {
+  id: string;
+  name: string;
+  price: string;
+  priceNum: string;
+  slug: string;
+  description: string;
+  image: string;
+}
+
+interface Props {
+  products?: Product[];
+}
+
+const fallbackProducts: Product[] = [
+  {
+    id: 'heads-up-water-bottle',
+    name: 'Heads Up Water Bottle',
+    price: '$35',
+    priceNum: '35.00',
+    slug: 'heads-up-water-bottle',
+    description: 'Jewmanity Heads Up Water Bottle',
+    image: '/images/products/product-1.jpg',
+  },
+  {
+    id: 'black-trucker-hat',
+    name: 'Black Trucker Hat',
+    price: '$35',
+    priceNum: '35.00',
+    slug: 'black-trucker-hat',
+    description: 'Embroidered Jewmanity logo trucker hat',
+    image: '/images/products/product-2.jpg',
+  },
+  {
+    id: 'pink-trucker-hat',
+    name: 'Pink Trucker Hat',
+    price: '$30',
+    priceNum: '30.00',
+    slug: 'pink-trucker-hat',
+    description: 'Embroidered Jewmanity logo trucker hat',
+    image: '/images/products/product-3.jpg',
+  },
+];
+
+const { products: cmsProducts } = Astro.props;
+const products = cmsProducts && cmsProducts.length > 0 ? cmsProducts : fallbackProducts;
+---
+
+<section id="product-grid" class="py-16 md:py-20 lg:py-24">
+  <div class="mx-auto max-w-[1200px] px-6">
+    <h2 class="mb-12 text-center font-heading text-[clamp(28px,4vw,36px)] font-medium leading-tight text-text-heading">
+      Our Current Collection
+    </h2>
+
+    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3" data-animate="stagger">
+      {products.map((product) => (
+        <ProductCard
+          id={product.id}
+          name={product.name}
+          price={product.price}
+          priceNum={product.priceNum}
+          href={`/shop/${product.slug}`}
+          description={product.description}
+          image={product.image}
+        />
+      ))}
+    </div>
+  </div>
+</section>

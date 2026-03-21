@@ -17,6 +17,15 @@ pnpm-debug.log*
 .env
 .env.production
 
+# screenshots
+screenshots/
+
+# design reference files
+design-reference/
+
+# raw Figma image downloads (not needed in repo)
+public/images/figma-raw/
+
 # macOS-specific files
 .DS_Store
 

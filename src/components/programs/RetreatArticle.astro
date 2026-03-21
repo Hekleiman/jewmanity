@@ -1,0 +1,71 @@
+---
+interface Props {
+  title: string;
+  subtitle: string;
+  author: string;
+}
+
+const { title, subtitle, author } = Astro.props;
+---
+
+<!-- Hero image -->
+<section class="relative flex min-h-[50vh] items-end overflow-hidden md:min-h-[60vh]">
+  <img src="/images/hero/retreat-article.jpg" alt="Retreat location in San Diego" class="absolute inset-0 h-full w-full object-cover" width="1920" height="1080" loading="eager" />
+  <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
+
+  <div class="relative z-10 mx-auto w-full max-w-[800px] px-6 pb-10 pt-20">
+    <h1 class="font-heading text-[clamp(28px,4vw,42px)] font-medium leading-tight text-white">
+      {title}
+    </h1>
+    <p class="mt-3 font-heading text-lg text-white/85">
+      {subtitle}
+    </p>
+    <p class="mt-2 font-body text-sm text-white/70">
+      {author}
+    </p>
+  </div>
+</section>
+
+<!-- Article body -->
+<article class="py-12 md:py-16 lg:py-20">
+  <div class="mx-auto max-w-[720px] px-6">
+    <div class="space-y-6 font-body text-base leading-[1.8] text-text-body md:text-[17px]">
+      <p>
+        You could hear the sound of makot— the rhythmic ping of balls hitting paddles— as I walked up to the group of soldiers playing on the beach. It was the end of a gorgeous San Diego winter day; they were in T-shirts, laughing, and completely relaxed. When I approached, they greeted me with warm hugs and immediately invited me to join them on the porch of the house. With beers in hand, we watched the huge orange sun disappear into the dark blue ocean together.
+      </p>
+
+      <img src="/images/retreats/article-photo-1.jpg" alt="Retreat participants enjoying activities together" class="my-8 aspect-[16/9] w-full rounded-2xl object-cover" width="1280" height="720" loading="lazy" />
+
+      <p>
+        These moments of calm and connection are what make the Heads Up retreats so powerful. For many of the soldiers, it was the first time in months—or even years—that they had felt safe enough to simply breathe. The sound of the ocean replaced the sounds they had grown accustomed to, and the warmth of the San Diego sun seemed to melt away some of the weight they carried on their shoulders.
+      </p>
+
+      <p>
+        Over the course of the retreat, I watched men who arrived guarded and silent begin to open up. They shared meals together, walked along the coast, and sat in circles where words flowed more freely than any of them expected. The therapists worked alongside them with extraordinary sensitivity—never pushing, always holding space. It was clear that the healing happening here was not just clinical but deeply human.
+      </p>
+
+      <img src="/images/retreats/article-photo-2.jpg" alt="Sunset moments and healing connections at the retreat" class="my-8 aspect-[16/9] w-full rounded-2xl object-cover" width="1280" height="720" loading="lazy" />
+
+      <p>
+        On the final evening, the group gathered on the same beach where they had played makot just days earlier. But this time, the atmosphere was different. There were tears, embraces, and promises to stay in touch. One soldier turned to me and said, "I didn't come here expecting to feel this. I came because someone told me I should. But I'm leaving because I want to—because I finally believe I can get better."
+      </p>
+
+      <p>
+        That, to me, is the essence of Heads Up. It's not just a retreat. It's a doorway. A beginning. A reminder that healing doesn't have to happen alone, and that sometimes the bravest thing you can do is let someone else help you carry what you've been holding.
+      </p>
+    </div>
+
+    <!-- Back link -->
+    <div class="mt-12 border-t border-border-card pt-8">
+      <a
+        href="/programs/past-retreats"
+        class="inline-flex items-center gap-2 font-body text-sm font-medium text-primary transition-colors hover:text-primary-hover"
+      >
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Back to Past Retreats
+      </a>
+    </div>
+  </div>
+</article>

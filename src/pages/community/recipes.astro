@@ -1,9 +1,37 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import HeroSection from '../../components/shared/HeroSection.astro';
+import RecipesIntro from '../../components/community/RecipesIntro.astro';
+import RecipeGrid from '../../components/community/RecipeGrid.astro';
+import CTASection from '../../components/shared/CTASection.astro';
+import { getRecipes } from '../../lib/sanity';
+
+let cmsRecipes: { title: string; description: string; tags: string[]; slug: string }[] = [];
+try {
+  const raw = await getRecipes();
+  cmsRecipes = raw.map((r: any) => ({
+    title: r.title,
+    description: r.description || '',
+    tags: r.tags || [],
+    slug: r.slug?.current || '',
+  }));
+} catch (e) {
+  console.warn('Sanity fetch failed for recipes, using fallback content');
+}
 ---
-<Layout title="Recipes | Jewmanity">
-  <div class="min-h-screen flex items-center justify-center flex-col gap-4">
-    <h1 class="text-3xl font-heading font-medium text-text-heading">Recipes</h1>
-    <p class="text-text-muted">Coming soon — Phase 1</p>
-  </div>
+<Layout title="Jewish Heritage Recipes | Jewmanity" description="Traditional Jewish recipes that celebrate heritage, family, and the moments of connection food creates.">
+  <HeroSection
+    heading="Recipes Inspired by Our Heritage"
+    subtitle="Where tradition, memory, and togetherness gather around the table"
+    backgroundImage="/images/hero/recipes.jpg"
+  />
+
+  <RecipesIntro />
+  <RecipeGrid recipes={cmsRecipes.length > 0 ? cmsRecipes : undefined} />
+
+  <CTASection
+    heading="Share Your Recipe, Share Your Story"
+    subtitle="We believe that every recipe has a story worth sharing—a memory of someone you love, a tradition you've carried forward, or a dish that brings comfort when nothing else will. Your contribution helps create a shared table where we can all find nourishment and belonging."
+    primaryCta={{ text: 'Join Our Table', href: '/get-involved/contact' }}
+  />
 </Layout>

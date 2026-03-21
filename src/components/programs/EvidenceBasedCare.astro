@@ -1,0 +1,85 @@
+---
+interface Props {}
+
+interface CarePillar {
+  icon: string;
+  title: string;
+  description: string;
+}
+
+const pillars: CarePillar[] = [
+  {
+    icon: 'clinical',
+    title: 'Clinical Excellence',
+    description: 'Daily therapy sessions led by certified trauma counselors from Israel who understand the cultural and linguistic nuances of their community.',
+  },
+  {
+    icon: 'holistic',
+    title: 'Holistic Healing',
+    description: 'Integration of mindfulness practices, body-based healing, art therapy, and evidence-based trauma interventions into the nervous system.',
+  },
+  {
+    icon: 'community',
+    title: 'Community-Based Healing',
+    description: 'Group sessions and community-centered therapies that foster connection, reduce isolation, and build lasting support networks.',
+  },
+];
+---
+
+<section id="evidence-based-care" class="bg-bg-section-alt py-16 md:py-20 lg:py-24">
+  <div class="mx-auto max-w-[1200px] px-6">
+    <div class="mb-12 text-center" data-animate="fade-up">
+      <h2 class="font-heading text-[clamp(28px,4vw,36px)] font-medium leading-tight text-text-heading">
+        Evidence-Based Care
+      </h2>
+    </div>
+
+    <div class="flex flex-col items-center gap-10 lg:flex-row lg:gap-16">
+      <!-- Image placeholder -->
+      <div class="lg:w-[45%]" data-animate="slide-left">
+        <img src="/images/sections/heads-up-evidence-based.jpg" alt="Evidence-based therapeutic care in action" class="aspect-[4/3] w-full rounded-2xl object-cover" width="600" height="400" loading="lazy" />
+      </div>
+
+      <!-- Content -->
+      <div class="lg:w-[55%]" data-animate="slide-right">
+        <div class="space-y-6">
+          {pillars.map((pillar) => (
+            <div class="flex gap-4">
+              <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary-light text-primary">
+                {pillar.icon === 'clinical' && (
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                    <path d="M10 2v16M6 6h8M4 10h12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                    <rect x="3" y="2" width="14" height="16" rx="2" stroke="currentColor" stroke-width="1.8" fill="none"/>
+                  </svg>
+                )}
+                {pillar.icon === 'holistic' && (
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                    <circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.8" fill="none"/>
+                    <path d="M10 6v4l2.5 2.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="10" cy="10" r="1" fill="currentColor"/>
+                  </svg>
+                )}
+                {pillar.icon === 'community' && (
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                    <circle cx="7" cy="6" r="2.5" stroke="currentColor" stroke-width="1.8" fill="none"/>
+                    <circle cx="13" cy="6" r="2.5" stroke="currentColor" stroke-width="1.8" fill="none"/>
+                    <path d="M2 17c0-2.8 2.2-5 5-5s5 2.2 5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+                    <path d="M10 17c0-2.8 2.2-5 5-5s5 2.2 5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+                  </svg>
+                )}
+              </div>
+              <div>
+                <h3 class="font-body text-base font-medium text-text-heading">
+                  {pillar.title}
+                </h3>
+                <p class="mt-1.5 font-body text-sm leading-relaxed text-text-body">
+                  {pillar.description}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

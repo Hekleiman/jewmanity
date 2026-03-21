@@ -1,0 +1,74 @@
+---
+import RetreatCard from './RetreatCard.astro';
+
+interface Retreat {
+  title: string;
+  location: string;
+  description: string;
+  href: string;
+  image?: string;
+}
+
+interface Props {
+  retreats?: Retreat[];
+}
+
+const fallbackRetreats: Retreat[] = [
+  {
+    title: 'Heads Up First Retreat',
+    location: 'California \u00B7 Spring 2024',
+    description: 'A transformative retreat focused on healing, connection, and rebuilding trust through shared experience and community support.',
+    href: '/programs/first-retreat',
+    image: '/images/retreats/retreat-1.jpg',
+  },
+  {
+    title: 'Heads Up Second Retreat',
+    location: 'California \u00B7 Spring 2024',
+    description: 'A transformative retreat focused on healing, connection, and rebuilding trust through shared experience and community support.',
+    href: '/programs/second-retreat',
+    image: '/images/retreats/retreat-2.jpg',
+  },
+  {
+    title: 'Heads Up Third Retreat',
+    location: 'California \u00B7 Spring 2024',
+    description: 'A transformative retreat focused on healing, connection, and rebuilding trust through shared experience and community support.',
+    href: '/programs/third-retreat',
+    image: '/images/retreats/retreat-3.jpg',
+  },
+  {
+    title: 'Heads Up Fourth Retreat',
+    location: 'California \u00B7 Spring 2024',
+    description: 'A transformative retreat focused on healing, connection, and rebuilding trust through shared experience and community support.',
+    href: '/programs/fourth-retreat',
+    image: '/images/retreats/retreat-4.jpg',
+  },
+];
+
+const { retreats: cmsRetreats } = Astro.props;
+const retreats = cmsRetreats && cmsRetreats.length > 0 ? cmsRetreats : fallbackRetreats;
+---
+
+<section id="retreat-grid" class="py-16 md:py-20 lg:py-24">
+  <div class="mx-auto max-w-[1200px] px-6">
+    <div class="mb-12 text-center">
+      <h2 class="font-heading text-[clamp(28px,4vw,36px)] font-medium leading-tight text-text-heading">
+        Stories of courage, connection, and healing
+      </h2>
+      <p class="mx-auto mt-4 max-w-[800px] font-body text-[15px] leading-relaxed text-text-body md:text-base">
+        These retreats are part of the Heads Up &times; Jewmanity collaboration, a comprehensive program designed to support Israeli soldiers and their loved ones experiencing PTSD and ongoing trauma. Through shared experiences in nature and community, participants find healing, build lasting connections, and create a foundation for long-term recovery and growth.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+      {retreats.map((retreat) => (
+        <RetreatCard
+          title={retreat.title}
+          location={retreat.location}
+          description={retreat.description}
+          href={retreat.href}
+          image={retreat.image}
+        />
+      ))}
+    </div>
+  </div>
+</section>

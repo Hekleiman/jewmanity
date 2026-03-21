@@ -1,0 +1,89 @@
+---
+interface Story {
+  title: string;
+  description: string;
+  image?: string;
+  alt?: string;
+}
+
+interface Props {
+  stories?: Story[];
+}
+
+const fallbackStories: Story[] = [
+  {
+    title: 'Neighbors Helping Neighbors',
+    description: 'A local synagogue transforms its space into a weekly community meal program, feeding over 200 families each month.',
+    image: '/images/community/story-1.jpg',
+    alt: 'Neighbors helping neighbors through community meals',
+  },
+  {
+    title: 'Food Security Initiative',
+    description: 'Jewish volunteers partner with organizations to ensure no family goes hungry, distributing thousands of meals weekly.',
+    image: '/images/community/story-2.jpg',
+    alt: 'Food security initiative volunteers distributing meals',
+  },
+  {
+    title: 'Medical Missions of Compassion',
+    description: 'Israeli medical volunteers provide free healthcare in underserved regions, treating thousands of patients each year.',
+    image: '/images/community/story-3.jpg',
+    alt: 'Israeli medical volunteers providing healthcare',
+  },
+  {
+    title: 'Mentorship for Tomorrow',
+    description: 'Community members create after-school programs, offering tutoring and mentorship to help youth reach their full potential.',
+    image: '/images/community/story-4.jpg',
+    alt: 'Mentors working with youth in after-school programs',
+  },
+  {
+    title: 'Growing Together',
+    description: 'A community garden brings people of all backgrounds together, cultivating connection and fresh produce for families.',
+    image: '/images/community/story-5.jpg',
+    alt: 'Community garden bringing people together',
+  },
+  {
+    title: 'Honoring Our Elders',
+    description: 'Volunteers visit seniors regularly, providing companionship and support to combat isolation and loneliness.',
+  },
+];
+
+const { stories: cmsStories } = Astro.props;
+const stories = cmsStories && cmsStories.length > 0 ? cmsStories : fallbackStories;
+---
+
+<section id="stories-grid" class="py-16 md:py-20 lg:py-24">
+  <div class="mx-auto max-w-[1200px] px-6">
+    <div class="mb-12 text-center" data-animate="fade-up">
+      <h2 class="font-heading text-[clamp(28px,4vw,36px)] font-medium leading-tight text-text-heading">
+        Stories of Impact
+      </h2>
+      <p class="mx-auto mt-4 max-w-[700px] font-body text-[15px] leading-relaxed text-text-body md:text-base">
+        Modern examples of communities coming together to create positive change through acts of service and solidarity
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3" data-animate="stagger">
+      {stories.map((story) => (
+        <article class="group overflow-hidden rounded-[24px] border-[0.5px] border-border-card bg-white shadow-[0px_16px_32px_rgba(12,12,13,0.1),0px_4px_4px_rgba(12,12,13,0.05)] transition-shadow hover:shadow-[0px_20px_40px_rgba(12,12,13,0.14),0px_6px_6px_rgba(12,12,13,0.07)]">
+          {story.image ? (
+            <img src={story.image} alt={story.alt} class="h-48 w-full object-cover" width="600" height="400" loading="lazy" />
+          ) : (
+            <div class="h-48 bg-gradient-to-br from-primary/20 to-primary/5"></div>
+          )}
+          <div class="p-5">
+            <h3 class="font-body text-lg font-medium leading-7 text-text-heading">
+              {story.title}
+            </h3>
+            <p class="mt-2 font-body text-sm leading-relaxed text-text-body">
+              {story.description}
+            </p>
+            <span class="mt-4 inline-flex items-center gap-1 font-body text-sm font-medium text-primary transition-colors group-hover:text-primary-hover">
+              Read More
+              <span aria-hidden="true">&rarr;</span>
+            </span>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

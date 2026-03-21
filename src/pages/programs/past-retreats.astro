@@ -1,9 +1,67 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import HeroSection from '../../components/shared/HeroSection.astro';
+import RetreatGrid from '../../components/programs/RetreatGrid.astro';
+import TestimonialCarousel from '../../components/shared/TestimonialCarousel.astro';
+import CTASection from '../../components/shared/CTASection.astro';
+import { getRetreats, getTestimonials } from '../../lib/sanity';
+
+let cmsRetreats: { title: string; location: string; description: string; href: string }[] = [];
+try {
+  const raw = await getRetreats();
+  cmsRetreats = raw.map((r: any) => ({
+    title: r.title,
+    location: r.location || '',
+    description: r.description || '',
+    href: `/programs/${r.slug?.current || ''}`,
+  }));
+} catch (e) {
+  console.warn('Sanity fetch failed for retreats, using fallback content');
+}
+
+let cmsTestimonials: { quote: string; author: string; context: string }[] = [];
+try {
+  const raw = await getTestimonials();
+  cmsTestimonials = raw.map((t: any) => ({
+    quote: t.quote,
+    author: t.name || '',
+    context: [t.program, t.date].filter(Boolean).join(', '),
+  }));
+} catch (e) {
+  console.warn('Sanity fetch failed for testimonials, using fallback content');
+}
 ---
-<Layout title="Past Retreats | Jewmanity">
-  <div class="min-h-screen flex items-center justify-center flex-col gap-4">
-    <h1 class="text-3xl font-heading font-medium text-text-heading">Past Retreats</h1>
-    <p class="text-text-muted">Coming soon — Phase 1</p>
-  </div>
+<Layout title="Past Retreats | Jewmanity" description="Stories of courage, connection, and healing from Jewmanity's Heads Up retreat program.">
+  <HeroSection
+    heading="Past Retreats"
+    subtitle="Jewmanity creates safe, restorative spaces where Israeli soldiers and their loved ones find healing, connection, and renewed hope."
+    backgroundImage="/images/hero/past-retreats.jpg"
+  />
+  <RetreatGrid retreats={cmsRetreats.length > 0 ? cmsRetreats : undefined} />
+  <TestimonialCarousel
+    heading="What Our Attendees Say"
+    subtitle="Honest reflections from those who found healing, connection, and renewed strength through Heads Up."
+    testimonials={cmsTestimonials.length > 0 ? cmsTestimonials : [
+      {
+        quote: 'This retreat gave me more than healing\u2014it gave me community. Being surrounded by people who truly understand, in a place where nature itself seems to hold you, changed everything. I came seeking peace and found a family.',
+        author: 'David L.',
+        context: 'Mountain Haven Retreat, March 2026',
+      },
+      {
+        quote: 'I was hesitant to come. I didn\u2019t think anything could help. But from the first day, I felt safe enough to let my guard down. The therapists, the volunteers, the other participants\u2014everyone made me feel like I belonged.',
+        author: 'Rachel S.',
+        context: 'Coastal Retreat, January 2026',
+      },
+      {
+        quote: 'For the first time in years, I slept through the night. The combination of therapy, nature, and genuine human connection gave me tools I still use every day.',
+        author: 'Michael K.',
+        context: 'San Diego Retreat, November 2025',
+      },
+    ]}
+  />
+  <CTASection
+    heading="Healing Happens Together"
+    subtitle="These retreats continue to create space for healing, connection, and transformation. Your support helps us expand our reach and serve more individuals on their journey toward recovery."
+    primaryCta={{ text: 'Learn More About Heads Up', href: '/programs/heads-up' }}
+  />
 </Layout>

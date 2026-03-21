@@ -1,0 +1,74 @@
+---
+interface Props {}
+
+interface SupportCard {
+  icon: string;
+  title: string;
+  description: string;
+}
+
+const cards: SupportCard[] = [
+  {
+    icon: 'shield',
+    title: 'Israeli Soldiers',
+    description: 'Active service and veterans experiencing PTSD, combat stress, and the physical and mental toll of service in high-risk environments.',
+  },
+  {
+    icon: 'heart',
+    title: 'Widows & Widowers',
+    description: 'Those who have lost loved ones in service, navigating grief and the emotional and life challenges of rebuilding their lives.',
+  },
+  {
+    icon: 'family',
+    title: 'Families & Loved Ones',
+    description: 'Family members affected by the trauma of their loved ones, seeking support, understanding, and tools for healing for themselves.',
+  },
+];
+---
+
+<section id="who-we-support" class="bg-bg-section-alt py-16 md:py-20 lg:py-24">
+  <div class="mx-auto max-w-[1200px] px-6">
+    <div class="mb-12 text-center" data-animate="fade-up">
+      <h2 class="font-heading text-[clamp(28px,4vw,36px)] font-medium leading-tight text-text-heading">
+        Who We Support
+      </h2>
+      <p class="mx-auto mt-4 max-w-[600px] font-body text-[15px] leading-relaxed text-text-body md:text-base">
+        Heads Up is designed for those who have experienced trauma in service of their community.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3" data-animate="stagger">
+      {cards.map((card) => (
+        <div class="flex flex-col items-center rounded-3xl border-[0.5px] border-border-card bg-white p-8 text-center shadow-[0px_8px_16px_rgba(12,12,13,0.06),0px_2px_4px_rgba(12,12,13,0.04)]">
+          <div class="mb-5 flex h-14 w-14 items-center justify-center rounded-full bg-primary-light text-primary">
+            {card.icon === 'shield' && (
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+                <path d="M14 3L5 7v6c0 6.5 3.8 12.5 9 14 5.2-1.5 9-7.5 9-14V7l-9-4z" stroke="currentColor" stroke-width="1.8" fill="none"/>
+                <path d="M10 14l2.5 2.5L18 11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            )}
+            {card.icon === 'heart' && (
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+                <path d="M14 24s-8-5-8-11a5 5 0 0110 0 5 5 0 0110 0c0 6-8 11-8 11z" stroke="currentColor" stroke-width="1.8" fill="none"/>
+              </svg>
+            )}
+            {card.icon === 'family' && (
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+                <circle cx="9" cy="8" r="3" stroke="currentColor" stroke-width="1.8" fill="none"/>
+                <circle cx="19" cy="8" r="3" stroke="currentColor" stroke-width="1.8" fill="none"/>
+                <path d="M3 22c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+                <path d="M16 22c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+              </svg>
+            )}
+          </div>
+          <h3 class="font-body text-lg font-medium text-text-heading md:text-xl">
+            {card.title}
+          </h3>
+          <p class="mt-3 font-body text-sm leading-relaxed text-text-body">
+            {card.description}
+          </p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

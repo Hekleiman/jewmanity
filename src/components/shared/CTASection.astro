@@ -1,0 +1,48 @@
+---
+interface CTAButton {
+  text: string;
+  href: string;
+}
+
+interface Props {
+  heading: string;
+  subtitle?: string;
+  primaryCta?: CTAButton;
+  secondaryCta?: CTAButton;
+}
+
+const { heading, subtitle, primaryCta, secondaryCta } = Astro.props;
+---
+
+<section class="py-16 md:py-20 lg:py-24">
+  <div class="mx-auto max-w-[700px] px-6 text-center" data-animate="fade-up">
+    <h2 class="font-heading text-[clamp(28px,4vw,36px)] font-medium leading-tight text-text-heading">
+      {heading}
+    </h2>
+    {subtitle && (
+      <p class="mx-auto mt-4 max-w-[600px] font-heading text-[clamp(16px,2.2vw,20px)] font-normal leading-relaxed text-text-body">
+        {subtitle}
+      </p>
+    )}
+    {(primaryCta || secondaryCta) && (
+      <div class="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
+        {primaryCta && (
+          <a
+            href={primaryCta.href}
+            class="inline-block rounded-[100px] bg-primary px-8 py-3 font-heading text-base font-medium text-white transition-colors hover:bg-primary-hover"
+          >
+            {primaryCta.text}
+          </a>
+        )}
+        {secondaryCta && (
+          <a
+            href={secondaryCta.href}
+            class="inline-block rounded-[100px] border-2 border-primary px-8 py-3 font-heading text-base font-medium text-primary transition-colors hover:bg-primary hover:text-white"
+          >
+            {secondaryCta.text}
+          </a>
+        )}
+      </div>
+    )}
+  </div>
+</section>

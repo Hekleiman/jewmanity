@@ -1,0 +1,43 @@
+---
+interface Props {}
+---
+
+<section id="newsletter" class="bg-bg-section-alt py-16 md:py-20 lg:py-24" data-animate="fade-up">
+  <div class="mx-auto max-w-[1200px] px-6">
+    <div class="mb-10 text-center">
+      <h2 class="font-heading text-[clamp(28px,4vw,36px)] font-medium leading-tight text-text-heading">
+        Stay Connected
+      </h2>
+      <p class="mx-auto mt-4 max-w-[600px] font-heading text-[clamp(18px,2.5vw,24px)] font-normal leading-relaxed text-text-body">
+        Receive updates on our programs, resources, and how your support is making a difference.
+        We respect your privacy and will never share your information.
+      </p>
+    </div>
+
+    <form method="POST" action="https://gmail.us13.list-manage.com/subscribe/post?u=63c97041047a0d6a6e1c61091&id=728dc5cdc2&f_id=0008a0e0f0" target="_blank" class="mx-auto flex max-w-[450px]">
+      <label for="newsletter-email" class="sr-only">Email address</label>
+      <input
+        id="newsletter-email"
+        type="email"
+        name="EMAIL"
+        required
+        placeholder="Enter your email"
+        class="min-w-0 flex-1 rounded-l-[100px] border border-r-0 border-border-card bg-white px-5 py-3 font-body text-base text-text-heading placeholder:text-text-muted focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+      />
+      <button
+        type="submit"
+        class="shrink-0 rounded-r-[100px] bg-primary px-6 py-3 font-heading text-sm font-medium text-white transition-colors hover:bg-primary-hover"
+      >
+        Subscribe
+      </button>
+      <div aria-hidden="true" style="position: absolute; left: -5000px;">
+        <input type="text" name="b_63c97041047a0d6a6e1c61091_728dc5cdc2" tabindex="-1" value="" />
+      </div>
+    </form>
+
+    <p class="mx-auto mt-4 max-w-[450px] text-center font-body text-xs text-text-muted">
+      You can unsubscribe at any time. Review our
+      <a href="/privacy" class="text-primary hover:underline">Privacy Policy</a>.
+    </p>
+  </div>
+</section>

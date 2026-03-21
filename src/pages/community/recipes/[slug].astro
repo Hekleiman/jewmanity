@@ -1,18 +1,360 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
+import RecipePage from '../../../components/community/RecipePage.astro';
+import { getRecipes } from '../../../lib/sanity';
 
-export function getStaticPaths() {
-  // Placeholder — will be populated from Sanity CMS in Phase 3
+interface RecipeData {
+  title: string;
+  description: string;
+  culturalContext: string;
+  ingredients: string[];
+  instructions: string[];
+  image: string;
+  prepTime: string;
+  cookTime: string;
+  servings: string;
+  difficulty: string;
+  author: string;
+  date: string;
+  notes?: string;
+  tags: string[];
+}
+
+const allRecipes: Record<string, RecipeData> = {
+  'savtas-stuffed-chicken': {
+    title: 'Savta\u2019s Stuffed Chicken with Rice and Nuts',
+    description: 'A beloved family recipe passed down through generations \u2014 tender deboned chicken stuffed with fragrant rice, pine nuts, and parsley, glazed with teriyaki and sweet chili.',
+    culturalContext: 'In many Sephardic and Mizrahi households, a beautifully stuffed chicken is the centerpiece of the Friday night table. This recipe carries the flavors of a grandmother\u2019s kitchen \u2014 the aroma of baharat, the crunch of pine nuts, and the love that goes into preparing something by hand for the people you cherish most.',
+    ingredients: [
+      '<strong>For the Chicken:</strong>',
+      '1 whole chicken, deboned',
+      '1 onion, cut into quarters (for the baking dish)',
+      '<strong>Rice Stuffing:</strong>',
+      '1 onion, finely chopped',
+      '1 cup rice',
+      '1 bunch parsley, finely chopped',
+      '2 tbsp pine nuts',
+      'Water, as needed (to cover rice)',
+      '<strong>Spices:</strong>',
+      '1 tsp salt',
+      '\u00bd tsp black pepper',
+      '\u00bc tsp baharat',
+      '<strong>External Seasoning:</strong>',
+      '1 tsp salt',
+      '\u00bd tsp black pepper',
+      '4 tbsp teriyaki sauce',
+      '2 tbsp sweet chili sauce',
+      '3 tbsp olive oil',
+    ],
+    instructions: [
+      '<strong>Saut\u00e9 the onion</strong> \u2014 Heat a pan over medium heat and saut\u00e9 the chopped onion until golden and fragrant.',
+      '<strong>Prepare the rice filling</strong> \u2014 Add rice, parsley, pine nuts, and spices. Stir well to combine.',
+      '<strong>Par-cook the rice</strong> \u2014 Add enough water to just cover the rice. Cook until the water evaporates and the rice is halfway cooked. Remove from heat and let cool completely.',
+      '<strong>Stuff the chicken</strong> \u2014 Generously fill the deboned chicken with the rice mixture and secure if needed.',
+      '<strong>Season the chicken</strong> \u2014 Mix all external seasoning ingredients and brush generously over the chicken.',
+      '<strong>Assemble the dish</strong> \u2014 Place quartered onions in the bottom of a baking dish, set the stuffed chicken on top.',
+      '<strong>Bake</strong> \u2014 Cover and bake at 350\u00b0F until chicken is cooked through and golden.',
+    ],
+    image: '/images/recipes/recipe-detail.jpg',
+    prepTime: '30 min',
+    cookTime: '1\u00bd hrs',
+    servings: '6\u20138',
+    difficulty: 'Medium',
+    author: 'Belinda Donner',
+    date: 'January 2026',
+    tags: ['Family Recipe', 'Main Course'],
+  },
+  'mimas-noodle-kugel': {
+    title: 'Mima\u2019s Noodle Kugel',
+    description: 'A sweet, creamy noodle kugel topped with crunchy corn flake crumbles \u2014 the kind of comfort food that makes every holiday table feel like home.',
+    culturalContext: 'Kugel is one of the most beloved dishes in Ashkenazi Jewish cooking \u2014 served at Shabbat, holidays, and family gatherings for centuries. Sweet or savory, every family has their version. This one, with its peach preserves and corn flake crumble, is pure nostalgia on a plate.',
+    ingredients: [
+      '1\u00bd bags kosher egg noodles',
+      '\u00bd jar peach preserves',
+      '1 cup brown sugar',
+      '\u00bd cup cream cheese',
+      '1\u00bd cups cottage cheese',
+      '2 eggs',
+      'Kellogg corn flake crumbles (baking aisle \u2014 crumbles, not regular corn flakes)',
+    ],
+    instructions: [
+      'Cook noodles according to package directions. Drain.',
+      'Mix noodles with peach preserves, brown sugar, cream cheese, cottage cheese, and eggs until well combined.',
+      'Pour into a greased baking dish.',
+      'Bake covered at 350\u00b0F for 20 minutes.',
+      'Remove cover and top generously with corn flake crumbles.',
+      'Continue baking uncovered until golden and set.',
+    ],
+    image: '/images/recipes/recipe-detail.jpg',
+    prepTime: '15 min',
+    cookTime: '35 min',
+    servings: '8\u201310',
+    difficulty: 'Easy',
+    author: 'Belinda Donner',
+    date: 'December 2025',
+    tags: ['Holiday', 'Comfort Food'],
+  },
+  'grammys-chocolate-peanut-butter-candy': {
+    title: 'Grammy\u2019s Chocolate Peanut Butter Cookies Candy',
+    description: 'A cherished family recipe that brings comfort and joy to every gathering. Rich, indulgent treats combining creamy peanut butter with smooth dark chocolate.',
+    culturalContext: 'Some of the most treasured recipes aren\u2019t from cookbooks \u2014 they\u2019re scribbled on index cards and passed from grandmother to grandchild. This no-bake candy is one of those recipes: simple, sweet, and inseparable from the memory of the person who made it.',
+    ingredients: [
+      '1 cup Peanut Butter (Skippy Extra Crunch Peanut Butter Super Chunk recommended)',
+      '2 sticks melted butter (1 stick unsalted + 1 stick salted and a tiny amount more)',
+      '1 lb. box Powdered sugar (3\u00be cups to 1 lb. box \u2014 the perfect measurement is by using one box)',
+      '1 cup crushed graham crackers (or graham cracker crumbs \u2014 Nabisco crumbs are best but hard to find)',
+      '14oz. Nestle Dark Chocolate Chips (package comes in 10oz. size so add 1 cup more; semi-sweet chips come in 12oz. so add \u00bd cup more)',
+    ],
+    instructions: [
+      'Line a 9x13 inch pan with parchment paper or grease well.',
+      'Mix the peanut butter, butter, powdered sugar, and graham crackers together really well. Press down into the pan to make an even layer.',
+      'Melt the chocolate chips and pour over the peanut butter layer. Spread the chocolate with a knife as if frosting the whole pan.',
+      'Refrigerate for 15 minutes.',
+      'Cut a section and put a spatula under it and remove along with the parchment paper so you can easily cut them.',
+      'Refrigerate for another 15 minutes.',
+      'Layer between sheets of parchment paper in a plastic container. Keep in the refrigerator and serve cold. Fine to keep in the freezer but let them thaw before eating.',
+    ],
+    image: '/images/recipes/recipe-detail.jpg',
+    prepTime: '20 min',
+    cookTime: 'None (no-bake)',
+    servings: '24\u201330 pieces',
+    difficulty: 'Easy',
+    author: 'Belinda Donner',
+    date: 'November 2025',
+    notes: '<strong>Important:</strong> Place back in the refrigerator if they get too soft while cutting. If too hard they will break, if too soft they will be messy. Find the happy medium. Cut into 1 inch squares.',
+    tags: ['Dessert', 'Family Favorite'],
+  },
+  'grandma-mendelsons-apple-butter-cake': {
+    title: 'Grandma Mendelson\u2019s Apple Butter Cake',
+    description: 'A towering apple cake with layers of cinnamon-kissed fruit \u2014 the kind of recipe that fills the house with warmth and brings everyone to the table.',
+    culturalContext: 'Apple cake holds a special place in Jewish baking, especially around Rosh Hashanah when apples symbolize sweetness for the new year. This layered cake, with its butter-rich batter and cinnamon apples, is the kind of recipe that turns a kitchen into a gathering place.',
+    ingredients: [
+      '4 large apples, peeled and cored',
+      '1 tablespoon sugar',
+      '2 teaspoons ground cinnamon',
+      '1 cup butter, at room temperature',
+      '2 cups sugar',
+      '4 large eggs',
+      '3 cups flour',
+      '3 teaspoons baking powder',
+      '\u00bd teaspoon salt',
+      '\u00bd cup orange juice',
+      '1 tablespoon pure vanilla extract',
+    ],
+    instructions: [
+      'Heat oven to 350\u00b0F. Grease and flour a tube pan or springform cake pan.',
+      'Slice the apples. Put in a small bowl and sprinkle with the sugar and cinnamon.',
+      'In a large bowl, cream the butter and sugar using an electric mixer on medium-high speed. Add the eggs one at a time, beating well to combine.',
+      'In a medium bowl, sift together the dry ingredients and add to butter and sugar mixture.',
+      'Add the orange juice and vanilla, beating well to form a smooth batter.',
+      'Pour about a third of the batter into pan. Layer with one-half of the apples. Repeat for one more layer, finishing with the batter.',
+      'Bake for about 1\u00bd hours until lightly browned and a tester inserted in the middle comes out clean.',
+      'Remove from oven and let cool in pan on a rack for 20 minutes, then turn out onto the rack to cool completely.',
+    ],
+    image: '/images/recipes/recipe-detail.jpg',
+    prepTime: '25 min',
+    cookTime: '1\u00bd hrs',
+    servings: '10',
+    difficulty: 'Medium',
+    author: 'Belinda Donner',
+    date: 'October 2025',
+    tags: ['Dessert', 'Holiday'],
+  },
+  'bubbas-brisket': {
+    title: 'Bubba\u2019s Brisket',
+    description: 'Slow-cooked to perfection with garlic, paprika, and onion soup mix \u2014 this is the brisket that anchors every holiday table and tastes even better the next day.',
+    culturalContext: 'Brisket is the undisputed king of the Jewish holiday table. Slow-braised for hours, it fills the house with an aroma that says \u201cfamily is gathering.\u201d Every Jewish grandmother has her version, and this one \u2014 with its garlic rub and onion soup mix \u2014 is as classic as it gets.',
+    ingredients: [
+      '<strong>For the Brisket:</strong>',
+      '1 beef brisket (3\u20134 pounds)',
+      '6 cloves garlic, minced',
+      '2 tablespoons vegetable oil',
+      'Salt and black pepper to taste',
+      'Paprika to taste',
+      '<strong>Vegetables:</strong>',
+      '2 large onions, chopped',
+      'Carrots, chopped (optional)',
+      'Celery, chopped (optional)',
+      '<strong>Liquid and Seasonings:</strong>',
+      '1 cup water, tomato juice, or tomato sauce',
+      '1 envelope dried onion soup mix',
+    ],
+    instructions: [
+      'Preheat oven to 325\u00b0F.',
+      'Rinse the meat with water and pat completely dry. Rub on all sides with crushed garlic. Season generously with salt, pepper, and paprika.',
+      'Heat oil in a heavy-bottomed casserole dish or Dutch oven. Brown the brisket on all sides until well-seared.',
+      'Add chopped onions, carrots, and celery around the meat. Pour in your liquid of choice. Sprinkle the dried onion soup mix over everything.',
+      'Cover tightly and bake for 3 hours.',
+      'Remove cover and continue baking for an additional 30 minutes to brown the top.',
+    ],
+    image: '/images/recipes/brisket.jpg',
+    prepTime: '20 min',
+    cookTime: '3\u00bd hrs',
+    servings: '6\u20138',
+    difficulty: 'Easy',
+    author: 'Belinda Donner',
+    date: 'August 2025',
+    notes: 'This dish is best prepared a day in advance so the fat can be easily skimmed off when cold. Slice against the grain for maximum tenderness.',
+    tags: ['Holiday', 'Main Course'],
+  },
+  'memas-mondel-brot': {
+    title: 'Mema\u2019s Mondel Brot',
+    description: 'A classic twice-baked cookie \u2014 crunchy, nutty, and kissed with orange and brandy. Perfect for coffee or tea, and even better shared with someone you love.',
+    culturalContext: 'Mondel brot (also spelled mandelbrot) is the Ashkenazi Jewish cousin of biscotti \u2014 a twice-baked cookie that\u2019s been a staple of Jewish bakeries and home kitchens for generations. The name means \u201calmond bread\u201d in Yiddish, and these crisp, fragrant cookies are meant for dunking, sharing, and savoring slowly.',
+    ingredients: [
+      '2 eggs',
+      '\u00bd cup oil',
+      '\u00bd cup sugar',
+      '1 teaspoon vanilla extract',
+      '2 tablespoons brandy',
+      '2 cups all-purpose flour',
+      '1 teaspoon baking powder',
+      '\u00bd teaspoon salt',
+      '2 cups nuts (almonds or walnuts), coarsely chopped',
+      '\u00bd orange, zested and juiced',
+      'Cinnamon and sugar mixture (for rolling)',
+    ],
+    instructions: [
+      'Preheat oven to 350\u00b0F. Line a cookie sheet with parchment paper.',
+      'Whisk together eggs, oil, sugar, vanilla, and brandy until well combined.',
+      'Stir in flour, baking powder, and salt until just incorporated.',
+      'Fold in chopped nuts, orange zest, and orange juice.',
+      'Divide dough into 4 equal parts. Roll each into a log about 1 inch thick.',
+      'Roll each log in cinnamon-sugar mixture to coat.',
+      'Place on prepared cookie sheet. Bake at 350\u00b0F for 15 minutes.',
+      'Remove and let rest 5 minutes. Reduce oven to 300\u00b0F.',
+      'Slice logs into cookies about \u00bd-inch thick. Lay cut-side down on baking sheet.',
+      'Bake at 300\u00b0F for 15 minutes until golden and crisp.',
+      'Cool completely. Store in an airtight container.',
+    ],
+    image: '/images/recipes/recipe-detail.jpg',
+    prepTime: '15 min',
+    cookTime: '30 min',
+    servings: '36\u201340 cookies',
+    difficulty: 'Easy',
+    author: 'Belinda Donner',
+    date: 'June 2025',
+    notes: 'These cookies keep well and are perfect for gifting or dunking in your favorite hot beverage!',
+    tags: ['Dessert', 'Shabbat'],
+  },
+  'grandma-joyces-lemon-cake': {
+    title: 'Grandma Joyce\u2019s Favorite Lemon Cake',
+    description: 'A bright, moist lemon Bundt cake soaked in fresh lemon glaze \u2014 the recipe that Grandma Joyce made for every special occasion, now shared with our community.',
+    culturalContext: 'Some recipes become so intertwined with a person that you can\u2019t think of one without the other. This lemon cake is Grandma Joyce\u2019s signature \u2014 the one she brought to every simcha, every Shabbat lunch, every \u201cjust because.\u201d Sharing it here keeps her spirit at the table.',
+    ingredients: [
+      '<strong>Cake:</strong>',
+      '1 box Duncan Hines Lemon Supreme cake mix',
+      '1 box lemon pudding mix',
+      '\u00bd cup EVOO (extra virgin olive oil)',
+      '1 cup 2% milk',
+      '4 eggs',
+      '<strong>Glaze:</strong>',
+      '2 cups powdered sugar',
+      '\u00bd to \u00be cup fresh squeezed lemon juice',
+    ],
+    instructions: [
+      'Preheat oven to 350\u00b0F.',
+      'Mix cake mix and wet ingredients with blender until smooth and all lumps are gone.',
+      'Pour into well-greased Bundt cake pan and bake for approximately 30\u201335 minutes or until toothpick comes out clean. <strong>DO NOT OVERCOOK!</strong>',
+      'Let cake sit for 5 minutes.',
+      'Using a skewer or thin knife, poke holes around what will be the bottom of the cake (once flipped).',
+      'Drizzle approximately \u00bd to \u00be of the glaze gently all around so it goes into the holes.',
+      'Once cooled for 5\u201310 minutes, flip onto cake dish.',
+      'Poke more small holes all around the top of the cake (very gently).',
+      'Drizzle remaining glaze slowly all over the top.',
+      'Once completely cooled (a few hours or next day), sprinkle with powdered sugar.',
+    ],
+    image: '/images/recipes/recipe-detail.jpg',
+    prepTime: '10 min',
+    cookTime: '35 min',
+    servings: '10\u201312',
+    difficulty: 'Easy',
+    author: 'Mindy (via Belinda Donner)',
+    date: 'June 2025',
+    notes: '<strong>Tip from Mindy:</strong> "I sometimes decorate with Gerber daisies in the middle!"',
+    tags: ['Dessert', 'Family Favorite'],
+  },
+};
+
+const recipeSlugs = Object.keys(allRecipes);
+
+export async function getStaticPaths() {
+  let recipes: any[] = [];
+  try {
+    recipes = await getRecipes();
+  } catch (e) {
+    console.warn('Sanity fetch failed for recipe paths, using fallback');
+  }
+
+  if (recipes.length > 0) {
+    return recipes.map((recipe: any) => ({
+      params: { slug: recipe.slug.current },
+      props: { recipe },
+    }));
+  }
+
   return [
-    { params: { slug: 'example' } },
+    { params: { slug: 'savtas-stuffed-chicken' } },
+    { params: { slug: 'mimas-noodle-kugel' } },
+    { params: { slug: 'grammys-chocolate-peanut-butter-candy' } },
+    { params: { slug: 'grandma-mendelsons-apple-butter-cake' } },
+    { params: { slug: 'bubbas-brisket' } },
+    { params: { slug: 'memas-mondel-brot' } },
+    { params: { slug: 'grandma-joyces-lemon-cake' } },
   ];
 }
 
 const { slug } = Astro.params;
+const cmsRecipe = Astro.props.recipe || null;
+
+const fallback = slug ? allRecipes[slug] : undefined;
+
+const recipeTitle = cmsRecipe?.title || fallback?.title || 'Recipe';
+const recipeDescription = cmsRecipe?.description || fallback?.description || '';
+const recipeIngredients = cmsRecipe?.ingredients || fallback?.ingredients || [];
+const recipeInstructions = cmsRecipe?.instructions || fallback?.instructions || [];
+const recipeCulturalContext = cmsRecipe?.culturalContext || fallback?.culturalContext || '';
+const recipeImage = cmsRecipe?.image || fallback?.image || '/images/recipes/recipe-detail.jpg';
+const recipePrepTime = cmsRecipe?.prepTime || fallback?.prepTime;
+const recipeCookTime = cmsRecipe?.cookTime || fallback?.cookTime;
+const recipeServings = cmsRecipe?.servings || fallback?.servings;
+const recipeDifficulty = cmsRecipe?.difficulty || fallback?.difficulty;
+const recipeAuthor = cmsRecipe?.author || fallback?.author;
+const recipeDate = cmsRecipe?.date || fallback?.date;
+const recipeNotes = cmsRecipe?.notes || fallback?.notes;
+
+interface RelatedRecipe {
+  title: string;
+  description: string;
+  slug: string;
+  image?: string;
+}
+
+const relatedRecipes: RelatedRecipe[] = recipeSlugs
+  .filter((s) => s !== slug)
+  .slice(0, 3)
+  .map((s) => ({
+    title: allRecipes[s].title,
+    description: allRecipes[s].description,
+    slug: s,
+    image: allRecipes[s].image,
+  }));
 ---
-<Layout title={`${slug} | Jewmanity`}>
-  <div class="min-h-screen flex items-center justify-center flex-col gap-4">
-    <h1 class="text-3xl font-heading font-medium text-text-heading">{slug}</h1>
-    <p class="text-text-muted">Dynamic page — Phase 1</p>
-  </div>
+<Layout title={`${recipeTitle} | Jewmanity`} description={recipeDescription}>
+  <RecipePage
+    title={recipeTitle}
+    description={recipeDescription}
+    culturalContext={recipeCulturalContext}
+    ingredients={recipeIngredients}
+    instructions={recipeInstructions}
+    image={recipeImage}
+    prepTime={recipePrepTime}
+    cookTime={recipeCookTime}
+    servings={recipeServings}
+    difficulty={recipeDifficulty}
+    author={recipeAuthor}
+    date={recipeDate}
+    notes={recipeNotes}
+    relatedRecipes={relatedRecipes}
+  />
 </Layout>

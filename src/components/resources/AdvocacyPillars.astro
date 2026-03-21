@@ -1,0 +1,61 @@
+---
+interface Props {}
+
+interface Pillar {
+  number: number;
+  title: string;
+  description: string;
+}
+
+const pillars: Pillar[] = [
+  {
+    number: 1,
+    title: 'Reducing Stigma',
+    description: 'Mental health challenges are not personal failures. They are human experiences that deserve compassion and understanding.',
+  },
+  {
+    number: 2,
+    title: 'Encouraging Early Support',
+    description: 'The earlier someone seeks help, the better the outcomes. We advocate for proactive care rather than crisis-only intervention.',
+  },
+  {
+    number: 3,
+    title: 'Trauma-Informed Healing',
+    description: 'For soldiers, families, and civilians alike, trauma can manifest long after the event. Healing is not linear, and recovery is possible.',
+  },
+  {
+    number: 4,
+    title: 'Community-Based Care',
+    description: 'Isolation fuels suffering, which can further exacerbate mental health issues. Community connection fosters resilience.',
+  },
+];
+---
+
+<section id="advocacy-pillars" class="py-16 md:py-20 lg:py-24">
+  <div class="mx-auto max-w-[1200px] px-6">
+    <div class="mb-12 text-center" data-animate="fade-up">
+      <h2 class="font-heading text-[clamp(28px,4vw,36px)] font-medium leading-tight text-text-heading">
+        What We Advocate For
+      </h2>
+      <p class="mx-auto mt-4 max-w-[600px] font-body text-[15px] leading-relaxed text-text-body md:text-base">
+        Your generosity creates tangible change in the lives of those healing from trauma.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2" data-animate="stagger">
+      {pillars.map((pillar) => (
+        <div class="rounded-3xl border-[0.5px] border-border-card bg-white p-7 shadow-[0px_8px_16px_rgba(12,12,13,0.06),0px_2px_4px_rgba(12,12,13,0.04)] md:p-8">
+          <div class="mb-4 flex h-10 w-10 items-center justify-center rounded-full bg-primary-light font-heading text-base font-medium text-primary">
+            {pillar.number}
+          </div>
+          <h3 class="font-body text-lg font-medium text-text-heading md:text-xl">
+            {pillar.title}
+          </h3>
+          <p class="mt-3 font-body text-sm leading-relaxed text-text-body md:text-[15px]">
+            {pillar.description}
+          </p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

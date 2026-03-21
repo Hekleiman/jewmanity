@@ -1,9 +1,23 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import HeroSection from '../../components/shared/HeroSection.astro';
+import AntisemitismIntro from '../../components/community/AntisemitismIntro.astro';
+import ResourcesGrid from '../../components/community/ResourcesGrid.astro';
+import StandTogether from '../../components/community/StandTogether.astro';
+import CTASection from '../../components/shared/CTASection.astro';
 ---
-<Layout title="Fighting Antisemitism | Jewmanity">
-  <div class="min-h-screen flex items-center justify-center flex-col gap-4">
-    <h1 class="text-3xl font-heading font-medium text-text-heading">Fighting Antisemitism</h1>
-    <p class="text-text-muted">Coming soon — Phase 1</p>
-  </div>
+<Layout title="Responding to Antisemitism | Jewmanity" description="Educational resources and community support for understanding, responding to, and healing from antisemitism.">
+  <HeroSection
+    heading="Responding to Antisemitism"
+    subtitle="Building understanding and resilience through education, dialogue, and responses rooted in compassion and empathy."
+    backgroundImage="/images/hero/fighting-antisemitism.jpg"
+  />
+  <AntisemitismIntro />
+  <ResourcesGrid />
+  <StandTogether />
+  <CTASection
+    heading="Education and Community Are Our Greatest Strengths"
+    subtitle="Whether you're here to learn, teach, or support—there's a place for you in this work."
+    primaryCta={{ text: 'Explore Jewish Recipes', href: '/community/recipes' }}
+  />
 </Layout>

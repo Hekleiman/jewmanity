@@ -1,0 +1,72 @@
+---
+interface Props {}
+
+interface DonationTier {
+  amount: string;
+  description: string;
+}
+
+const tiers: DonationTier[] = [
+  { amount: '$18', description: 'Provides trauma education materials for one individual' },
+  { amount: '$36', description: 'Supports a person\u2019s participation in a peer support group' },
+  { amount: '$180', description: 'Sponsors a day of retreat programming for one participant' },
+  { amount: '$360', description: 'Funds a week of therapeutic care and community healing' },
+];
+---
+
+<section id="donation-cta" class="py-16 md:py-20 lg:py-24">
+  <div class="mx-auto max-w-[1200px] px-6">
+    <div class="mb-12 text-center" data-animate="fade-up">
+      <h2 class="font-heading text-[clamp(28px,4vw,36px)] font-medium leading-tight text-text-heading">
+        How You Can Help
+      </h2>
+      <p class="mx-auto mt-4 max-w-[600px] font-heading text-[clamp(18px,2.5vw,24px)] font-normal leading-relaxed text-text-body">
+        Your contribution directly supports healing, connection, and recovery for individuals and
+        families in our community.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2" data-animate="stagger">
+      {tiers.map((tier) => (
+        <a
+          href="/donate"
+          class="group flex items-center gap-4 rounded-2xl border border-[#DADADA] bg-[#F2F2F2] px-5 py-4 transition-all hover:bg-white hover:shadow-md"
+        >
+          <span class="shrink-0 font-heading text-lg font-medium text-primary">
+            {tier.amount}
+          </span>
+          <span class="flex-1 font-body text-sm font-normal text-text-body">
+            {tier.description}
+          </span>
+          <svg
+            class="h-5 w-5 shrink-0 text-text-muted transition-transform group-hover:translate-x-0.5"
+            viewBox="0 0 20 20"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M7.5 5L12.5 10L7.5 15"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </a>
+      ))}
+    </div>
+
+    <div class="mt-10 text-center">
+      <a
+        href="/donate"
+        class="inline-block rounded-[100px] bg-primary px-8 py-3 font-heading text-base font-medium text-white transition-colors hover:bg-primary-hover"
+      >
+        Learn More
+      </a>
+      <p class="mx-auto mt-4 max-w-[500px] font-body text-xs text-text-muted">
+        Your contribution helps fund healing retreats, peer support, and ongoing care for
+        individuals and families in our community.
+      </p>
+    </div>
+  </div>
+</section>

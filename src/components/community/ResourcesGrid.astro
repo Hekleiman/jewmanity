@@ -1,0 +1,82 @@
+---
+interface Props {}
+
+interface Resource {
+  title: string;
+  description: string;
+  image: string;
+  alt: string;
+}
+
+const resources: Resource[] = [
+  {
+    title: 'Understanding Antisemitism',
+    description: 'Guides that explore the history, forms, and impact of antisemitism\u2014offering context to recognize and address it with clarity and confidence.',
+    image: '/images/cards/antisemitism-1.jpg',
+    alt: 'Understanding antisemitism through education',
+  },
+  {
+    title: 'Community Response Tools',
+    description: 'Frameworks and conversation guides to help communities come together, listen, learn, and respond to incidents and ongoing challenges.',
+    image: '/images/cards/antisemitism-2.jpg',
+    alt: 'Community response tools and strategies',
+  },
+  {
+    title: 'Talking With Children',
+    description: 'Language and guidance for parents, educators, and caregivers having conversations about identity, bias, and safety with young people.',
+    image: '/images/cards/antisemitism-3.jpg',
+    alt: 'Talking with children about antisemitism',
+  },
+  {
+    title: 'Mental Health Support',
+    description: 'Resources for coping with fear, anxiety, and trauma related to antisemitism\u2014including therapist referrals and peer support networks.',
+    image: '/images/cards/antisemitism-4.jpg',
+    alt: 'Mental health support for those affected',
+  },
+  {
+    title: 'Educational Guides',
+    description: 'Accessible guides that explore the history, forms, and impact of antisemitism\u2014offering context to recognize and address it with clarity.',
+    image: '/images/cards/antisemitism-5.jpg',
+    alt: 'Educational guides for awareness',
+  },
+  {
+    title: 'Allyship in Action',
+    description: 'Guided group sessions and peer networks that foster understanding, shared experience, and mutual support.',
+    image: '/images/cards/antisemitism-6.jpg',
+    alt: 'Building allyship and solidarity',
+  },
+];
+---
+
+<section id="resources-grid" class="bg-bg-section-alt py-16 md:py-20 lg:py-24">
+  <div class="mx-auto max-w-[1200px] px-6">
+    <div class="mb-12 text-center" data-animate="fade-up">
+      <h2 class="font-heading text-[clamp(28px,4vw,36px)] font-medium leading-tight text-text-heading">
+        Resources and Support
+      </h2>
+      <p class="mx-auto mt-4 max-w-[700px] font-body text-[15px] leading-relaxed text-text-body md:text-base">
+        Educational tools and guidance to help you respond, connect, and care for yourself and your community.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2" data-animate="stagger">
+      {resources.map((resource) => (
+        <article class="group overflow-hidden rounded-[24px] border-[0.5px] border-border-card bg-white shadow-[0px_16px_32px_rgba(12,12,13,0.1),0px_4px_4px_rgba(12,12,13,0.05)] transition-shadow hover:shadow-[0px_20px_40px_rgba(12,12,13,0.14),0px_6px_6px_rgba(12,12,13,0.07)]">
+          <img src={resource.image} alt={resource.alt} class="h-48 w-full object-cover" width="600" height="400" loading="lazy" />
+          <div class="p-5">
+            <h3 class="font-body text-lg font-medium leading-7 text-text-heading">
+              {resource.title}
+            </h3>
+            <p class="mt-2 font-body text-sm leading-relaxed text-text-body">
+              {resource.description}
+            </p>
+            <span class="mt-4 inline-flex items-center gap-1 font-body text-sm font-medium text-primary transition-colors group-hover:text-primary-hover">
+              Learn More
+              <span aria-hidden="true">&rarr;</span>
+            </span>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

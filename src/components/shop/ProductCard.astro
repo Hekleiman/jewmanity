@@ -1,0 +1,42 @@
+---
+interface Props {
+  id: string;
+  name: string;
+  price: string;
+  priceNum: string;
+  href: string;
+  description: string;
+  image: string;
+}
+
+const { id, name, price, priceNum, href, description, image } = Astro.props;
+---
+
+<article class="overflow-hidden rounded-[24px] border-[0.5px] border-border-card bg-white shadow-[0px_16px_32px_rgba(12,12,13,0.1),0px_4px_4px_rgba(12,12,13,0.05)]">
+  <a href={href} class="block">
+    {image ? (
+      <img src={image} alt={name} class="aspect-square w-full object-cover" width="600" height="600" loading="lazy" />
+    ) : (
+      <div class="aspect-square bg-gradient-to-br from-primary/10 to-primary/5"></div>
+    )}
+  </a>
+  <div class="p-5">
+    <div class="flex items-start justify-between gap-2">
+      <h3 class="font-body text-lg font-medium text-text-heading">
+        <a href={href} class="transition-colors hover:text-primary">{name}</a>
+      </h3>
+      <span class="shrink-0 font-heading text-lg font-medium text-primary">{price}</span>
+    </div>
+    <button
+      class="snipcart-add-item mt-4 w-full rounded-[100px] bg-primary py-3 font-heading text-sm font-medium text-white transition-colors hover:bg-primary-hover"
+      data-item-id={id}
+      data-item-name={name}
+      data-item-price={priceNum}
+      data-item-url="/shop"
+      data-item-description={description}
+      data-item-image={image}
+    >
+      Add to Cart +
+    </button>
+  </div>
+</article>

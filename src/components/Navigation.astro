@@ -1,0 +1,179 @@
+---
+interface Props {}
+
+interface NavItem {
+  label: string;
+  href: string;
+  children?: { label: string; href: string }[];
+}
+
+const navItems: NavItem[] = [
+  { label: 'Home', href: '/' },
+  {
+    label: 'About',
+    href: '/about/story',
+    children: [
+      { label: 'Our Story', href: '/about/story' },
+      { label: 'Our Team', href: '/about/team' },
+      { label: 'Community Stories', href: '/about/community-stories' },
+    ],
+  },
+  {
+    label: 'Programs',
+    href: '/programs/heads-up',
+    children: [
+      { label: 'Heads Up', href: '/programs/heads-up' },
+      { label: 'Past Retreats', href: '/programs/past-retreats' },
+    ],
+  },
+  {
+    label: 'Community',
+    href: '/community/fighting-antisemitism',
+    children: [
+      { label: 'Fighting Antisemitism', href: '/community/fighting-antisemitism' },
+      { label: 'Recipes', href: '/community/recipes' },
+    ],
+  },
+  {
+    label: 'Get Involved',
+    href: '/get-involved/volunteer',
+    children: [
+      { label: 'Volunteer', href: '/get-involved/volunteer' },
+      { label: 'Contact', href: '/get-involved/contact' },
+    ],
+  },
+  { label: 'Resources', href: '/resources' },
+  { label: 'Shop', href: '/shop' },
+];
+
+const currentPath = Astro.url.pathname;
+
+function isActive(item: NavItem): boolean {
+  if (currentPath === item.href || currentPath === item.href + '/') return true;
+  if (item.children) {
+    return item.children.some(
+      (child) => currentPath === child.href || currentPath === child.href + '/'
+    );
+  }
+  return false;
+}
+---
+
+<nav
+  id="desktop-nav"
+  aria-label="Main navigation"
+  class="fixed top-5 left-1/2 z-50 hidden w-[95%] max-w-[1280px] -translate-x-1/2 items-center justify-between rounded-[1000px] bg-[rgba(250,248,245,0.9)] px-5 py-3 pr-3 backdrop-blur-[12px] transition-shadow duration-300 lg:flex"
+>
+  <!-- Logo -->
+  <a href="/" aria-label="Jewmanity home" class="shrink-0">
+    <img src="/images/logo.png" alt="Jewmanity" width="50" height="33" class="h-8 w-auto" />
+  </a>
+
+  <!-- Nav Links -->
+  <ul class="flex items-center gap-8">
+    {navItems.map((item) => (
+      <li class="relative" data-dropdown={item.children ? 'true' : undefined}>
+        <a
+          href={item.href}
+          class:list={[
+            'inline-flex items-center gap-1 font-heading text-base font-medium leading-6 tracking-[-0.31px] transition-colors',
+            isActive(item)
+              ? 'text-primary border-b-2 border-primary pb-0.5'
+              : 'text-text-heading hover:text-primary',
+          ]}
+          aria-haspopup={item.children ? 'true' : undefined}
+          aria-expanded={item.children ? 'false' : undefined}
+        >
+          {item.label}
+          {item.children && (
+            <svg
+              class="h-4 w-4 transition-transform duration-200"
+              viewBox="0 0 16 16"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          )}
+        </a>
+        {item.children && (
+          <ul
+            class="pointer-events-none invisible absolute left-0 top-full min-w-[200px] pt-2 opacity-0 transition-all duration-200"
+            role="menu"
+          >
+            <div class="rounded-xl bg-white py-2 shadow-lg">
+              {item.children.map((child) => (
+                <li role="none">
+                  <a
+                    href={child.href}
+                    role="menuitem"
+                    class:list={[
+                      'block px-4 py-2 font-body text-sm text-text-heading transition-colors hover:bg-gray-50',
+                      (currentPath === child.href || currentPath === child.href + '/') && 'text-primary font-medium',
+                    ]}
+                  >
+                    {child.label}
+                  </a>
+                </li>
+              ))}
+            </div>
+          </ul>
+        )}
+      </li>
+    ))}
+  </ul>
+
+  <!-- CTA Button -->
+  <a
+    href="/donate"
+    class="shrink-0 rounded-full bg-primary px-5 py-2.5 font-heading text-sm font-medium text-white transition-colors hover:bg-primary-hover"
+  >
+    Support Healing
+  </a>
+</nav>
+
+<style>
+  /* Dropdown hover behavior */
+  li[data-dropdown] > ul {
+    transition: opacity 0.15s ease, visibility 0.15s ease;
+    transition-delay: 0.05s;
+  }
+
+  li[data-dropdown]:hover > ul,
+  li[data-dropdown]:focus-within > ul {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transition-delay: 0s;
+  }
+
+  li[data-dropdown]:hover > a svg,
+  li[data-dropdown]:focus-within > a svg {
+    transform: rotate(180deg);
+  }
+
+  /* Scroll shadow class added via JS */
+  nav.nav-scrolled {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  }
+</style>
+
+<script>
+  const nav = document.getElementById('desktop-nav');
+  if (nav) {
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          if (window.scrollY > 50) {
+            nav.classList.add('nav-scrolled');
+          } else {
+            nav.classList.remove('nav-scrolled');
+          }
+          ticking = false;
+        });
+        ticking = true;
+      }
+    });
+  }
+</script>

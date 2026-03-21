@@ -1,0 +1,95 @@
+---
+import RecipeCard from './RecipeCard.astro';
+
+interface Recipe {
+  title: string;
+  description: string;
+  tags: string[];
+  slug: string;
+  image?: string;
+}
+
+interface Props {
+  recipes?: Recipe[];
+}
+
+const fallbackRecipes: Recipe[] = [
+  {
+    title: 'Savta\u2019s Stuffed Chicken with Rice and Nuts',
+    description: 'A beloved family recipe passed down through generations \u2014 tender deboned chicken stuffed with fragrant rice, pine nuts, and parsley.',
+    tags: ['Family Recipe', 'Main Course'],
+    slug: 'savtas-stuffed-chicken',
+    image: '/images/recipes/recipe-detail.jpg',
+  },
+  {
+    title: 'Mima\u2019s Noodle Kugel',
+    description: 'A sweet, creamy noodle kugel topped with crunchy corn flake crumbles \u2014 comfort food that makes every holiday table feel like home.',
+    tags: ['Holiday', 'Comfort Food'],
+    slug: 'mimas-noodle-kugel',
+    image: '/images/recipes/recipe-detail.jpg',
+  },
+  {
+    title: 'Grammy\u2019s Chocolate Peanut Butter Candy',
+    description: 'Rich, indulgent treats combining creamy peanut butter with smooth dark chocolate \u2014 a cherished family recipe.',
+    tags: ['Dessert', 'Family Favorite'],
+    slug: 'grammys-chocolate-peanut-butter-candy',
+    image: '/images/recipes/recipe-detail.jpg',
+  },
+  {
+    title: 'Grandma Mendelson\u2019s Apple Butter Cake',
+    description: 'A towering apple cake with layers of cinnamon-kissed fruit that fills the house with warmth.',
+    tags: ['Dessert', 'Holiday'],
+    slug: 'grandma-mendelsons-apple-butter-cake',
+    image: '/images/recipes/recipe-detail.jpg',
+  },
+  {
+    title: 'Bubba\u2019s Brisket',
+    description: 'Slow-cooked to perfection with garlic, paprika, and onion soup mix \u2014 the brisket that anchors every holiday table.',
+    tags: ['Holiday', 'Main Course'],
+    slug: 'bubbas-brisket',
+    image: '/images/recipes/brisket.jpg',
+  },
+  {
+    title: 'Mema\u2019s Mondel Brot',
+    description: 'A classic twice-baked cookie \u2014 crunchy, nutty, and kissed with orange and brandy. Perfect for coffee or tea.',
+    tags: ['Dessert', 'Shabbat'],
+    slug: 'memas-mondel-brot',
+    image: '/images/recipes/recipe-detail.jpg',
+  },
+  {
+    title: 'Grandma Joyce\u2019s Favorite Lemon Cake',
+    description: 'A bright, moist lemon Bundt cake soaked in fresh lemon glaze \u2014 made for every special occasion.',
+    tags: ['Dessert', 'Family Favorite'],
+    slug: 'grandma-joyces-lemon-cake',
+    image: '/images/recipes/recipe-detail.jpg',
+  },
+];
+
+const { recipes: cmsRecipes } = Astro.props;
+const recipes = cmsRecipes && cmsRecipes.length > 0 ? cmsRecipes : fallbackRecipes;
+---
+
+<section id="recipe-grid" class="py-16 md:py-20 lg:py-24">
+  <div class="mx-auto max-w-[1200px] px-6">
+    <div class="mb-12 text-center">
+      <h2 class="font-heading text-[clamp(28px,4vw,36px)] font-medium leading-tight text-text-heading">
+        From Our Table to Yours
+      </h2>
+      <p class="mx-auto mt-4 max-w-[600px] font-heading text-[clamp(16px,2.2vw,20px)] font-normal leading-relaxed text-text-body">
+        Delicious recipes passed down that have stood the test of time and perseverance.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3" data-animate="stagger">
+      {recipes.map((recipe) => (
+        <RecipeCard
+          title={recipe.title}
+          description={recipe.description}
+          tags={recipe.tags}
+          href={`/community/recipes/${recipe.slug}`}
+          image={recipe.image}
+        />
+      ))}
+    </div>
+  </div>
+</section>

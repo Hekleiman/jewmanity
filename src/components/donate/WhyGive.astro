@@ -1,0 +1,61 @@
+---
+interface Props {}
+
+interface ValueProp {
+  title: string;
+  description: string;
+}
+
+const values: ValueProp[] = [
+  {
+    title: 'Dignity in Healing',
+    description: "We honor each individual's journey with compassion and respect, creating spaces where healing happens on their terms.",
+  },
+  {
+    title: 'Building Resilience',
+    description: 'Every retreat, every therapy session, every moment of connection is designed to restore agency, hope, and a path forward.',
+  },
+  {
+    title: 'Empowerment Through Care',
+    description: 'Every retreat, every therapy session, every moment of connection is designed to restore agency, hope, and a path forward.',
+  },
+];
+---
+
+<section id="why-give" class="py-16 md:py-20 lg:py-24">
+  <div class="mx-auto max-w-[1200px] px-6">
+    <div class="flex flex-col gap-10 lg:flex-row lg:items-center lg:gap-16">
+      <!-- Left: Image -->
+      <div class="lg:w-[45%]" data-animate="slide-left">
+        <img src="/images/sections/donate-why-give.jpg" alt="Community care and support through Jewmanity programs" class="aspect-[4/3] w-full overflow-hidden rounded-[16px] object-cover" width="600" height="400" loading="lazy" />
+      </div>
+
+      <!-- Right: Content -->
+      <div class="lg:w-[55%]" data-animate="slide-right">
+        <h2 class="font-heading text-[clamp(28px,4vw,36px)] font-medium leading-tight text-text-heading">
+          Why Give to Jewmanity
+        </h2>
+
+        <div class="mt-8 space-y-6">
+          {values.map((value) => (
+            <div class="flex gap-4">
+              <div class="mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary-light">
+                <svg class="h-4 w-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="font-body text-base font-medium text-text-heading">{value.title}</h3>
+                <p class="mt-1 font-body text-sm leading-relaxed text-text-body">{value.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <p class="mt-8 font-body text-sm leading-relaxed text-text-body italic">
+          When you give to Jewmanity, you're not just funding programs—you're investing in human potential and the power of community to heal.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
