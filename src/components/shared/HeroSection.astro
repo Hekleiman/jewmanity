@@ -3,19 +3,22 @@ interface Props {
   heading: string;
   subtitle?: string;
   backgroundImage?: string;
+  imagePosition?: string;
+  heightClass?: string;
   ctaText?: string;
   ctaHref?: string;
 }
 
-const { heading, subtitle, backgroundImage, ctaText, ctaHref } = Astro.props;
+const { heading, subtitle, backgroundImage, imagePosition = 'center 30%', heightClass = 'min-h-[55vh] md:min-h-[60vh]', ctaText, ctaHref } = Astro.props;
 ---
 
-<section class="relative flex min-h-[55vh] items-center justify-center overflow-hidden md:min-h-[60vh]">
+<section class:list={["relative flex items-center justify-center overflow-hidden", heightClass]}>
   {backgroundImage ? (
     <img
       src={backgroundImage}
       alt=""
-      class="absolute inset-0 h-full w-full object-cover object-[center_25%]"
+      class="absolute inset-0 h-full w-full object-cover"
+      style={`object-position: ${imagePosition}`}
       width="1920"
       height="1080"
       loading="eager"

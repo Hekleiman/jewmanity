@@ -1,9 +1,13 @@
 ---
-interface Props {}
+interface Props {
+  imagePosition?: string;
+}
+
+const { imagePosition = 'center 30%' } = Astro.props;
 ---
 
 <section id="donate-hero" class="relative min-h-[70vh] overflow-hidden lg:min-h-[80vh]">
-  <img src="/images/hero/donate.jpg" alt="Supporting healing through generous donations" class="absolute inset-0 h-full w-full object-cover object-[center_25%]" width="1920" height="1080" loading="eager" />
+  <img src="/images/hero/donate.jpg" alt="Supporting healing through generous donations" class="absolute inset-0 h-full w-full object-cover" style={`object-position: ${imagePosition}`} width="1920" height="1080" loading="eager" />
   <div class="absolute inset-0 bg-black/50"></div>
 
   <div class="relative z-10 mx-auto flex min-h-[70vh] max-w-[1200px] flex-col items-center gap-10 px-6 pt-32 pb-16 lg:min-h-[80vh] lg:flex-row lg:items-center lg:gap-16 lg:pt-24">
@@ -68,6 +72,7 @@ interface Props {}
           <input
             type="number"
             id="custom-amount-input"
+            aria-label="Custom donation amount"
             placeholder="Enter amount"
             min="1"
             class="w-full py-3 pr-4 font-body text-base text-text-heading placeholder:text-text-muted focus:outline-none"

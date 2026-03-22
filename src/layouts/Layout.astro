@@ -34,7 +34,7 @@ const canonicalUrl = `https://jewmanity.org${Astro.url.pathname}`;
     <!-- Open Graph -->
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={ogImage} />
+    <meta property="og:image" content={`https://jewmanity.org${ogImage}`} />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Jewmanity" />
     <meta property="og:url" content={canonicalUrl} />
@@ -44,6 +44,7 @@ const canonicalUrl = `https://jewmanity.org${Astro.url.pathname}`;
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={`https://jewmanity.org${ogImage}`} />
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
@@ -67,7 +68,10 @@ const canonicalUrl = `https://jewmanity.org${Astro.url.pathname}`;
         "addressRegion": "CA",
         "addressCountry": "US"
       },
-      "sameAs": []
+      "sameAs": [
+        "https://www.facebook.com/profile.php?id=61577185790846",
+        "https://www.instagram.com/jewmanity_"
+      ]
     })} />
 
     <!-- Snipcart E-Commerce -->
