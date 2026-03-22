@@ -52,16 +52,42 @@ interface Props {}
               class="w-full rounded-lg border border-primary/40 bg-white px-3 py-2.5 font-body text-sm text-text-heading focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
             >
               <option value="">Select your country</option>
-              <option value="IL">Israel</option>
-              <option value="GB">United Kingdom</option>
-              <option value="CA">Canada</option>
+              <option value="AR">Argentina</option>
               <option value="AU">Australia</option>
+              <option value="AT">Austria</option>
+              <option value="BE">Belgium</option>
+              <option value="BR">Brazil</option>
+              <option value="CA">Canada</option>
+              <option value="CL">Chile</option>
+              <option value="CN">China</option>
+              <option value="CO">Colombia</option>
+              <option value="EG">Egypt</option>
               <option value="FR">France</option>
               <option value="DE">Germany</option>
-              <option value="ZA">South Africa</option>
-              <option value="AR">Argentina</option>
-              <option value="BR">Brazil</option>
+              <option value="HK">Hong Kong</option>
+              <option value="IN">India</option>
+              <option value="IE">Ireland</option>
+              <option value="IL">Israel</option>
+              <option value="IT">Italy</option>
+              <option value="JP">Japan</option>
+              <option value="MX">Mexico</option>
+              <option value="MA">Morocco</option>
+              <option value="NL">Netherlands</option>
               <option value="NZ">New Zealand</option>
+              <option value="PE">Peru</option>
+              <option value="PH">Philippines</option>
+              <option value="PL">Poland</option>
+              <option value="RU">Russia</option>
+              <option value="SG">Singapore</option>
+              <option value="ZA">South Africa</option>
+              <option value="KR">South Korea</option>
+              <option value="ES">Spain</option>
+              <option value="SE">Sweden</option>
+              <option value="CH">Switzerland</option>
+              <option value="TR">Turkey</option>
+              <option value="UA">Ukraine</option>
+              <option value="AE">United Arab Emirates</option>
+              <option value="GB">United Kingdom</option>
             </select>
             <div id="crisis-results" class="mt-4" aria-live="polite">
               <p class="font-body text-sm leading-relaxed text-text-muted">
@@ -77,24 +103,45 @@ interface Props {}
 
 <script>
   const crisisData: Record<string, { name: string; lines: { label: string; number: string; tel: string }[] }> = {
-    IL: { name: 'Israel', lines: [
-      { label: 'Emergency', number: '100', tel: '100' },
-      { label: 'ERAN Mental Health', number: '1201', tel: '1201' },
-      { label: 'Sahar Suicide Prevention', number: '*6838', tel: '*6838' },
-    ]},
-    GB: { name: 'United Kingdom', lines: [
-      { label: 'Emergency', number: '999', tel: '999' },
-      { label: 'Samaritans', number: '116 123', tel: '116123' },
-      { label: 'Suicide Prevention', number: '0800 689 5652', tel: '08006895652' },
-    ]},
-    CA: { name: 'Canada', lines: [
+    AR: { name: 'Argentina', lines: [
       { label: 'Emergency', number: '911', tel: '911' },
-      { label: 'Mental Health / Suicide Crisis', number: '988', tel: '988' },
+      { label: 'Suicide Prevention', number: '135', tel: '135' },
     ]},
     AU: { name: 'Australia', lines: [
       { label: 'Emergency', number: '000', tel: '000' },
       { label: 'Lifeline', number: '13 11 14', tel: '131114' },
       { label: 'Beyond Blue', number: '1300 22 4636', tel: '1300224636' },
+    ]},
+    AT: { name: 'Austria', lines: [
+      { label: 'Emergency', number: '112', tel: '112' },
+      { label: 'Telefonseelsorge', number: '142', tel: '142' },
+    ]},
+    BE: { name: 'Belgium', lines: [
+      { label: 'Emergency', number: '112', tel: '112' },
+      { label: 'Centre de Prévention du Suicide', number: '0800 32 123', tel: '080032123' },
+    ]},
+    BR: { name: 'Brazil', lines: [
+      { label: 'Emergency (SAMU)', number: '192', tel: '192' },
+      { label: 'CVV Crisis Line', number: '188', tel: '188' },
+    ]},
+    CA: { name: 'Canada', lines: [
+      { label: 'Emergency', number: '911', tel: '911' },
+      { label: 'Mental Health / Suicide Crisis', number: '988', tel: '988' },
+    ]},
+    CL: { name: 'Chile', lines: [
+      { label: 'Emergency', number: '131', tel: '131' },
+      { label: 'Salud Responde', number: '600 360 7777', tel: '6003607777' },
+    ]},
+    CN: { name: 'China', lines: [
+      { label: 'Emergency', number: '110', tel: '110' },
+      { label: 'Beijing Suicide Prevention', number: '010-82951332', tel: '01082951332' },
+    ]},
+    CO: { name: 'Colombia', lines: [
+      { label: 'Emergency', number: '123', tel: '123' },
+      { label: 'Línea 106', number: '106', tel: '106' },
+    ]},
+    EG: { name: 'Egypt', lines: [
+      { label: 'Emergency', number: '122', tel: '122' },
     ]},
     FR: { name: 'France', lines: [
       { label: 'Emergency', number: '112', tel: '112' },
@@ -104,21 +151,105 @@ interface Props {}
       { label: 'Emergency', number: '112', tel: '112' },
       { label: 'Telefonseelsorge', number: '0800 111 0 111', tel: '08001110111' },
     ]},
-    ZA: { name: 'South Africa', lines: [
-      { label: 'Emergency', number: '10111', tel: '10111' },
-      { label: 'SADAG Crisis Line', number: '0800 567 567', tel: '0800567567' },
+    HK: { name: 'Hong Kong', lines: [
+      { label: 'Emergency', number: '999', tel: '999' },
+      { label: 'Samaritans', number: '2389 2222', tel: '23892222' },
     ]},
-    AR: { name: 'Argentina', lines: [
+    IN: { name: 'India', lines: [
+      { label: 'Emergency', number: '112', tel: '112' },
+      { label: 'iCall', number: '9152987821', tel: '9152987821' },
+      { label: 'Vandrevala Foundation', number: '1860-2662-345', tel: '18602662345' },
+    ]},
+    IE: { name: 'Ireland', lines: [
+      { label: 'Emergency', number: '999 / 112', tel: '112' },
+      { label: 'Samaritans', number: '116 123', tel: '116123' },
+      { label: 'Pieta House', number: '1800 247 247', tel: '1800247247' },
+    ]},
+    IL: { name: 'Israel', lines: [
+      { label: 'Emergency', number: '100', tel: '100' },
+      { label: 'ERAN Mental Health', number: '1201', tel: '1201' },
+      { label: 'Sahar Suicide Prevention', number: '*6838', tel: '*6838' },
+    ]},
+    IT: { name: 'Italy', lines: [
+      { label: 'Emergency', number: '112', tel: '112' },
+      { label: 'Telefono Amico', number: '02 2327 2327', tel: '0223272327' },
+    ]},
+    JP: { name: 'Japan', lines: [
+      { label: 'Emergency', number: '110', tel: '110' },
+      { label: 'TELL Lifeline', number: '03-5774-0992', tel: '0357740992' },
+    ]},
+    MX: { name: 'Mexico', lines: [
       { label: 'Emergency', number: '911', tel: '911' },
-      { label: 'Suicide Prevention', number: '135', tel: '135' },
+      { label: 'SAPTEL', number: '55 5259-8121', tel: '5552598121' },
     ]},
-    BR: { name: 'Brazil', lines: [
-      { label: 'Emergency (SAMU)', number: '192', tel: '192' },
-      { label: 'CVV Crisis Line', number: '188', tel: '188' },
+    MA: { name: 'Morocco', lines: [
+      { label: 'Emergency', number: '15', tel: '15' },
+      { label: 'SOS', number: '0801 000 000', tel: '0801000000' },
+    ]},
+    NL: { name: 'Netherlands', lines: [
+      { label: 'Emergency', number: '112', tel: '112' },
+      { label: '113 Suicide Prevention', number: '0900-0113', tel: '09000113' },
     ]},
     NZ: { name: 'New Zealand', lines: [
       { label: 'Emergency', number: '111', tel: '111' },
       { label: 'Need to Talk?', number: '1737', tel: '1737' },
+    ]},
+    PE: { name: 'Peru', lines: [
+      { label: 'Emergency', number: '105', tel: '105' },
+      { label: 'Línea 113', number: '113', tel: '113' },
+    ]},
+    PH: { name: 'Philippines', lines: [
+      { label: 'Emergency', number: '911', tel: '911' },
+      { label: 'NCMH Crisis Hotline', number: '0917-899-8727', tel: '09178998727' },
+    ]},
+    PL: { name: 'Poland', lines: [
+      { label: 'Emergency', number: '112', tel: '112' },
+      { label: 'Telefon Zaufania', number: '116 123', tel: '116123' },
+    ]},
+    RU: { name: 'Russia', lines: [
+      { label: 'Emergency', number: '112', tel: '112' },
+      { label: 'Suicide Prevention', number: '8-800-2000-122', tel: '88002000122' },
+    ]},
+    SG: { name: 'Singapore', lines: [
+      { label: 'Emergency', number: '999', tel: '999' },
+      { label: 'Samaritans of Singapore', number: '1-767', tel: '1767' },
+    ]},
+    ZA: { name: 'South Africa', lines: [
+      { label: 'Emergency', number: '10111', tel: '10111' },
+      { label: 'SADAG Crisis Line', number: '0800 567 567', tel: '0800567567' },
+    ]},
+    KR: { name: 'South Korea', lines: [
+      { label: 'Emergency', number: '112', tel: '112' },
+      { label: 'Suicide Prevention', number: '1393', tel: '1393' },
+    ]},
+    ES: { name: 'Spain', lines: [
+      { label: 'Emergency', number: '112', tel: '112' },
+      { label: 'Teléfono de la Esperanza', number: '717 003 717', tel: '717003717' },
+    ]},
+    SE: { name: 'Sweden', lines: [
+      { label: 'Emergency', number: '112', tel: '112' },
+      { label: 'Mind Självmordslinjen', number: '90101', tel: '90101' },
+    ]},
+    CH: { name: 'Switzerland', lines: [
+      { label: 'Emergency', number: '112', tel: '112' },
+      { label: 'Die Dargebotene Hand', number: '143', tel: '143' },
+    ]},
+    TR: { name: 'Turkey', lines: [
+      { label: 'Emergency', number: '112', tel: '112' },
+      { label: 'Suicide Prevention', number: '182', tel: '182' },
+    ]},
+    UA: { name: 'Ukraine', lines: [
+      { label: 'Emergency', number: '112', tel: '112' },
+      { label: 'Lifeline Ukraine', number: '7333', tel: '7333' },
+    ]},
+    AE: { name: 'United Arab Emirates', lines: [
+      { label: 'Emergency', number: '999', tel: '999' },
+      { label: 'Mental Health (HOPE)', number: '800-HOPE (4673)', tel: '8004673' },
+    ]},
+    GB: { name: 'United Kingdom', lines: [
+      { label: 'Emergency', number: '999', tel: '999' },
+      { label: 'Samaritans', number: '116 123', tel: '116123' },
+      { label: 'Suicide Prevention', number: '0800 689 5652', tel: '08006895652' },
     ]},
   };
 
