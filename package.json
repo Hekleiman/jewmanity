@@ -7,7 +7,9 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "screenshot": "node scripts/screenshot.mjs"
+    "screenshot": "node scripts/screenshot.mjs",
+    "visual-qa": "node scripts/visual-qa.mjs",
+    "visual-qa:compare": "node scripts/visual-qa.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.1",
@@ -20,6 +22,7 @@
     "typescript": "^5"
   },
   "devDependencies": {
-    "@playwright/test": "^1.58.2"
+    "@playwright/test": "^1.58.2",
+    "sharp": "^0.34.5"
   }
 }
