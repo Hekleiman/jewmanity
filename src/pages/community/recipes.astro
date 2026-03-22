@@ -4,9 +4,9 @@ import HeroSection from '../../components/shared/HeroSection.astro';
 import RecipesIntro from '../../components/community/RecipesIntro.astro';
 import RecipeGrid from '../../components/community/RecipeGrid.astro';
 import CTASection from '../../components/shared/CTASection.astro';
-import { getRecipes } from '../../lib/sanity';
+import { getRecipes, urlFor } from '../../lib/sanity';
 
-let cmsRecipes: { title: string; description: string; tags: string[]; slug: string }[] = [];
+let cmsRecipes: { title: string; description: string; tags: string[]; slug: string; image?: string }[] = [];
 try {
   const raw = await getRecipes();
   cmsRecipes = raw.map((r: any) => ({
@@ -14,6 +14,7 @@ try {
     description: r.description || '',
     tags: r.tags || [],
     slug: r.slug?.current || '',
+    image: r.image ? urlFor(r.image).width(600).url() : undefined,
   }));
 } catch (e) {
   console.warn('Sanity fetch failed for recipes, using fallback content');

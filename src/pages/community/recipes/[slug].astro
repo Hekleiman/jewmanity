@@ -1,7 +1,7 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
 import RecipePage from '../../../components/community/RecipePage.astro';
-import { getRecipes } from '../../../lib/sanity';
+import { getRecipes, urlFor, portableTextToHtml, portableTextToStrings } from '../../../lib/sanity';
 
 interface RecipeData {
   title: string;
@@ -312,9 +312,9 @@ const fallback = slug ? allRecipes[slug] : undefined;
 const recipeTitle = cmsRecipe?.title || fallback?.title || 'Recipe';
 const recipeDescription = cmsRecipe?.description || fallback?.description || '';
 const recipeIngredients = cmsRecipe?.ingredients || fallback?.ingredients || [];
-const recipeInstructions = cmsRecipe?.instructions || fallback?.instructions || [];
-const recipeCulturalContext = cmsRecipe?.culturalContext || fallback?.culturalContext || '';
-const recipeImage = cmsRecipe?.image || fallback?.image || '/images/recipes/recipe-detail.jpg';
+const recipeInstructions = cmsRecipe?.instructions ? portableTextToStrings(cmsRecipe.instructions) : fallback?.instructions || [];
+const recipeCulturalContext = cmsRecipe?.culturalContext ? portableTextToHtml(cmsRecipe.culturalContext) : fallback?.culturalContext || '';
+const recipeImage = cmsRecipe?.image?.asset ? urlFor(cmsRecipe.image).width(800).url() : fallback?.image || '/images/recipes/recipe-detail.jpg';
 const recipePrepTime = cmsRecipe?.prepTime || fallback?.prepTime;
 const recipeCookTime = cmsRecipe?.cookTime || fallback?.cookTime;
 const recipeServings = cmsRecipe?.servings || fallback?.servings;
