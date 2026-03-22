@@ -6,13 +6,14 @@ import WhyGive from '../components/donate/WhyGive.astro';
 import CostBreakdown from '../components/donate/CostBreakdown.astro';
 import FAQAccordion from '../components/shared/FAQAccordion.astro';
 import { getFaqItems } from '../lib/sanity';
+import { toHTML } from '@portabletext/to-html';
 
 let cmsFaqItems: { question: string; answer: string }[] = [];
 try {
   const raw = await getFaqItems('donate');
   cmsFaqItems = raw.map((f: any) => ({
     question: f.question,
-    answer: f.answer || '',
+    answer: Array.isArray(f.answer) ? toHTML(f.answer) : (f.answer || ''),
   }));
 } catch (e) {
   console.warn('Sanity fetch failed for donate FAQs, using fallback content');

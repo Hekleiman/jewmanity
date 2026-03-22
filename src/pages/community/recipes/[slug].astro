@@ -1,7 +1,8 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
 import RecipePage from '../../../components/community/RecipePage.astro';
-import { getRecipes, urlFor, portableTextToHtml, portableTextToStrings } from '../../../lib/sanity';
+import { getRecipes, urlFor } from '../../../lib/sanity';
+import { toHTML } from '@portabletext/to-html';
 
 interface RecipeData {
   title: string;
@@ -312,8 +313,29 @@ const fallback = slug ? allRecipes[slug] : undefined;
 const recipeTitle = cmsRecipe?.title || fallback?.title || 'Recipe';
 const recipeDescription = cmsRecipe?.description || fallback?.description || '';
 const recipeIngredients = cmsRecipe?.ingredients || fallback?.ingredients || [];
-const recipeInstructions = cmsRecipe?.instructions ? portableTextToStrings(cmsRecipe.instructions) : fallback?.instructions || [];
-const recipeCulturalContext = cmsRecipe?.culturalContext ? portableTextToHtml(cmsRecipe.culturalContext) : fallback?.culturalContext || '';
+
+function ptBlockToText(block: any): string {
+  if (!block?.children) return '';
+  return block.children
+    .filter((child: any) => child._type === 'span')
+    .map((span: any) => span.text || '')
+    .join('');
+}
+
+const recipeInstructions = cmsRecipe?.instructions
+  ? Array.isArray(cmsRecipe.instructions)
+    ? cmsRecipe.instructions
+        .filter((block: any) => block._type === 'block')
+        .map((block: any) => ptBlockToText(block))
+        .filter((text: string) => text.trim().length > 0)
+    : [String(cmsRecipe.instructions)]
+  : fallback?.instructions || [];
+
+const recipeCulturalContext = cmsRecipe?.culturalContext
+  ? Array.isArray(cmsRecipe.culturalContext)
+    ? toHTML(cmsRecipe.culturalContext)
+    : String(cmsRecipe.culturalContext)
+  : fallback?.culturalContext || '';
 const recipeImage = cmsRecipe?.image?.asset ? urlFor(cmsRecipe.image).width(800).url() : fallback?.image || '/images/recipes/recipe-detail.jpg';
 const recipePrepTime = cmsRecipe?.prepTime || fallback?.prepTime;
 const recipeCookTime = cmsRecipe?.cookTime || fallback?.cookTime;

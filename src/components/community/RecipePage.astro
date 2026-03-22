@@ -130,9 +130,7 @@ const {
     <!-- Cultural context -->
     {culturalContext && (
       <div class="mt-12 rounded-[16px] border-l-4 border-primary bg-[#E8F4F8] px-6 py-5">
-        <p class="font-body text-base leading-relaxed text-text-body italic">
-          {culturalContext}
-        </p>
+        <div class="font-body text-base leading-relaxed text-text-body italic" set:html={culturalContext} />
       </div>
     )}
 
@@ -151,8 +149,7 @@ const {
                   <path d="M2 6l3 3 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
               </span>
-              <span class="ingredient-text font-body text-sm leading-relaxed text-text-body transition-colors">
-                {ingredient}
+              <span class="ingredient-text font-body text-sm leading-relaxed text-text-body transition-colors" set:html={ingredient}>
               </span>
             </li>
           ))}

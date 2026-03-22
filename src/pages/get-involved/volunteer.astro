@@ -9,14 +9,15 @@ import FAQAccordion from '../../components/shared/FAQAccordion.astro';
 import VolunteerForm from '../../components/volunteer/VolunteerForm.astro';
 import CTASection from '../../components/shared/CTASection.astro';
 import { getTestimonials, getFaqItems } from '../../lib/sanity';
+import { toHTML } from '@portabletext/to-html';
 
 let cmsTestimonials: { quote: string; author: string; context: string }[] = [];
 try {
   const raw = await getTestimonials();
   cmsTestimonials = raw.map((t: any) => ({
     quote: t.quote,
-    author: t.name || '',
-    context: [t.program, t.date].filter(Boolean).join(', '),
+    author: t.authorName || '',
+    context: t.authorRole || '',
   }));
 } catch (e) {
   console.warn('Sanity fetch failed for testimonials, using fallback content');
@@ -27,7 +28,7 @@ try {
   const raw = await getFaqItems('volunteer');
   cmsFaqItems = raw.map((f: any) => ({
     question: f.question,
-    answer: f.answer || '',
+    answer: Array.isArray(f.answer) ? toHTML(f.answer) : (f.answer || ''),
   }));
 } catch (e) {
   console.warn('Sanity fetch failed for volunteer FAQs, using fallback content');
