@@ -46,15 +46,101 @@ interface Props {}
             <h3 class="font-heading text-base font-medium text-white">International</h3>
           </div>
           <div class="px-6 py-5">
-            <p class="font-body text-sm leading-relaxed text-text-body">
-              If you are outside of the United States, please contact your local emergency services or national crisis hotlines in your country.
-            </p>
-            <p class="mt-3 font-body text-sm leading-relaxed text-text-body">
-              Most countries have dedicated crisis support lines, available 24/7.
-            </p>
+            <label for="crisis-country-select" class="sr-only">Select your country</label>
+            <select
+              id="crisis-country-select"
+              class="w-full rounded-lg border border-primary/40 bg-white px-3 py-2.5 font-body text-sm text-text-heading focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+            >
+              <option value="">Select your country</option>
+              <option value="IL">Israel</option>
+              <option value="GB">United Kingdom</option>
+              <option value="CA">Canada</option>
+              <option value="AU">Australia</option>
+              <option value="FR">France</option>
+              <option value="DE">Germany</option>
+              <option value="ZA">South Africa</option>
+              <option value="AR">Argentina</option>
+              <option value="BR">Brazil</option>
+              <option value="NZ">New Zealand</option>
+            </select>
+            <div id="crisis-results" class="mt-4" aria-live="polite">
+              <p class="font-body text-sm leading-relaxed text-text-muted">
+                Select your country to find local crisis support numbers
+              </p>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
 </section>
+
+<script>
+  const crisisData: Record<string, { name: string; lines: { label: string; number: string; tel: string }[] }> = {
+    IL: { name: 'Israel', lines: [
+      { label: 'Emergency', number: '100', tel: '100' },
+      { label: 'ERAN Mental Health', number: '1201', tel: '1201' },
+      { label: 'Sahar Suicide Prevention', number: '*6838', tel: '*6838' },
+    ]},
+    GB: { name: 'United Kingdom', lines: [
+      { label: 'Emergency', number: '999', tel: '999' },
+      { label: 'Samaritans', number: '116 123', tel: '116123' },
+      { label: 'Suicide Prevention', number: '0800 689 5652', tel: '08006895652' },
+    ]},
+    CA: { name: 'Canada', lines: [
+      { label: 'Emergency', number: '911', tel: '911' },
+      { label: 'Mental Health / Suicide Crisis', number: '988', tel: '988' },
+    ]},
+    AU: { name: 'Australia', lines: [
+      { label: 'Emergency', number: '000', tel: '000' },
+      { label: 'Lifeline', number: '13 11 14', tel: '131114' },
+      { label: 'Beyond Blue', number: '1300 22 4636', tel: '1300224636' },
+    ]},
+    FR: { name: 'France', lines: [
+      { label: 'Emergency', number: '112', tel: '112' },
+      { label: 'Suicide Prevention', number: '3114', tel: '3114' },
+    ]},
+    DE: { name: 'Germany', lines: [
+      { label: 'Emergency', number: '112', tel: '112' },
+      { label: 'Telefonseelsorge', number: '0800 111 0 111', tel: '08001110111' },
+    ]},
+    ZA: { name: 'South Africa', lines: [
+      { label: 'Emergency', number: '10111', tel: '10111' },
+      { label: 'SADAG Crisis Line', number: '0800 567 567', tel: '0800567567' },
+    ]},
+    AR: { name: 'Argentina', lines: [
+      { label: 'Emergency', number: '911', tel: '911' },
+      { label: 'Suicide Prevention', number: '135', tel: '135' },
+    ]},
+    BR: { name: 'Brazil', lines: [
+      { label: 'Emergency (SAMU)', number: '192', tel: '192' },
+      { label: 'CVV Crisis Line', number: '188', tel: '188' },
+    ]},
+    NZ: { name: 'New Zealand', lines: [
+      { label: 'Emergency', number: '111', tel: '111' },
+      { label: 'Need to Talk?', number: '1737', tel: '1737' },
+    ]},
+  };
+
+  const select = document.getElementById('crisis-country-select') as HTMLSelectElement;
+  const results = document.getElementById('crisis-results') as HTMLDivElement;
+
+  select?.addEventListener('change', () => {
+    const code = select.value;
+    if (!code || !crisisData[code]) {
+      results.innerHTML = '<p class="font-body text-sm leading-relaxed text-text-muted">Select your country to find local crisis support numbers</p>';
+      return;
+    }
+    const data = crisisData[code];
+    results.innerHTML = '<div class="space-y-3">' +
+      data.lines.map(line =>
+        '<div>' +
+          '<p class="font-body text-sm font-medium text-text-heading">' + line.label + '</p>' +
+          '<a href="tel:' + line.tel + '" class="mt-0.5 inline-block font-body text-sm font-medium text-primary transition-colors hover:text-primary-hover">' +
+            line.number +
+          '</a>' +
+        '</div>'
+      ).join('') +
+    '</div>';
+  });
+</script>
