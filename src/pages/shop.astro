@@ -4,19 +4,19 @@ import HeroSection from '../components/shared/HeroSection.astro';
 import ImpactSection from '../components/shop/ImpactSection.astro';
 import ProductGrid from '../components/shop/ProductGrid.astro';
 import CTASection from '../components/shared/CTASection.astro';
-import { getProducts } from '../lib/sanity';
+import { getProducts, urlFor } from '../lib/sanity';
 
 let cmsProducts: { id: string; name: string; price: string; priceNum: string; slug: string; description: string; image: string }[] = [];
 try {
   const raw = await getProducts();
   cmsProducts = raw.map((p: any) => ({
-    id: p.slug?.current || p._id,
-    name: p.title,
+    id: p.snipcartId || p.slug?.current || p._id,
+    name: p.name,
     price: p.price ? `$${p.price}` : '',
     priceNum: p.price ? p.price.toFixed(2) : '0.00',
     slug: p.slug?.current || '',
     description: p.description || '',
-    image: p.image ? '' : '',
+    image: p.mainImage ? urlFor(p.mainImage).width(600).url() : '',
   }));
 } catch (e) {
   console.warn('Sanity fetch failed for products, using fallback content');

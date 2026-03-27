@@ -1,21 +1,53 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import ProductDetail from '../../components/shop/ProductDetail.astro';
-import { getProducts } from '../../lib/sanity';
+import { getProducts, urlFor } from '../../lib/sanity';
 
-const fallbackProduct = {
-  name: 'Pink Trucker Hat',
-  price: '$30',
-  priceNum: '30.00',
-  description: "Wear your values with pride. This comfortable trucker hat represents more than style—it's a statement of solidarity and support for healing within the Jewish community.",
-  features: [
-    'Premium mesh backing for breathability',
-    'Adjustable snapback closure for perfect fit',
-    'Embroidered Jewmanity logo symbolizing unity',
-    'Soft, structured crown for all-day comfort',
-    'Unisex design suitable for everyone',
-  ],
-  image: '/images/products/pink-trucker-hat.jpg',
+const fallbackProducts: Record<string, { name: string; price: string; priceNum: string; description: string; features: string[]; image: string; thumbnails: string[] }> = {
+  'heads-up-water-bottle': {
+    name: 'Heads Up Signature Water Bottle',
+    price: '$35',
+    priceNum: '35.00',
+    description: 'Stay hydrated while supporting healing. The Jewmanity Heads Up Signature Water Bottle is a daily reminder to take care of yourself and others.',
+    features: [
+      'Durable, high-quality construction',
+      'Jewmanity Heads Up branding',
+      'Perfect for everyday use',
+      'Supports Jewmanity healing programs',
+    ],
+    image: '/images/products/water-bottle.png',
+    thumbnails: [],
+  },
+  'black-trucker-hat': {
+    name: 'Black Trucker Hat',
+    price: '$30',
+    priceNum: '30.00',
+    description: 'Wear your values with pride. This black trucker hat features a peace dove design representing solidarity and support for healing within the Jewish community.',
+    features: [
+      'Premium mesh backing for breathability',
+      'Adjustable snapback closure for perfect fit',
+      'Peace dove design symbolizing unity',
+      'Soft, structured crown for all-day comfort',
+      'Unisex design suitable for everyone',
+    ],
+    image: '/images/products/black-trucker-hat.png',
+    thumbnails: ['/images/products/black-trucker-hat-alt1.jpg', '/images/products/black-trucker-hat-alt2.jpg'],
+  },
+  'pink-trucker-hat': {
+    name: 'Pink Trucker Hat',
+    price: '$30',
+    priceNum: '30.00',
+    description: "Wear your values with pride. This comfortable trucker hat represents more than style\u2014it's a statement of solidarity and support for healing within the Jewish community.",
+    features: [
+      'Premium mesh backing for breathability',
+      'Adjustable snapback closure for perfect fit',
+      'Embroidered Jewmanity logo symbolizing unity',
+      'Soft, structured crown for all-day comfort',
+      'Unisex design suitable for everyone',
+    ],
+    image: '/images/products/pink-trucker-hat.png',
+    thumbnails: ['/images/products/pink-trucker-hat-alt1.jpg', '/images/products/pink-trucker-hat-alt2.jpg'],
+  },
 };
 
 export async function getStaticPaths() {
@@ -42,22 +74,24 @@ export async function getStaticPaths() {
 
 const { slug } = Astro.params;
 const cmsProduct = Astro.props.product || null;
+const fallback = fallbackProducts[slug ?? 'pink-trucker-hat'] || fallbackProducts['pink-trucker-hat'];
 
-const productName = cmsProduct?.title || fallbackProduct.name;
-const productPrice = cmsProduct ? `$${cmsProduct.price}` : fallbackProduct.price;
-const productPriceNum = cmsProduct ? cmsProduct.price.toFixed(2) : fallbackProduct.priceNum;
-const productDescription = cmsProduct?.description || fallbackProduct.description;
-const productFeatures = cmsProduct?.features || fallbackProduct.features;
+const productName = cmsProduct?.name || fallback.name;
+const productPrice = cmsProduct ? `$${cmsProduct.price}` : fallback.price;
+const productPriceNum = cmsProduct ? cmsProduct.price.toFixed(2) : fallback.priceNum;
+const productDescription = cmsProduct?.description || fallback.description;
+const productFeatures = cmsProduct?.features || fallback.features;
+const productImage = cmsProduct?.mainImage ? urlFor(cmsProduct.mainImage).width(800).url() : fallback.image;
 ---
 <Layout title={`${productName} | Jewmanity`} description={productDescription}>
   <ProductDetail
-    id="pink-trucker-hat"
+    id={cmsProduct?.snipcartId || slug || 'pink-trucker-hat'}
     name={productName}
     price={productPrice}
     priceNum={productPriceNum}
     description={productDescription}
     features={productFeatures}
-    image={fallbackProduct.image}
+    image={productImage}
     slug={slug ?? 'pink-trucker-hat'}
   />
 </Layout>

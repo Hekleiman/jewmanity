@@ -15,6 +15,7 @@ export function initAnimations(): void {
       duration: 0.8,
       delay: 0.2 + i * 0.15,
       ease: 'power2.out',
+      clearProps: 'all',
     });
   });
 
@@ -25,6 +26,7 @@ export function initAnimations(): void {
       duration: 0.7,
       delay: 0.6,
       ease: 'power2.out',
+      clearProps: 'all',
     });
   });
 
@@ -35,6 +37,7 @@ export function initAnimations(): void {
       opacity: 0,
       duration: 0.8,
       ease: 'power2.out',
+      clearProps: 'all',
       scrollTrigger: {
         trigger: el,
         start: 'top 85%',
@@ -49,6 +52,7 @@ export function initAnimations(): void {
       opacity: 0,
       duration: 0.8,
       ease: 'power2.out',
+      clearProps: 'all',
       scrollTrigger: {
         trigger: el,
         start: 'top 85%',
@@ -66,6 +70,7 @@ export function initAnimations(): void {
       duration: 0.6,
       ease: 'power2.out',
       stagger: 0.15,
+      clearProps: 'all',
       scrollTrigger: {
         trigger: container,
         start: 'top 85%',
@@ -81,6 +86,7 @@ export function initAnimations(): void {
       opacity: 0,
       duration: 0.7,
       ease: 'power2.out',
+      clearProps: 'all',
       scrollTrigger: {
         trigger: el,
         start: 'top 85%',
@@ -122,6 +128,7 @@ export function initAnimations(): void {
       opacity: 0,
       duration: 0.8,
       ease: 'power2.out',
+      clearProps: 'all',
       scrollTrigger: {
         trigger: el,
         start: 'top 85%',
@@ -137,6 +144,7 @@ export function initAnimations(): void {
       opacity: 0,
       duration: 0.8,
       ease: 'power2.out',
+      clearProps: 'all',
       scrollTrigger: {
         trigger: el,
         start: 'top 85%',
