@@ -3,14 +3,15 @@ import Layout from '../../layouts/Layout.astro';
 import HeroSection from '../../components/shared/HeroSection.astro';
 import StoriesGrid from '../../components/about/StoriesGrid.astro';
 import CTASection from '../../components/shared/CTASection.astro';
-import { getCommunityStories } from '../../lib/sanity';
+import { getCommunityStories, urlFor } from '../../lib/sanity';
 
-let cmsStories: { title: string; description: string }[] = [];
+let cmsStories: { title: string; description: string; image?: string }[] = [];
 try {
   const raw = await getCommunityStories();
   cmsStories = raw.map((s: any) => ({
     title: s.title,
-    description: s.description || '',
+    description: s.excerpt || '',
+    image: s.image ? urlFor(s.image).width(600).url() : undefined,
   }));
 } catch (e) {
   console.warn('Sanity fetch failed for community stories, using fallback content');

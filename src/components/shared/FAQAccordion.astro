@@ -38,9 +38,7 @@ const { heading, subtitle, items } = Astro.props;
             </svg>
           </summary>
           <div class="pb-5 pr-8">
-            <p class="font-body text-sm leading-relaxed text-text-body md:text-[15px]">
-              {item.answer}
-            </p>
+            <div class="font-body text-sm leading-relaxed text-text-body md:text-[15px]" set:html={item.answer} />
           </div>
         </details>
       ))}

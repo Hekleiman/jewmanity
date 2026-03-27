@@ -4,16 +4,17 @@ import HeroSection from '../../components/shared/HeroSection.astro';
 import RetreatGrid from '../../components/programs/RetreatGrid.astro';
 import TestimonialCarousel from '../../components/shared/TestimonialCarousel.astro';
 import CTASection from '../../components/shared/CTASection.astro';
-import { getRetreats, getTestimonials } from '../../lib/sanity';
+import { getRetreats, getTestimonials, urlFor } from '../../lib/sanity';
 
-let cmsRetreats: { title: string; location: string; description: string; href: string }[] = [];
+let cmsRetreats: { title: string; location: string; description: string; href: string; image?: string }[] = [];
 try {
   const raw = await getRetreats();
   cmsRetreats = raw.map((r: any) => ({
     title: r.title,
     location: r.location || '',
-    description: r.description || '',
+    description: r.subtitle || '',
     href: `/programs/${r.slug?.current || ''}`,
+    image: r.coverImage ? urlFor(r.coverImage).width(600).url() : undefined,
   }));
 } catch (e) {
   console.warn('Sanity fetch failed for retreats, using fallback content');
@@ -24,8 +25,8 @@ try {
   const raw = await getTestimonials();
   cmsTestimonials = raw.map((t: any) => ({
     quote: t.quote,
-    author: t.name || '',
-    context: [t.program, t.date].filter(Boolean).join(', '),
+    author: t.authorName || '',
+    context: t.authorRole || '',
   }));
 } catch (e) {
   console.warn('Sanity fetch failed for testimonials, using fallback content');

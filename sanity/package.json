@@ -8,8 +8,12 @@
     "deploy": "sanity deploy"
   },
   "dependencies": {
+    "@sanity/icons": "^3.7.4",
+    "@sanity/vision": "^3",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
     "sanity": "^3",
-    "@sanity/vision": "^3"
+    "styled-components": "^6.3.12"
   },
   "devDependencies": {
     "@sanity/eslint-config-studio": "^4"
