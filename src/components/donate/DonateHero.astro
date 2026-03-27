@@ -24,111 +24,15 @@ const { imagePosition = 'center 30%' } = Astro.props;
       </p>
     </div>
 
-    <!-- Right: Donation widget placeholder -->
-    <!-- TODO: Replace this placeholder widget with Donorbox embed iframe -->
-    <!-- Donorbox embed code: <script src="https://donorbox.org/widget.js" paypalExpress="false"></script><iframe src="https://donorbox.org/embed/CAMPAIGN_ID"></iframe> -->
-    <div class="w-full max-w-[440px] rounded-[24px] bg-white p-6 shadow-[0px_16px_32px_rgba(12,12,13,0.1),0px_4px_4px_rgba(12,12,13,0.05)] lg:w-1/2">
-      <!-- Toggle -->
-      <div class="mx-auto mb-6 flex w-fit overflow-hidden rounded-[100px] bg-[#F2F2F2] p-1">
-        <button
-          type="button"
-          id="toggle-onetime"
-          class="donate-toggle rounded-[100px] bg-primary px-5 py-2 font-heading text-sm font-medium text-white transition-colors"
-        >
-          One-Time
-        </button>
-        <button
-          type="button"
-          id="toggle-monthly"
-          class="donate-toggle rounded-[100px] px-5 py-2 font-heading text-sm font-medium text-text-muted transition-colors"
-        >
-          Monthly
-        </button>
-      </div>
-
-      <!-- Preset amounts -->
-      <div class="grid grid-cols-3 gap-3">
-        <button type="button" class="donate-amount rounded-[16px] border border-[#DADADA] bg-[#F2F2F2] px-4 py-3.5 font-heading text-lg font-medium text-text-heading transition-colors hover:border-primary hover:text-primary">$18</button>
-        <button type="button" class="donate-amount rounded-[16px] border border-[#DADADA] bg-[#F2F2F2] px-4 py-3.5 font-heading text-lg font-medium text-text-heading transition-colors hover:border-primary hover:text-primary">$36</button>
-        <button type="button" class="donate-amount rounded-[16px] border border-[#DADADA] bg-[#F2F2F2] px-4 py-3.5 font-heading text-lg font-medium text-text-heading transition-colors hover:border-primary hover:text-primary">$72</button>
-        <button type="button" class="donate-amount rounded-[16px] border border-[#DADADA] bg-[#F2F2F2] px-4 py-3.5 font-heading text-lg font-medium text-text-heading transition-colors hover:border-primary hover:text-primary">$108</button>
-        <button type="button" class="donate-amount rounded-[16px] border border-[#DADADA] bg-[#F2F2F2] px-4 py-3.5 font-heading text-lg font-medium text-text-heading transition-colors hover:border-primary hover:text-primary">$360</button>
-        <button type="button" class="donate-amount rounded-[16px] border border-[#DADADA] bg-[#F2F2F2] px-4 py-3.5 font-heading text-lg font-medium text-text-heading transition-colors hover:border-primary hover:text-primary">$540</button>
-      </div>
-
-      <!-- Custom Amount -->
-      <button
-        type="button"
-        id="custom-amount-btn"
-        class="mt-3 w-full rounded-[100px] bg-primary py-3 font-heading text-sm font-medium text-white transition-colors hover:bg-primary-hover"
-      >
-        Custom Amount
-      </button>
-
-      <!-- Custom input -->
-      <div class="mt-3">
-        <div class="flex items-center overflow-hidden rounded-lg border border-[#DADADA] bg-white">
-          <span class="px-3 font-body text-base text-text-muted">$</span>
-          <input
-            type="number"
-            id="custom-amount-input"
-            aria-label="Custom donation amount"
-            placeholder="Enter amount"
-            min="1"
-            class="w-full py-3 pr-4 font-body text-base text-text-heading placeholder:text-text-muted focus:outline-none"
-          />
-        </div>
-      </div>
-
-      <!-- Processing fees -->
-      <label class="mt-4 flex items-start gap-3 cursor-pointer">
-        <input id="cover-fees" type="checkbox" class="mt-1 h-4 w-4 shrink-0 rounded border-[#DADADA] text-primary accent-primary" />
-        <div>
-          <span class="font-body text-sm font-medium text-text-heading">Cover processing fees</span>
-          <p class="mt-0.5 font-body text-xs leading-relaxed text-text-muted">
-            Add a small amount to cover transaction costs, ensuring 100% of your donation goes directly to healing programs.
-          </p>
-        </div>
-      </label>
-
-      <!-- Complete Donation -->
-      <button
-        type="button"
-        class="mt-5 w-full rounded-[100px] bg-primary py-3.5 font-heading text-base font-medium text-white transition-colors hover:bg-primary-hover"
-      >
-        Complete Donation
-      </button>
+    <!-- Right: Donorbox donation widget -->
+    <div class="w-full max-w-[440px] lg:w-1/2">
+      <dbox-widget
+        campaign="jewmanity-donation"
+        type="donation_form"
+        enable-auto-scroll="true"
+      ></dbox-widget>
     </div>
   </div>
 </section>
 
-<script>
-  const oneTimeBtn = document.getElementById('toggle-onetime') as HTMLButtonElement;
-  const monthlyBtn = document.getElementById('toggle-monthly') as HTMLButtonElement;
-  const amountBtns = document.querySelectorAll('.donate-amount');
-
-  oneTimeBtn.addEventListener('click', () => {
-    oneTimeBtn.classList.add('bg-primary', 'text-white');
-    oneTimeBtn.classList.remove('text-text-muted');
-    monthlyBtn.classList.remove('bg-primary', 'text-white');
-    monthlyBtn.classList.add('text-text-muted');
-  });
-
-  monthlyBtn.addEventListener('click', () => {
-    monthlyBtn.classList.add('bg-primary', 'text-white');
-    monthlyBtn.classList.remove('text-text-muted');
-    oneTimeBtn.classList.remove('bg-primary', 'text-white');
-    oneTimeBtn.classList.add('text-text-muted');
-  });
-
-  amountBtns.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      amountBtns.forEach((b) => {
-        b.classList.remove('border-primary', 'text-primary');
-        b.classList.add('border-[#DADADA]', 'text-text-heading');
-      });
-      btn.classList.add('border-primary', 'text-primary');
-      btn.classList.remove('border-[#DADADA]', 'text-text-heading');
-    });
-  });
-</script>
+<script type="module" src="https://donorbox.org/widgets.js" async></script>

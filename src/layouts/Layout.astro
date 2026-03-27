@@ -55,6 +55,9 @@ const canonicalUrl = `https://jewmanity.org${Astro.url.pathname}`;
     <link rel="preload" href="/fonts/manrope-500.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin />
 
+    <!-- Donorbox preconnect -->
+    <link rel="preconnect" href="https://donorbox.org" />
+
     <!-- Structured Data -->
     <script type="application/ld+json" set:html={JSON.stringify({
       "@context": "https://schema.org",
