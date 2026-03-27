@@ -25,8 +25,9 @@ const { imagePosition = 'center 30%' } = Astro.props;
     </div>
 
     <!-- Right: Donorbox donation widget -->
-    <!-- Note: Widget header color must be set in Donorbox dashboard: Campaign > Design > Primary Color > #3783A3 -->
+    <!-- Note: Widget header/button color must be set in Donorbox dashboard: Campaign > Design > Primary Color > #3783A3 -->
     <div class="w-full max-w-[440px] overflow-hidden rounded-[24px] shadow-[0px_16px_32px_rgba(12,12,13,0.1),0px_4px_4px_rgba(12,12,13,0.05)] lg:w-1/2">
+      <script src="https://donorbox.org/widget.js" paypalexpress="false" is:inline></script>
       <iframe
         src="https://donorbox.org/embed/jewmanity-donation?default_interval=o&hide_donation_meter=true"
         name="donorbox"
@@ -34,9 +35,9 @@ const { imagePosition = 'center 30%' } = Astro.props;
         seamless="seamless"
         frameborder="0"
         scrolling="no"
-        height="900px"
+        height="490px"
         width="100%"
-        style="max-height:none!important; border:none;"
+        style="max-width:440px; min-width:250px; max-height:none!important; border:none;"
       ></iframe>
     </div>
   </div>
