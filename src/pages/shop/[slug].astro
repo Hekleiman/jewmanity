@@ -3,50 +3,79 @@ import Layout from '../../layouts/Layout.astro';
 import ProductDetail from '../../components/shop/ProductDetail.astro';
 import { getProducts, urlFor } from '../../lib/sanity';
 
-const fallbackProducts: Record<string, { name: string; price: string; priceNum: string; description: string; features: string[]; image: string; thumbnails: string[] }> = {
+interface FallbackProduct {
+  id: string;
+  name: string;
+  price: string;
+  priceNum: string;
+  description: string;
+  features: string[];
+  image: string;
+  thumbnails: string[];
+}
+
+const fallbackProducts: Record<string, FallbackProduct> = {
   'heads-up-water-bottle': {
+    id: 'heads-up-water-bottle',
     name: 'Heads Up Signature Water Bottle',
     price: '$35',
     priceNum: '35.00',
-    description: 'Stay hydrated while supporting healing. The Jewmanity Heads Up Signature Water Bottle is a daily reminder to take care of yourself and others.',
+    description: 'Black Owala Freesip\u00ae Twist water bottle with the Heads Up logo. 100% of proceeds directly support Jewmanity\'s initiatives.',
     features: [
-      'Durable, high-quality construction',
-      'Jewmanity Heads Up branding',
-      'Perfect for everyday use',
-      'Supports Jewmanity healing programs',
+      'Owala Freesip\u00ae Twist design for easy drinking',
+      'Heads Up logo representing healing and resilience',
+      'Insulated to keep drinks cold',
+      'BPA-free and dishwasher safe',
+      '100% of proceeds support Jewmanity programs',
     ],
     image: '/images/products/water-bottle.png',
     thumbnails: [],
   },
   'black-trucker-hat': {
+    id: 'black-trucker-hat',
     name: 'Black Trucker Hat',
     price: '$30',
     priceNum: '30.00',
-    description: 'Wear your values with pride. This black trucker hat features a peace dove design representing solidarity and support for healing within the Jewish community.',
+    description: 'Embrace style and significance with our Black Trucker Hat, featuring a vibrant dove emblem. Perfect for making a statement while staying comfortable.',
     features: [
-      'Premium mesh backing for breathability',
-      'Adjustable snapback closure for perfect fit',
-      'Peace dove design symbolizing unity',
-      'Soft, structured crown for all-day comfort',
-      'Unisex design suitable for everyone',
+      'Classic trucker hat style with breathable mesh back',
+      'Stylish blue dove design symbolizing peace and unity',
+      'Adjustable snapback closure for a custom fit',
+      'Free shipping included',
     ],
     image: '/images/products/black-trucker-hat.png',
     thumbnails: ['/images/products/black-trucker-hat-alt1.jpg', '/images/products/black-trucker-hat-alt2.jpg'],
   },
   'pink-trucker-hat': {
+    id: 'pink-trucker-hat',
     name: 'Pink Trucker Hat',
     price: '$30',
     priceNum: '30.00',
-    description: "Wear your values with pride. This comfortable trucker hat represents more than style\u2014it's a statement of solidarity and support for healing within the Jewish community.",
+    description: 'Stand out in style and make a statement with the Jewmanity Logo Hat. Designed for comfort and impact, this hat is perfect for those who value both fashion and ideals.',
     features: [
-      'Premium mesh backing for breathability',
-      'Adjustable snapback closure for perfect fit',
-      'Embroidered Jewmanity logo symbolizing unity',
-      'Soft, structured crown for all-day comfort',
-      'Unisex design suitable for everyone',
+      'Mesh backing for breathability',
+      'Adjustable strap for a custom fit',
+      'Bold Jewmanity logo design',
+      'Free shipping included',
     ],
     image: '/images/products/pink-trucker-hat.png',
     thumbnails: ['/images/products/pink-trucker-hat-alt1.jpg', '/images/products/pink-trucker-hat-alt2.jpg'],
+  },
+  'travel-shabbat-candle-set': {
+    id: 'travel-shabbat-candle-set',
+    name: 'Travel Shabbat Candle Set',
+    price: '$30',
+    priceNum: '30.00',
+    description: 'Everything you need to welcome Shabbat wherever you are. A beautiful portable set that brings the warmth of tradition to any journey.',
+    features: [
+      'Two tea light ceramic candle holders',
+      '3 boxes of Jewmanity\u00ae branded matches',
+      '2 tea light candles included',
+      'Compact travel pouch for portability',
+      '100% of proceeds support Jewmanity programs',
+    ],
+    image: '/images/products/shabbat-candle-set.jpg',
+    thumbnails: [],
   },
 };
 
@@ -58,40 +87,46 @@ export async function getStaticPaths() {
     console.warn('Sanity fetch failed for product paths, using fallback');
   }
 
-  if (products.length > 0) {
-    return products.map((product: any) => ({
-      params: { slug: product.slug.current },
-      props: { product },
-    }));
-  }
+  const allSlugs = ['heads-up-water-bottle', 'black-trucker-hat', 'pink-trucker-hat', 'travel-shabbat-candle-set'];
 
-  return [
-    { params: { slug: 'heads-up-water-bottle' } },
-    { params: { slug: 'black-trucker-hat' } },
-    { params: { slug: 'pink-trucker-hat' } },
-  ];
+  const cmsPaths = products.map((product: any) => ({
+    params: { slug: product.slug.current },
+    props: { product },
+  }));
+
+  const cmsSlugs = new Set(cmsPaths.map((p) => p.params.slug));
+  const fallbackPaths = allSlugs
+    .filter((s) => !cmsSlugs.has(s))
+    .map((s) => ({ params: { slug: s } }));
+
+  return [...cmsPaths, ...fallbackPaths];
 }
 
 const { slug } = Astro.params;
 const cmsProduct = Astro.props.product || null;
-const fallback = fallbackProducts[slug ?? 'pink-trucker-hat'] || fallbackProducts['pink-trucker-hat'];
+const fallback = fallbackProducts[slug ?? ''] || fallbackProducts['heads-up-water-bottle'];
 
+const productId = cmsProduct?.snipcartId || fallback.id;
 const productName = cmsProduct?.name || fallback.name;
 const productPrice = cmsProduct ? `$${cmsProduct.price}` : fallback.price;
 const productPriceNum = cmsProduct ? cmsProduct.price.toFixed(2) : fallback.priceNum;
 const productDescription = cmsProduct?.description || fallback.description;
 const productFeatures = cmsProduct?.features || fallback.features;
 const productImage = cmsProduct?.mainImage ? urlFor(cmsProduct.mainImage).width(800).url() : fallback.image;
+const productThumbnails = cmsProduct?.gallery
+  ? cmsProduct.gallery.map((img: any) => urlFor(img).width(200).url())
+  : fallback.thumbnails;
 ---
-<Layout title={`${productName} | Jewmanity`} description={productDescription}>
+<Layout title={`${productName} | Jewmanity Shop`} description={productDescription}>
   <ProductDetail
-    id={cmsProduct?.snipcartId || slug || 'pink-trucker-hat'}
+    id={productId}
     name={productName}
     price={productPrice}
     priceNum={productPriceNum}
     description={productDescription}
     features={productFeatures}
     image={productImage}
-    slug={slug ?? 'pink-trucker-hat'}
+    thumbnails={productThumbnails}
+    slug={slug ?? 'heads-up-water-bottle'}
   />
 </Layout>

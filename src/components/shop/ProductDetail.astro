@@ -7,10 +7,11 @@ interface Props {
   description: string;
   features: string[];
   image: string;
+  thumbnails?: string[];
   slug: string;
 }
 
-const { id, name, price, priceNum, description, features, image, slug } = Astro.props;
+const { id, name, price, priceNum, description, features, image, thumbnails = [], slug } = Astro.props;
 ---
 
 <section id="product-detail" class="pb-16 pt-8 md:pb-20 md:pt-12">
@@ -44,13 +45,15 @@ const { id, name, price, priceNum, description, features, image, slug } = Astro.
         </div>
 
         <!-- Thumbnails -->
-        <div class="mt-4 grid grid-cols-3 gap-3">
-          <div class="aspect-square overflow-hidden rounded-[12px]">
-            <img src={image} alt={`${name} - view 1`} class="h-full w-full object-cover" width="200" height="200" loading="lazy" />
+        {thumbnails.length > 0 && (
+          <div class="mt-4 flex gap-3">
+            {thumbnails.map((thumb, i) => (
+              <div class="aspect-square w-20 overflow-hidden rounded-[12px]">
+                <img src={thumb} alt={`${name} view ${i + 2}`} class="h-full w-full object-cover" width="80" height="80" loading="lazy" />
+              </div>
+            ))}
           </div>
-          <div class="aspect-square overflow-hidden rounded-[12px] bg-gradient-to-br from-primary/10 to-primary/5"></div>
-          <div class="aspect-square overflow-hidden rounded-[12px] bg-gradient-to-br from-primary/8 to-primary/3"></div>
-        </div>
+        )}
       </div>
 
       <!-- Right: Product info -->

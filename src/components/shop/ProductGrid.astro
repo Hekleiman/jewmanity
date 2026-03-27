@@ -22,7 +22,7 @@ const fallbackProducts: Product[] = [
     price: '$35',
     priceNum: '35.00',
     slug: 'heads-up-water-bottle',
-    description: 'Jewmanity Heads Up Signature Water Bottle',
+    description: 'Black Owala Freesip\u00ae Twist water bottle with the Heads Up logo. 100% of proceeds directly support Jewmanity\'s initiatives.',
     image: '/images/products/water-bottle.png',
   },
   {
@@ -31,7 +31,7 @@ const fallbackProducts: Product[] = [
     price: '$30',
     priceNum: '30.00',
     slug: 'black-trucker-hat',
-    description: 'Black trucker hat with peace dove design',
+    description: 'Embrace style and significance with our Black Trucker Hat, featuring a vibrant dove emblem. Perfect for making a statement while staying comfortable.',
     image: '/images/products/black-trucker-hat.png',
   },
   {
@@ -40,8 +40,17 @@ const fallbackProducts: Product[] = [
     price: '$30',
     priceNum: '30.00',
     slug: 'pink-trucker-hat',
-    description: 'Jewmanity logo mesh back hat in pink',
+    description: 'Stand out in style and make a statement with the Jewmanity Logo Hat. Designed for comfort and impact, this hat is perfect for those who value both fashion and ideals.',
     image: '/images/products/pink-trucker-hat.png',
+  },
+  {
+    id: 'travel-shabbat-candle-set',
+    name: 'Travel Shabbat Candle Set',
+    price: '$30',
+    priceNum: '30.00',
+    slug: 'travel-shabbat-candle-set',
+    description: 'Two tea light ceramic candle holders, 3 boxes of Jewmanity\u00ae matches, 2 tea light candles, and travel pouch',
+    image: '/images/products/shabbat-candle-set.jpg',
   },
 ];
 
@@ -55,7 +64,7 @@ const products = cmsProducts && cmsProducts.length > 0 ? cmsProducts : fallbackP
       Our Current Collection
     </h2>
 
-    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3" data-animate="stagger">
+    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4" data-animate="stagger">
       {products.map((product) => (
         <ProductCard
           id={product.id}
