@@ -114,7 +114,7 @@ const productDescription = cmsProduct?.description || fallback.description;
 const productFeatures = cmsProduct?.features || fallback.features;
 const productImage = cmsProduct?.mainImage ? urlFor(cmsProduct.mainImage).width(800).url() : fallback.image;
 const productThumbnails = cmsProduct?.gallery
-  ? cmsProduct.gallery.map((img: any) => urlFor(img).width(200).url())
+  ? cmsProduct.gallery.map((img: any) => urlFor(img).width(600).url())
   : fallback.thumbnails;
 ---
 <Layout title={`${productName} | Jewmanity Shop`} description={productDescription}>
