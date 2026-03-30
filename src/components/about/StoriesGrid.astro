@@ -1,9 +1,15 @@
 ---
 interface Story {
   title: string;
-  description: string;
+  paragraphs?: string[];
+  description?: string;
   image?: string;
   alt?: string;
+  url?: string;
+  external?: boolean;
+  tag?: string;
+  pullQuote?: string;
+  pullAttribution?: string;
 }
 
 interface Props {
@@ -12,43 +18,78 @@ interface Props {
 
 const fallbackStories: Story[] = [
   {
-    title: 'Neighbors Helping Neighbors',
-    description: 'A local synagogue transforms its space into a weekly community meal program, feeding over 200 families each month.',
-    image: '/images/community/story-1.jpg',
-    alt: 'Neighbors helping neighbors through community meals',
+    title: 'The First Retreat: How It All Began',
+    tag: 'Jewmanity Retreat',
+    url: '/programs/past-retreats',
+    paragraphs: [
+      "In May 2024, Belinda and Andrew Donner met Shai Gino, an Israeli veteran living in San Diego who was struggling with PTSD after returning to fight following October 7th. Shai told them about the Golani Battalion's 13th Brigade \u2014 one of the hardest-hit units that day. Out of 15 soldiers in one group, 9 had been killed. The survivors were struggling.",
+      'By June, enough funds had been raised to bring soldiers, a therapist, a commanding officer, and a logistics coordinator to San Diego from Israel. The soldiers arrived late at night on June 13th \u2014 most had never been on an airplane before.',
+      'Over ten days, the retreat combined daily therapy sessions led by a certified Israeli psychologist, yoga on the beach, breathwork, boating, home-cooked Shabbat dinners, and the warmth of a volunteer community that opened their homes and hearts. The therapist noted a remarkable transformation in the soldiers, who had initially arrived fearing they would be hated because of the anti-Israel sentiment they had seen in the media.',
+    ],
+    pullQuote: 'Know that every once in a while, I just think about what you have done for us, and I am again filled with gratitude for everything. You literally saved our lives.',
+    pullAttribution: 'Commanding Officer, First Retreat',
   },
   {
-    title: 'Food Security Initiative',
-    description: 'Jewish volunteers partner with organizations to ensure no family goes hungry, distributing thousands of meals weekly.',
-    image: '/images/community/story-2.jpg',
-    alt: 'Food security initiative volunteers distributing meals',
+    title: 'Fathers, Fighters, and Finding Peace',
+    tag: 'Jewmanity Retreat',
+    url: '/programs/past-retreats',
+    paragraphs: [
+      "The fourth Heads Up retreat was different. These weren't the usual 18-to-22-year-olds \u2014 they were older men, fathers who had spent decades in the military, carrying wounds that had compounded over years of service. They arrived in San Diego tense and uncertain, not realizing the warmth that was waiting for them.",
+      'Retreat assistant Kate H. described arriving to find the soldiers playing makot on the beach at sunset \u2014 the rhythmic ping of paddles and the sound of laughter filling the evening air. Within minutes of meeting, they greeted her with hugs and invited her to watch the sun set over the Pacific with beers in hand.',
+      "The days were structured around therapy sessions, surf therapy, breathwork, and dinners hosted by local volunteers. In the group sessions, men who had been silent for years began to open up, sharing their fears and grief with others who understood. One soldier's wife had told the organizers before the retreat that she felt like she had \"lost her husband\" \u2014 he had stopped smiling, stopped being happy. After the retreat, she saw a transformation.",
+    ],
+    pullQuote: 'We sat there for a long time, talking, sharing stories about their grandmothers born in Jaffa before World War II, and their children born after COVID.',
+    pullAttribution: 'Kate H., Retreat Assistant',
   },
   {
-    title: 'Medical Missions of Compassion',
-    description: 'Israeli medical volunteers provide free healthcare in underserved regions, treating thousands of patients each year.',
-    image: '/images/community/story-3.jpg',
-    alt: 'Israeli medical volunteers providing healthcare',
+    title: "The Joy of Giving: A Volunteer's Journey",
+    tag: 'Jewmanity Volunteer',
+    url: '/about/community-stories#dahlia',
+    paragraphs: [
+      "When Dahlia first started volunteering with Jewmanity, she didn't think what she was doing was anything special. Sometimes she cooked a meal. Sometimes she helped out during surfing activities. Simple things, she says. But the appreciation she received from the soldiers she served touched her more deeply than she could have imagined.",
+      "Dahlia volunteers with groups of Israeli soldiers living with PTSD who come to San Diego through Jewmanity's Heads Up retreat program. Every one of them carries a whole life story, she says \u2014 they come from all ages and backgrounds, men and women, married and single. Each one matters deeply to her.",
+      'What started as small acts of service became something transformative \u2014 not just for the soldiers, but for Dahlia herself. She describes the experience as giving her heart, her time, and her presence, and somehow receiving so much more in return. The connection she builds with each group reminds her how powerful simple human presence can be.',
+    ],
+    pullQuote: "The joy of giving to them feels endless, and I'm grateful to be part of their journey.",
+    pullAttribution: 'Dahlia, Jewmanity Volunteer',
   },
   {
-    title: 'Mentorship for Tomorrow',
-    description: 'Community members create after-school programs, offering tutoring and mentorship to help youth reach their full potential.',
-    image: '/images/community/story-4.jpg',
-    alt: 'Mentors working with youth in after-school programs',
+    title: 'Repairing the World, One Community at a Time',
+    tag: 'Community Impact',
+    url: 'https://werepair.org',
+    external: true,
+    paragraphs: [
+      'Across the United States, Repair the World mobilizes thousands of young Jews to serve their communities through hands-on volunteer projects grounded in Jewish values. From packing meals for food-insecure families to furnishing homes for refugees, their work embodies the Jewish principle of tikkun olam \u2014 repairing the world.',
+      "What makes Repair the World unique is their approach: they don't just organize service projects, they connect volunteering to Jewish learning and identity. Volunteers reflect on how Torah values like tzedakah and chesed inform their work, creating experiences that are both practically impactful and spiritually meaningful.",
+      'Their model has expanded to cities nationwide, engaging people who may never have connected to organized Jewish life through any other door. For many young adults, a Sunday morning spent making soup for neighbors becomes the beginning of a deeper relationship with their community and their heritage.',
+    ],
   },
   {
-    title: 'Growing Together',
-    description: 'A community garden brings people of all backgrounds together, cultivating connection and fresh produce for families.',
-    image: '/images/community/story-5.jpg',
-    alt: 'Community garden bringing people together',
+    title: '6,000 Meals a Month: The Jewish Relief Agency',
+    tag: 'Community Impact',
+    url: 'https://jewishrelief.org',
+    external: true,
+    paragraphs: [
+      'Every month in Philadelphia, the Jewish Relief Agency coordinates hundreds of volunteers to pack and deliver boxes of kosher food to more than 6,000 low-income individuals. What started as a small food pantry has grown into one of the most impactful hunger-relief operations in the region \u2014 powered almost entirely by volunteers.',
+      "The model is deceptively simple: volunteers gather at a warehouse, pack boxes with groceries and essential items, and then fan out across the city to deliver them directly to doorsteps. But the impact goes beyond food. For many recipients \u2014 elderly Holocaust survivors, struggling single parents, recent immigrants \u2014 the delivery is often the only human connection they receive all week.",
+      'JRA has become a gathering point for the community itself. Families volunteer together, synagogues organize group packing days, and bar and bat mitzvah students fulfill their service projects by sorting canned goods alongside their grandparents. The act of giving becomes a shared experience that strengthens the community doing the giving.',
+    ],
   },
   {
-    title: 'Honoring Our Elders',
-    description: 'Volunteers visit seniors regularly, providing companionship and support to combat isolation and loneliness.',
+    title: "Fighting Loneliness: DOROT's Intergenerational Connection",
+    tag: 'Community Impact',
+    url: 'https://www.dorotusa.org',
+    external: true,
+    paragraphs: [
+      'Social isolation among older adults is one of the most widespread and least visible public health challenges in the United States. DOROT, a New York-based organization, has been addressing it for decades through a simple but powerful idea: connection.',
+      'Their programs match volunteers with isolated seniors for regular friendly visits, weekly phone calls, and holiday packages. What begins as a scheduled call often becomes a genuine friendship \u2014 a college student and an 87-year-old Holocaust survivor who talk every Thursday, or a young professional who visits a homebound widow and stays for tea and stories about pre-war Budapest.',
+      "DOROT's intergenerational model doesn't just help seniors feel less alone \u2014 it gives younger volunteers a living connection to Jewish history and heritage that no textbook can provide. In a community that values the wisdom of elders, DOROT ensures that wisdom isn't lost to isolation.",
+    ],
   },
 ];
 
 const { stories: cmsStories } = Astro.props;
-const stories = cmsStories && cmsStories.length > 0 ? cmsStories : fallbackStories;
+const stories = (cmsStories && cmsStories.length > 0 ? cmsStories : fallbackStories) as Story[];
 ---
 
 <section id="stories-grid" class="py-16 md:py-20 lg:py-24">
@@ -58,29 +99,73 @@ const stories = cmsStories && cmsStories.length > 0 ? cmsStories : fallbackStori
         Stories of Impact
       </h2>
       <p class="mx-auto mt-4 max-w-[700px] font-body text-[15px] leading-relaxed text-text-body md:text-base">
-        Modern examples of communities coming together to create positive change through acts of service and solidarity
+        How Jewish communities are making a difference through healing, service, and solidarity
       </p>
     </div>
 
-    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3" data-animate="stagger">
+    <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3" data-animate="stagger">
       {stories.map((story) => (
-        <article class="group overflow-hidden rounded-[24px] border-[0.5px] border-border-card bg-white shadow-[0px_16px_32px_rgba(12,12,13,0.1),0px_4px_4px_rgba(12,12,13,0.05)] transition-shadow hover:shadow-[0px_20px_40px_rgba(12,12,13,0.14),0px_6px_6px_rgba(12,12,13,0.07)]">
+        <article class="group flex flex-col overflow-hidden rounded-[24px] border-[0.5px] border-border-card bg-white shadow-[0px_16px_32px_rgba(12,12,13,0.1),0px_4px_4px_rgba(12,12,13,0.05)]">
           {story.image ? (
-            <img src={story.image} alt={story.alt} class="h-48 w-full object-cover" width="600" height="400" loading="lazy" />
+            <img src={story.image} alt={story.alt || story.title} class="h-48 w-full object-cover" width="600" height="400" loading="lazy" />
           ) : (
-            <div class="h-48 bg-gradient-to-br from-primary/20 to-primary/5"></div>
+            <!-- TODO: Replace with real image from Sanity -->
+            <div class="flex h-48 items-center justify-center bg-gradient-to-br from-primary/15 via-primary/5 to-[#FAF8F5]">
+              <svg class="h-10 w-10 text-primary/30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+              </svg>
+            </div>
           )}
-          <div class="p-5">
-            <h3 class="font-body text-lg font-medium leading-7 text-text-heading">
+          <div class="flex flex-1 flex-col p-6">
+            <span class:list={[
+              "mb-3 inline-flex w-fit rounded-full px-3 py-1 font-body text-xs font-medium",
+              story.tag === 'Community Impact'
+                ? "bg-[#F5F2ED] text-text-body"
+                : "bg-primary/10 text-primary",
+            ]}>
+              {story.tag}
+            </span>
+            <h3 class="font-heading text-xl font-medium leading-snug text-text-heading">
               {story.title}
             </h3>
-            <p class="mt-2 font-body text-sm leading-relaxed text-text-body">
-              {story.description}
-            </p>
-            <span class="mt-4 inline-flex items-center gap-1 font-body text-sm font-medium text-primary transition-colors group-hover:text-primary-hover">
-              Read More
-              <span aria-hidden="true">&rarr;</span>
-            </span>
+            <div class="mt-3 space-y-3 flex-1">
+              {(story.paragraphs || [story.description || '']).map((p) => (
+                <p class="font-body text-sm leading-relaxed text-text-body">
+                  {p}
+                </p>
+              ))}
+            </div>
+            {story.pullQuote && (
+              <blockquote class="mt-4 border-l-2 border-primary/30 pl-4">
+                <p class="font-body text-sm italic leading-relaxed text-text-body">
+                  &ldquo;{story.pullQuote}&rdquo;
+                </p>
+                {story.pullAttribution && (
+                  <cite class="mt-1 block font-body text-xs not-italic text-text-muted">
+                    &mdash; {story.pullAttribution}
+                  </cite>
+                )}
+              </blockquote>
+            )}
+            {story.external ? (
+              <a
+                href={story.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="mt-5 inline-flex items-center gap-1 font-body text-sm font-medium text-primary transition-colors hover:text-primary-hover hover:underline"
+              >
+                Learn More
+                <span aria-hidden="true">&rarr;</span>
+              </a>
+            ) : (
+              <a
+                href={story.url}
+                class="mt-5 inline-flex items-center gap-1 font-body text-sm font-medium text-primary transition-colors hover:text-primary-hover hover:underline"
+              >
+                Read More
+                <span aria-hidden="true">&rarr;</span>
+              </a>
+            )}
           </div>
         </article>
       ))}

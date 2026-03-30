@@ -86,7 +86,7 @@ if (testimonials.length === 0) {
       data-animate="fade-in"
       class="mx-auto max-w-[800px]"
     >
-      <div id="impact-slides" class="relative min-h-[340px] sm:min-h-[300px]">
+      <div id="impact-slides" class="relative min-h-[420px] sm:min-h-[380px]">
         {testimonials.map((t, i) => (
           <div
             class:list={[
@@ -101,13 +101,13 @@ if (testimonials.length === 0) {
                 <img
                   src={t.imageUrl}
                   alt={t.name}
-                  class="h-20 w-20 rounded-full object-cover"
-                  width="80"
-                  height="80"
+                  class="h-28 w-28 rounded-full object-cover"
+                  width="112"
+                  height="112"
                   loading="lazy"
                 />
               ) : (
-                <div class="flex h-20 w-20 items-center justify-center rounded-full bg-primary/10">
+                <div class="flex h-28 w-28 items-center justify-center rounded-full bg-primary/10">
                   <svg class="h-10 w-10 text-primary/50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
                   </svg>
