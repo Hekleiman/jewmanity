@@ -14,7 +14,7 @@ export default defineType({
         rule
           .required()
           .error('Please add a title for this story.')
-          .max(80)
+          .max(120)
           .warning('Shorter titles display better on cards.'),
     }),
     defineField({
@@ -31,12 +31,24 @@ export default defineType({
       validation: (rule) => rule.required().error('Click "Generate" to create the URL slug.'),
     }),
     defineField({
+      name: 'tag',
+      title: 'Tag',
+      type: 'string',
+      description: 'Category badge shown on the card (e.g., "Jewmanity Retreat", "Community Impact").',
+      options: {
+        list: [
+          { title: 'Jewmanity Retreat', value: 'Jewmanity Retreat' },
+          { title: 'Jewmanity Volunteer', value: 'Jewmanity Volunteer' },
+          { title: 'Community Impact', value: 'Community Impact' },
+        ],
+      },
+    }),
+    defineField({
       name: 'image',
       title: 'Story Image',
       type: 'image',
       description: 'A photo representing this story. Recommended: 800x600px or larger, landscape.',
       options: { hotspot: true },
-      validation: (rule) => rule.required().error('Every story needs an image.'),
     }),
     defineField({
       name: 'excerpt',
@@ -47,10 +59,42 @@ export default defineType({
       validation: (rule) => rule.max(200).warning('Keep the preview short — it appears on the card.'),
     }),
     defineField({
+      name: 'paragraphs',
+      title: 'Story Paragraphs',
+      type: 'array',
+      of: [{ type: 'text', rows: 4 }],
+      description: 'The full story broken into paragraphs. Each array item is one paragraph.',
+    }),
+    defineField({
       name: 'body',
-      title: 'Full Story',
+      title: 'Full Story (Rich Text)',
       type: 'portableText',
-      description: 'The complete community story. Share the experience, impact, and personal touches.',
+      description: 'Alternative rich-text body. Used only if paragraphs field is empty.',
+    }),
+    defineField({
+      name: 'pullQuote',
+      title: 'Pull Quote',
+      type: 'text',
+      rows: 2,
+      description: 'An optional highlighted quote displayed within the story card.',
+    }),
+    defineField({
+      name: 'pullQuoteAttribution',
+      title: 'Pull Quote Attribution',
+      type: 'string',
+      description: 'Who said the pull quote (e.g., "Kate H., Retreat Assistant").',
+    }),
+    defineField({
+      name: 'externalUrl',
+      title: 'External Link',
+      type: 'url',
+      description: 'For stories about external organizations. Opens in a new tab.',
+    }),
+    defineField({
+      name: 'internalUrl',
+      title: 'Internal Link',
+      type: 'string',
+      description: 'For Jewmanity stories. A relative path like /programs/past-retreats.',
     }),
     defineField({
       name: 'orderRank',
@@ -66,13 +110,13 @@ export default defineType({
   preview: {
     select: {
       title: 'title',
-      excerpt: 'excerpt',
+      tag: 'tag',
       media: 'image',
     },
-    prepare({ title, excerpt, media }) {
+    prepare({ title, tag, media }) {
       return {
         title: title || 'Untitled Story',
-        subtitle: excerpt || '',
+        subtitle: tag || '',
         media,
       };
     },

@@ -183,10 +183,17 @@ export async function getCommunityStories() {
     *[_type == "communityStory"] | order(orderRank asc, title asc) {
       _id,
       title,
-      slug,
+      "slug": slug.current,
       image,
+      "imageUrl": image.asset->url,
       excerpt,
+      paragraphs,
       body,
+      tag,
+      pullQuote,
+      pullQuoteAttribution,
+      externalUrl,
+      internalUrl,
       orderRank
     }
   `);

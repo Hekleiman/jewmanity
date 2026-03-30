@@ -57,13 +57,31 @@ if (personalStories.length === 0) {
   personalStories = fallbackStories;
 }
 
-let cmsStories: { title: string; description: string; image?: string }[] = [];
+interface CmsStory {
+  title: string;
+  paragraphs?: string[];
+  description?: string;
+  image?: string;
+  url?: string;
+  external?: boolean;
+  tag?: string;
+  pullQuote?: string;
+  pullAttribution?: string;
+}
+
+let cmsStories: CmsStory[] = [];
 try {
   const raw = await getCommunityStories();
-  cmsStories = raw.map((s: any) => ({
-    title: s.title,
-    description: s.excerpt || '',
-    image: s.image ? urlFor(s.image).width(600).url() : undefined,
+  cmsStories = raw.map((s: Record<string, unknown>) => ({
+    title: (s.title as string) || '',
+    paragraphs: (s.paragraphs as string[] | undefined) || undefined,
+    description: (s.excerpt as string) || undefined,
+    image: (s.imageUrl as string) || (s.image ? urlFor(s.image as SanityImageSource).width(600).url() : undefined),
+    url: (s.externalUrl as string) || (s.internalUrl as string) || undefined,
+    external: !!(s.externalUrl as string),
+    tag: (s.tag as string) || undefined,
+    pullQuote: (s.pullQuote as string) || undefined,
+    pullAttribution: (s.pullQuoteAttribution as string) || undefined,
   }));
 } catch (e) {
   console.warn('Sanity fetch failed for community stories, using fallback content');
