@@ -1,82 +1,153 @@
 ---
 interface Props {}
 
-interface Resource {
+interface Article {
   title: string;
+  publication: string;
+  date: string;
+  url: string;
   description: string;
-  image: string;
-  alt: string;
 }
 
-// TODO: Replace antisemitism card images with real photos from client
-const resources: Resource[] = [
+interface Organization {
+  name: string;
+  description: string;
+  url: string;
+}
+
+const articles: Article[] = [
   {
-    title: 'Understanding Antisemitism',
-    description: 'Guides that explore the history, forms, and impact of antisemitism\u2014offering context to recognize and address it with clarity and confidence.',
-    image: '/images/cards/antisemitism-1.jpg',
-    alt: 'Understanding antisemitism through education',
+    title: 'We Need 1 Million More Jews on Social Media',
+    publication: 'Times of Israel',
+    date: 'January 2026',
+    url: 'https://blogs.timesofisrael.com/we-need-1-million-more-jews-on-social-media/',
+    description:
+      'Rabbi Elchanan Poupko makes the case for a million Jews to actively join social media \u2014 not to argue politics, but to share Jewish food, history, innovation, and pride. The goal: change what the next generation sees before radicalization takes hold.',
   },
   {
-    title: 'Community Response Tools',
-    description: 'Frameworks and conversation guides to help communities come together, listen, learn, and respond to incidents and ongoing challenges.',
-    image: '/images/cards/antisemitism-2.jpg',
-    alt: 'Community response tools and strategies',
+    title: 'How Teens Have a Real Chance of Fighting Antisemitism',
+    publication: 'eJewish Philanthropy',
+    date: 'March 2026',
+    url: 'https://ejewishphilanthropy.com/how-teens-have-a-real-chance-of-fighting-antisemitism/',
+    description:
+      "A look at the New York Jewish Teen Summit and why today's teens \u2014 brave, tech-savvy, and unafraid to speak \u2014 may be the most powerful force against antisemitism. Features teen-created platforms like StrongerVoices that turn isolation into community.",
   },
   {
-    title: 'Talking With Children',
-    description: 'Language and guidance for parents, educators, and caregivers having conversations about identity, bias, and safety with young people.',
-    image: '/images/cards/antisemitism-3.jpg',
-    alt: 'Talking with children about antisemitism',
+    title: 'On Fighting Antisemitism and the American Dream',
+    publication: 'Jewish Journal',
+    date: 'February 2026',
+    url: 'https://jewishjournal.com/commentary/opinion/387234/on-fighting-antisemitism-and-the-american-dream/',
+    description:
+      'An address at George Washington University offering a pragmatic, optimistic message: antisemitism cannot be eradicated, but it can be confronted, exposed, and marginalized. Three reasons for hope in the fight ahead.',
+  },
+];
+
+const organizations: Organization[] = [
+  {
+    name: 'ADL (Anti-Defamation League)',
+    description: 'Tracks antisemitic incidents, provides education resources, and advocates for policy change.',
+    url: 'https://www.adl.org',
   },
   {
-    title: 'Mental Health Support',
-    description: 'Resources for coping with fear, anxiety, and trauma related to antisemitism\u2014including therapist referrals and peer support networks.',
-    image: '/images/cards/antisemitism-4.jpg',
-    alt: 'Mental health support for those affected',
+    name: 'ADL H.E.A.T. Map',
+    description: 'Interactive map tracking incidents of hate, extremism, antisemitism, and terrorism across the U.S.',
+    url: 'https://www.adl.org/resources/tools-to-track-hate/heat-map',
   },
   {
-    title: 'Educational Guides',
-    description: 'Accessible guides that explore the history, forms, and impact of antisemitism\u2014offering context to recognize and address it with clarity.',
-    image: '/images/cards/antisemitism-5.jpg',
-    alt: 'Educational guides for awareness',
+    name: 'AJC (American Jewish Committee)',
+    description: 'Global advocacy organization combating antisemitism and promoting democratic values.',
+    url: 'https://www.ajc.org',
   },
   {
-    title: 'Allyship in Action',
-    description: 'Guided group sessions and peer networks that foster understanding, shared experience, and mutual support.',
-    image: '/images/cards/antisemitism-6.jpg',
-    alt: 'Building allyship and solidarity',
+    name: 'Combat Antisemitism Movement (CAM)',
+    description: 'Global coalition of 700+ organizations and 3 million people working to fight antisemitism.',
+    url: 'https://combatantisemitism.org',
+  },
+  {
+    name: 'StandWithUs',
+    description: 'Education organization empowering students and communities to fight antisemitism and support Israel.',
+    url: 'https://www.standwithus.com',
+  },
+  {
+    name: 'Report an Incident (ADL)',
+    description: "If you've experienced or witnessed antisemitism, report it to the ADL to help track and respond.",
+    url: 'https://www.adl.org/report-incident',
   },
 ];
 ---
 
-<section id="resources-grid" class="bg-bg-section-alt py-16 md:py-20 lg:py-24">
+<!-- Section 4: Recommended Reading -->
+<section id="reading" class="bg-bg-section-alt py-16 md:py-20 lg:py-24">
   <div class="mx-auto max-w-[1200px] px-6">
     <div class="mb-12 text-center" data-animate="fade-up">
       <h2 class="font-heading text-[clamp(28px,4vw,36px)] font-medium leading-tight text-text-heading">
-        Resources and Support
+        Learn More
       </h2>
       <p class="mx-auto mt-4 max-w-[700px] font-body text-[15px] leading-relaxed text-text-body md:text-base">
-        Educational tools and guidance to help you respond, connect, and care for yourself and your community.
+        Articles and perspectives on fighting antisemitism today
       </p>
     </div>
 
-    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2" data-animate="stagger">
-      {resources.map((resource) => (
-        <article class="group overflow-hidden rounded-[24px] border-[0.5px] border-border-card bg-white shadow-[0px_16px_32px_rgba(12,12,13,0.1),0px_4px_4px_rgba(12,12,13,0.05)] transition-shadow hover:shadow-[0px_20px_40px_rgba(12,12,13,0.14),0px_6px_6px_rgba(12,12,13,0.07)]">
-          <img src={resource.image} alt={resource.alt} class="h-48 w-full object-cover" width="600" height="400" loading="lazy" />
-          <div class="p-5">
-            <h3 class="font-body text-lg font-medium leading-7 text-text-heading">
-              {resource.title}
-            </h3>
-            <p class="mt-2 font-body text-sm leading-relaxed text-text-body">
-              {resource.description}
-            </p>
-            <span class="mt-4 inline-flex items-center gap-1 font-body text-sm font-medium text-primary transition-colors group-hover:text-primary-hover">
-              Learn More
-              <span aria-hidden="true">&rarr;</span>
-            </span>
-          </div>
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3" data-animate="stagger">
+      {articles.map((article) => (
+        <article class="flex flex-col rounded-[24px] border-[0.5px] border-border-card bg-white p-6 shadow-[0px_16px_32px_rgba(12,12,13,0.1),0px_4px_4px_rgba(12,12,13,0.05)]">
+          <p class="font-body text-xs font-medium uppercase tracking-wider text-text-muted">
+            {article.publication} &middot; {article.date}
+          </p>
+          <h3 class="mt-2 font-heading text-lg font-medium leading-snug text-text-heading">
+            {article.title}
+          </h3>
+          <p class="mt-3 flex-1 font-body text-sm leading-relaxed text-text-body">
+            {article.description}
+          </p>
+          <a
+            href={article.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="mt-4 inline-flex items-center gap-1 font-body text-sm font-medium text-primary transition-colors hover:text-primary-hover hover:underline"
+          >
+            Read Article
+            <span aria-hidden="true">&rarr;</span>
+          </a>
         </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- Section 5: Organizations -->
+<section id="organizations" class="py-16 md:py-20 lg:py-24">
+  <div class="mx-auto max-w-[1200px] px-6">
+    <div class="mb-12 text-center" data-animate="fade-up">
+      <h2 class="font-heading text-[clamp(28px,4vw,36px)] font-medium leading-tight text-text-heading">
+        Organizations Fighting Antisemitism
+      </h2>
+      <p class="mx-auto mt-4 max-w-[700px] font-body text-[15px] leading-relaxed text-text-body md:text-base">
+        Connect with these organizations for reporting, education, and support
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3" data-animate="stagger">
+      {organizations.map((org) => (
+        <a
+          href={org.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="group flex flex-col rounded-[24px] border-[0.5px] border-border-card bg-white p-6 shadow-[0px_16px_32px_rgba(12,12,13,0.1),0px_4px_4px_rgba(12,12,13,0.05)] transition-shadow hover:shadow-[0px_20px_40px_rgba(12,12,13,0.14),0px_6px_6px_rgba(12,12,13,0.07)]"
+        >
+          <h3 class="font-heading text-base font-medium text-text-heading group-hover:text-primary">
+            {org.name}
+          </h3>
+          <p class="mt-2 flex-1 font-body text-sm leading-relaxed text-text-body">
+            {org.description}
+          </p>
+          <span class="mt-4 inline-flex items-center gap-1 font-body text-sm font-medium text-primary transition-colors group-hover:text-primary-hover">
+            Visit
+            <svg class="h-4 w-4" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M4.5 12 12 4.5M12 4.5H6M12 4.5v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+        </a>
       ))}
     </div>
   </div>

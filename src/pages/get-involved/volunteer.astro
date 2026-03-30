@@ -13,9 +13,9 @@ import { toHTML } from '@portabletext/to-html';
 
 let cmsTestimonials: { quote: string; author: string; context: string }[] = [];
 try {
-  const raw = await getTestimonials();
+  const raw = await getTestimonials('volunteer');
   cmsTestimonials = raw.map((t: any) => ({
-    quote: t.quote,
+    quote: t.excerpt || t.quote,
     author: t.authorName || '',
     context: t.authorRole || '',
   }));
@@ -48,19 +48,14 @@ try {
     subtitle="Honest reflections from those who fostered healing, connection, and renewed strength for Heads Up attendees."
     testimonials={cmsTestimonials.length > 0 ? cmsTestimonials : [
       {
-        quote: 'Volunteering with Jewmanity changed my understanding of what it means to show up for someone. I thought I was there to help, but I gained so much more\u2014connection, purpose, and a deeper sense of community. Being part of someone\u2019s healing journey is a privilege I\u2019ll carry forever.',
-        author: 'Marina P.',
-        context: 'Health Retreat, January 2025',
+        quote: "I give them my heart, my time, and my presence, and somehow I receive so much back. The joy of giving to them feels endless, and I'm grateful to be part of their journey.",
+        author: 'Dahlia',
+        context: 'Volunteer',
       },
       {
-        quote: 'I never expected to form such deep bonds in just a week. The participants, the other volunteers, the team\u2014everyone brought their whole selves. It reminded me why community matters.',
-        author: 'Daniel R.',
-        context: 'Coastal Retreat, March 2025',
-      },
-      {
-        quote: 'Preparing meals for the retreat felt like the most meaningful thing I\u2019ve done in years. Knowing that something as simple as a warm meal could help someone feel safe\u2014that\u2019s powerful.',
-        author: 'Leah T.',
-        context: 'San Diego Retreat, November 2024',
+        quote: 'After October 7th, I lost my faith \u2014 especially in myself. Through Jewmanity, I spent a month in the U.S. healing and being supported by professional care. This journey helped me believe in myself again.',
+        author: 'Matamba Lassan',
+        context: 'Retreat Participant',
       },
     ]}
   />

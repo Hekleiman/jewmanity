@@ -3,7 +3,59 @@ import Layout from '../../layouts/Layout.astro';
 import HeroSection from '../../components/shared/HeroSection.astro';
 import StoriesGrid from '../../components/about/StoriesGrid.astro';
 import CTASection from '../../components/shared/CTASection.astro';
-import { getCommunityStories, urlFor } from '../../lib/sanity';
+import { getCommunityStories, getTestimonials, urlFor } from '../../lib/sanity';
+import type { SanityImageSource } from '@sanity/image-url/lib/types/types';
+
+interface PersonalStory {
+  name: string;
+  role: string;
+  slug: string;
+  quote: string;
+  imageUrl: string;
+}
+
+const fallbackStories: PersonalStory[] = [
+  {
+    name: 'Matamba Lassan',
+    role: 'Retreat Participant \u2014 Heads Up Program',
+    slug: 'matamba-lassan',
+    quote: "My name is Matamba Lassan. I'm 23 years old, recently married. After October 7th, I lost my faith \u2014 especially in myself. Through my journey with the Jewmanity organization, we spent a month in the U.S. healing, sharing, and being supported by professional care. This journey helped me believe in myself again. When I came back to Israel, I finally knew how to move forward. I want to say thank you to Jewmanity for everything. Keep going. Am Israel Chai. Thank you for everything.",
+    imageUrl: '/images/testimonials/matamba.png',
+  },
+  {
+    name: 'Dahlia',
+    role: 'Volunteer',
+    slug: 'dahlia',
+    quote: "I have no words to express my appreciation for Jewmanity, the amazing organization dedicated to providing support for soldiers who live with PTSD after going through war. Every one of them carries a whole life story. They come from all ages and backgrounds \u2014 men and women, married and single \u2014 and each one of them matters deeply to me.\n\nAs a volunteer, I don't do anything big or heroic. Sometimes I cook a meal or two for them. Sometimes I help during our surfing activities. Simple things. But the way they appreciate it touches me more than I can explain.\n\nI give them my heart, my time, and my presence, and somehow I receive so much back. We meet a couple of groups each year, and every time I'm reminded how powerful human connection can be. Being with them, listening, laughing, supporting them through difficult moments \u2014 I enjoy every single minute. The joy of giving to them feels endless, and I'm grateful to be part of their journey.",
+    imageUrl: '/images/testimonials/dahlia.png',
+  },
+];
+
+let personalStories: PersonalStory[] = [];
+try {
+  const raw = await getTestimonials();
+  if (raw && raw.length > 0) {
+    personalStories = raw
+      .filter((t: Record<string, unknown>) => t.slug)
+      .map((t: Record<string, unknown>) => ({
+        name: (t.authorName as string) || '',
+        role: (t.authorRole as string) || '',
+        slug: (t.slug as string) || '',
+        quote: (t.quote as string) || '',
+        imageUrl: t.imageUrl
+          ? (t.imageUrl as string)
+          : t.authorImage
+            ? urlFor(t.authorImage as SanityImageSource).width(640).height(854).url()
+            : '/images/testimonials/placeholder.png',
+      }));
+  }
+} catch (e) {
+  console.warn('Sanity fetch failed for personal stories, using fallback content');
+}
+
+if (personalStories.length === 0) {
+  personalStories = fallbackStories;
+}
 
 let cmsStories: { title: string; description: string; image?: string }[] = [];
 try {
@@ -33,6 +85,61 @@ try {
         <p class="font-body text-[15px] leading-relaxed text-text-body md:text-base">
           From ancient traditions of caring for the stranger to modern innovations in medical aid and social services, these stories reflect a timeless dedication to human dignity and the belief that we are all responsible for one another.
         </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Voices from Our Community -->
+  <section id="voices" class="bg-bg-section-alt py-16 md:py-20 lg:py-24">
+    <div class="mx-auto max-w-[1200px] px-6">
+      <div class="mb-12 text-center" data-animate="fade-up">
+        <h2 class="font-heading text-[clamp(28px,4vw,36px)] font-medium leading-tight text-text-heading">
+          Voices from Our Community
+        </h2>
+        <p class="mx-auto mt-4 max-w-[700px] font-body text-[15px] leading-relaxed text-text-body md:text-base">
+          Real stories from the people whose lives have been touched by Jewmanity
+        </p>
+      </div>
+
+      <div class="space-y-16 md:space-y-24">
+        {personalStories.map((story, i) => (
+          <article
+            id={story.slug}
+            class="scroll-mt-24"
+            data-animate="fade-up"
+          >
+            <div class:list={[
+              "flex flex-col gap-8 md:gap-12 md:items-start",
+              i % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse",
+            ]}>
+              <div class="shrink-0 md:w-80">
+                <img
+                  src={story.imageUrl}
+                  alt={story.name}
+                  class="w-full aspect-[3/4] rounded-3xl object-cover"
+                  width="320"
+                  height="427"
+                  loading="lazy"
+                />
+              </div>
+              <div class="flex flex-1 flex-col justify-center">
+                <h3 class="font-heading text-2xl font-medium text-text-heading">
+                  {story.name}
+                </h3>
+                <p class="mt-1 font-body text-sm font-medium text-primary">
+                  {story.role}
+                </p>
+                <blockquote class="mt-6 space-y-4">
+                  {story.quote.split('\n\n').map((paragraph) => (
+                    <p class="font-body text-lg leading-relaxed text-text-body">
+                      {paragraph}
+                    </p>
+                  ))}
+                </blockquote>
+              </div>
+            </div>
+          </article>
+        ))}
       </div>
     </div>
   </section>

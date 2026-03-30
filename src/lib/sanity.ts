@@ -146,13 +146,17 @@ export async function getTestimonials(context?: string) {
     ? `*[_type == "testimonial" && context == $context]`
     : `*[_type == "testimonial"]`;
   return client.fetch(
-    `${filter} | order(_createdAt desc) {
+    `${filter} | order(order asc, _createdAt desc) {
       _id,
       quote,
+      excerpt,
       authorName,
       authorRole,
       authorImage,
-      context
+      context,
+      order,
+      "slug": slug.current,
+      "imageUrl": authorImage.asset->url
     }`,
     { context },
   );

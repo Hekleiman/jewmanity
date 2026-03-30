@@ -39,6 +39,21 @@ export default defineType({
       options: { hotspot: true },
     }),
     defineField({
+      name: 'excerpt',
+      title: 'Carousel Excerpt',
+      type: 'text',
+      rows: 2,
+      description: 'Short 1-2 sentence version shown in carousels. Keep under 200 characters.',
+      validation: (rule) => rule.max(500),
+    }),
+    defineField({
+      name: 'slug',
+      title: 'Slug',
+      type: 'slug',
+      options: { source: 'authorName', maxLength: 96 },
+      description: 'Used for anchor links on the Community Stories page.',
+    }),
+    defineField({
       name: 'context',
       title: 'Display Context',
       type: 'string',
@@ -52,6 +67,12 @@ export default defineType({
         ],
         layout: 'radio',
       },
+    }),
+    defineField({
+      name: 'order',
+      title: 'Sort Order',
+      type: 'number',
+      description: 'Lower numbers appear first.',
     }),
   ],
   preview: {

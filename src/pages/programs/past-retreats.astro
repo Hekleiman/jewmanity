@@ -22,9 +22,9 @@ try {
 
 let cmsTestimonials: { quote: string; author: string; context: string }[] = [];
 try {
-  const raw = await getTestimonials();
+  const raw = await getTestimonials('headsup');
   cmsTestimonials = raw.map((t: any) => ({
-    quote: t.quote,
+    quote: t.excerpt || t.quote,
     author: t.authorName || '',
     context: t.authorRole || '',
   }));
@@ -44,19 +44,14 @@ try {
     subtitle="Honest reflections from those who found healing, connection, and renewed strength through Heads Up."
     testimonials={cmsTestimonials.length > 0 ? cmsTestimonials : [
       {
-        quote: 'This retreat gave me more than healing\u2014it gave me community. Being surrounded by people who truly understand, in a place where nature itself seems to hold you, changed everything. I came seeking peace and found a family.',
-        author: 'David L.',
-        context: 'Mountain Haven Retreat, March 2026',
+        quote: 'After October 7th, I lost my faith \u2014 especially in myself. Through Jewmanity, I spent a month in the U.S. healing and being supported by professional care. This journey helped me believe in myself again.',
+        author: 'Matamba Lassan',
+        context: 'Retreat Participant',
       },
       {
-        quote: 'I was hesitant to come. I didn\u2019t think anything could help. But from the first day, I felt safe enough to let my guard down. The therapists, the volunteers, the other participants\u2014everyone made me feel like I belonged.',
-        author: 'Rachel S.',
-        context: 'Coastal Retreat, January 2026',
-      },
-      {
-        quote: 'For the first time in years, I slept through the night. The combination of therapy, nature, and genuine human connection gave me tools I still use every day.',
-        author: 'Michael K.',
-        context: 'San Diego Retreat, November 2025',
+        quote: "I give them my heart, my time, and my presence, and somehow I receive so much back. The joy of giving to them feels endless, and I'm grateful to be part of their journey.",
+        author: 'Dahlia',
+        context: 'Volunteer',
       },
     ]}
   />
