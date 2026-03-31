@@ -1,0 +1,95 @@
+---
+interface ImpactCard {
+  icon: string;
+  title: string;
+  description: string;
+}
+
+interface Props {
+  heading?: string;
+  subtitle?: string;
+  cards?: ImpactCard[];
+}
+
+const fallbackCards: ImpactCard[] = [
+  {
+    icon: 'shield',
+    title: 'Fight the World\u2019s Oldest Hatred',
+    description: "Your project directly supports Jewmanity\u2019s mission to educate communities, publish resources, and combat antisemitism at every level.",
+  },
+  {
+    icon: 'mountain',
+    title: 'Fund Life-Changing Retreats',
+    description: 'Money you raise helps send Jewish young people to retreats that build identity, resilience, and pride during a time when those things are under attack.',
+  },
+  {
+    icon: 'handshake',
+    title: 'Volunteer with Jewish Soldiers',
+    description: "When Israeli soldiers visit San Diego, you can be there to welcome, serve, and honor them \u2014 a once-in-a-lifetime volunteer experience you\u2019ll never forget.",
+  },
+  {
+    icon: 'heart',
+    title: 'Live Jewish Values',
+    description: "Tikkun olam. Tzedakah. Ahavat Yisrael. This project isn\u2019t just a requirement \u2014 it\u2019s a living expression of everything your bar or bat mitzvah stands for.",
+  },
+];
+
+const {
+  heading = "The Impact You'll Make",
+  subtitle = 'Your mitzvah project creates real change in four powerful ways.',
+  cards = fallbackCards,
+} = Astro.props;
+---
+
+<section id="impact" class="bg-bg-section-alt py-16 md:py-20 lg:py-24">
+  <div class="mx-auto max-w-[1200px] px-6">
+    <div class="mb-12 text-center" data-animate="fade-up">
+      <h2 class="font-heading text-[clamp(28px,4vw,36px)] font-medium leading-tight text-text-heading">
+        {heading}
+      </h2>
+      <p class="mx-auto mt-4 max-w-[600px] font-body text-[15px] leading-relaxed text-text-body md:text-base">
+        {subtitle}
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4" data-animate="stagger">
+      {cards.map((card) => (
+        <div class="rounded-3xl border-[0.5px] border-border-card bg-white p-6 shadow-[0px_8px_16px_rgba(12,12,13,0.06),0px_2px_4px_rgba(12,12,13,0.04)]">
+          <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary-light text-primary">
+            {card.icon === 'shield' && (
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M12 3L4 7v5c0 4.5 3.4 8.7 8 10 4.6-1.3 8-5.5 8-10V7l-8-4z" stroke="currentColor" stroke-width="1.8" fill="none"/>
+                <path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            )}
+            {card.icon === 'mountain' && (
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M3 20L9 8l4 6 2-3 6 9H3z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" fill="none"/>
+                <circle cx="17" cy="6" r="2" stroke="currentColor" stroke-width="1.8" fill="none"/>
+              </svg>
+            )}
+            {card.icon === 'handshake' && (
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M7 11l-3 3 4 4 3-3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                <path d="M17 11l3 3-4 4-3-3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                <path d="M7 7h4l5 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                <path d="M17 7h-4l-5 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+              </svg>
+            )}
+            {card.icon === 'heart' && (
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M12 21l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.18L12 21z" stroke="currentColor" stroke-width="1.8" fill="none"/>
+              </svg>
+            )}
+          </div>
+          <h3 class="font-body text-lg font-medium text-text-heading">
+            {card.title}
+          </h3>
+          <p class="mt-2 font-body text-sm leading-relaxed text-text-body">
+            {card.description}
+          </p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

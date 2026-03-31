@@ -1,0 +1,67 @@
+---
+interface Step {
+  title: string;
+  description: string;
+}
+
+interface Props {
+  heading?: string;
+  subtitle?: string;
+  steps?: Step[];
+}
+
+const fallbackSteps: Step[] = [
+  { title: 'Get Started', description: "The very first step is to connect with the Jewmanity team so we can support you throughout your project. We\u2019ll pair you with a Jewmanity mentor, learn about your interests and strengths, and help you set a personal goal that feels right for you." },
+  { title: 'Learn', description: "You can\u2019t fight something you don\u2019t understand. Before you fundraise or volunteer, take time to learn about what antisemitism looks like in America right now, why it matters, and what Jewmanity is doing about it." },
+  { title: 'Choose Your Path', description: 'Jewmanity offers three ways to make your mitzvah project meaningful. You can choose one, or combine them all for the biggest impact. Talk with your family and your Jewmanity mentor to decide what fits you best.' },
+  { title: 'Fundraise', description: "If you\u2019ve chosen to fundraise, here is exactly how to do it. Your Jewmanity mentor will help you set up your fundraising page and create a compelling message that moves people to give." },
+  { title: 'Volunteer Experience', description: "One of the most unique and powerful parts of a Jewmanity mitzvah project is the opportunity to volunteer when Israeli and Jewish soldiers visit San Diego. This is a hands-on experience you can only get through Jewmanity \u2014 and it will stay with you forever." },
+  { title: 'Share Your Story', description: "Your project isn\u2019t complete until you\u2019ve shared what you\u2019ve learned and accomplished with the people who love you. This is your moment to inspire others \u2014 and to show that your bar or bat mitzvah stands for something bigger than a party." },
+  { title: 'Celebrate & Continue', description: 'When your project is complete, Jewmanity will honor your commitment with a certificate of recognition \u2014 and we hope this is only the beginning of a lifetime of Jewish service and advocacy.' },
+];
+
+const {
+  heading = 'How It Works',
+  subtitle = 'A clear, supportive process from start to finish.',
+  steps = fallbackSteps,
+} = Astro.props;
+---
+
+<section id="how-it-works" class="py-16 md:py-20 lg:py-24">
+  <div class="mx-auto max-w-[1200px] px-6">
+    <div class="mb-12 text-center" data-animate="fade-up">
+      <h2 class="font-heading text-[clamp(28px,4vw,36px)] font-medium leading-tight text-text-heading">
+        {heading}
+      </h2>
+      <p class="mx-auto mt-4 max-w-[600px] font-body text-[15px] leading-relaxed text-text-body md:text-base">
+        {subtitle}
+      </p>
+    </div>
+
+    <div class="mx-auto max-w-[720px]" data-animate="stagger">
+      {steps.map((step, i) => (
+        <div class="relative flex gap-6 pb-10 last:pb-0">
+          {/* Vertical connector line */}
+          {i < steps.length - 1 && (
+            <div class="absolute left-5 top-12 bottom-0 w-px bg-border-card md:left-6"></div>
+          )}
+
+          {/* Number circle */}
+          <div class="relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary font-heading text-base font-medium text-white md:h-12 md:w-12 md:text-lg">
+            {i + 1}
+          </div>
+
+          {/* Content */}
+          <div class="pt-1">
+            <h3 class="font-heading text-lg font-medium text-text-heading md:text-xl">
+              {step.title}
+            </h3>
+            <p class="mt-2 font-body text-sm leading-relaxed text-text-body md:text-[15px]">
+              {step.description}
+            </p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

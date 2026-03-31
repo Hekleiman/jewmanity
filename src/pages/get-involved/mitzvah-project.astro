@@ -1,0 +1,118 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import MitzvahHero from '../../components/mitzvah/MitzvahHero.astro';
+import WhyThisMatters from '../../components/mitzvah/WhyThisMatters.astro';
+import ImpactCards from '../../components/mitzvah/ImpactCards.astro';
+import HowItWorks from '../../components/mitzvah/HowItWorks.astro';
+import ChooseYourPath from '../../components/mitzvah/ChooseYourPath.astro';
+import FundraisingGoals from '../../components/mitzvah/FundraisingGoals.astro';
+import FAQAccordion from '../../components/shared/FAQAccordion.astro';
+import MitzvahCTA from '../../components/mitzvah/MitzvahCTA.astro';
+import { getMitzvahProject, getFaqItems, urlFor } from '../../lib/sanity';
+import { toHTML } from '@portabletext/to-html';
+
+interface Props {}
+
+// Fetch CMS data with fallback
+let cms: Record<string, any> | null = null;
+try {
+  cms = await getMitzvahProject();
+} catch (e) {
+  console.warn('Sanity fetch failed for mitzvah project, using fallback content');
+}
+
+let cmsFaqItems: { question: string; answer: string }[] = [];
+try {
+  const raw = await getFaqItems('mitzvah');
+  cmsFaqItems = raw.map((f: any) => ({
+    question: f.question,
+    answer: Array.isArray(f.answer) ? toHTML(f.answer) : (f.answer || ''),
+  }));
+} catch (e) {
+  console.warn('Sanity fetch failed for mitzvah FAQs, using fallback content');
+}
+
+// Build image URLs from Sanity
+const heroImageUrl = cms?.heroImage ? urlFor(cms.heroImage).width(1920).quality(80).url() : undefined;
+const whyImageUrl = cms?.whyImage ? urlFor(cms.whyImage).width(800).quality(80).url() : undefined;
+
+const fallbackFaqItems = [
+  {
+    question: 'How early should we start the project?',
+    answer: 'We recommend starting 6\u201312 months before your bar or bat mitzvah date. This gives you time to learn, fundraise, and potentially participate in a soldier visit. Contact us anytime \u2014 we\u2019ll work with your timeline.',
+  },
+  {
+    question: 'Does my child need to be in San Diego to participate?',
+    answer: 'No! While the volunteer experience with soldiers happens in San Diego, the fundraising and awareness paths can be done from anywhere. We\u2019ll work with your family to find the best fit.',
+  },
+  {
+    question: 'Will Jewmanity help us set up a fundraising page?',
+    answer: 'Absolutely. Your Jewmanity mentor will help you create a personalized fundraising page with your name, photo, and story. We\u2019ll also help you craft a compelling message that moves people to give.',
+  },
+  {
+    question: 'Does this project count as an official mitzvah project for our synagogue?',
+    answer: 'In most cases, yes. Jewmanity\u2019s program includes community service, learning, and a presentation component \u2014 the three elements most synagogues require. We\u2019re happy to provide documentation or speak with your rabbi.',
+  },
+  {
+    question: "What if my child is shy and doesn't want to do public presentations?",
+    answer: 'That\u2019s completely okay. Presentations can be as small as sharing at a family Shabbat dinner or writing a reflection piece. We meet every child where they are and help them find a way to share that feels comfortable.',
+  },
+  {
+    question: 'Is there a cost to participate?',
+    answer: 'There is no cost to participate in the Jewmanity Mitzvah Project. The program is free \u2014 all funds raised go directly to Jewmanity\u2019s healing programs and retreats.',
+  },
+  {
+    question: 'Can siblings or friends join the project too?',
+    answer: 'Yes! We love group projects. Siblings, friends, or even an entire Hebrew school class can participate together. Group projects often raise more and create a stronger sense of shared purpose.',
+  },
+];
+---
+
+<Layout
+  title="Bar/Bat Mitzvah Project | Jewmanity"
+  description="Make your bar or bat mitzvah an act of tikkun olam. Fundraise for retreats, volunteer with soldiers, and fight antisemitism through Jewmanity's Mitzvah Project."
+>
+  <MitzvahHero
+    heading={cms?.heroHeading}
+    subtitle={cms?.heroSubtitle}
+    backgroundImage={heroImageUrl}
+  />
+  <WhyThisMatters
+    heading={cms?.whyHeading}
+    paragraphs={cms?.whyParagraphs}
+    imageUrl={whyImageUrl}
+  />
+  <ImpactCards
+    heading={cms?.impactHeading}
+    subtitle={cms?.impactSubtitle}
+    cards={cms?.impactCards}
+  />
+  <HowItWorks
+    heading={cms?.howItWorksHeading}
+    subtitle={cms?.howItWorksSubtitle}
+    steps={cms?.steps}
+  />
+  <ChooseYourPath
+    heading={cms?.pathsHeading}
+    subtitle={cms?.pathsSubtitle}
+    paths={cms?.paths}
+  />
+  <FundraisingGoals
+    heading={cms?.goalsHeading}
+    subtitle={cms?.goalsSubtitle}
+    goals={cms?.goals}
+  />
+  <FAQAccordion
+    heading="Frequently Asked Questions"
+    subtitle="Have questions? We're here to help."
+    items={cmsFaqItems.length > 0 ? cmsFaqItems : fallbackFaqItems}
+  />
+  <MitzvahCTA
+    heading={cms?.ctaHeading}
+    description={cms?.ctaDescription}
+    button1Text={cms?.ctaButton1Text}
+    button1Url={cms?.ctaButton1Url}
+    button2Text={cms?.ctaButton2Text}
+    button2Url={cms?.ctaButton2Url}
+  />
+</Layout>

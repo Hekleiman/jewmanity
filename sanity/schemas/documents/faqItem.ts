@@ -27,6 +27,7 @@ export default defineType({
         list: [
           { title: 'Volunteer Page', value: 'volunteer' },
           { title: 'Donate Page', value: 'donate' },
+          { title: 'Mitzvah Project Page', value: 'mitzvah' },
           { title: 'General / All Pages', value: 'general' },
         ],
         layout: 'radio',

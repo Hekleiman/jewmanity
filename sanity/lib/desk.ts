@@ -53,6 +53,7 @@ export const structure: StructureResolver = (S) =>
               singletonListItem(S, 'shopPage', 'Shop Page', BasketIcon),
               singletonListItem(S, 'volunteerPage', 'Volunteer Page', UsersIcon),
               singletonListItem(S, 'contactPage', 'Contact Page', EnvelopeIcon),
+              singletonListItem(S, 'mitzvahProject', 'Mitzvah Project', BulbOutlineIcon),
             ]),
         ),
 

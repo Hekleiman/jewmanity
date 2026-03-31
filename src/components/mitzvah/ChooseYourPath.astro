@@ -1,0 +1,97 @@
+---
+interface PathCard {
+  icon: string;
+  title: string;
+  description: string;
+  bullets: string[];
+}
+
+interface Props {
+  heading?: string;
+  subtitle?: string;
+  paths?: PathCard[];
+}
+
+const fallbackPaths: PathCard[] = [
+  {
+    icon: 'fundraise',
+    title: 'Fundraise for Retreats',
+    description: 'Raise money to fund retreats for Jewish young people \u2014 experiences that build Jewish identity, resilience, and community during a time of rising antisemitism.',
+    bullets: ['Set a fundraising goal (see suggested goals below)', 'Create an online fundraising page', 'Host a fundraising event', 'Share your story with guests at your celebration'],
+  },
+  {
+    icon: 'volunteer',
+    title: 'Volunteer with Soldiers in San Diego',
+    description: 'When Israeli and Jewish soldiers visit San Diego, Jewmanity organizes volunteer experiences so you can meet, serve, and honor them directly.',
+    bullets: ['Register as a volunteer with Jewmanity San Diego', 'Help organize welcome events and meals', 'Write personal letters to soldiers beforehand', 'Document your experience for your mitzvah presentation'],
+  },
+  {
+    icon: 'awareness',
+    title: 'Raise Awareness',
+    description: 'Use your voice \u2014 in your school, synagogue, and online \u2014 to educate others about antisemitism and what they can do about it.',
+    bullets: ['Give a presentation at your school or synagogue', 'Create an informational display or poster series', 'Write and share your personal story on social media', 'Collect pledges from friends and family in exchange for awareness actions'],
+  },
+];
+
+const {
+  heading = 'Choose Your Path',
+  subtitle = 'Make an impact in the way that speaks to you \u2014 or combine all three.',
+  paths = fallbackPaths,
+} = Astro.props;
+---
+
+<section id="choose-your-path" class="bg-bg-section-alt py-16 md:py-20 lg:py-24">
+  <div class="mx-auto max-w-[1200px] px-6">
+    <div class="mb-12 text-center" data-animate="fade-up">
+      <h2 class="font-heading text-[clamp(28px,4vw,36px)] font-medium leading-tight text-text-heading">
+        {heading}
+      </h2>
+      <p class="mx-auto mt-4 max-w-[600px] font-body text-[15px] leading-relaxed text-text-body md:text-base">
+        {subtitle}
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-3" data-animate="stagger">
+      {paths.map((path) => (
+        <div class="flex flex-col rounded-3xl border-[0.5px] border-border-card bg-white p-6 shadow-[0px_8px_16px_rgba(12,12,13,0.06),0px_2px_4px_rgba(12,12,13,0.04)]">
+          <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary-light text-primary">
+            {path.icon === 'fundraise' && (
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8" fill="none"/>
+                <path d="M12 7v10m-2-2c0 1.1.9 2 2 2s2-.9 2-2-.9-2-2-2-2-.9-2-2 .9-2 2-2 2 .9 2 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              </svg>
+            )}
+            {path.icon === 'volunteer' && (
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M12 2L9 9H2l6 4.5L5.5 21 12 16.5 18.5 21 16 13.5 22 9h-7L12 2z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" fill="none"/>
+              </svg>
+            )}
+            {path.icon === 'awareness' && (
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M18 8a6 6 0 01-9.33 5L4 14V8a6 6 0 0114 0z" stroke="currentColor" stroke-width="1.8" fill="none"/>
+                <path d="M18 8a3 3 0 010 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+                <path d="M20 5a6 6 0 010 10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+              </svg>
+            )}
+          </div>
+          <h3 class="font-body text-lg font-medium text-text-heading">
+            {path.title}
+          </h3>
+          <p class="mt-2 font-body text-sm leading-relaxed text-text-body">
+            {path.description}
+          </p>
+          <ul class="mt-4 flex flex-col gap-2">
+            {path.bullets.map((bullet) => (
+              <li class="flex items-start gap-2 font-body text-sm text-text-body">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" class="mt-0.5 shrink-0 text-primary" aria-hidden="true">
+                  <path d="M5 8l2.5 2.5L11 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                {bullet}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

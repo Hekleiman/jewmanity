@@ -339,6 +339,37 @@ export async function getContactPage() {
   `);
 }
 
+export async function getMitzvahProject() {
+  return client.fetch(`
+    *[_type == "mitzvahProject"][0] {
+      heroHeading,
+      heroSubtitle,
+      heroImage,
+      whyHeading,
+      whyParagraphs,
+      whyImage,
+      impactHeading,
+      impactSubtitle,
+      impactCards,
+      howItWorksHeading,
+      howItWorksSubtitle,
+      steps,
+      pathsHeading,
+      pathsSubtitle,
+      paths,
+      goalsHeading,
+      goalsSubtitle,
+      goals,
+      ctaHeading,
+      ctaDescription,
+      ctaButton1Text,
+      ctaButton1Url,
+      ctaButton2Text,
+      ctaButton2Url
+    }
+  `);
+}
+
 export async function getSiteSettings() {
   return client.fetch(`
     *[_type == "siteSettings"][0] {

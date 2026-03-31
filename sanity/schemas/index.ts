@@ -25,6 +25,7 @@ import donatePage from './singletons/donatePage';
 import shopPage from './singletons/shopPage';
 import volunteerPage from './singletons/volunteerPage';
 import contactPage from './singletons/contactPage';
+import mitzvahProject from './singletons/mitzvahProject';
 import siteSettings from './singletons/siteSettings';
 
 // All schema types
@@ -56,6 +57,7 @@ export const schemaTypes = [
   shopPage,
   volunteerPage,
   contactPage,
+  mitzvahProject,
   siteSettings,
 ];
 
@@ -70,5 +72,6 @@ export const singletonTypes = new Set([
   'shopPage',
   'volunteerPage',
   'contactPage',
+  'mitzvahProject',
   'siteSettings',
 ]);

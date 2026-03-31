@@ -1,0 +1,57 @@
+---
+interface GoalTier {
+  amount: string;
+  name: string;
+  description: string;
+}
+
+interface Props {
+  heading?: string;
+  subtitle?: string;
+  goals?: GoalTier[];
+}
+
+const fallbackGoals: GoalTier[] = [
+  { amount: '$180', name: 'Chai Level', description: 'Chai (18) is the Hebrew number for life. A perfect starting goal \u2014 and deeply meaningful.' },
+  { amount: '$360', name: 'Double Chai', description: 'Double the life, double the impact. Achievable through family donations alone.' },
+  { amount: '$500', name: 'Rising Star', description: 'Covers supplies and materials for a Jewish youth retreat experience.' },
+  { amount: '$1,000', name: 'Champion', description: "Helps fund a full retreat scholarship for a Jewish young person who couldn\u2019t otherwise attend." },
+  { amount: '$2,500', name: 'Leader', description: 'Funds programming and resources for an entire Jewmanity retreat cohort.' },
+  { amount: 'Custom', name: 'Your Goal', description: 'Set any goal that feels right for you. We celebrate every dollar and every effort, equally.' },
+];
+
+const {
+  heading = 'How Much Should I Raise?',
+  subtitle = "Every dollar you raise makes a direct impact. Here are suggested fundraising tiers \u2014 choose what feels right for you, and remember: it\u2019s not about the amount, it\u2019s about the effort and the heart behind it.",
+  goals = fallbackGoals,
+} = Astro.props;
+---
+
+<section id="fundraising-goals" class="py-16 md:py-20 lg:py-24">
+  <div class="mx-auto max-w-[1200px] px-6">
+    <div class="mb-12 text-center" data-animate="fade-up">
+      <h2 class="font-heading text-[clamp(28px,4vw,36px)] font-medium leading-tight text-text-heading">
+        {heading}
+      </h2>
+      <p class="mx-auto mt-4 max-w-[600px] font-body text-[15px] leading-relaxed text-text-body md:text-base">
+        {subtitle}
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3" data-animate="stagger">
+      {goals.map((goal) => (
+        <div class="rounded-3xl border-[0.5px] border-border-card bg-white p-6 text-center shadow-[0px_8px_16px_rgba(12,12,13,0.06),0px_2px_4px_rgba(12,12,13,0.04)]">
+          <p class="font-heading text-[clamp(28px,4vw,40px)] font-medium text-primary">
+            {goal.amount}
+          </p>
+          <h3 class="mt-1 font-body text-lg font-medium text-text-heading">
+            {goal.name}
+          </h3>
+          <p class="mt-3 font-body text-sm leading-relaxed text-text-body">
+            {goal.description}
+          </p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

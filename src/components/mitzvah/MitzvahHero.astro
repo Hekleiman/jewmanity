@@ -1,0 +1,51 @@
+---
+interface Props {
+  heading?: string;
+  subtitle?: string;
+  backgroundImage?: string;
+}
+
+const {
+  heading = 'A Mitzvah That Matters Right Now',
+  subtitle = 'Turn your biggest Jewish milestone into an act of tikkun olam \u2014 help fight antisemitism, fund life-changing retreats, and stand beside Jewish soldiers visiting San Diego.',
+  backgroundImage,
+} = Astro.props;
+---
+
+<section class="relative flex min-h-[55vh] items-center justify-center overflow-hidden md:min-h-[60vh]">
+  {backgroundImage ? (
+    <img
+      src={backgroundImage}
+      alt=""
+      class="absolute inset-0 h-full w-full object-cover"
+      style="object-position: center 30%"
+      width="1920"
+      height="1080"
+      loading="eager"
+    />
+  ) : (
+    <!-- Replace with actual hero image -->
+    <div class="absolute inset-0 bg-gradient-to-br from-[#3a6b7a] to-[#5a8a7a]"></div>
+  )}
+  <div class="absolute inset-0 bg-black/50"></div>
+
+  <div class="relative z-10 mx-auto max-w-[800px] px-6 pt-20 text-center">
+    <h1 data-animate="hero-fade-up" class="font-heading text-[clamp(32px,5vw,56px)] font-medium leading-[1.15] text-white">
+      {heading}
+    </h1>
+    <p data-animate="hero-fade-up" class="mx-auto mt-5 max-w-[600px] font-heading text-[clamp(16px,2.5vw,20px)] font-normal leading-relaxed text-white/85">
+      {subtitle}
+    </p>
+    <a
+      href="#why-this-matters"
+      data-animate="hero-fade-up"
+      class="mt-8 inline-flex items-center gap-2 font-heading text-base font-medium text-white/80 transition-colors hover:text-white"
+      aria-label="Scroll to learn more"
+    >
+      Learn More
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true" class="animate-bounce">
+        <path d="M10 4v12m0 0l-4-4m4 4l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
+  </div>
+</section>
