@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import MitzvahHero from '../../components/mitzvah/MitzvahHero.astro';
+import MitzvahQuote from '../../components/mitzvah/MitzvahQuote.astro';
 import WhyThisMatters from '../../components/mitzvah/WhyThisMatters.astro';
 import ImpactCards from '../../components/mitzvah/ImpactCards.astro';
 import HowItWorks from '../../components/mitzvah/HowItWorks.astro';
@@ -77,6 +78,9 @@ const fallbackFaqItems = [
     subtitle={cms?.heroSubtitle}
     backgroundImage={heroImageUrl}
   />
+  <MitzvahQuote
+    quote={cms?.openingQuote || "The most important moment in Jewish life is not the party \u2014 it\u2019s the promise you make to your community. Your mitzvah project is that promise."}
+  />
   <WhyThisMatters
     heading={cms?.whyHeading}
     paragraphs={cms?.whyParagraphs}
@@ -96,6 +100,10 @@ const fallbackFaqItems = [
     heading={cms?.pathsHeading}
     subtitle={cms?.pathsSubtitle}
     paths={cms?.paths}
+  />
+  <MitzvahQuote
+    quote={cms?.inspirationalQuote || "In every generation, they rise up against us \u2014 and in every generation, we rise to meet them. Your mitzvah project is how our generation answers that call."}
+    attribution={cms?.inspirationalQuoteAttribution || "JEWMANITY.COM"}
   />
   <FundraisingGoals
     heading={cms?.goalsHeading}

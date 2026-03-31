@@ -29,6 +29,15 @@ export default defineType({
       options: { hotspot: true },
     }),
 
+    // ── Opening Quote ─────────────────────────────────
+    defineField({
+      name: 'openingQuote',
+      title: 'Opening Quote',
+      type: 'text',
+      rows: 3,
+      description: 'Inspirational blockquote displayed between the hero and "Why This Matters" section.',
+    }),
+
     // ── Why This Matters ──────────────────────────────
     defineField({
       name: 'whyHeading',
@@ -117,11 +126,17 @@ export default defineType({
       name: 'steps',
       title: 'Steps',
       type: 'array',
-      description: 'The 7-step timeline. Each step has a title and description.',
+      description: 'The 7-step timeline. Each step has a month label, title, description, action items, and an optional tip box.',
       of: [
         {
           type: 'object',
           fields: [
+            defineField({
+              name: 'label',
+              title: 'Month Label',
+              type: 'string',
+              description: 'Gold label above the title (e.g., "GETTING STARTED \u2014 MONTH 1").',
+            }),
             defineField({
               name: 'title',
               title: 'Step Title',
@@ -132,12 +147,26 @@ export default defineType({
               name: 'description',
               title: 'Step Description',
               type: 'text',
+              rows: 4,
+              validation: (rule) => rule.required(),
+            }),
+            defineField({
+              name: 'actions',
+              title: 'Action Items',
+              type: 'array',
+              of: [{ type: 'string' }],
+              description: 'Bullet-point action items for this step.',
+            }),
+            defineField({
+              name: 'tip',
+              title: 'Tip / Callout Box',
+              type: 'text',
               rows: 3,
-              validation: (rule) => rule.required().max(400),
+              description: 'Optional tip displayed in a highlighted box. Start with the label (e.g., "Tip for your speech: ...").',
             }),
           ],
           preview: {
-            select: { title: 'title' },
+            select: { title: 'title', subtitle: 'label' },
           },
         },
       ],
@@ -196,6 +225,21 @@ export default defineType({
         },
       ],
       validation: (rule) => rule.max(4).warning('3 cards is the intended layout.'),
+    }),
+
+    // ── Inspirational Quote ────────────────────────────
+    defineField({
+      name: 'inspirationalQuote',
+      title: 'Inspirational Quote (Before Fundraising)',
+      type: 'text',
+      rows: 3,
+      description: 'Blockquote displayed between "Choose Your Path" and the fundraising goals section.',
+    }),
+    defineField({
+      name: 'inspirationalQuoteAttribution',
+      title: 'Quote Attribution',
+      type: 'string',
+      description: 'e.g., "JEWMANITY.COM"',
     }),
 
     // ── Fundraising Goals ─────────────────────────────
