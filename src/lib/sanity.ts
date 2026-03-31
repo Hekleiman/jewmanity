@@ -213,6 +213,20 @@ export async function getCommunityStoryBySlug(slug: string) {
   );
 }
 
+export async function getRecommendedArticles() {
+  return client.fetch(`
+    *[_type == "recommendedArticle"] | order(order asc) {
+      _id,
+      title,
+      publication,
+      date,
+      url,
+      description,
+      order
+    }
+  `);
+}
+
 // ============ Singleton Queries ============
 
 export async function getHomepage() {

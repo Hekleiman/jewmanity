@@ -1,4 +1,6 @@
 ---
+import { getRecommendedArticles } from '../../lib/sanity';
+
 interface Props {}
 
 interface Article {
@@ -15,7 +17,7 @@ interface Organization {
   url: string;
 }
 
-const articles: Article[] = [
+const fallbackArticles: Article[] = [
   {
     title: 'We Need 1 Million More Jews on Social Media',
     publication: 'Times of Israel',
@@ -40,7 +42,51 @@ const articles: Article[] = [
     description:
       'An address at George Washington University offering a pragmatic, optimistic message: antisemitism cannot be eradicated, but it can be confronted, exposed, and marginalized. Three reasons for hope in the fight ahead.',
   },
+  {
+    title: 'How to Respond to Antisemitism',
+    publication: 'American Jewish Committee',
+    date: '2025',
+    url: 'https://www.ajc.org/respond-to-antisemitism',
+    description:
+      'A comprehensive guide covering what individuals, governments, social media companies, and institutions can do to counter antisemitism. Includes practical steps for reporting, advocacy, and community action.',
+  },
+  {
+    title: 'Global Guidelines for Countering Antisemitism',
+    publication: 'U.S. Department of State',
+    date: 'February 2026',
+    url: 'https://www.state.gov/global-guidelines-for-countering-antisemitism',
+    description:
+      'International best practices adopted by governments and special envoys worldwide for monitoring and combating antisemitism through education, legislation, and cross-society collaboration.',
+  },
+  {
+    title: 'Addressing Antisemitism Through Education',
+    publication: 'UNESCO',
+    date: '2026',
+    url: 'https://www.unesco.org/en/education-addressing-antisemitism',
+    description:
+      "UNESCO's global initiative training educators and policymakers to recognize and respond to antisemitism in schools. Over 1,300 educators trained across Europe since 2023, with expanding programs in the U.S. and Australia.",
+  },
 ];
+
+let articles: Article[] = [];
+try {
+  const raw = await getRecommendedArticles();
+  if (raw && raw.length > 0) {
+    articles = raw.map((a: Record<string, unknown>) => ({
+      title: (a.title as string) || '',
+      publication: (a.publication as string) || '',
+      date: (a.date as string) || '',
+      url: (a.url as string) || '',
+      description: (a.description as string) || '',
+    }));
+  }
+} catch (e) {
+  console.warn('Sanity fetch failed for recommended articles, using fallback content');
+}
+
+if (articles.length === 0) {
+  articles = fallbackArticles;
+}
 
 const organizations: Organization[] = [
   {

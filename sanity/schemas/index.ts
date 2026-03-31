@@ -13,6 +13,7 @@ import product from './documents/product';
 import testimonial from './documents/testimonial';
 import faqItem from './documents/faqItem';
 import communityStory from './documents/communityStory';
+import recommendedArticle from './documents/recommendedArticle';
 
 // Singleton page documents
 import homepage from './singletons/homepage';
@@ -43,6 +44,7 @@ export const schemaTypes = [
   testimonial,
   faqItem,
   communityStory,
+  recommendedArticle,
 
   // Singletons
   homepage,
