@@ -38,12 +38,12 @@ const carouselId = `tc-${Math.random().toString(36).slice(2, 8)}`;
           <path d="M10 8C5.6 8 2 11.6 2 16v8h8v-8H6c0-2.2 1.8-4 4-4V8zm16 0c-4.4 0-8 3.6-8 8v8h8v-8h-4c0-2.2 1.8-4 4-4V8z"/>
         </svg>
 
-        <div class="tc-slides relative min-h-[280px] sm:min-h-[240px] md:min-h-[200px] pb-8">
+        <div class="tc-slides relative pb-2">
           {testimonials.map((t, i) => (
             <div
               class:list={[
-                "tc-slide absolute inset-0 transition-opacity duration-500",
-                i === 0 ? "opacity-100" : "opacity-0 pointer-events-none",
+                "tc-slide transition-opacity duration-500",
+                i === 0 ? "opacity-100 relative" : "opacity-0 pointer-events-none absolute inset-0",
               ]}
               data-index={i}
             >
@@ -118,11 +118,11 @@ const carouselId = `tc-${Math.random().toString(36).slice(2, 8)}`;
     function goTo(index: number) {
       slides.forEach((slide, i) => {
         if (i === index) {
-          slide.classList.remove('opacity-0', 'pointer-events-none');
-          slide.classList.add('opacity-100');
+          slide.classList.remove('opacity-0', 'pointer-events-none', 'absolute', 'inset-0');
+          slide.classList.add('opacity-100', 'relative');
         } else {
-          slide.classList.add('opacity-0', 'pointer-events-none');
-          slide.classList.remove('opacity-100');
+          slide.classList.add('opacity-0', 'pointer-events-none', 'absolute', 'inset-0');
+          slide.classList.remove('opacity-100', 'relative');
         }
       });
       dots.forEach((dot, i) => {
