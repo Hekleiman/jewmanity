@@ -86,12 +86,12 @@ if (testimonials.length === 0) {
       data-animate="fade-in"
       class="mx-auto max-w-[800px]"
     >
-      <div id="impact-slides" class="relative min-h-[420px] sm:min-h-[380px]">
+      <div id="impact-slides" class="relative">
         {testimonials.map((t, i) => (
           <div
             class:list={[
-              "impact-slide absolute inset-0 transition-opacity duration-500",
-              i === 0 ? "opacity-100" : "opacity-0 pointer-events-none",
+              "impact-slide transition-opacity duration-500",
+              i === 0 ? "opacity-100 relative" : "opacity-0 pointer-events-none absolute inset-0",
             ]}
             data-index={i}
           >
@@ -172,11 +172,11 @@ if (testimonials.length === 0) {
   function goTo(index: number) {
     slides.forEach((slide, i) => {
       if (i === index) {
-        slide.classList.remove('opacity-0', 'pointer-events-none');
-        slide.classList.add('opacity-100');
+        slide.classList.remove('opacity-0', 'pointer-events-none', 'absolute', 'inset-0');
+        slide.classList.add('opacity-100', 'relative');
       } else {
-        slide.classList.add('opacity-0', 'pointer-events-none');
-        slide.classList.remove('opacity-100');
+        slide.classList.add('opacity-0', 'pointer-events-none', 'absolute', 'inset-0');
+        slide.classList.remove('opacity-100', 'relative');
       }
     });
     dots.forEach((dot, i) => {
