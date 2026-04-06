@@ -29,6 +29,7 @@ const { imagePosition = 'center 30%' } = Astro.props;
     <div class="w-full max-w-[440px] lg:w-1/2">
       <script src="https://donorbox.org/widget.js" paypalexpress="false" is:inline></script>
       <iframe
+        id="donorbox-iframe"
         src="https://donorbox.org/embed/jewmanity-donation?default_interval=o&hide_donation_meter=true"
         name="donorbox"
         allowpaymentrequest="allowpaymentrequest"
@@ -39,6 +40,20 @@ const { imagePosition = 'center 30%' } = Astro.props;
         width="100%"
         style="max-width:440px; min-width:250px; max-height:none!important; border:none;"
       ></iframe>
+      <script is:inline>
+        (function () {
+          var params = new URLSearchParams(window.location.search);
+          var amount = params.get('amount');
+          if (amount && /^\d+$/.test(amount)) {
+            var iframe = document.getElementById('donorbox-iframe');
+            if (iframe) {
+              var url = new URL(iframe.src);
+              url.searchParams.set('amount', amount);
+              iframe.src = url.toString();
+            }
+          }
+        })();
+      </script>
     </div>
   </div>
 </section>
