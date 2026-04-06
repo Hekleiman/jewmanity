@@ -30,15 +30,10 @@ const carouselId = `tc-${Math.random().toString(36).slice(2, 8)}`;
 
     <div class="mx-auto max-w-[800px]">
       <div
-        class="tc-carousel relative rounded-2xl border-[0.5px] border-border-card bg-white p-8 shadow-[0px_8px_16px_rgba(12,12,13,0.06),0px_2px_4px_rgba(12,12,13,0.04)] md:p-10"
+        class="tc-carousel relative"
         data-carousel-id={carouselId}
       >
-        <!-- Quote icon -->
-        <svg class="mb-4 h-8 w-8 text-primary/30" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true">
-          <path d="M10 8C5.6 8 2 11.6 2 16v8h8v-8H6c0-2.2 1.8-4 4-4V8zm16 0c-4.4 0-8 3.6-8 8v8h8v-8h-4c0-2.2 1.8-4 4-4V8z"/>
-        </svg>
-
-        <div class="tc-slides relative pb-2">
+        <div class="tc-slides relative">
           {testimonials.map((t, i) => (
             <div
               class:list={[
@@ -47,17 +42,20 @@ const carouselId = `tc-${Math.random().toString(36).slice(2, 8)}`;
               ]}
               data-index={i}
             >
-              <blockquote>
-                <p class="font-body text-base italic leading-relaxed text-text-body md:text-lg">
-                  "{t.quote}"
-                </p>
-              </blockquote>
-              <p class="mt-6 font-body text-sm font-medium text-text-heading">
-                &mdash; {t.author}
-              </p>
-              <p class="mt-1 font-body text-sm text-text-muted">
-                {t.context}
-              </p>
+              <div class="flex flex-col items-center text-center gap-4 px-4">
+                <div class="flex h-28 w-28 items-center justify-center rounded-full bg-primary/10">
+                  <svg class="h-10 w-10 text-primary/50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                  </svg>
+                </div>
+                <blockquote class="max-w-2xl font-body text-lg italic leading-relaxed text-text-body">
+                  &ldquo;{t.quote}&rdquo;
+                </blockquote>
+                <div>
+                  <p class="font-body text-base font-semibold text-text-heading">{t.author}</p>
+                  <p class="font-body text-sm text-text-body">{t.context}</p>
+                </div>
+              </div>
             </div>
           ))}
         </div>

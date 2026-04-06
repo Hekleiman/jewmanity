@@ -35,12 +35,7 @@ const {
 
       <!-- Image -->
       <div class="lg:w-[45%]" data-animate="slide-right">
-        {imageUrl ? (
-          <img src={imageUrl} alt="Community gathering" class="aspect-[4/3] w-full rounded-2xl object-cover" width="600" height="400" loading="lazy" />
-        ) : (
-          <!-- TODO: Replace with actual family/community photo from Belinda -->
-          <div class="aspect-[4/3] w-full rounded-2xl bg-gradient-to-br from-primary-light to-[#d4e8ef]"></div>
-        )}
+        <img src={imageUrl || '/images/sections/mitzvah-why-matters.jpg'} alt="Community gathering" class="aspect-[4/3] w-full rounded-2xl object-cover" width="600" height="400" loading="lazy" />
       </div>
     </div>
   </div>

@@ -15,7 +15,7 @@ const { id, name, price, priceNum, description, features, image, thumbnails = []
 const allImages = [image, ...thumbnails].filter(Boolean);
 ---
 
-<section id="product-detail" class="pb-16 pt-8 md:pb-20 md:pt-12">
+<section id="product-detail" class="pb-16 pt-28 md:pb-20 md:pt-32">
   <div class="mx-auto max-w-[1200px] px-6">
     <div class="flex flex-col gap-10 lg:flex-row">
       <!-- Left: Image gallery -->
@@ -77,7 +77,7 @@ const allImages = [image, ...thumbnails].filter(Boolean);
       <!-- Right: Product info -->
       <div class="lg:w-1/2 lg:pt-4">
         <!-- Breadcrumb -->
-        <nav aria-label="Breadcrumb" class="mb-4 pt-16 lg:pt-0">
+        <nav aria-label="Breadcrumb" class="mb-4">
           <ol class="flex items-center gap-1.5 font-body text-sm text-text-muted">
             <li><a href="/shop" class="transition-colors hover:text-primary">Shop</a></li>
             <li aria-hidden="true">&rsaquo;</li>

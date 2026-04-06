@@ -1,28 +1,20 @@
 ---
-interface Story {
+import Layout from '../../../layouts/Layout.astro';
+import { getCommunityStories, urlFor } from '../../../lib/sanity';
+import type { SanityImageSource } from '@sanity/image-url/lib/types/types';
+
+interface StoryData {
   title: string;
-  slug?: string;
-  paragraphs?: string[];
-  description?: string;
-  image?: string;
-  alt?: string;
-  url?: string;
-  external?: boolean;
   tag?: string;
+  paragraphs: string[];
   pullQuote?: string;
   pullAttribution?: string;
 }
 
-interface Props {
-  stories?: Story[];
-}
-
-const fallbackStories: Story[] = [
-  {
+const fallbackStories: Record<string, StoryData> = {
+  'first-retreat': {
     title: 'The First Retreat: How It All Began',
-    slug: 'first-retreat',
     tag: 'Jewmanity Retreat',
-    url: '/about/community-stories/first-retreat',
     paragraphs: [
       "In May 2024, Belinda and Andrew Donner met Shai Gino, an Israeli veteran living in San Diego who was struggling with PTSD after returning to fight following October 7th. Shai told them about the Golani Battalion\u2019s 13th Brigade \u2014 one of the hardest-hit units that day. Out of 15 soldiers in one group, 9 had been killed. The survivors were struggling.",
       'By June, enough funds had been raised to bring soldiers, a therapist, a commanding officer, and a logistics coordinator to San Diego from Israel. The soldiers arrived late at night on June 13th \u2014 most had never been on an airplane before.',
@@ -31,33 +23,27 @@ const fallbackStories: Story[] = [
     pullQuote: "You literally saved our lives. You're the best!",
     pullAttribution: 'Commanding Officer, First Retreat',
   },
-  {
+  'golani-boys-return': {
     title: 'The Golani Boys Return',
-    slug: 'golani-boys-return',
     tag: 'Jewmanity Retreat',
-    url: '/about/community-stories/golani-boys-return',
     paragraphs: [
       "Seven months after the first retreat, a new group of nine soldiers from the Golani Battalion \u2014 including their commander \u2014 arrived in San Diego for ten days of healing. Thanks to the deep military connections of Jewmanity\u2019s Executive Director Shai Gino, the soldiers were identified as profoundly affected by the events of October 7th.",
       'On January 22, 2025, they landed at LAX, greeted by Shai and his cousin Yohai. For some, it was their first time outside Israel \u2014 some had never even been on an airplane. Yet despite their exhaustion, their faces lit up as they stepped onto foreign soil, momentarily freed from the weight of war.',
       'The retreat followed the same proven model: daily therapy with a dedicated Israeli psychologist, surf therapy, breathwork, community dinners, and the unconditional warmth of San Diego volunteers who opened their homes. By the end, the bonds formed between the soldiers and their hosts had become something lasting \u2014 a bridge between two communities united by care.',
     ],
   },
-  {
+  'brave-girls': {
     title: 'The Brave Girls',
-    slug: 'brave-girls',
     tag: 'Jewmanity Retreat',
-    url: '/about/community-stories/brave-girls',
     paragraphs: [
       'In the summer of 2025, nine female IDF soldiers stepped onto American soil carrying scars few could see and stories few could bear to tell. Eight were from Kissufim and one from Nahal Oz \u2014 military bases forever marked by the tragedy of October 7, 2023. On that morning, these women stood watch at their posts, never imagining the horror that would unfold.',
       'For most, the San Diego retreat was their first reunion since that day. They carried grief, survivor\u2019s guilt, and the weight of memories that had never been fully spoken. But in the safety of the retreat \u2014 surrounded by therapists, volunteers, and each other \u2014 they began to share what they had held inside for nearly two years.',
       'The retreat marked a milestone for Jewmanity and Heads Up: the first time the program welcomed an all-female group. The experience reinforced what the organizers had always believed \u2014 that healing happens through connection, and that every person who served deserves the chance to be seen, heard, and supported.',
     ],
   },
-  {
+  'fathers-fighters-finding-peace': {
     title: 'Fathers, Fighters, and Finding Peace',
-    slug: 'fathers-fighters-finding-peace',
     tag: 'Jewmanity Retreat',
-    url: '/about/community-stories/fathers-fighters-finding-peace',
     paragraphs: [
       "The fourth Heads Up retreat was different. These weren\u2019t the usual 18-to-22-year-olds \u2014 they were older men, fathers who had spent decades in the military, carrying wounds that had compounded over years of service. They arrived in San Diego tense and uncertain, not realizing the warmth that was waiting for them.",
       'Retreat assistant Kate H. described arriving to find the soldiers playing makot on the beach at sunset \u2014 the rhythmic ping of paddles and the sound of laughter filling the evening air. Within minutes of meeting, they greeted her with hugs and invited her to watch the sun set over the Pacific with beers in hand.',
@@ -66,11 +52,9 @@ const fallbackStories: Story[] = [
     pullQuote: 'We sat there for a long time, talking, sharing stories about their grandmothers born in Jaffa before World War II, and their children born after COVID.',
     pullAttribution: 'Kate H., Retreat Assistant',
   },
-  {
+  'joy-of-giving': {
     title: "The Joy of Giving: A Volunteer\u2019s Journey",
-    slug: 'joy-of-giving',
     tag: 'Jewmanity Volunteer',
-    url: '/about/community-stories/joy-of-giving',
     paragraphs: [
       "When Dahlia first started volunteering with Jewmanity, she didn\u2019t think what she was doing was anything special. Sometimes she cooked a meal. Sometimes she helped out during surfing activities. Simple things, she says. But the appreciation she received from the soldiers she served touched her more deeply than she could have imagined.",
       "Dahlia volunteers with groups of Israeli soldiers living with PTSD who come to San Diego through Jewmanity\u2019s Heads Up retreat program. Every one of them carries a whole life story, she says \u2014 they come from all ages and backgrounds, men and women, married and single. Each one matters deeply to her.",
@@ -79,11 +63,9 @@ const fallbackStories: Story[] = [
     pullQuote: "The joy of giving to them feels endless, and I\u2019m grateful to be part of their journey.",
     pullAttribution: 'Dahlia, Jewmanity Volunteer',
   },
-  {
+  'believing-again': {
     title: "Believing Again: Matamba\u2019s Journey Home",
-    slug: 'believing-again',
     tag: 'Jewmanity Retreat',
-    url: '/about/community-stories/believing-again',
     paragraphs: [
       'Matamba Lassan was 23 years old and recently married when October 7th shattered his world. In the aftermath, he lost his faith \u2014 especially in himself. The trauma of what he had witnessed left him unable to see a path forward.',
       "Through Jewmanity\u2019s Heads Up program, Matamba traveled to the United States for a month of healing. The retreat combined professional psychological care with the warmth of a community that embraced him and his fellow soldiers. For the first time since the attack, he felt supported \u2014 not as a soldier, but as a person.",
@@ -92,76 +74,93 @@ const fallbackStories: Story[] = [
     pullQuote: 'This journey helped me believe in myself again. When I came back to Israel, I finally knew how to move forward.',
     pullAttribution: 'Matamba Lassan, Retreat Participant',
   },
-];
+};
 
-const { stories: cmsStories } = Astro.props;
-const stories = (cmsStories && cmsStories.length > 0 ? cmsStories : fallbackStories) as Story[];
+export async function getStaticPaths() {
+  let cmsStories: Record<string, unknown>[] = [];
+  try {
+    cmsStories = await getCommunityStories();
+  } catch (e) {
+    console.warn('Sanity fetch failed for community story paths, using fallback');
+  }
+
+  const allSlugs = ['first-retreat', 'golani-boys-return', 'brave-girls', 'fathers-fighters-finding-peace', 'joy-of-giving', 'believing-again'];
+  const allowedSlugs = new Set(allSlugs);
+
+  const cmsPaths = cmsStories
+    .filter((s) => s.slug && allowedSlugs.has(s.slug as string))
+    .map((s) => ({
+      params: { slug: s.slug as string },
+      props: { story: s },
+    }));
+
+  const cmsSlugs = new Set(cmsPaths.map((p) => p.params.slug));
+  const fallbackPaths = allSlugs
+    .filter((s) => !cmsSlugs.has(s))
+    .map((s) => ({ params: { slug: s } }));
+
+  return [...cmsPaths, ...fallbackPaths];
+}
+
+const { slug } = Astro.params;
+const cmsStory = Astro.props.story || null;
+const fallback = slug ? fallbackStories[slug] : undefined;
+
+const title = (cmsStory?.title as string) || fallback?.title || 'Community Story';
+const tag = (cmsStory?.tag as string) || fallback?.tag;
+const paragraphs: string[] = (cmsStory?.paragraphs as string[]) || fallback?.paragraphs || [];
+const pullQuote = (cmsStory?.pullQuote as string) || fallback?.pullQuote;
+const pullAttribution = (cmsStory?.pullQuoteAttribution as string) || (cmsStory?.pullAttribution as string) || fallback?.pullAttribution;
 ---
 
-<section id="stories-grid" class="py-16 md:py-20 lg:py-24">
-  <div class="mx-auto max-w-[1200px] px-6">
-    <div class="mb-12 text-center" data-animate="fade-up">
-      <h2 class="font-heading text-[clamp(28px,4vw,36px)] font-medium leading-tight text-text-heading">
-        Stories of Impact
-      </h2>
-      <p class="mx-auto mt-4 max-w-[700px] font-body text-[15px] leading-relaxed text-text-body md:text-base">
-        How Jewish communities are making a difference through healing, service, and solidarity
-      </p>
-    </div>
+<Layout title={`${title} | Jewmanity`} description={paragraphs[0]?.slice(0, 160) || ''}>
+  <article class="pb-16 pt-28 md:pb-20 md:pt-32">
+    <div class="mx-auto max-w-[720px] px-6 lg:max-w-[900px]">
+      {tag && (
+        <span class:list={[
+          "mb-4 inline-flex rounded-full px-3 py-1 font-body text-xs font-medium",
+          tag === 'Jewmanity Volunteer'
+            ? "bg-primary/10 text-primary"
+            : "bg-primary/10 text-primary",
+        ]}>
+          {tag}
+        </span>
+      )}
 
-    <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3" data-animate="stagger">
-      {stories.map((story) => (
-        <article class="group flex flex-col overflow-hidden rounded-[24px] border-[0.5px] border-border-card bg-white shadow-[0px_16px_32px_rgba(12,12,13,0.1),0px_4px_4px_rgba(12,12,13,0.05)]">
-          {story.image ? (
-            <img src={story.image} alt={story.alt || story.title} class="h-48 w-full object-cover" width="600" height="400" loading="lazy" />
-          ) : (
-            <!-- TODO: Replace with real image from Sanity -->
-            <div class="flex h-48 items-center justify-center bg-gradient-to-br from-primary/15 via-primary/5 to-[#FAF8F5]">
-              <svg class="h-10 w-10 text-primary/30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
-              </svg>
-            </div>
+      <h1 class="font-heading text-[clamp(28px,4vw,42px)] font-medium leading-tight text-text-heading">
+        {title}
+      </h1>
+
+      <div class="mt-10 space-y-6 font-body text-base leading-[1.8] text-text-body md:text-[17px]">
+        {paragraphs.map((p) => (
+          <p>{p}</p>
+        ))}
+      </div>
+
+      {pullQuote && (
+        <blockquote class="my-10 rounded-xl border-l-4 border-primary bg-primary-light/50 px-6 py-5">
+          <p class="font-body text-lg italic leading-relaxed text-text-heading">
+            &ldquo;{pullQuote}&rdquo;
+          </p>
+          {pullAttribution && (
+            <footer class="mt-3 font-body text-sm font-medium text-text-muted">
+              &mdash; {pullAttribution}
+            </footer>
           )}
-          <div class="flex flex-1 flex-col p-6">
-            <span class:list={[
-              "mb-3 inline-flex w-fit rounded-full px-3 py-1 font-body text-xs font-medium",
-              story.tag === 'Community Impact'
-                ? "bg-[#F5F2ED] text-text-body"
-                : "bg-primary/10 text-primary",
-            ]}>
-              {story.tag}
-            </span>
-            <h3 class="font-heading text-xl font-medium leading-snug text-text-heading">
-              {story.title}
-            </h3>
-            <p class="mt-3 flex-1 font-body text-sm leading-relaxed text-text-body">
-              {(() => {
-                const text = (story.paragraphs?.[0] || story.description || '');
-                return text.length > 200 ? text.slice(0, 200).trimEnd() + '\u2026' : text;
-              })()}
-            </p>
-            {story.external ? (
-              <a
-                href={story.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="mt-5 inline-flex items-center gap-1 font-body text-sm font-medium text-primary transition-colors hover:text-primary-hover hover:underline"
-              >
-                Learn More
-                <span aria-hidden="true">&rarr;</span>
-              </a>
-            ) : (
-              <a
-                href={story.url}
-                class="mt-5 inline-flex items-center gap-1 font-body text-sm font-medium text-primary transition-colors hover:text-primary-hover hover:underline"
-              >
-                Read More
-                <span aria-hidden="true">&rarr;</span>
-              </a>
-            )}
-          </div>
-        </article>
-      ))}
+        </blockquote>
+      )}
+
+      <div class="mt-12 border-t border-border-card pt-8">
+        <a
+          href="/about/community-stories"
+          class="inline-flex items-center gap-2 font-body text-sm font-medium text-primary transition-colors hover:text-primary-hover"
+        >
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Back to Community Stories
+        </a>
+      </div>
     </div>
-  </div>
-</section>
+  </article>
+</Layout>

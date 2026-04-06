@@ -138,25 +138,45 @@ if (testimonials.length === 0) {
       </div>
     </div>
 
-    <div
-      id="impact-dots"
-      class="mt-8 flex items-center justify-center gap-3"
-      role="tablist"
-      aria-label="Testimonial navigation"
-    >
-      {testimonials.map((_, i) => (
-        <button
-          type="button"
-          class:list={[
-            "impact-dot h-2.5 w-2.5 rounded-full transition-colors duration-300",
-            i === 0 ? "bg-primary" : "bg-gray-300",
-          ]}
-          role="tab"
-          aria-selected={i === 0 ? "true" : "false"}
-          aria-label={`Story ${i + 1}`}
-          data-index={i}
-        ></button>
-      ))}
+    <div class="mt-8 flex items-center justify-center gap-6">
+      <button
+        id="impact-prev"
+        class="flex h-8 w-8 items-center justify-center rounded-full border border-border-card text-text-muted transition-colors hover:border-primary hover:text-primary"
+        aria-label="Previous story"
+      >
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <div
+        id="impact-dots"
+        class="flex items-center gap-2"
+        role="tablist"
+        aria-label="Testimonial navigation"
+      >
+        {testimonials.map((_, i) => (
+          <button
+            type="button"
+            class:list={[
+              "impact-dot h-2.5 w-2.5 rounded-full transition-colors duration-300",
+              i === 0 ? "bg-primary" : "bg-gray-300",
+            ]}
+            role="tab"
+            aria-selected={i === 0 ? "true" : "false"}
+            aria-label={`Story ${i + 1}`}
+            data-index={i}
+          ></button>
+        ))}
+      </div>
+      <button
+        id="impact-next"
+        class="flex h-8 w-8 items-center justify-center rounded-full border border-border-card text-text-muted transition-colors hover:border-primary hover:text-primary"
+        aria-label="Next story"
+      >
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
     </div>
   </div>
 </section>
@@ -165,6 +185,8 @@ if (testimonials.length === 0) {
   const slides = document.querySelectorAll<HTMLElement>('.impact-slide');
   const dots = document.querySelectorAll<HTMLButtonElement>('.impact-dot');
   const carousel = document.getElementById('impact-carousel');
+  const prevBtn = document.getElementById('impact-prev');
+  const nextBtn = document.getElementById('impact-next');
   const total = slides.length;
   let current = 0;
   let timer: ReturnType<typeof setInterval> | null = null;
@@ -187,9 +209,8 @@ if (testimonials.length === 0) {
     current = index;
   }
 
-  function next() {
-    goTo((current + 1) % total);
-  }
+  function next() { goTo((current + 1) % total); }
+  function prev() { goTo((current - 1 + total) % total); }
 
   function startAutoplay() {
     if (timer) clearInterval(timer);
@@ -202,12 +223,14 @@ if (testimonials.length === 0) {
 
   dots.forEach((dot) => {
     dot.addEventListener('click', () => {
-      const idx = Number(dot.dataset.index);
-      goTo(idx);
+      goTo(Number(dot.dataset.index));
       stopAutoplay();
       startAutoplay();
     });
   });
+
+  prevBtn?.addEventListener('click', () => { prev(); stopAutoplay(); startAutoplay(); });
+  nextBtn?.addEventListener('click', () => { next(); stopAutoplay(); startAutoplay(); });
 
   carousel?.addEventListener('mouseenter', stopAutoplay);
   carousel?.addEventListener('mouseleave', startAutoplay);

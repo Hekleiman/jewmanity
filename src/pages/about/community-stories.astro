@@ -77,7 +77,7 @@ try {
     paragraphs: (s.paragraphs as string[] | undefined) || undefined,
     description: (s.excerpt as string) || undefined,
     image: (s.imageUrl as string) || (s.image ? urlFor(s.image as SanityImageSource).width(600).url() : undefined),
-    url: (s.externalUrl as string) || (s.internalUrl as string) || undefined,
+    url: (s.externalUrl as string) || (s.internalUrl as string) || (s.slug ? `/about/community-stories/${s.slug}` : undefined),
     external: !!(s.externalUrl as string),
     tag: (s.tag as string) || undefined,
     pullQuote: (s.pullQuote as string) || undefined,

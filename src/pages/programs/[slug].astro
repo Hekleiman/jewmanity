@@ -1,86 +1,76 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import RetreatArticle from '../../components/programs/RetreatArticle.astro';
-import { getRetreats } from '../../lib/sanity';
+import { getRetreats, urlFor } from '../../lib/sanity';
+import { retreatData } from '../../data/retreats';
+import type { ContentBlock } from '../../data/retreats';
 
-interface RetreatData {
-  title: string;
-  subtitle: string;
-  author: string;
-}
-
-const fallbackRetreatData: Record<string, RetreatData> = {
-  'first-retreat': {
-    title: 'Heads Up Retreat #1 \u2013 \u201CThe Beginning\u201D',
-    subtitle: 'Spring in San Diego',
-    author: 'Written by retreat assistant, Kate H.',
-  },
-  'second-retreat': {
-    title: 'Heads Up Retreat #2 \u2013 \u201CBuilding Bridges\u201D',
-    subtitle: 'Spring in San Diego',
-    author: 'Written by retreat coordinator, Sarah M.',
-  },
-  'third-retreat': {
-    title: 'Heads Up Retreat #3 \u2013 \u201CRising Together\u201D',
-    subtitle: 'Summer in San Diego',
-    author: 'Written by volunteer, James R.',
-  },
-  'fourth-retreat': {
-    title: 'Heads Up Retreat #4 \u2013 \u201CFathers, Fighters\u201D',
-    subtitle: 'Winter in San Diego',
-    author: 'Written by retreat assistant, Kate H.',
-  },
-};
-
-const fallbackPaths = [
-  { params: { slug: 'example' } },
-  { params: { slug: 'first-retreat' } },
-  { params: { slug: 'second-retreat' } },
-  { params: { slug: 'third-retreat' } },
-  { params: { slug: 'fourth-retreat' } },
-];
+const allSlugs = Object.keys(retreatData);
 
 export async function getStaticPaths() {
-  let retreats: any[] = [];
+  let retreats: Record<string, unknown>[] = [];
   try {
     retreats = await getRetreats();
   } catch (e) {
     console.warn('Sanity fetch failed for retreat paths, using fallback');
   }
 
-  if (retreats.length > 0) {
-    return retreats.map((retreat: any) => ({
-      params: { slug: retreat.slug.current },
-      props: { retreat },
-    }));
-  }
+  const cmsPaths = retreats.map((retreat: Record<string, unknown>) => ({
+    params: { slug: (retreat.slug as { current: string }).current },
+    props: { retreat },
+  }));
 
-  return [
-    { params: { slug: 'example' } },
-    { params: { slug: 'first-retreat' } },
-    { params: { slug: 'second-retreat' } },
-    { params: { slug: 'third-retreat' } },
-    { params: { slug: 'fourth-retreat' } },
-  ];
+  const cmsSlugs = new Set(cmsPaths.map((p) => p.params.slug));
+  const fallbackPaths = ['heads-up-first-retreat', 'heads-up-second-retreat', 'heads-up-third-retreat', 'heads-up-retreat-4-fathers-fighters']
+    .filter((s) => !cmsSlugs.has(s))
+    .map((s) => ({ params: { slug: s } }));
+
+  return [...cmsPaths, ...fallbackPaths];
 }
 
 const { slug } = Astro.params;
-const cmsRetreat = Astro.props.retreat || null;
-const data = cmsRetreat
-  ? { title: cmsRetreat.title, subtitle: cmsRetreat.subtitle || '', author: cmsRetreat.author || '' }
-  : fallbackRetreatData[slug as string];
+const cmsRetreat = (Astro.props as Record<string, unknown>).retreat as Record<string, unknown> | null || null;
+const fallback = slug ? retreatData[slug] : undefined;
+
+const title = fallback?.title || (cmsRetreat?.title as string) || 'Retreat';
+const subtitle = fallback?.subtitle || (cmsRetreat?.subtitle as string) || '';
+const author = fallback?.author || (cmsRetreat?.author as string) || '';
+const coverImage = fallback?.coverImage
+  || (cmsRetreat?.coverImage ? urlFor(cmsRetreat.coverImage as any).width(1920).url() : '/images/hero/retreat-article.jpg');
+
+// Build body from CMS portable text or fallback
+// Only use CMS body if it has substantial content (>3 blocks); otherwise prefer fallback
+let body: ContentBlock[] = [];
+const cmsBody = cmsRetreat?.body as Record<string, unknown>[] | undefined;
+if (cmsBody && Array.isArray(cmsBody) && cmsBody.length > 3) {
+  body = cmsBody.map((block) => {
+    if (block._type === 'image' && block.asset) {
+      return {
+        type: 'image' as const,
+        src: urlFor(block as any).width(1280).url(),
+        alt: (block.alt as string) || title,
+      };
+    }
+    const style = block.style as string;
+    if (style === 'h2' || style === 'h3') {
+      const children = block.children as { text: string }[];
+      return { type: 'heading' as const, text: children?.map((c) => c.text).join('') || '' };
+    }
+    const children = block.children as { text: string }[];
+    return { type: 'paragraph' as const, text: children?.map((c) => c.text).join('') || '' };
+  });
+}
+if (body.length === 0 && fallback) {
+  body = fallback.body;
+}
 ---
-<Layout title={`${data ? data.title : slug} | Jewmanity`} description="Read about this transformative Heads Up healing retreat experience.">
-  {data ? (
-    <RetreatArticle
-      title={data.title}
-      subtitle={data.subtitle}
-      author={data.author}
-    />
-  ) : (
-    <div class="flex min-h-screen flex-col items-center justify-center gap-4">
-      <h1 class="font-heading text-3xl font-medium text-text-heading">{slug}</h1>
-      <p class="text-text-muted">Dynamic page — Phase 1</p>
-    </div>
-  )}
+
+<Layout title={`${title} | Jewmanity`} description={fallback?.description || 'Read about this transformative Heads Up healing retreat experience.'}>
+  <RetreatArticle
+    title={title}
+    subtitle={subtitle}
+    author={author}
+    coverImage={coverImage}
+    body={body}
+  />
 </Layout>
