@@ -135,5 +135,5 @@ src/
 - Do NOT use external image URLs or CDN fonts
 - Do NOT add GSAP animations until Phase 3A
 - Do NOT remove hardcoded fallback content from CMS-wired pages
-- Do NOT add Snipcart/Donorbox/Formspree until Phase 2
+- Do NOT add Snipcart/Givebutter/Formspree until Phase 2
 - Do NOT modify existing working components unless the prompt explicitly says to

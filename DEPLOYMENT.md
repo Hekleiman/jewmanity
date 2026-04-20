@@ -59,11 +59,11 @@ npx sanity deploy
 ## Post-Deploy Checklist
 
 - [ ] Switch Snipcart from Test to Live mode (Dashboard → toggle)
-- [ ] Verify Donorbox production campaign is active
+- [ ] Verify Givebutter production campaign is active
 - [ ] Test contact form submission (Formspree)
 - [ ] Test newsletter signup (Mailchimp)
 - [ ] Test Add to Cart + checkout flow (Snipcart)
-- [ ] Test donation widget (Donorbox)
+- [ ] Test donation widget (Givebutter)
 - [ ] Run Lighthouse audit — target 95+ across all categories
 - [ ] Verify all pages render correctly on mobile (375px)
 - [ ] Check robots.txt and sitemap.xml are accessible
