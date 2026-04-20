@@ -1,11 +1,18 @@
 ---
-interface Props {}
+interface Props {
+  heading?: string;
+  privacyNote?: string;
+}
+
+const { heading, privacyNote } = Astro.props;
+const displayHeading = heading || 'Contact Us';
+const displayPrivacyNote = privacyNote || 'Your message will be kept private and treated with care.';
 ---
 
 <section id="contact-form" class="py-16 md:py-20 lg:py-24">
   <div class="mx-auto max-w-[700px] px-6">
     <h2 class="text-center font-heading text-[clamp(28px,4vw,36px)] font-medium leading-tight text-text-heading">
-      Contact Us
+      {displayHeading}
     </h2>
 
     <form
@@ -112,7 +119,7 @@ interface Props {}
       </div>
 
       <p class="text-center font-body text-sm text-text-muted">
-        Your message will be kept private and treated with care.
+        {displayPrivacyNote}
       </p>
 
       <!-- Success message -->

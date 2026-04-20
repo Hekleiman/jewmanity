@@ -1,49 +1,44 @@
 ---
-interface Props {}
-
 interface HelpCard {
-  icon: string;
-  title: string;
-  description: string;
+  icon?: string;
+  title?: string;
+  description?: string;
 }
 
-const cards: HelpCard[] = [
-  {
-    icon: 'meals',
-    title: 'Preparing and Serving Meals',
-    description: 'Help create nourishing, home-cooked meals that bring comfort and community to retreat participants.',
-  },
-  {
-    icon: 'transport',
-    title: 'Transportation and Logistics',
-    description: 'Provide safe, reliable transportation to and from retreat locations, airports, or local activities.',
-  },
-  {
-    icon: 'hosting',
-    title: 'Hosting Dinners and Gatherings',
-    description: 'Open your home to create welcoming spaces where participants can connect and feel supported.',
-  },
-  {
-    icon: 'support',
-    title: 'Day-to-Day Support',
-    description: 'Be a steady presence during retreats\u2014setting up spaces, offering conversation, or simply being there.',
-  },
+interface Props {
+  heading?: string;
+  subtitle?: string;
+  cards?: HelpCard[];
+}
+
+const fallbackCards: HelpCard[] = [
+  { icon: 'meals', title: 'Preparing and Serving Meals', description: 'Help create nourishing, home-cooked meals that bring comfort and community to retreat participants.' },
+  { icon: 'transport', title: 'Transportation and Logistics', description: 'Provide safe, reliable transportation to and from retreat locations, airports, or local activities.' },
+  { icon: 'hosting', title: 'Hosting Dinners and Gatherings', description: 'Open your home to create welcoming spaces where participants can connect and feel supported.' },
+  { icon: 'support', title: 'Day-to-Day Support', description: 'Be a steady presence during retreats\u2014setting up spaces, offering conversation, or simply being there.' },
 ];
+
+const KNOWN_ICONS = new Set(['meals', 'transport', 'hosting', 'support']);
+
+const { heading, subtitle, cards } = Astro.props;
+const displayHeading = heading || 'How You Can Help';
+const displaySubtitle = subtitle || 'There are many meaningful ways to contribute—find the one that feels right for you.';
+const displayCards = cards && cards.length > 0 ? cards : fallbackCards;
 ---
 
 <section id="how-to-help" class="bg-bg-section-alt py-16 md:py-20 lg:py-24">
   <div class="mx-auto max-w-[1200px] px-6">
     <div class="mb-12 text-center" data-animate="fade-up">
       <h2 class="font-heading text-[clamp(28px,4vw,36px)] font-medium leading-tight text-text-heading">
-        How You Can Help
+        {displayHeading}
       </h2>
       <p class="mx-auto mt-4 max-w-[600px] font-body text-[15px] leading-relaxed text-text-body md:text-base">
-        There are many meaningful ways to contribute—find the one that feels right for you.
+        {displaySubtitle}
       </p>
     </div>
 
     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2" data-animate="stagger">
-      {cards.map((card) => (
+      {displayCards.map((card) => (
         <div class="flex gap-5 rounded-2xl border-[0.5px] border-border-card bg-white p-6 shadow-[0px_8px_16px_rgba(12,12,13,0.06),0px_2px_4px_rgba(12,12,13,0.04)]">
           <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary-light text-primary">
             {card.icon === 'meals' && (
@@ -74,6 +69,11 @@ const cards: HelpCard[] = [
                 <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8" fill="none"/>
                 <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.8" fill="none"/>
                 <path d="M12 3v6m0 6v6M3 12h6m6 0h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              </svg>
+            )}
+            {(!card.icon || !KNOWN_ICONS.has(card.icon)) && (
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.8" fill="none"/>
               </svg>
             )}
           </div>

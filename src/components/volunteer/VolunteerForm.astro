@@ -1,14 +1,23 @@
 ---
-interface Props {}
+interface Props {
+  heading?: string;
+  subtitle?: string;
+  privacyNote?: string;
+}
+
+const { heading, subtitle, privacyNote } = Astro.props;
+const displayHeading = heading || 'Volunteer Application';
+const displaySubtitle = subtitle || "Fill out the form below and we'll be in touch to find the right fit for you.";
+const displayPrivacyNote = privacyNote || 'Your information will be kept confidential and used only for volunteer coordination.';
 ---
 
 <section id="volunteer-form" class="bg-bg-alt py-16 md:py-20 lg:py-24">
   <div class="mx-auto max-w-[700px] px-6">
     <h2 class="text-center font-heading text-[clamp(28px,4vw,36px)] font-medium leading-tight text-text-heading">
-      Volunteer Application
+      {displayHeading}
     </h2>
     <p class="mx-auto mt-4 max-w-[550px] text-center font-heading text-[clamp(16px,2.2vw,20px)] font-normal leading-relaxed text-text-body">
-      Fill out the form below and we'll be in touch to find the right fit for you.
+      {displaySubtitle}
     </p>
 
     <form
@@ -186,7 +195,7 @@ interface Props {}
       </div>
 
       <p class="text-center font-body text-sm text-text-muted">
-        Your information will be kept confidential and used only for volunteer coordination.
+        {displayPrivacyNote}
       </p>
 
       <!-- Success message -->

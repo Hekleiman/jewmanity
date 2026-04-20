@@ -8,8 +8,30 @@ import TestimonialCarousel from '../../components/shared/TestimonialCarousel.ast
 import FAQAccordion from '../../components/shared/FAQAccordion.astro';
 import VolunteerForm from '../../components/volunteer/VolunteerForm.astro';
 import CTASection from '../../components/shared/CTASection.astro';
-import { getTestimonials, getFaqItems, urlFor } from '../../lib/sanity';
+import { getTestimonials, getFaqItems, getVolunteerPage, urlFor } from '../../lib/sanity';
 import { toHTML } from '@portabletext/to-html';
+
+interface PortableBlock {
+  _type: string;
+  style?: string;
+  listItem?: string;
+  children?: { text?: string }[];
+}
+
+function extractParagraphs(blocks: PortableBlock[] | undefined): string[] {
+  if (!Array.isArray(blocks)) return [];
+  return blocks
+    .filter((b) => b._type === 'block' && !b.listItem && (b.style === 'normal' || !b.style))
+    .map((b) => (b.children || []).map((c) => c.text || '').join(''))
+    .filter((t) => t.length > 0);
+}
+
+let cms: Record<string, any> | null = null;
+try {
+  cms = await getVolunteerPage();
+} catch (e) {
+  console.warn('Sanity fetch failed for volunteerPage, using hardcoded fallbacks');
+}
 
 let cmsTestimonials: { quote: string; author: string; context: string; imageUrl?: string }[] = [];
 try {
@@ -38,71 +60,83 @@ try {
 } catch (e) {
   console.warn('Sanity fetch failed for volunteer FAQs, using fallback content');
 }
+
+const heroBg = cms?.hero?.backgroundImage
+  ? urlFor(cms.hero.backgroundImage).width(1920).quality(80).url()
+  : '/images/hero/volunteer.jpg';
+const whyImage = cms?.whyVolunteerImage ? urlFor(cms.whyVolunteerImage).width(800).quality(80).url() : undefined;
+const whyParagraphs = extractParagraphs(cms?.whyVolunteerBody);
+
+const ctaPrimary = cms?.ctaPrimaryButton?.text && cms?.ctaPrimaryButton?.href
+  ? cms.ctaPrimaryButton
+  : { text: 'Apply to Volunteer', href: '#volunteer-form' };
+const ctaSecondary = cms?.ctaSecondaryButton?.text && cms?.ctaSecondaryButton?.href
+  ? cms.ctaSecondaryButton
+  : { text: 'Support Healing', href: '/donate' };
+
+const fallbackTestimonials = [
+  {
+    quote: "I give them my heart, my time, and my presence, and somehow I receive so much back. The joy of giving to them feels endless, and I'm grateful to be part of their journey.",
+    author: 'Dahlia',
+    context: 'Volunteer',
+  },
+  {
+    quote: 'After October 7th, I lost my faith \u2014 especially in myself. Through Jewmanity, I spent a month in the U.S. healing and being supported by professional care. This journey helped me believe in myself again.',
+    author: 'Matamba Lassan',
+    context: 'Retreat Participant',
+  },
+];
+
+const fallbackFaqs = [
+  { question: 'Is prior experience required?', answer: 'No prior experience is needed. We provide all the guidance and training you need to contribute meaningfully. What matters most is your compassion, reliability, and willingness to be present.' },
+  { question: 'What is the time commitment?', answer: 'Volunteer commitments vary depending on the role. Some positions require a few hours, while others may span the duration of a retreat (typically 5-7 days). We work with you to find a schedule that fits.' },
+  { question: 'Are meals provided for volunteers?', answer: 'Yes, all meals during retreat volunteering are provided. We believe in taking care of those who take care of others.' },
+  { question: 'Are there age or physical requirements?', answer: 'Most volunteer roles are open to adults 18 and older. Some roles may require physical activity, but many are flexible and can accommodate various abilities.' },
+  { question: 'Can I choose which tasks I help with?', answer: 'Absolutely. During the onboarding process, we\u2019ll discuss your interests, skills, and preferences to match you with the role that feels right.' },
+  { question: 'Are background checks required?', answer: 'Yes, for the safety of our participants, all volunteers undergo a standard background check before participating in retreat activities.' },
+  { question: 'What if I have additional questions or considerations?', answer: 'We\u2019re happy to chat! Reach out through our contact page and we\u2019ll get back to you promptly.' },
+];
 ---
 <Layout title="Volunteer With Jewmanity" description="Support healing retreats through volunteering. Prepare meals, provide transportation, host gatherings, and make a meaningful difference.">
   <HeroSection
-    heading="Volunteer With Jewmanity"
-    subtitle="Support healing, connection, and dignity through presence, care, and community."
-    backgroundImage="/images/hero/volunteer.jpg"
+    heading={cms?.hero?.heading ?? 'Volunteer With Jewmanity'}
+    subtitle={cms?.hero?.subtitle ?? 'Support healing, connection, and dignity through presence, care, and community.'}
+    backgroundImage={heroBg}
   />
-  <WhyVolunteer />
-  <HowToHelp />
-  <VolunteerImpact />
+  <WhyVolunteer
+    heading={cms?.whyVolunteerHeading}
+    paragraphs={whyParagraphs.length > 0 ? whyParagraphs : undefined}
+    imageUrl={whyImage}
+  />
+  <HowToHelp
+    heading={cms?.howToHelpHeading}
+    subtitle={cms?.howToHelpSubtitle}
+    cards={cms?.howToHelpCards}
+  />
+  <VolunteerImpact
+    heading={cms?.impactHeading}
+    intro={cms?.impactIntro}
+    stats={cms?.impactStats}
+  />
   <TestimonialCarousel
-    heading="What Our Volunteers Say"
-    subtitle="Honest reflections from those who fostered healing, connection, and renewed strength for Heads Up attendees."
-    testimonials={cmsTestimonials.length > 0 ? cmsTestimonials : [
-      {
-        quote: "I give them my heart, my time, and my presence, and somehow I receive so much back. The joy of giving to them feels endless, and I'm grateful to be part of their journey.",
-        author: 'Dahlia',
-        context: 'Volunteer',
-      },
-      {
-        quote: 'After October 7th, I lost my faith \u2014 especially in myself. Through Jewmanity, I spent a month in the U.S. healing and being supported by professional care. This journey helped me believe in myself again.',
-        author: 'Matamba Lassan',
-        context: 'Retreat Participant',
-      },
-    ]}
+    heading={cms?.testimonialsHeading ?? 'What Our Volunteers Say'}
+    subtitle={cms?.testimonialsSubtitle ?? 'Honest reflections from those who fostered healing, connection, and renewed strength for Heads Up attendees.'}
+    testimonials={cmsTestimonials.length > 0 ? cmsTestimonials : fallbackTestimonials}
   />
   <FAQAccordion
-    heading="Frequently Asked Questions"
-    subtitle="Have questions? We're here to help."
-    items={cmsFaqItems.length > 0 ? cmsFaqItems : [
-      {
-        question: 'Is prior experience required?',
-        answer: 'No prior experience is needed. We provide all the guidance and training you need to contribute meaningfully. What matters most is your compassion, reliability, and willingness to be present.',
-      },
-      {
-        question: 'What is the time commitment?',
-        answer: 'Volunteer commitments vary depending on the role. Some positions require a few hours, while others may span the duration of a retreat (typically 5-7 days). We work with you to find a schedule that fits.',
-      },
-      {
-        question: 'Are meals provided for volunteers?',
-        answer: 'Yes, all meals during retreat volunteering are provided. We believe in taking care of those who take care of others.',
-      },
-      {
-        question: 'Are there age or physical requirements?',
-        answer: 'Most volunteer roles are open to adults 18 and older. Some roles may require physical activity, but many are flexible and can accommodate various abilities.',
-      },
-      {
-        question: 'Can I choose which tasks I help with?',
-        answer: 'Absolutely. During the onboarding process, we\u2019ll discuss your interests, skills, and preferences to match you with the role that feels right.',
-      },
-      {
-        question: 'Are background checks required?',
-        answer: 'Yes, for the safety of our participants, all volunteers undergo a standard background check before participating in retreat activities.',
-      },
-      {
-        question: 'What if I have additional questions or considerations?',
-        answer: 'We\u2019re happy to chat! Reach out through our contact page and we\u2019ll get back to you promptly.',
-      },
-    ]}
+    heading={cms?.faqHeading ?? 'Frequently Asked Questions'}
+    subtitle={cms?.faqSubtitle ?? "Have questions? We're here to help."}
+    items={cmsFaqItems.length > 0 ? cmsFaqItems : fallbackFaqs}
   />
-  <VolunteerForm />
+  <VolunteerForm
+    heading={cms?.formHeading}
+    subtitle={cms?.formSubtitle}
+    privacyNote={cms?.formPrivacyNote}
+  />
   <CTASection
-    heading="Ready to Get Involved?"
-    subtitle="Whether you have a few hours or can commit to regular support, your contribution makes a meaningful difference. Help comes in many forms\u2014find yours."
-    primaryCta={{ text: 'Apply to Volunteer', href: '#volunteer-form' }}
-    secondaryCta={{ text: 'Support Healing', href: '/donate' }}
+    heading={cms?.ctaHeading ?? 'Ready to Get Involved?'}
+    subtitle={cms?.ctaDescription ?? 'Whether you have a few hours or can commit to regular support, your contribution makes a meaningful difference. Help comes in many forms\u2014find yours.'}
+    primaryCta={ctaPrimary}
+    secondaryCta={ctaSecondary}
   />
 </Layout>
