@@ -242,11 +242,22 @@ export async function getHomepage() {
       heroHeading,
       heroSubtitle,
       heroImage,
-      heroCtas,
-      impactStats,
+      heroImageAlt,
+      heroPrimaryCta,
+      heroSecondaryCta,
+      howWeHelpHeading,
+      howWeHelpSubtitle,
+      howWeHelpPrograms,
+      impactStoriesHeading,
+      impactStoriesSubtitle,
+      donationHeading,
+      donationSubtitle,
       donationAmounts,
+      donationButton,
+      donationFooterText,
       newsletterHeading,
-      newsletterDescription
+      newsletterDescription,
+      statsItems
     }
   `);
 }
@@ -255,10 +266,15 @@ export async function getAboutStory() {
   return client.fetch(`
     *[_type == "aboutStory"][0] {
       hero,
+      storyHeading,
       storyBody,
+      valuesHeading,
+      valuesSubtitle,
       values,
       ctaHeading,
-      ctaDescription
+      ctaDescription,
+      ctaPrimaryButton,
+      ctaSecondaryButton
     }
   `);
 }
@@ -267,11 +283,32 @@ export async function getHeadsUp() {
   return client.fetch(`
     *[_type == "headsUp"][0] {
       hero,
-      sections,
+      safeHavenHeading,
+      safeHavenBody,
+      safeHavenImage,
+      supportHeading,
+      supportSubtitle,
       supportCards,
+      experienceHeading,
+      experienceSubtitle,
+      experienceItems,
+      careHeading,
+      careImage,
+      carePillars,
+      includedHeading,
+      includedSubtitle,
       includedItems,
+      communityHeading,
+      communityIntro,
+      communityBullets,
+      communityButton,
+      communityImage,
+      impactHeading,
+      impactSubtitle,
       impactStats,
-      carePillars
+      ctaHeading,
+      ctaSubtitle,
+      ctaPrimaryButton
     }
   `);
 }
@@ -280,8 +317,23 @@ export async function getFightingAntisemitism() {
   return client.fetch(`
     *[_type == "fightingAntisemitism"][0] {
       hero,
-      introBody,
-      sections
+      understandingHeading,
+      understandingBody,
+      understandingStats,
+      formsHeading,
+      formsCards,
+      actionHeading,
+      actionSubtitle,
+      actionSteps,
+      articlesHeading,
+      articlesSubtitle,
+      organizationsHeading,
+      organizationsSubtitle,
+      organizations,
+      ctaHeading,
+      ctaSubtitle,
+      ctaPrimaryButton,
+      ctaSecondaryButton
     }
   `);
 }
@@ -290,10 +342,23 @@ export async function getResources() {
   return client.fetch(`
     *[_type == "resources"][0] {
       hero,
+      advocacySectionHeading,
+      advocacySectionSubtitle,
       advocacyPillars,
+      whyMattersHeading,
       whyMattersBody,
+      whyMattersPullQuote,
+      whyMattersImage,
+      commonStrugglesHeading,
       commonStruggles,
+      medicalDisclaimer,
+      commonStrugglesImage,
+      signsSectionHeading,
       signsBody,
+      signsCallout,
+      signsSectionImage,
+      crisisSectionHeading,
+      crisisIntroParagraphs,
       crisisResources,
       disclaimer
     }
@@ -304,10 +369,26 @@ export async function getDonatePage() {
   return client.fetch(`
     *[_type == "donatePage"][0] {
       hero,
-      donorboxEmbed,
+      heroTaxNote,
+      impactHeading,
+      impactSubtitle,
       impactCards,
-      whyGiveBody,
-      costBreakdown
+      whyGiveImage,
+      whyGiveHeading,
+      whyGiveValues,
+      whyGiveClosingText,
+      costBreakdownHeading,
+      costBreakdownSubtitle,
+      costBreakdown,
+      costBreakdownTotalLabel,
+      costBreakdownTotalAmount,
+      costBreakdownDisclaimer,
+      faqHeading,
+      faqSubtitle,
+      ctaHeading,
+      ctaDescription,
+      ctaContactPrompt,
+      ctaContactLink
     }
   `);
 }
@@ -316,8 +397,13 @@ export async function getShopPage() {
   return client.fetch(`
     *[_type == "shopPage"][0] {
       hero,
+      heroCta,
+      impactHeading,
       introDescription,
-      impactIcons
+      impactIcons,
+      ctaHeading,
+      ctaSubtitle,
+      ctaPrimaryButton
     }
   `);
 }
@@ -326,12 +412,26 @@ export async function getVolunteerPage() {
   return client.fetch(`
     *[_type == "volunteerPage"][0] {
       hero,
+      whyVolunteerHeading,
       whyVolunteerBody,
       whyVolunteerImage,
+      howToHelpHeading,
+      howToHelpSubtitle,
       howToHelpCards,
+      impactHeading,
+      impactIntro,
       impactStats,
+      testimonialsHeading,
+      testimonialsSubtitle,
+      faqHeading,
+      faqSubtitle,
+      formHeading,
+      formSubtitle,
+      formPrivacyNote,
       ctaHeading,
-      ctaDescription
+      ctaDescription,
+      ctaPrimaryButton,
+      ctaSecondaryButton
     }
   `);
 }
@@ -340,7 +440,10 @@ export async function getContactPage() {
   return client.fetch(`
     *[_type == "contactPage"][0] {
       hero,
+      introText,
+      formHeading,
       privacyNote,
+      otherWaysHeading,
       otherWaysCards
     }
   `);
