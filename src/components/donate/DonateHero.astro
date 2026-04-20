@@ -33,32 +33,22 @@ const displayTaxNote = taxNote || 'We are an official tax exempt organization wi
       </p>
     </div>
 
-    <!-- Right: Donorbox donation widget -->
-    <!-- Note: Widget header/button color must be set in Donorbox dashboard: Campaign > Design > Primary Color > #3783A3 -->
+    <!-- Right: Givebutter donation widget -->
+    <!-- Note: Widget color/branding is set in the Givebutter dashboard (Campaign > Design). Platform fee mode (0% + donor tips, or 3% flat + Stripe) is also chosen per-campaign in the dashboard, not here. -->
     <div class="w-full max-w-[440px] lg:w-1/2">
-      <script src="https://donorbox.org/widget.js" paypalexpress="false" is:inline></script>
-      <iframe
-        id="donorbox-iframe"
-        src="https://donorbox.org/embed/jewmanity-donation?default_interval=o&hide_donation_meter=true"
-        name="donorbox"
-        allowpaymentrequest="allowpaymentrequest"
-        seamless="seamless"
-        frameborder="0"
-        scrolling="no"
-        height="490px"
-        width="100%"
-        style="max-width:440px; min-width:250px; max-height:none!important; border:none;"
-      ></iframe>
+      <!-- TODO(belinda): replace YOUR_ACCOUNT_ID with the real Givebutter account ID once the account is created. -->
+      <script src="https://widgets.givebutter.com/latest.umd.cjs?acct=YOUR_ACCOUNT_ID&p=other" async is:inline></script>
+      <!-- TODO(belinda): replace WIDGET_ID with the real Givebutter Form widget ID from the dashboard. -->
+      <givebutter-widget id="WIDGET_ID"></givebutter-widget>
       <script is:inline>
         (function () {
+          // TODO(verify-givebutter-url-param): Givebutter docs use `amount` to pre-select a preset donation amount (value must match an existing preset on the campaign). The widget may read window.location.search natively; this script also sets the attribute on the element for defense-in-depth.
           var params = new URLSearchParams(window.location.search);
           var amount = params.get('amount');
           if (amount && /^\d+$/.test(amount)) {
-            var iframe = document.getElementById('donorbox-iframe');
-            if (iframe) {
-              var url = new URL(iframe.src);
-              url.searchParams.set('amount', amount);
-              iframe.src = url.toString();
+            var widget = document.querySelector('givebutter-widget');
+            if (widget) {
+              widget.setAttribute('amount', amount);
             }
           }
         })();
