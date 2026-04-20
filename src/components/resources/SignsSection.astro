@@ -1,7 +1,13 @@
 ---
-interface Props {}
+interface Props {
+  heading?: string;
+  intro?: string;
+  signs?: string[];
+  callout?: string;
+  imageUrl?: string;
+}
 
-const signs: string[] = [
+const fallbackSigns: string[] = [
   'Persistent sadness lasting more than two weeks',
   'Sleep disruption or extreme fatigue',
   'Withdrawal from friends or family',
@@ -10,6 +16,14 @@ const signs: string[] = [
   'Difficulty concentrating',
   'Loss of interest in previously enjoyed activities',
 ];
+
+const { heading, intro, signs, callout, imageUrl } = Astro.props;
+
+const displayHeading = heading || 'Signs You Might Need Additional Support';
+const displayIntro = intro || 'This section helps you self-identify without self-diagnosing.';
+const displaySigns = signs && signs.length > 0 ? signs : fallbackSigns;
+const displayCallout = callout || 'If these feel familiar, speaking with a licensed therapist or mental health provider can be a powerful first step.';
+const displayImage = imageUrl || '/images/sections/resources-signs.jpg';
 ---
 
 <section id="signs-section" class="bg-bg-section-alt py-16 md:py-20 lg:py-24">
@@ -18,13 +32,13 @@ const signs: string[] = [
       <!-- Text -->
       <div class="lg:w-1/2">
         <h2 class="font-heading text-[clamp(24px,3.5vw,32px)] font-medium leading-tight text-text-heading">
-          Signs You Might Need Additional Support
+          {displayHeading}
         </h2>
         <p class="mt-5 font-body text-[15px] leading-relaxed text-text-body md:text-base">
-          This section helps you self-identify without self-diagnosing.
+          {displayIntro}
         </p>
         <ul class="mt-6 space-y-3">
-          {signs.map((sign) => (
+          {displaySigns.map((sign) => (
             <li class="flex items-start gap-3 font-body text-[15px] leading-relaxed text-text-body md:text-base">
               <svg class="mt-1.5 h-4 w-4 shrink-0 text-primary" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                 <circle cx="8" cy="8" r="3" fill="currentColor"/>
@@ -35,15 +49,14 @@ const signs: string[] = [
         </ul>
         <div class="mt-8 rounded-xl border-l-4 border-primary bg-primary-light/50 px-6 py-5">
           <p class="font-body text-sm leading-relaxed text-text-body md:text-[15px]">
-            <span class="font-medium text-text-heading">Important Note:</span> If these feel familiar, speaking with a licensed therapist or mental health provider can be a powerful first step.
+            <span class="font-medium text-text-heading">Important Note:</span> {displayCallout}
           </p>
         </div>
       </div>
 
-      <!-- Image placeholder -->
+      <!-- Image -->
       <div class="lg:w-1/2">
-        {/* TODO: Replace with real photo from client */}
-        <img src="/images/sections/resources-signs.jpg" alt="Signs you might need additional mental health support" class="aspect-[4/3] w-full rounded-2xl object-cover" width="600" height="400" loading="lazy" />
+        <img src={displayImage} alt="Signs you might need additional mental health support" class="aspect-[4/3] w-full rounded-2xl object-cover" width="600" height="400" loading="lazy" />
       </div>
     </div>
   </div>

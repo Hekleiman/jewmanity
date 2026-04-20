@@ -5,8 +5,15 @@ import ImpactCards from '../components/donate/ImpactCards.astro';
 import WhyGive from '../components/donate/WhyGive.astro';
 import CostBreakdown from '../components/donate/CostBreakdown.astro';
 import FAQAccordion from '../components/shared/FAQAccordion.astro';
-import { getFaqItems } from '../lib/sanity';
+import { getFaqItems, getDonatePage, urlFor } from '../lib/sanity';
 import { toHTML } from '@portabletext/to-html';
+
+let cms: Record<string, any> | null = null;
+try {
+  cms = await getDonatePage();
+} catch (e) {
+  console.warn('Sanity fetch failed for donatePage, using hardcoded fallbacks');
+}
 
 let cmsFaqItems: { question: string; answer: string }[] = [];
 try {
@@ -18,60 +25,74 @@ try {
 } catch (e) {
   console.warn('Sanity fetch failed for donate FAQs, using fallback content');
 }
+
+const heroBg = cms?.hero?.backgroundImage
+  ? urlFor(cms.hero.backgroundImage).width(1920).quality(80).url()
+  : '/images/hero/donate.jpg';
+const whyGiveImage = cms?.whyGiveImage ? urlFor(cms.whyGiveImage).width(800).quality(80).url() : undefined;
+
+const ctaContactLink = cms?.ctaContactLink?.text && cms?.ctaContactLink?.href
+  ? cms.ctaContactLink
+  : { text: 'Contact us at donations@jewmanity.org', href: '/get-involved/contact' };
+
+const fallbackFaqs = [
+  { question: 'Is my donation tax-deductible?', answer: 'Yes. Jewmanity is a registered 501(c)(3) nonprofit organization. All donations are tax-deductible to the fullest extent allowed by law. You will receive a tax receipt via email after your contribution.' },
+  { question: 'How will my donation be used?', answer: 'Your donation directly funds healing retreats, therapy sessions, community support programs, and operational costs. We maintain full transparency about how funds are allocated.' },
+  { question: 'Can I make a recurring donation?', answer: 'Yes! You can set up monthly recurring donations through our donation portal. Recurring gifts help us plan ahead and sustain our programs year-round.' },
+  { question: 'Can I donate in honor or memory of someone?', answer: 'Absolutely. During the donation process, you can dedicate your gift in honor or memory of a loved one. We will send an acknowledgment to the honoree or their family.' },
+  { question: 'Are there other ways to support Jewmanity?', answer: 'Yes! Beyond financial contributions, you can volunteer your time, spread awareness, shop our merchandise, or organize a fundraiser in your community.' },
+  { question: 'What if I have questions about my donation?', answer: "We're happy to help. Reach out through our contact page and our team will respond promptly." },
+];
 ---
 <Layout title="Support Healing | Donate to Jewmanity" description="Your donation directly funds healing retreats, therapy, and community support for Jewish and Israeli individuals navigating trauma.">
-  <DonateHero />
-  <ImpactCards />
-  <WhyGive />
-  <CostBreakdown />
+  <DonateHero
+    heading={cms?.hero?.heading}
+    subtitle={cms?.hero?.subtitle}
+    imageUrl={heroBg}
+    taxNote={cms?.heroTaxNote}
+  />
+  <ImpactCards
+    heading={cms?.impactHeading}
+    subtitle={cms?.impactSubtitle}
+    cards={cms?.impactCards}
+  />
+  <WhyGive
+    imageUrl={whyGiveImage}
+    heading={cms?.whyGiveHeading}
+    values={cms?.whyGiveValues}
+    closingText={cms?.whyGiveClosingText}
+  />
+  <CostBreakdown
+    heading={cms?.costBreakdownHeading}
+    subtitle={cms?.costBreakdownSubtitle}
+    items={cms?.costBreakdown}
+    totalLabel={cms?.costBreakdownTotalLabel}
+    totalAmount={cms?.costBreakdownTotalAmount}
+    disclaimer={cms?.costBreakdownDisclaimer}
+  />
   <FAQAccordion
-    heading="Frequently Asked Questions"
-    subtitle="Have questions? We're here to help."
-    items={cmsFaqItems.length > 0 ? cmsFaqItems : [
-      {
-        question: 'Is my donation tax-deductible?',
-        answer: 'Yes. Jewmanity is a registered 501(c)(3) nonprofit organization. All donations are tax-deductible to the fullest extent allowed by law. You will receive a tax receipt via email after your contribution.',
-      },
-      {
-        question: 'How will my donation be used?',
-        answer: 'Your donation directly funds healing retreats, therapy sessions, community support programs, and operational costs. We maintain full transparency about how funds are allocated.',
-      },
-      {
-        question: 'Can I make a recurring donation?',
-        answer: 'Yes! You can set up monthly recurring donations through our donation portal. Recurring gifts help us plan ahead and sustain our programs year-round.',
-      },
-      {
-        question: 'Can I donate in honor or memory of someone?',
-        answer: 'Absolutely. During the donation process, you can dedicate your gift in honor or memory of a loved one. We will send an acknowledgment to the honoree or their family.',
-      },
-      {
-        question: 'Are there other ways to support Jewmanity?',
-        answer: 'Yes! Beyond financial contributions, you can volunteer your time, spread awareness, shop our merchandise, or organize a fundraiser in your community.',
-      },
-      {
-        question: 'What if I have questions about my donation?',
-        answer: "We're happy to help. Reach out through our contact page and our team will respond promptly.",
-      },
-    ]}
+    heading={cms?.faqHeading ?? 'Frequently Asked Questions'}
+    subtitle={cms?.faqSubtitle ?? "Have questions? We're here to help."}
+    items={cmsFaqItems.length > 0 ? cmsFaqItems : fallbackFaqs}
   />
 
   <!-- Bottom CTA -->
   <section id="donate-cta" class="py-16 md:py-20 lg:py-24">
     <div class="mx-auto max-w-[700px] px-6 text-center">
       <h2 class="font-heading text-[clamp(28px,4vw,36px)] font-medium leading-tight text-text-heading">
-        Healing Happens Because of You
+        {cms?.ctaHeading ?? 'Healing Happens Because of You'}
       </h2>
       <p class="mx-auto mt-4 max-w-[600px] font-body text-base leading-relaxed text-text-body">
-        Your compassion and generosity create pathways to recovery, resilience, and hope. Together, we build a stronger, more supported community.
+        {cms?.ctaDescription ?? 'Your compassion and generosity create pathways to recovery, resilience, and hope. Together, we build a stronger, more supported community.'}
       </p>
       <p class="mt-4 font-body text-sm text-text-muted">
-        Questions about donating or want to discuss giving options?
+        {cms?.ctaContactPrompt ?? 'Questions about donating or want to discuss giving options?'}
       </p>
       <a
-        href="/get-involved/contact"
+        href={ctaContactLink.href}
         class="mt-2 inline-block font-body text-sm font-medium text-primary transition-colors hover:text-primary-hover"
       >
-        Contact us at donations@jewmanity.org
+        {ctaContactLink.text}
       </a>
     </div>
   </section>

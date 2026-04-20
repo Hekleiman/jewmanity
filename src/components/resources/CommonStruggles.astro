@@ -1,7 +1,12 @@
 ---
-interface Props {}
+interface Props {
+  heading?: string;
+  struggles?: string[];
+  medicalDisclaimer?: string;
+  imageUrl?: string;
+}
 
-const struggles: string[] = [
+const fallbackStruggles: string[] = [
   'Depression',
   'Anxiety and panic disorders',
   'PTSD and trauma-related symptoms',
@@ -10,24 +15,30 @@ const struggles: string[] = [
   'Survivor\u2019s guilt',
   'Adjustment challenges',
 ];
+
+const { heading, struggles, medicalDisclaimer, imageUrl } = Astro.props;
+
+const displayHeading = heading || 'Common Struggles We Recognize';
+const displayStruggles = struggles && struggles.length > 0 ? struggles : fallbackStruggles;
+const displayDisclaimer = medicalDisclaimer || 'Jewmanity is not a medical provider. If you are experiencing a crisis or immediate danger, please contact emergency services or a licensed mental health professional.';
+const displayImage = imageUrl || '/images/sections/resources-common-struggles.jpg';
 ---
 
 <section id="common-struggles" class="py-16 md:py-20 lg:py-24">
   <div class="mx-auto max-w-[1200px] px-6">
     <div class="flex flex-col items-center gap-10 lg:flex-row lg:gap-16">
-      <!-- Image placeholder -->
+      <!-- Image -->
       <div class="lg:w-[45%]" data-animate="slide-left">
-        {/* TODO: Replace with real photo from client */}
-        <img src="/images/sections/resources-common-struggles.jpg" alt="Understanding common mental health struggles" class="aspect-[4/3] w-full rounded-2xl object-cover" width="600" height="400" loading="lazy" />
+        <img src={displayImage} alt="Understanding common mental health struggles" class="aspect-[4/3] w-full rounded-2xl object-cover" width="600" height="400" loading="lazy" />
       </div>
 
       <!-- Content -->
       <div class="lg:w-[55%]" data-animate="slide-right">
         <h2 class="font-heading text-[clamp(24px,3.5vw,32px)] font-medium leading-tight text-text-heading">
-          Common Struggles We Recognize
+          {displayHeading}
         </h2>
         <ul class="mt-6 space-y-3">
-          {struggles.map((item) => (
+          {displayStruggles.map((item) => (
             <li class="flex items-start gap-3 font-body text-[15px] leading-relaxed text-text-body md:text-base">
               <svg class="mt-1.5 h-4 w-4 shrink-0 text-primary" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                 <circle cx="8" cy="8" r="3" fill="currentColor"/>
@@ -38,7 +49,7 @@ const struggles: string[] = [
         </ul>
         <div class="mt-8 rounded-xl border-[0.5px] border-[#D4A843]/30 bg-[#FDF8EE] px-6 py-5">
           <p class="font-body text-sm leading-relaxed text-text-body md:text-[15px]">
-            <span class="font-medium text-text-heading">Important Note:</span> Jewmanity is not a medical provider. If you are experiencing a crisis or immediate danger, please contact emergency services or a licensed mental health professional.
+            <span class="font-medium text-text-heading">Important Note:</span> {displayDisclaimer}
           </p>
         </div>
       </div>

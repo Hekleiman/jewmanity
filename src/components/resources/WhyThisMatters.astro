@@ -1,11 +1,26 @@
 ---
-interface Props {}
+interface Props {
+  heading?: string;
+  intro?: string;
+  stats?: string[];
+  pullQuote?: string;
+  pullQuoteAttribution?: string;
+  imageUrl?: string;
+}
 
-const stats: string[] = [
+const fallbackStats: string[] = [
   '1 in 5 adults experiences a mental health condition each year',
   'Anxiety disorders affect over 40 million adults in the United States',
   'Trauma exposure significantly increases risk of depression and PTSD',
 ];
+
+const { heading, intro, stats, pullQuote, pullQuoteAttribution, imageUrl } = Astro.props;
+
+const displayHeading = heading || 'Why This Matters';
+const displayIntro = intro || 'Mental health struggles are more common than we often realize. Within Jewish communities and beyond, many people suffer silently. Cultural stigma, fear of judgment, and lack of accessible resources often prevent individuals from seeking help.';
+const displayStats = stats && stats.length > 0 ? stats : fallbackStats;
+const displayPullQuote = pullQuote || 'Our belief is simple: Mental health matters. Seeking support is a strength.';
+const displayImage = imageUrl || '/images/sections/resources-why-matters.jpg';
 ---
 
 <section id="why-this-matters" class="bg-bg-section-alt py-16 md:py-20 lg:py-24">
@@ -14,13 +29,13 @@ const stats: string[] = [
       <!-- Text -->
       <div class="lg:w-1/2" data-animate="slide-left">
         <h2 class="font-heading text-[clamp(24px,3.5vw,32px)] font-medium leading-tight text-text-heading">
-          Why This Matters
+          {displayHeading}
         </h2>
         <p class="mt-5 font-body text-[15px] leading-relaxed text-text-body md:text-base">
-          Mental health struggles are more common than we often realize. Within Jewish communities and beyond, many people suffer silently. Cultural stigma, fear of judgment, and lack of accessible resources often prevent individuals from seeking help.
+          {displayIntro}
         </p>
         <ul class="mt-6 space-y-3">
-          {stats.map((stat) => (
+          {displayStats.map((stat) => (
             <li class="flex items-start gap-3 font-body text-[15px] leading-relaxed text-text-body md:text-base">
               <svg class="mt-1.5 h-4 w-4 shrink-0 text-primary" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                 <circle cx="8" cy="8" r="3" fill="currentColor"/>
@@ -31,15 +46,19 @@ const stats: string[] = [
         </ul>
         <div class="mt-8 rounded-xl border-l-4 border-primary bg-primary-light/50 px-6 py-5">
           <p class="font-body text-[15px] font-medium leading-relaxed text-text-heading md:text-base">
-            Our belief is simple: Mental health matters. Seeking support is a strength.
+            {displayPullQuote}
           </p>
+          {pullQuoteAttribution && (
+            <p class="mt-2 font-body text-sm text-text-muted">
+              &mdash; {pullQuoteAttribution}
+            </p>
+          )}
         </div>
       </div>
 
-      <!-- Image placeholder -->
+      <!-- Image -->
       <div class="lg:w-1/2" data-animate="slide-right">
-        {/* TODO: Replace with real photo from client */}
-        <img src="/images/sections/resources-why-matters.jpg" alt="Why mental health advocacy matters" class="aspect-[4/3] w-full rounded-2xl object-cover" width="600" height="400" loading="lazy" />
+        <img src={displayImage} alt="Why mental health advocacy matters" class="aspect-[4/3] w-full rounded-2xl object-cover" width="600" height="400" loading="lazy" />
       </div>
     </div>
   </div>

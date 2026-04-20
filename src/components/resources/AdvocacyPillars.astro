@@ -1,13 +1,17 @@
 ---
-interface Props {}
-
 interface Pillar {
-  number: number;
-  title: string;
-  description: string;
+  number?: string | number;
+  title?: string;
+  description?: string;
 }
 
-const pillars: Pillar[] = [
+interface Props {
+  heading?: string;
+  subtitle?: string;
+  pillars?: Pillar[];
+}
+
+const fallbackPillars: Pillar[] = [
   {
     number: 1,
     title: 'Reducing Stigma',
@@ -29,21 +33,27 @@ const pillars: Pillar[] = [
     description: 'Isolation fuels suffering, which can further exacerbate mental health issues. Community connection fosters resilience.',
   },
 ];
+
+const { heading, subtitle, pillars } = Astro.props;
+
+const displayHeading = heading || 'What We Advocate For';
+const displaySubtitle = subtitle || 'Your generosity creates tangible change in the lives of those healing from trauma.';
+const displayPillars = pillars && pillars.length > 0 ? pillars : fallbackPillars;
 ---
 
 <section id="advocacy-pillars" class="py-16 md:py-20 lg:py-24">
   <div class="mx-auto max-w-[1200px] px-6">
     <div class="mb-12 text-center" data-animate="fade-up">
       <h2 class="font-heading text-[clamp(28px,4vw,36px)] font-medium leading-tight text-text-heading">
-        What We Advocate For
+        {displayHeading}
       </h2>
       <p class="mx-auto mt-4 max-w-[600px] font-body text-[15px] leading-relaxed text-text-body md:text-base">
-        Your generosity creates tangible change in the lives of those healing from trauma.
+        {displaySubtitle}
       </p>
     </div>
 
     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2" data-animate="stagger">
-      {pillars.map((pillar) => (
+      {displayPillars.map((pillar) => (
         <div class="rounded-3xl border-[0.5px] border-border-card bg-white p-7 shadow-[0px_8px_16px_rgba(12,12,13,0.06),0px_2px_4px_rgba(12,12,13,0.04)] md:p-8">
           <div class="mb-4 flex h-10 w-10 items-center justify-center rounded-full bg-primary-light font-heading text-base font-medium text-primary">
             {pillar.number}

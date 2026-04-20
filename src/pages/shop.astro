@@ -4,7 +4,7 @@ import HeroSection from '../components/shared/HeroSection.astro';
 import ImpactSection from '../components/shop/ImpactSection.astro';
 import ProductGrid from '../components/shop/ProductGrid.astro';
 import CTASection from '../components/shared/CTASection.astro';
-import { getProducts, urlFor } from '../lib/sanity';
+import { getProducts, getShopPage, urlFor } from '../lib/sanity';
 
 let cmsProducts: { id: string; name: string; price: string; priceNum: string; slug: string; description: string; image: string }[] = [];
 try {
@@ -21,22 +21,44 @@ try {
 } catch (e) {
   console.warn('Sanity fetch failed for products, using fallback content');
 }
+
+let cms: Record<string, any> | null = null;
+try {
+  cms = await getShopPage();
+} catch (e) {
+  console.warn('Sanity fetch failed for shopPage, using hardcoded fallbacks');
+}
+
+const heroBg = cms?.hero?.backgroundImage
+  ? urlFor(cms.hero.backgroundImage).width(1920).quality(80).url()
+  : '/images/hero/shop.jpg';
+
+const heroCtaText = cms?.heroCta?.text || 'Shop Our Collection';
+const heroCtaHref = cms?.heroCta?.href || '#product-grid';
+
+const ctaPrimary = cms?.ctaPrimaryButton?.text && cms?.ctaPrimaryButton?.href
+  ? cms.ctaPrimaryButton
+  : { text: 'Learn About Heads Up', href: '/programs/heads-up' };
 ---
 <Layout title="Shop with Purpose | Jewmanity" description="Support Jewmanity's healing programs with every purchase. Shop merchandise that makes a difference.">
   <HeroSection
-    heading="Shop with Purpose"
-    subtitle="Wear your values. Every purchase directly supports Jewmanity's healing programs."
-    ctaText="Shop Our Collection"
-    ctaHref="#product-grid"
-    backgroundImage="/images/hero/shop.jpg"
+    heading={cms?.hero?.heading ?? 'Shop with Purpose'}
+    subtitle={cms?.hero?.subtitle ?? "Wear your values. Every purchase directly supports Jewmanity's healing programs."}
+    ctaText={heroCtaText}
+    ctaHref={heroCtaHref}
+    backgroundImage={heroBg}
     imagePosition="center 55%"
     heightClass="min-h-screen md:min-h-[60vh] lg:min-h-[100vh]"
   />
-  <ImpactSection />
+  <ImpactSection
+    heading={cms?.impactHeading}
+    introDescription={cms?.introDescription}
+    icons={cms?.impactIcons}
+  />
   <ProductGrid products={cmsProducts.length > 0 ? cmsProducts : undefined} />
   <CTASection
-    heading="Support Healing Through Everyday Actions"
-    subtitle="Your choice to shop with purpose makes a real difference in someone's healing journey."
-    primaryCta={{ text: 'Learn About Heads Up', href: '/programs/heads-up' }}
+    heading={cms?.ctaHeading ?? 'Support Healing Through Everyday Actions'}
+    subtitle={cms?.ctaSubtitle ?? "Your choice to shop with purpose makes a real difference in someone's healing journey."}
+    primaryCta={ctaPrimary}
   />
 </Layout>

@@ -1,63 +1,58 @@
 ---
-interface Props {}
-
 interface LineItem {
-  icon: string;
-  title: string;
-  description: string;
-  amount: string;
+  icon?: string;
+  title?: string;
+  description?: string;
+  amount?: string;
 }
 
-const items: LineItem[] = [
-  {
-    icon: '✈️',
-    title: 'International Flights',
-    description: 'Round-trip travel from Israel to San Diego',
-    amount: '$1,200',
-  },
-  {
-    icon: '🏠',
-    title: 'Housing & Accommodations',
-    description: 'Safe, comfortable lodging for the entire duration',
-    amount: '$800',
-  },
-  {
-    icon: '💊',
-    title: 'Therapy & Clinical Support',
-    description: 'Professional trauma therapy, mindfulness, and counseling',
-    amount: '$1,500',
-  },
-  {
-    icon: '🍽️',
-    title: 'Meals & Nutrition',
-    description: 'Nourishing meals throughout the program',
-    amount: '$400',
-  },
-  {
-    icon: '🎯',
-    title: 'Program Activities & Logistics',
-    description: 'Workshops, group sessions, and recreational experiences',
-    amount: '$600',
-  },
+interface Props {
+  heading?: string;
+  subtitle?: string;
+  items?: LineItem[];
+  totalLabel?: string;
+  totalAmount?: string;
+  disclaimer?: string;
+}
+
+const fallbackItems: LineItem[] = [
+  { icon: '\u2708\uFE0F', title: 'International Flights', description: 'Round-trip travel from Israel to San Diego', amount: '$1,200' },
+  { icon: '\uD83C\uDFE0', title: 'Housing & Accommodations', description: 'Safe, comfortable lodging for the entire duration', amount: '$800' },
+  { icon: '\uD83D\uDC8A', title: 'Therapy & Clinical Support', description: 'Professional trauma therapy, mindfulness, and counseling', amount: '$1,500' },
+  { icon: '\uD83C\uDF7D\uFE0F', title: 'Meals & Nutrition', description: 'Nourishing meals throughout the program', amount: '$400' },
+  { icon: '\uD83C\uDFAF', title: 'Program Activities & Logistics', description: 'Workshops, group sessions, and recreational experiences', amount: '$600' },
 ];
+
+const { heading, subtitle, items, totalLabel, totalAmount, disclaimer } = Astro.props;
+const displayHeading = heading || 'How Your Donation is Used';
+const displaySubtitle = subtitle || "We believe in complete transparency. Here's a breakdown of the average cost to support one participant through a healing retreat.";
+const displayItems = items && items.length > 0 ? items : fallbackItems;
+const displayTotalLabel = totalLabel || 'Average Cost Per Participant';
+const displayTotalAmount = totalAmount || '$4,500';
+const displayDisclaimer = disclaimer || 'Responsible Stewardship: Every dollar is carefully allocated to maximize impact. Administrative costs are kept minimal, ensuring your contribution directly supports healing programs.';
+
+// Split disclaimer at first colon for bold prefix styling
+const disclaimerMatch = displayDisclaimer.match(/^([^:]+):\s*(.*)$/);
+const disclaimerPrefix = disclaimerMatch ? disclaimerMatch[1].trim() : '';
+const disclaimerRest = disclaimerMatch ? disclaimerMatch[2].trim() : displayDisclaimer;
 ---
 
 <section id="cost-breakdown" class="bg-bg-section-alt py-16 md:py-20 lg:py-24">
   <div class="mx-auto max-w-[800px] px-6 lg:max-w-[960px]">
     <div class="mb-12 text-center" data-animate="fade-up">
       <h2 class="font-heading text-[clamp(28px,4vw,36px)] font-medium leading-tight text-text-heading">
-        How Your Donation is Used
+        {displayHeading}
       </h2>
       <p class="mx-auto mt-4 max-w-[600px] font-body text-base leading-relaxed text-text-body">
-        We believe in complete transparency. Here's a breakdown of the average cost to support one participant through a healing retreat.
+        {displaySubtitle}
       </p>
     </div>
 
     <div data-animate="stagger" class="overflow-hidden rounded-[24px] border-[0.5px] border-border-card bg-white shadow-[0px_16px_32px_rgba(12,12,13,0.1),0px_4px_4px_rgba(12,12,13,0.05)]">
-      {items.map((item, index) => (
+      {displayItems.map((item, index) => (
         <div class:list={[
           'flex items-center gap-4 px-6 py-5',
-          index < items.length - 1 && 'border-b border-border-card',
+          index < displayItems.length - 1 && 'border-b border-border-card',
         ]}>
           <span class="shrink-0 text-xl" aria-hidden="true">{item.icon}</span>
           <div class="flex-1">
@@ -71,16 +66,22 @@ const items: LineItem[] = [
       <!-- Total -->
       <div class="flex items-center gap-4 border-t-2 border-primary/20 bg-primary/5 px-6 py-5">
         <div class="flex-1">
-          <h3 class="font-heading text-base font-medium text-text-heading">Average Cost Per Participant</h3>
+          <h3 class="font-heading text-base font-medium text-text-heading">{displayTotalLabel}</h3>
         </div>
-        <span class="font-heading text-xl font-medium text-primary">$4,500</span>
+        <span class="font-heading text-xl font-medium text-primary">{displayTotalAmount}</span>
       </div>
     </div>
 
     <!-- Disclaimer -->
     <div class="mt-6 rounded-[16px] border border-primary/20 bg-primary-light p-5">
       <p class="font-body text-sm leading-relaxed text-text-body">
-        <strong class="font-medium text-text-heading">Responsible Stewardship:</strong> Every dollar is carefully allocated to maximize impact. Administrative costs are kept minimal, ensuring your contribution directly supports healing programs.
+        {disclaimerPrefix && (
+          <>
+            <strong class="font-medium text-text-heading">{disclaimerPrefix}:</strong>{' '}
+            {disclaimerRest}
+          </>
+        )}
+        {!disclaimerPrefix && displayDisclaimer}
       </p>
     </div>
   </div>

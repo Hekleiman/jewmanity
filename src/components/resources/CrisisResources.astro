@@ -1,5 +1,34 @@
 ---
-interface Props {}
+interface CrisisResource {
+  name: string;
+  description?: string;
+  phone?: string;
+  url?: string;
+  region?: string;
+}
+
+interface Props {
+  heading?: string;
+  introParagraphs?: string[];
+  usResources?: CrisisResource[];
+}
+
+const fallbackIntroParagraphs: string[] = [
+  'If you or someone you love is in immediate danger, please contact emergency services right away. If you are struggling and unsure where to turn, confidential support is available through the resources listed here.',
+  'You do not have to face this moment alone. Help is available, and reaching out can be the first step toward relief.',
+];
+
+const fallbackUsResources: CrisisResource[] = [
+  { name: '988 Suicide & Crisis Lifeline', description: 'Call or Text 988' },
+  { name: '911 for immediate emergency' },
+  { name: 'Crisis Text Line', description: 'Text HOME to 741741' },
+];
+
+const { heading, introParagraphs, usResources } = Astro.props;
+
+const displayHeading = heading || 'Immediate Help & Crisis Resources';
+const displayIntroParagraphs = introParagraphs && introParagraphs.length > 0 ? introParagraphs : fallbackIntroParagraphs;
+const displayUsResources = usResources && usResources.length > 0 ? usResources : fallbackUsResources;
 ---
 
 <section id="crisis-resources" class="py-16 md:py-20 lg:py-24">
@@ -8,14 +37,13 @@ interface Props {}
       <!-- Intro text -->
       <div class="lg:w-[45%]" data-animate="fade-up">
         <h2 class="font-heading text-[clamp(24px,3.5vw,32px)] font-medium leading-tight text-text-heading">
-          Immediate Help &amp; Crisis Resources
+          {displayHeading}
         </h2>
-        <p class="mt-5 font-body text-[15px] leading-relaxed text-text-body md:text-base">
-          If you or someone you love is in immediate danger, please contact emergency services right away. If you are struggling and unsure where to turn, confidential support is available through the resources listed here.
-        </p>
-        <p class="mt-4 font-body text-[15px] leading-relaxed text-text-body md:text-base">
-          You do not have to face this moment alone. Help is available, and reaching out can be the first step toward relief.
-        </p>
+        {displayIntroParagraphs.map((para, i) => (
+          <p class:list={["font-body text-[15px] leading-relaxed text-text-body md:text-base", i === 0 ? "mt-5" : "mt-4"]}>
+            {para}
+          </p>
+        ))}
       </div>
 
       <!-- Resource cards -->
@@ -26,17 +54,14 @@ interface Props {}
             <h3 class="font-heading text-base font-medium text-white">United States</h3>
           </div>
           <div class="space-y-4 px-6 py-5">
-            <div>
-              <p class="font-body text-sm font-medium text-text-heading">988 Suicide &amp; Crisis Lifeline</p>
-              <p class="mt-1 font-body text-sm text-text-body">Call or Text 988</p>
-            </div>
-            <div>
-              <p class="font-body text-sm font-medium text-text-heading">911 for immediate emergency</p>
-            </div>
-            <div>
-              <p class="font-body text-sm font-medium text-text-heading">Crisis Text Line</p>
-              <p class="mt-1 font-body text-sm text-text-body">Text HOME to 741741</p>
-            </div>
+            {displayUsResources.map((r) => (
+              <div>
+                <p class="font-body text-sm font-medium text-text-heading">{r.name}</p>
+                {r.description && (
+                  <p class="mt-1 font-body text-sm text-text-body">{r.description}</p>
+                )}
+              </div>
+            ))}
           </div>
         </div>
 

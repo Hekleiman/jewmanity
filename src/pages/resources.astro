@@ -6,17 +6,103 @@ import WhyThisMatters from '../components/resources/WhyThisMatters.astro';
 import CommonStruggles from '../components/resources/CommonStruggles.astro';
 import SignsSection from '../components/resources/SignsSection.astro';
 import CrisisResources from '../components/resources/CrisisResources.astro';
+import { getResources, urlFor } from '../lib/sanity';
+
+interface PortableBlock {
+  _type: string;
+  style?: string;
+  listItem?: string;
+  children?: { text?: string }[];
+}
+
+interface CrisisResource {
+  _key?: string;
+  name: string;
+  description?: string;
+  phone?: string;
+  url?: string;
+  region?: string;
+}
+
+function extractIntroAndList(blocks: PortableBlock[] | undefined): { intro: string | undefined; items: string[] } {
+  if (!Array.isArray(blocks)) return { intro: undefined, items: [] };
+  let intro: string | undefined;
+  const items: string[] = [];
+  for (const b of blocks) {
+    if (b._type !== 'block') continue;
+    const text = (b.children || []).map((c) => c.text || '').join('');
+    if (b.listItem === 'bullet' || b.listItem === 'number') {
+      items.push(text);
+    } else if (!intro && b.style !== 'h2' && b.style !== 'h3') {
+      intro = text;
+    }
+  }
+  return { intro, items };
+}
+
+let cms: Record<string, any> | null = null;
+try {
+  cms = await getResources();
+} catch (e) {
+  console.warn('Sanity fetch failed for resources, using hardcoded fallbacks');
+}
+
+const heroBg = cms?.hero?.backgroundImage
+  ? urlFor(cms.hero.backgroundImage).width(1920).quality(80).url()
+  : '/images/hero/resources.jpg';
+
+const whyMattersImage = cms?.whyMattersImage
+  ? urlFor(cms.whyMattersImage).width(800).quality(80).url()
+  : undefined;
+const commonStrugglesImage = cms?.commonStrugglesImage
+  ? urlFor(cms.commonStrugglesImage).width(800).quality(80).url()
+  : undefined;
+const signsSectionImage = cms?.signsSectionImage
+  ? urlFor(cms.signsSectionImage).width(800).quality(80).url()
+  : undefined;
+
+const whyMatters = extractIntroAndList(cms?.whyMattersBody);
+const signs = extractIntroAndList(cms?.signsBody);
+
+const usCrisisResources: CrisisResource[] = Array.isArray(cms?.crisisResources)
+  ? (cms!.crisisResources as CrisisResource[]).filter((r) => r?.region === 'United States')
+  : [];
 ---
 <Layout title="Mental Health Resources | Jewmanity" description="Mental health awareness resources, crisis support information, and guidance for those navigating trauma, depression, anxiety, and PTSD.">
   <HeroSection
-    heading="You Are Not Alone"
-    subtitle="Struggling with anxiety, depression, trauma, or emotional overwhelm can feel isolating. It doesn't have to be. Jewmanity stands in advocacy, compassion, and connection for those navigating mental health challenges."
-    {/* TODO: Replace with real photo from client */}
-    backgroundImage="/images/hero/resources.jpg"
+    heading={cms?.hero?.heading ?? 'You Are Not Alone'}
+    subtitle={cms?.hero?.subtitle ?? "Struggling with anxiety, depression, trauma, or emotional overwhelm can feel isolating. It doesn't have to be. Jewmanity stands in advocacy, compassion, and connection for those navigating mental health challenges."}
+    backgroundImage={heroBg}
   />
-  <AdvocacyPillars />
-  <WhyThisMatters />
-  <CommonStruggles />
-  <SignsSection />
-  <CrisisResources />
+  <AdvocacyPillars
+    heading={cms?.advocacySectionHeading}
+    subtitle={cms?.advocacySectionSubtitle}
+    pillars={cms?.advocacyPillars}
+  />
+  <WhyThisMatters
+    heading={cms?.whyMattersHeading}
+    intro={whyMatters.intro}
+    stats={whyMatters.items.length > 0 ? whyMatters.items : undefined}
+    pullQuote={cms?.whyMattersPullQuote?.quote}
+    pullQuoteAttribution={cms?.whyMattersPullQuote?.attribution}
+    imageUrl={whyMattersImage}
+  />
+  <CommonStruggles
+    heading={cms?.commonStrugglesHeading}
+    struggles={cms?.commonStruggles}
+    medicalDisclaimer={cms?.medicalDisclaimer}
+    imageUrl={commonStrugglesImage}
+  />
+  <SignsSection
+    heading={cms?.signsSectionHeading}
+    intro={signs.intro}
+    signs={signs.items.length > 0 ? signs.items : undefined}
+    callout={cms?.signsCallout}
+    imageUrl={signsSectionImage}
+  />
+  <CrisisResources
+    heading={cms?.crisisSectionHeading}
+    introParagraphs={cms?.crisisIntroParagraphs}
+    usResources={usCrisisResources.length > 0 ? usCrisisResources : undefined}
+  />
 </Layout>
