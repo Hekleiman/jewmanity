@@ -63,6 +63,7 @@ export default defineType({
           { title: 'Retreat', value: 'retreat' },
           { title: 'Volunteer', value: 'volunteer' },
           { title: 'Heads Up Program', value: 'headsup' },
+          { title: 'Antisemitism Story', value: 'antisemitism' },
           { title: 'General / Homepage', value: 'general' },
         ],
         layout: 'radio',

@@ -27,10 +27,16 @@ export async function getRecipes() {
       image,
       tags,
       prepTime,
+      cookTime,
       servings,
+      difficulty,
+      author,
+      date,
       ingredients,
       instructions,
       culturalContext,
+      notes,
+      gallery,
       orderRank
     }
   `);
@@ -65,6 +71,7 @@ export async function getRetreats() {
       author,
       date,
       coverImage,
+      gallery,
       body,
       participants,
       location,

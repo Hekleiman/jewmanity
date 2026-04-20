@@ -20,13 +20,18 @@ try {
   console.warn('Sanity fetch failed for retreats, using fallback content');
 }
 
-let cmsTestimonials: { quote: string; author: string; context: string }[] = [];
+let cmsTestimonials: { quote: string; author: string; context: string; imageUrl?: string }[] = [];
 try {
   const raw = await getTestimonials('headsup');
   cmsTestimonials = raw.map((t: any) => ({
     quote: t.excerpt || t.quote,
     author: t.authorName || '',
     context: t.authorRole || '',
+    imageUrl: t.imageUrl
+      ? t.imageUrl
+      : t.authorImage
+        ? urlFor(t.authorImage).width(224).height(224).url()
+        : undefined,
   }));
 } catch (e) {
   console.warn('Sanity fetch failed for testimonials, using fallback content');

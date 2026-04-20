@@ -337,6 +337,7 @@ const recipeCulturalContext = cmsRecipe?.culturalContext
     : String(cmsRecipe.culturalContext)
   : fallback?.culturalContext || '';
 const recipeImage = cmsRecipe?.image?.asset ? urlFor(cmsRecipe.image).width(800).url() : fallback?.image || '/images/recipes/recipe-detail.jpg';
+// TODO: render recipe.gallery (added in Commit 1) — carousel UX decision pending
 const recipePrepTime = cmsRecipe?.prepTime || fallback?.prepTime;
 const recipeCookTime = cmsRecipe?.cookTime || fallback?.cookTime;
 const recipeServings = cmsRecipe?.servings || fallback?.servings;

@@ -74,10 +74,34 @@ export default defineType({
       description: 'How long it takes to make (e.g., "30 min", "1 hour 15 min").',
     }),
     defineField({
+      name: 'cookTime',
+      title: 'Cook Time',
+      type: 'string',
+      description: 'How long the cooking/baking portion takes (e.g., "35 min", "1½ hrs").',
+    }),
+    defineField({
       name: 'servings',
       title: 'Servings',
       type: 'string',
       description: 'How many people this feeds (e.g., "6 servings", "Makes 24 cookies").',
+    }),
+    defineField({
+      name: 'difficulty',
+      title: 'Difficulty',
+      type: 'string',
+      description: 'How challenging the recipe is (e.g., "Easy", "Medium", "Advanced"). Free-form so authors can use their own phrasing.',
+    }),
+    defineField({
+      name: 'author',
+      title: 'Recipe Author',
+      type: 'string',
+      description: 'Who contributed or originated this recipe (e.g., "Belinda Donner", "Mindy (via Belinda Donner)"). Displayed as "Recipe by [Author]" on the recipe page.',
+    }),
+    defineField({
+      name: 'date',
+      title: 'Publish Date',
+      type: 'datetime',
+      description: 'When this recipe was added. Displayed next to the author on the recipe page.',
     }),
     defineField({
       name: 'ingredients',
@@ -97,6 +121,33 @@ export default defineType({
       title: 'Cultural Context',
       type: 'portableText',
       description: 'Optional: the story behind this recipe — its origin, family history, or cultural significance.',
+    }),
+    defineField({
+      name: 'notes',
+      title: "Chef's Notes",
+      type: 'text',
+      rows: 4,
+      description: 'Optional tips, variations, or storage notes displayed in a callout below the instructions.',
+    }),
+    defineField({
+      name: 'gallery',
+      title: 'Additional Photos',
+      type: 'array',
+      description: 'Extra photos (e.g., a family photo or process shot) shown alongside the main recipe image.',
+      of: [
+        defineArrayMember({
+          type: 'image',
+          options: { hotspot: true },
+          fields: [
+            defineField({
+              name: 'alt',
+              title: 'Alt Text',
+              type: 'string',
+              description: 'Describe the photo for screen readers.',
+            }),
+          ],
+        }),
+      ],
     }),
     defineField({
       name: 'orderRank',
