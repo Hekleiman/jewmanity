@@ -5,4 +5,5 @@ export default defineCliConfig({
     projectId: '9pc3wgri',
     dataset: 'production',
   },
+  studioHost: 'jewmanity',
 });
