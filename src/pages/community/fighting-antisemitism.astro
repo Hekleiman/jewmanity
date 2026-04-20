@@ -5,21 +5,72 @@ import AntisemitismIntro from '../../components/community/AntisemitismIntro.astr
 import ResourcesGrid from '../../components/community/ResourcesGrid.astro';
 import StandTogether from '../../components/community/StandTogether.astro';
 import CTASection from '../../components/shared/CTASection.astro';
+import { getFightingAntisemitism, urlFor } from '../../lib/sanity';
+
+interface PortableBlock {
+  _type: string;
+  style?: string;
+  listItem?: string;
+  children?: { text?: string }[];
+}
+
+function extractParagraphs(blocks: PortableBlock[] | undefined): string[] {
+  if (!Array.isArray(blocks)) return [];
+  return blocks
+    .filter((b) => b._type === 'block' && !b.listItem && (b.style === 'normal' || !b.style))
+    .map((b) => (b.children || []).map((c) => c.text || '').join(''))
+    .filter((t) => t.length > 0);
+}
+
+let cms: Record<string, any> | null = null;
+try {
+  cms = await getFightingAntisemitism();
+} catch (e) {
+  console.warn('Sanity fetch failed for fightingAntisemitism, using hardcoded fallbacks');
+}
+
+const heroBg = cms?.hero?.backgroundImage
+  ? urlFor(cms.hero.backgroundImage).width(1920).quality(80).url()
+  : '/images/hero/fighting-antisemitism.jpg';
+
+const understandingParagraphs = extractParagraphs(cms?.understandingBody);
+
+const ctaPrimary = cms?.ctaPrimaryButton?.text && cms?.ctaPrimaryButton?.href
+  ? cms.ctaPrimaryButton
+  : { text: 'Get Involved', href: '/get-involved/volunteer' };
+const ctaSecondary = cms?.ctaSecondaryButton?.text && cms?.ctaSecondaryButton?.href
+  ? cms.ctaSecondaryButton
+  : { text: 'Support Healing', href: '/donate' };
 ---
 <Layout title="Responding to Antisemitism | Jewmanity" description="Educational resources and community support for understanding, responding to, and healing from antisemitism.">
   <HeroSection
-    heading="Responding to Antisemitism"
-    subtitle="Building understanding and resilience through education, dialogue, and responses rooted in compassion and empathy."
-    {/* TODO: Replace with real photo from client */}
-    backgroundImage="/images/hero/fighting-antisemitism.jpg"
+    heading={cms?.hero?.heading ?? 'Responding to Antisemitism'}
+    subtitle={cms?.hero?.subtitle ?? 'Building understanding and resilience through education, dialogue, and responses rooted in compassion and empathy.'}
+    backgroundImage={heroBg}
   />
-  <AntisemitismIntro />
-  <StandTogether />
-  <ResourcesGrid />
+  <AntisemitismIntro
+    understandingHeading={cms?.understandingHeading}
+    understandingParagraphs={understandingParagraphs.length > 0 ? understandingParagraphs : undefined}
+    stats={cms?.understandingStats}
+    formsHeading={cms?.formsHeading}
+    formsCards={cms?.formsCards}
+  />
+  <StandTogether
+    heading={cms?.actionHeading}
+    subtitle={cms?.actionSubtitle}
+    steps={cms?.actionSteps}
+  />
+  <ResourcesGrid
+    articlesHeading={cms?.articlesHeading}
+    articlesSubtitle={cms?.articlesSubtitle}
+    organizationsHeading={cms?.organizationsHeading}
+    organizationsSubtitle={cms?.organizationsSubtitle}
+    organizations={cms?.organizations}
+  />
   <CTASection
-    heading="Stand With Us Against Antisemitism"
-    subtitle="Whether you volunteer, donate, or simply share what you've learned, your actions help build a world where Jewish communities can thrive without fear."
-    primaryCta={{ text: 'Get Involved', href: '/get-involved/volunteer' }}
-    secondaryCta={{ text: 'Support Healing', href: '/donate' }}
+    heading={cms?.ctaHeading ?? 'Stand With Us Against Antisemitism'}
+    subtitle={cms?.ctaSubtitle ?? "Whether you volunteer, donate, or simply share what you've learned, your actions help build a world where Jewish communities can thrive without fear."}
+    primaryCta={ctaPrimary}
+    secondaryCta={ctaSecondary}
   />
 </Layout>

@@ -1,8 +1,6 @@
 ---
 import { getRecommendedArticles } from '../../lib/sanity';
 
-interface Props {}
-
 interface Article {
   title: string;
   publication: string;
@@ -12,9 +10,17 @@ interface Article {
 }
 
 interface Organization {
-  name: string;
-  description: string;
-  url: string;
+  name?: string;
+  description?: string;
+  url?: string;
+}
+
+interface Props {
+  articlesHeading?: string;
+  articlesSubtitle?: string;
+  organizationsHeading?: string;
+  organizationsSubtitle?: string;
+  organizations?: Organization[];
 }
 
 const fallbackArticles: Article[] = [
@@ -68,6 +74,23 @@ const fallbackArticles: Article[] = [
   },
 ];
 
+const fallbackOrganizations: Organization[] = [
+  { name: 'ADL (Anti-Defamation League)', description: 'Tracks antisemitic incidents, provides education resources, and advocates for policy change.', url: 'https://www.adl.org' },
+  { name: 'ADL H.E.A.T. Map', description: 'Interactive map tracking incidents of hate, extremism, antisemitism, and terrorism across the U.S.', url: 'https://www.adl.org/resources/tools-to-track-hate/heat-map' },
+  { name: 'AJC (American Jewish Committee)', description: 'Global advocacy organization combating antisemitism and promoting democratic values.', url: 'https://www.ajc.org' },
+  { name: 'Combat Antisemitism Movement (CAM)', description: 'Global coalition of 700+ organizations and 3 million people working to fight antisemitism.', url: 'https://combatantisemitism.org' },
+  { name: 'StandWithUs', description: 'Education organization empowering students and communities to fight antisemitism and support Israel.', url: 'https://www.standwithus.com' },
+  { name: 'Report an Incident (ADL)', description: "If you've experienced or witnessed antisemitism, report it to the ADL to help track and respond.", url: 'https://www.adl.org/report-incident' },
+];
+
+const { articlesHeading, articlesSubtitle, organizationsHeading, organizationsSubtitle, organizations } = Astro.props;
+
+const displayArticlesHeading = articlesHeading || 'Learn More';
+const displayArticlesSubtitle = articlesSubtitle || 'Articles and perspectives on fighting antisemitism today';
+const displayOrganizationsHeading = organizationsHeading || 'Organizations Fighting Antisemitism';
+const displayOrganizationsSubtitle = organizationsSubtitle || 'Connect with these organizations for reporting, education, and support';
+const displayOrganizations = organizations && organizations.length > 0 ? organizations : fallbackOrganizations;
+
 let articles: Article[] = [];
 try {
   const raw = await getRecommendedArticles();
@@ -87,39 +110,6 @@ try {
 if (articles.length === 0) {
   articles = fallbackArticles;
 }
-
-const organizations: Organization[] = [
-  {
-    name: 'ADL (Anti-Defamation League)',
-    description: 'Tracks antisemitic incidents, provides education resources, and advocates for policy change.',
-    url: 'https://www.adl.org',
-  },
-  {
-    name: 'ADL H.E.A.T. Map',
-    description: 'Interactive map tracking incidents of hate, extremism, antisemitism, and terrorism across the U.S.',
-    url: 'https://www.adl.org/resources/tools-to-track-hate/heat-map',
-  },
-  {
-    name: 'AJC (American Jewish Committee)',
-    description: 'Global advocacy organization combating antisemitism and promoting democratic values.',
-    url: 'https://www.ajc.org',
-  },
-  {
-    name: 'Combat Antisemitism Movement (CAM)',
-    description: 'Global coalition of 700+ organizations and 3 million people working to fight antisemitism.',
-    url: 'https://combatantisemitism.org',
-  },
-  {
-    name: 'StandWithUs',
-    description: 'Education organization empowering students and communities to fight antisemitism and support Israel.',
-    url: 'https://www.standwithus.com',
-  },
-  {
-    name: 'Report an Incident (ADL)',
-    description: "If you've experienced or witnessed antisemitism, report it to the ADL to help track and respond.",
-    url: 'https://www.adl.org/report-incident',
-  },
-];
 ---
 
 <!-- Section 4: Recommended Reading -->
@@ -127,10 +117,10 @@ const organizations: Organization[] = [
   <div class="mx-auto max-w-[1200px] px-6">
     <div class="mb-12 text-center" data-animate="fade-up">
       <h2 class="font-heading text-[clamp(28px,4vw,36px)] font-medium leading-tight text-text-heading">
-        Learn More
+        {displayArticlesHeading}
       </h2>
       <p class="mx-auto mt-4 max-w-[700px] font-body text-[15px] leading-relaxed text-text-body md:text-base">
-        Articles and perspectives on fighting antisemitism today
+        {displayArticlesSubtitle}
       </p>
     </div>
 
@@ -166,15 +156,15 @@ const organizations: Organization[] = [
   <div class="mx-auto max-w-[1200px] px-6">
     <div class="mb-12 text-center" data-animate="fade-up">
       <h2 class="font-heading text-[clamp(28px,4vw,36px)] font-medium leading-tight text-text-heading">
-        Organizations Fighting Antisemitism
+        {displayOrganizationsHeading}
       </h2>
       <p class="mx-auto mt-4 max-w-[700px] font-body text-[15px] leading-relaxed text-text-body md:text-base">
-        Connect with these organizations for reporting, education, and support
+        {displayOrganizationsSubtitle}
       </p>
     </div>
 
     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3" data-animate="stagger">
-      {organizations.map((org) => (
+      {displayOrganizations.map((org) => (
         <a
           href={org.url}
           target="_blank"

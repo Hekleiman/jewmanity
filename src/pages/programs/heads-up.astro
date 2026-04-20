@@ -9,23 +9,90 @@ import WhatsIncluded from '../../components/programs/WhatsIncluded.astro';
 import CommunityPowered from '../../components/programs/CommunityPowered.astro';
 import ImpactStats from '../../components/programs/ImpactStats.astro';
 import CTASection from '../../components/shared/CTASection.astro';
+import { getHeadsUp, urlFor } from '../../lib/sanity';
+
+interface PortableBlock {
+  _type: string;
+  style?: string;
+  listItem?: string;
+  children?: { text?: string }[];
+}
+
+function extractParagraphs(blocks: PortableBlock[] | undefined): string[] {
+  if (!Array.isArray(blocks)) return [];
+  return blocks
+    .filter((b) => b._type === 'block' && !b.listItem && (b.style === 'normal' || !b.style))
+    .map((b) => (b.children || []).map((c) => c.text || '').join(''))
+    .filter((t) => t.length > 0);
+}
+
+let cms: Record<string, any> | null = null;
+try {
+  cms = await getHeadsUp();
+} catch (e) {
+  console.warn('Sanity fetch failed for headsUp, using hardcoded fallbacks');
+}
+
+const heroBg = cms?.hero?.backgroundImage
+  ? urlFor(cms.hero.backgroundImage).width(1920).quality(80).url()
+  : '/images/hero/heads-up.jpg';
+
+const safeHavenImage = cms?.safeHavenImage ? urlFor(cms.safeHavenImage).width(800).quality(80).url() : undefined;
+const careImage = cms?.careImage ? urlFor(cms.careImage).width(800).quality(80).url() : undefined;
+const communityImage = cms?.communityImage ? urlFor(cms.communityImage).width(800).quality(80).url() : undefined;
+
+const safeHavenParagraphs = extractParagraphs(cms?.safeHavenBody);
+
+const ctaPrimary = cms?.ctaPrimaryButton?.text && cms?.ctaPrimaryButton?.href
+  ? cms.ctaPrimaryButton
+  : { text: 'Support Healing', href: '/donate' };
 ---
 <Layout title="Heads Up Healing Retreats | Jewmanity" description="A comprehensive rehabilitation retreat in San Diego supporting Israeli soldiers and their loved ones experiencing PTSD and ongoing trauma.">
   <HeroSection
-    heading="Heads Up"
-    subtitle="A comprehensive rehabilitation retreat in San Diego, designed to support Israeli soldiers and their loved ones experiencing PTSD and ongoing trauma"
-    backgroundImage="/images/hero/heads-up.jpg"
+    heading={cms?.hero?.heading ?? 'Heads Up'}
+    subtitle={cms?.hero?.subtitle ?? 'A comprehensive rehabilitation retreat in San Diego, designed to support Israeli soldiers and their loved ones experiencing PTSD and ongoing trauma'}
+    backgroundImage={heroBg}
   />
-  <SafeHaven />
-  <WhoWeSupport />
-  <RetreatExperience />
-  <EvidenceBasedCare />
-  <WhatsIncluded />
-  <CommunityPowered />
-  <ImpactStats />
+  <SafeHaven
+    heading={cms?.safeHavenHeading}
+    paragraphs={safeHavenParagraphs.length > 0 ? safeHavenParagraphs : undefined}
+    imageUrl={safeHavenImage}
+  />
+  <WhoWeSupport
+    heading={cms?.supportHeading}
+    subtitle={cms?.supportSubtitle}
+    cards={cms?.supportCards}
+  />
+  <RetreatExperience
+    heading={cms?.experienceHeading}
+    subtitle={cms?.experienceSubtitle}
+    items={cms?.experienceItems}
+  />
+  <EvidenceBasedCare
+    heading={cms?.careHeading}
+    imageUrl={careImage}
+    pillars={cms?.carePillars}
+  />
+  <WhatsIncluded
+    heading={cms?.includedHeading}
+    subtitle={cms?.includedSubtitle}
+    items={cms?.includedItems}
+  />
+  <CommunityPowered
+    heading={cms?.communityHeading}
+    intro={cms?.communityIntro}
+    bullets={cms?.communityBullets}
+    button={cms?.communityButton}
+    imageUrl={communityImage}
+  />
+  <ImpactStats
+    heading={cms?.impactHeading}
+    subtitle={cms?.impactSubtitle}
+    stats={cms?.impactStats}
+  />
   <CTASection
-    heading="Creating Space for Healing"
-    subtitle="Healing from trauma requires safety, compassion, and community. Your support helps us provide these essential spaces where Israeli soldiers and their loved ones can begin to recover, reconnect, and rebuild."
-    primaryCta={{ text: 'Support Healing', href: '/donate' }}
+    heading={cms?.ctaHeading ?? 'Creating Space for Healing'}
+    subtitle={cms?.ctaSubtitle ?? 'Healing from trauma requires safety, compassion, and community. Your support helps us provide these essential spaces where Israeli soldiers and their loved ones can begin to recover, reconnect, and rebuild.'}
+    primaryCta={ctaPrimary}
   />
 </Layout>

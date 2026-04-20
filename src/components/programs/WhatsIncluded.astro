@@ -1,59 +1,46 @@
 ---
-interface Props {}
-
 interface IncludedItem {
-  icon: string;
-  title: string;
-  description: string;
+  icon?: string;
+  title?: string;
+  description?: string;
 }
 
-const items: IncludedItem[] = [
-  {
-    icon: 'therapy',
-    title: 'Daily Therapy Sessions',
-    description: 'Individual and group therapy with certified trauma counselors',
-  },
-  {
-    icon: 'accommodation',
-    title: 'Comfortable Accommodations',
-    description: 'Private rooms in peaceful, comfortable shared settings',
-  },
-  {
-    icon: 'meals',
-    title: 'All Meals Provided',
-    description: 'Full-time, culturally appropriate meals prepared with care',
-  },
-  {
-    icon: 'transport',
-    title: 'Transportation',
-    description: 'Airport pickup and all transportation during the retreat',
-  },
-  {
-    icon: 'activities',
-    title: 'Recreational Activities',
-    description: 'Healing excursions, nature walks, and community experiences',
-  },
-  {
-    icon: 'support',
-    title: 'Ongoing Support',
-    description: 'Post-retreat resources and connection to continuing care',
-  },
+interface Props {
+  heading?: string;
+  subtitle?: string;
+  items?: IncludedItem[];
+}
+
+const fallbackItems: IncludedItem[] = [
+  { icon: 'therapy', title: 'Daily Therapy Sessions', description: 'Individual and group therapy with certified trauma counselors' },
+  { icon: 'accommodation', title: 'Comfortable Accommodations', description: 'Private rooms in peaceful, comfortable shared settings' },
+  { icon: 'meals', title: 'All Meals Provided', description: 'Full-time, culturally appropriate meals prepared with care' },
+  { icon: 'transport', title: 'Transportation', description: 'Airport pickup and all transportation during the retreat' },
+  { icon: 'activities', title: 'Recreational Activities', description: 'Healing excursions, nature walks, and community experiences' },
+  { icon: 'support', title: 'Ongoing Support', description: 'Post-retreat resources and connection to continuing care' },
 ];
+
+const KNOWN_ICONS = new Set(['therapy', 'accommodation', 'meals', 'transport', 'activities', 'support']);
+
+const { heading, subtitle, items } = Astro.props;
+const displayHeading = heading || "What's Included";
+const displaySubtitle = subtitle || 'Everything participants need to focus on their healing journey';
+const displayItems = items && items.length > 0 ? items : fallbackItems;
 ---
 
 <section id="whats-included" class="py-16 md:py-20 lg:py-24">
   <div class="mx-auto max-w-[1200px] px-6">
     <div class="mb-12 text-center" data-animate="fade-up">
       <h2 class="font-heading text-[clamp(28px,4vw,36px)] font-medium leading-tight text-text-heading">
-        What's Included
+        {displayHeading}
       </h2>
       <p class="mx-auto mt-4 max-w-[600px] font-body text-[15px] leading-relaxed text-text-body md:text-base">
-        Everything participants need to focus on their healing journey
+        {displaySubtitle}
       </p>
     </div>
 
     <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3" data-animate="stagger">
-      {items.map((item) => (
+      {displayItems.map((item) => (
         <div class="flex gap-4 rounded-2xl border-[0.5px] border-border-card bg-white p-5 shadow-[0px_4px_12px_rgba(12,12,13,0.04),0px_2px_4px_rgba(12,12,13,0.03)]">
           <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary-light text-primary">
             {item.icon === 'therapy' && (
@@ -96,6 +83,11 @@ const items: IncludedItem[] = [
                 <circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5" fill="none"/>
                 <circle cx="10" cy="10" r="3" stroke="currentColor" stroke-width="1.5" fill="none"/>
                 <path d="M10 3v4m0 6v4M3 10h4m6 0h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            )}
+            {(!item.icon || !KNOWN_ICONS.has(item.icon)) && (
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                <circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5" fill="none"/>
               </svg>
             )}
           </div>

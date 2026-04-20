@@ -1,44 +1,43 @@
 ---
-interface Props {}
-
 interface SupportCard {
-  icon: string;
-  title: string;
-  description: string;
+  icon?: string;
+  title?: string;
+  description?: string;
 }
 
-const cards: SupportCard[] = [
-  {
-    icon: 'shield',
-    title: 'Israeli Soldiers',
-    description: 'Active service and veterans experiencing PTSD, combat stress, and the physical and mental toll of service in high-risk environments.',
-  },
-  {
-    icon: 'heart',
-    title: 'Widows & Widowers',
-    description: 'Those who have lost loved ones in service, navigating grief and the emotional and life challenges of rebuilding their lives.',
-  },
-  {
-    icon: 'family',
-    title: 'Families & Loved Ones',
-    description: 'Family members affected by the trauma of their loved ones, seeking support, understanding, and tools for healing for themselves.',
-  },
+interface Props {
+  heading?: string;
+  subtitle?: string;
+  cards?: SupportCard[];
+}
+
+const fallbackCards: SupportCard[] = [
+  { icon: 'shield', title: 'Israeli Soldiers', description: 'Active service and veterans experiencing PTSD, combat stress, and the physical and mental toll of service in high-risk environments.' },
+  { icon: 'heart', title: 'Widows & Widowers', description: 'Those who have lost loved ones in service, navigating grief and the emotional and life challenges of rebuilding their lives.' },
+  { icon: 'family', title: 'Families & Loved Ones', description: 'Family members affected by the trauma of their loved ones, seeking support, understanding, and tools for healing for themselves.' },
 ];
+
+const KNOWN_ICONS = new Set(['shield', 'heart', 'family']);
+
+const { heading, subtitle, cards } = Astro.props;
+const displayHeading = heading || 'Who We Support';
+const displaySubtitle = subtitle || 'Heads Up is designed for those who have experienced trauma in service of their community.';
+const displayCards = cards && cards.length > 0 ? cards : fallbackCards;
 ---
 
 <section id="who-we-support" class="bg-bg-section-alt py-16 md:py-20 lg:py-24">
   <div class="mx-auto max-w-[1200px] px-6">
     <div class="mb-12 text-center" data-animate="fade-up">
       <h2 class="font-heading text-[clamp(28px,4vw,36px)] font-medium leading-tight text-text-heading">
-        Who We Support
+        {displayHeading}
       </h2>
       <p class="mx-auto mt-4 max-w-[600px] font-body text-[15px] leading-relaxed text-text-body md:text-base">
-        Heads Up is designed for those who have experienced trauma in service of their community.
+        {displaySubtitle}
       </p>
     </div>
 
     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3" data-animate="stagger">
-      {cards.map((card) => (
+      {displayCards.map((card) => (
         <div class="flex flex-col items-center rounded-3xl border-[0.5px] border-border-card bg-white p-8 text-center shadow-[0px_8px_16px_rgba(12,12,13,0.06),0px_2px_4px_rgba(12,12,13,0.04)]">
           <div class="mb-5 flex h-14 w-14 items-center justify-center rounded-full bg-primary-light text-primary">
             {card.icon === 'shield' && (
@@ -58,6 +57,11 @@ const cards: SupportCard[] = [
                 <circle cx="19" cy="8" r="3" stroke="currentColor" stroke-width="1.8" fill="none"/>
                 <path d="M3 22c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none"/>
                 <path d="M16 22c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+              </svg>
+            )}
+            {(!card.icon || !KNOWN_ICONS.has(card.icon)) && (
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+                <circle cx="14" cy="14" r="10" stroke="currentColor" stroke-width="1.8" fill="none"/>
               </svg>
             )}
           </div>

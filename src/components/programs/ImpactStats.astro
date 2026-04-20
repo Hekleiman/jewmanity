@@ -1,34 +1,44 @@
 ---
-interface Props {}
-
 interface Stat {
-  value: string;
-  label: string;
+  value?: string;
+  suffix?: string;
+  label?: string;
 }
 
-const stats: Stat[] = [
+interface Props {
+  heading?: string;
+  subtitle?: string;
+  stats?: Stat[];
+}
+
+const fallbackStats: Stat[] = [
   { value: '12', label: 'Retreats Completed' },
-  { value: '180+', label: 'Participants Supported' },
-  { value: '100%', label: 'Scholarship Coverage' },
+  { value: '180', suffix: '+', label: 'Participants Supported' },
+  { value: '100', suffix: '%', label: 'Scholarship Coverage' },
 ];
+
+const { heading, subtitle, stats } = Astro.props;
+const displayHeading = heading || 'Our Growing Impact';
+const displaySubtitle = subtitle || "Since our founding, we've remained committed to expanding access to healing.";
+const displayStats = stats && stats.length > 0 ? stats : fallbackStats;
 ---
 
 <section id="impact-stats" class="bg-bg-section-alt py-16 md:py-20 lg:py-24">
   <div class="mx-auto max-w-[1200px] px-6">
     <div class="mb-12 text-center" data-animate="fade-up">
       <h2 class="font-heading text-[clamp(28px,4vw,36px)] font-medium leading-tight text-text-heading">
-        Our Growing Impact
+        {displayHeading}
       </h2>
       <p class="mx-auto mt-4 max-w-[600px] font-body text-[15px] leading-relaxed text-text-body md:text-base">
-        Since our founding, we've remained committed to expanding access to healing.
+        {displaySubtitle}
       </p>
     </div>
 
     <div class="grid grid-cols-1 gap-8 sm:grid-cols-3">
-      {stats.map((stat) => (
+      {displayStats.map((stat) => (
         <div class="text-center">
           <p data-animate="counter" class="font-heading text-[clamp(40px,6vw,56px)] font-medium leading-none text-primary">
-            {stat.value}
+            {stat.value}{stat.suffix || ''}
           </p>
           <p class="mt-3 font-body text-sm text-text-body md:text-base">
             {stat.label}

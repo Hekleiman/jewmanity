@@ -1,50 +1,28 @@
 ---
-interface Props {}
-
 interface ActionStep {
-  number: number;
-  title: string;
-  description: string;
+  title?: string;
+  description?: string;
 }
 
-const steps: ActionStep[] = [
-  {
-    number: 1,
-    title: 'Educate Yourself',
-    description:
-      'Learn to recognize antisemitism in all its forms \u2014 from overt hate speech to subtle coded language. Understanding the history and patterns of antisemitism makes you better equipped to identify and confront it.',
-  },
-  {
-    number: 2,
-    title: 'Speak Up',
-    description:
-      'When you witness antisemitism \u2014 online, at school, at work, or in public \u2014 say something. Silence can be interpreted as acceptance. Your voice matters.',
-  },
-  {
-    number: 3,
-    title: 'Support Jewish Communities',
-    description:
-      "Attend events, volunteer, donate, or simply show up as an ally. Solidarity from people of all backgrounds sends a powerful message that hate will not be tolerated.",
-  },
-  {
-    number: 4,
-    title: 'Report Incidents',
-    description:
-      'Report antisemitic incidents to the ADL (adl.org/report-incident), local law enforcement, and school or workplace administrators. Documentation helps track patterns and hold perpetrators accountable.',
-  },
-  {
-    number: 5,
-    title: 'Use Your Platform',
-    description:
-      'Share accurate information about antisemitism on social media. Post about Jewish culture, history, and contributions. Counter misinformation with facts, not outrage.',
-  },
-  {
-    number: 6,
-    title: 'Get Involved with Jewmanity',
-    description:
-      'Join our mission to support healing, build resilience, and fight antisemitism through community action. Every volunteer, donor, and advocate makes our community stronger.',
-  },
+interface Props {
+  heading?: string;
+  subtitle?: string;
+  steps?: ActionStep[];
+}
+
+const fallbackSteps: ActionStep[] = [
+  { title: 'Educate Yourself', description: 'Learn to recognize antisemitism in all its forms \u2014 from overt hate speech to subtle coded language. Understanding the history and patterns of antisemitism makes you better equipped to identify and confront it.' },
+  { title: 'Speak Up', description: 'When you witness antisemitism \u2014 online, at school, at work, or in public \u2014 say something. Silence can be interpreted as acceptance. Your voice matters.' },
+  { title: 'Support Jewish Communities', description: 'Attend events, volunteer, donate, or simply show up as an ally. Solidarity from people of all backgrounds sends a powerful message that hate will not be tolerated.' },
+  { title: 'Report Incidents', description: 'Report antisemitic incidents to the ADL (adl.org/report-incident), local law enforcement, and school or workplace administrators. Documentation helps track patterns and hold perpetrators accountable.' },
+  { title: 'Use Your Platform', description: 'Share accurate information about antisemitism on social media. Post about Jewish culture, history, and contributions. Counter misinformation with facts, not outrage.' },
+  { title: 'Get Involved with Jewmanity', description: 'Join our mission to support healing, build resilience, and fight antisemitism through community action. Every volunteer, donor, and advocate makes our community stronger.' },
 ];
+
+const { heading, subtitle, steps } = Astro.props;
+const displayHeading = heading || 'Taking Action Against Antisemitism';
+const displaySubtitle = subtitle || "Every person can make a difference. Here's how to start.";
+const displaySteps = steps && steps.length > 0 ? steps : fallbackSteps;
 ---
 
 <!-- Section 3: What You Can Do -->
@@ -52,18 +30,18 @@ const steps: ActionStep[] = [
   <div class="mx-auto max-w-[1200px] px-6">
     <div class="mb-12 text-center" data-animate="fade-up">
       <h2 class="font-heading text-[clamp(28px,4vw,36px)] font-medium leading-tight text-text-heading">
-        Taking Action Against Antisemitism
+        {displayHeading}
       </h2>
       <p class="mx-auto mt-4 max-w-[700px] font-body text-[15px] leading-relaxed text-text-body md:text-base">
-        Every person can make a difference. Here's how to start.
+        {displaySubtitle}
       </p>
     </div>
 
     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3" data-animate="stagger">
-      {steps.map((step) => (
+      {displaySteps.map((step, index) => (
         <article class="rounded-[24px] border-[0.5px] border-border-card bg-white p-6 shadow-[0px_16px_32px_rgba(12,12,13,0.1),0px_4px_4px_rgba(12,12,13,0.05)]">
           <span class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 font-heading text-lg font-medium text-primary">
-            {step.number}
+            {index + 1}
           </span>
           <h3 class="mt-4 font-body text-lg font-medium text-text-heading">
             {step.title}

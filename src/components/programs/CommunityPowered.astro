@@ -1,12 +1,30 @@
 ---
-interface Props {}
+interface Button {
+  text?: string;
+  href?: string;
+}
 
-const bulletPoints: string[] = [
+interface Props {
+  heading?: string;
+  intro?: string;
+  bullets?: string[];
+  button?: Button | null;
+  imageUrl?: string;
+}
+
+const fallbackBullets: string[] = [
   'Preparing and serving meals with care and intention',
   'Providing logistical support and coordination',
   'Leading recreational and healing experiences',
   'Offering emotional presence and community support',
 ];
+
+const { heading, intro, bullets, button, imageUrl } = Astro.props;
+const displayHeading = heading || 'Powered by Community';
+const displayIntro = intro || 'The Heads Up program relies on the dedication and compassion of volunteers who believe in the power of healing. Our volunteer community makes this work possible.';
+const displayBullets = bullets && bullets.length > 0 ? bullets : fallbackBullets;
+const displayButton = button && button.text && button.href ? button : { text: 'Become a Volunteer', href: '/get-involved/volunteer' };
+const displayImage = imageUrl || '/images/sections/heads-up-community.jpg';
 ---
 
 <section id="community-powered" class="py-16 md:py-20 lg:py-24">
@@ -15,13 +33,13 @@ const bulletPoints: string[] = [
       <!-- Text -->
       <div class="lg:w-[55%]" data-animate="slide-left">
         <h2 class="font-heading text-[clamp(24px,3.5vw,32px)] font-medium leading-tight text-text-heading">
-          Powered by Community
+          {displayHeading}
         </h2>
         <p class="mt-5 font-body text-[15px] leading-relaxed text-text-body md:text-base">
-          The Heads Up program relies on the dedication and compassion of volunteers who believe in the power of healing. Our volunteer community makes this work possible.
+          {displayIntro}
         </p>
         <ul class="mt-6 space-y-3">
-          {bulletPoints.map((point) => (
+          {displayBullets.map((point) => (
             <li class="flex items-start gap-3 font-body text-[15px] leading-relaxed text-text-body md:text-base">
               <svg class="mt-1.5 h-4 w-4 shrink-0 text-primary" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                 <circle cx="8" cy="8" r="3" fill="currentColor"/>
@@ -31,16 +49,16 @@ const bulletPoints: string[] = [
           ))}
         </ul>
         <a
-          href="/get-involved/volunteer"
+          href={displayButton.href}
           class="mt-8 inline-block rounded-[100px] bg-primary px-8 py-3 font-heading text-sm font-medium text-white transition-colors hover:bg-primary-hover"
         >
-          Become a Volunteer
+          {displayButton.text}
         </a>
       </div>
 
-      <!-- Image placeholder -->
+      <!-- Image -->
       <div class="lg:w-[45%]" data-animate="slide-right">
-        <img src="/images/sections/heads-up-community.jpg" alt="Community volunteers supporting retreat participants" class="aspect-[4/3] w-full rounded-2xl object-cover" width="600" height="400" loading="lazy" />
+        <img src={displayImage} alt="Community volunteers supporting retreat participants" class="aspect-[4/3] w-full rounded-2xl object-cover" width="600" height="400" loading="lazy" />
       </div>
     </div>
   </div>

@@ -1,64 +1,86 @@
 ---
-interface Props {}
+interface Stat {
+  value?: string;
+  description?: string;
+  citation?: string;
+}
+
+interface FormCard {
+  icon?: string;
+  title?: string;
+  description?: string;
+}
+
+interface Props {
+  understandingHeading?: string;
+  understandingParagraphs?: string[];
+  stats?: Stat[];
+  formsHeading?: string;
+  formsCards?: FormCard[];
+}
+
+const fallbackParagraphs: string[] = [
+  'Antisemitism is rising in the United States at an alarming rate. From online hate and campus harassment to vandalism, violence, and the spread of conspiracy theories, Jewish communities face threats that are growing in both frequency and severity.',
+  'It affects people of all ages \u2014 from teens bullied at school to adults targeted in their communities and workplaces. The impact is felt not just by those directly targeted, but by entire communities living with heightened fear and anxiety.',
+  'At Jewmanity, we believe that awareness, education, and community action are the most powerful tools to fight back. Understanding the scope of the problem is the first step toward meaningful change.',
+];
+
+const fallbackStats: Stat[] = [
+  { value: '9,354', description: 'Antisemitic incidents recorded in the U.S. in 2024', citation: 'ADL Audit of Antisemitic Incidents, 2024' },
+  { value: '344%', description: 'Increase in antisemitic incidents over the past five years', citation: 'ADL Audit of Antisemitic Incidents, 2024' },
+  { value: '67%', description: 'of American Jews report seeing antisemitic content online', citation: 'AJC State of Antisemitism in America, 2024' },
+];
+
+const fallbackFormsCards: FormCard[] = [
+  { icon: 'social-media', title: 'Online & Social Media', description: 'Antisemitic content spreads rapidly through social media platforms, from coded language and conspiracy theories to direct harassment and threats. Young people are especially vulnerable to radicalization through algorithms that amplify hateful content.' },
+  { icon: 'campus', title: 'On Campus', description: 'College campuses have seen an 84% increase in antisemitic incidents. Jewish students report feeling unsafe expressing their identity, with many facing harassment during protests, in classrooms, and in campus social spaces.' },
+  { icon: 'community', title: 'In Communities', description: 'Antisemitic vandalism, threats against synagogues, and harassment of visibly Jewish people in public spaces have become more common. Jewish institutions face increasing security costs to protect their congregants and students.' },
+  { icon: 'conspiracy', title: 'Through Conspiracy Theories', description: 'Ancient antisemitic tropes about Jewish power, control, and dual loyalty continue to resurface in modern forms \u2014 amplified by social media, political rhetoric, and foreign disinformation campaigns.' },
+];
+
+const KNOWN_ICONS = new Set(['social-media', 'campus', 'community', 'conspiracy']);
+
+const { understandingHeading, understandingParagraphs, stats, formsHeading, formsCards } = Astro.props;
+
+const displayUnderstandingHeading = understandingHeading || 'Understanding Antisemitism Today';
+const displayParagraphs = understandingParagraphs && understandingParagraphs.length > 0 ? understandingParagraphs : fallbackParagraphs;
+const displayStats = stats && stats.length > 0 ? stats : fallbackStats;
+const displayFormsHeading = formsHeading || 'How Antisemitism Shows Up';
+const displayFormsCards = formsCards && formsCards.length > 0 ? formsCards : fallbackFormsCards;
 ---
 
 <!-- Section 1: Understanding Antisemitism Today -->
 <section id="understanding" class="py-16 md:py-20 lg:py-24">
   <div class="mx-auto max-w-[800px] px-6 lg:max-w-[960px]" data-animate="fade-up">
     <h2 class="text-center font-heading text-[clamp(28px,4vw,36px)] font-medium leading-tight text-text-heading">
-      Understanding Antisemitism Today
+      {displayUnderstandingHeading}
     </h2>
     <div class="mt-8 space-y-6">
-      <p class="font-body text-[15px] leading-relaxed text-text-body md:text-base">
-        Antisemitism is rising in the United States at an alarming rate. From online hate and campus harassment to vandalism, violence, and the spread of conspiracy theories, Jewish communities face threats that are growing in both frequency and severity.
-      </p>
-      <p class="font-body text-[15px] leading-relaxed text-text-body md:text-base">
-        It affects people of all ages — from teens bullied at school to adults targeted in their communities and workplaces. The impact is felt not just by those directly targeted, but by entire communities living with heightened fear and anxiety.
-      </p>
-      <p class="font-body text-[15px] leading-relaxed text-text-body md:text-base">
-        At Jewmanity, we believe that awareness, education, and community action are the most powerful tools to fight back. Understanding the scope of the problem is the first step toward meaningful change.
-      </p>
+      {displayParagraphs.map((p) => (
+        <p class="font-body text-[15px] leading-relaxed text-text-body md:text-base">{p}</p>
+      ))}
     </div>
   </div>
 
   <!-- Stat Cards -->
   <div class="mx-auto mt-12 max-w-[1200px] px-6">
     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3" data-animate="stagger">
-      <div class="rounded-[24px] border-[0.5px] border-border-card bg-white p-8 text-center shadow-[0px_16px_32px_rgba(12,12,13,0.1),0px_4px_4px_rgba(12,12,13,0.05)]">
-        <p class="font-heading text-[clamp(36px,5vw,48px)] font-medium leading-none text-primary">
-          9,354
-        </p>
-        <p class="mt-4 font-body text-sm leading-relaxed text-text-body">
-          Antisemitic incidents recorded in the U.S. in 2024
-        </p>
-        <p class="mt-3 font-body text-xs text-text-muted">
-          ADL Audit of Antisemitic Incidents, 2024
-        </p>
-      </div>
-
-      <div class="rounded-[24px] border-[0.5px] border-border-card bg-white p-8 text-center shadow-[0px_16px_32px_rgba(12,12,13,0.1),0px_4px_4px_rgba(12,12,13,0.05)]">
-        <p class="font-heading text-[clamp(36px,5vw,48px)] font-medium leading-none text-primary">
-          344%
-        </p>
-        <p class="mt-4 font-body text-sm leading-relaxed text-text-body">
-          Increase in antisemitic incidents over the past five years
-        </p>
-        <p class="mt-3 font-body text-xs text-text-muted">
-          ADL Audit of Antisemitic Incidents, 2024
-        </p>
-      </div>
-
-      <div class="rounded-[24px] border-[0.5px] border-border-card bg-white p-8 text-center shadow-[0px_16px_32px_rgba(12,12,13,0.1),0px_4px_4px_rgba(12,12,13,0.05)] sm:col-span-2 lg:col-span-1">
-        <p class="font-heading text-[clamp(36px,5vw,48px)] font-medium leading-none text-primary">
-          67%
-        </p>
-        <p class="mt-4 font-body text-sm leading-relaxed text-text-body">
-          of American Jews report seeing antisemitic content online
-        </p>
-        <p class="mt-3 font-body text-xs text-text-muted">
-          AJC State of Antisemitism in America, 2024
-        </p>
-      </div>
+      {displayStats.map((stat, index) => (
+        <div class:list={[
+          'rounded-[24px] border-[0.5px] border-border-card bg-white p-8 text-center shadow-[0px_16px_32px_rgba(12,12,13,0.1),0px_4px_4px_rgba(12,12,13,0.05)]',
+          index === 2 && 'sm:col-span-2 lg:col-span-1',
+        ]}>
+          <p class="font-heading text-[clamp(36px,5vw,48px)] font-medium leading-none text-primary">
+            {stat.value}
+          </p>
+          <p class="mt-4 font-body text-sm leading-relaxed text-text-body">
+            {stat.description}
+          </p>
+          {stat.citation && (
+            <p class="mt-3 font-body text-xs text-text-muted">{stat.citation}</p>
+          )}
+        </div>
+      ))}
     </div>
   </div>
 </section>
@@ -68,58 +90,46 @@ interface Props {}
   <div class="mx-auto max-w-[1200px] px-6">
     <div class="mb-12 text-center" data-animate="fade-up">
       <h2 class="font-heading text-[clamp(28px,4vw,36px)] font-medium leading-tight text-text-heading">
-        How Antisemitism Shows Up
+        {displayFormsHeading}
       </h2>
     </div>
 
     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2" data-animate="stagger">
-      <article class="rounded-[24px] border-[0.5px] border-border-card bg-white p-6 shadow-[0px_16px_32px_rgba(12,12,13,0.1),0px_4px_4px_rgba(12,12,13,0.05)]">
-        <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10">
-          <svg class="h-6 w-6 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 0 0 6 3.75v16.5a2.25 2.25 0 0 0 2.25 2.25h7.5A2.25 2.25 0 0 0 18 20.25V3.75a2.25 2.25 0 0 0-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" />
-          </svg>
-        </div>
-        <h3 class="font-body text-lg font-medium text-text-heading">Online &amp; Social Media</h3>
-        <p class="mt-2 font-body text-sm leading-relaxed text-text-body">
-          Antisemitic content spreads rapidly through social media platforms, from coded language and conspiracy theories to direct harassment and threats. Young people are especially vulnerable to radicalization through algorithms that amplify hateful content.
-        </p>
-      </article>
-
-      <article class="rounded-[24px] border-[0.5px] border-border-card bg-white p-6 shadow-[0px_16px_32px_rgba(12,12,13,0.1),0px_4px_4px_rgba(12,12,13,0.05)]">
-        <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10">
-          <svg class="h-6 w-6 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5" />
-          </svg>
-        </div>
-        <h3 class="font-body text-lg font-medium text-text-heading">On Campus</h3>
-        <p class="mt-2 font-body text-sm leading-relaxed text-text-body">
-          College campuses have seen an 84% increase in antisemitic incidents. Jewish students report feeling unsafe expressing their identity, with many facing harassment during protests, in classrooms, and in campus social spaces.
-        </p>
-      </article>
-
-      <article class="rounded-[24px] border-[0.5px] border-border-card bg-white p-6 shadow-[0px_16px_32px_rgba(12,12,13,0.1),0px_4px_4px_rgba(12,12,13,0.05)]">
-        <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10">
-          <svg class="h-6 w-6 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 21v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21m0 0h4.5V3.545M12.75 21h7.5V10.75M2.25 21h1.5m18 0h-18M2.25 9l4.5-1.636M18.75 3l-1.5.545m0 6.205 3 1m1.5.5-1.5-.5M6.75 7.364V3h-3v18m3-13.636 10.5-3.819" />
-          </svg>
-        </div>
-        <h3 class="font-body text-lg font-medium text-text-heading">In Communities</h3>
-        <p class="mt-2 font-body text-sm leading-relaxed text-text-body">
-          Antisemitic vandalism, threats against synagogues, and harassment of visibly Jewish people in public spaces have become more common. Jewish institutions face increasing security costs to protect their congregants and students.
-        </p>
-      </article>
-
-      <article class="rounded-[24px] border-[0.5px] border-border-card bg-white p-6 shadow-[0px_16px_32px_rgba(12,12,13,0.1),0px_4px_4px_rgba(12,12,13,0.05)]">
-        <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10">
-          <svg class="h-6 w-6 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
-          </svg>
-        </div>
-        <h3 class="font-body text-lg font-medium text-text-heading">Through Conspiracy Theories</h3>
-        <p class="mt-2 font-body text-sm leading-relaxed text-text-body">
-          Ancient antisemitic tropes about Jewish power, control, and dual loyalty continue to resurface in modern forms — amplified by social media, political rhetoric, and foreign disinformation campaigns.
-        </p>
-      </article>
+      {displayFormsCards.map((card) => (
+        <article class="rounded-[24px] border-[0.5px] border-border-card bg-white p-6 shadow-[0px_16px_32px_rgba(12,12,13,0.1),0px_4px_4px_rgba(12,12,13,0.05)]">
+          <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10">
+            {card.icon === 'social-media' && (
+              <svg class="h-6 w-6 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 0 0 6 3.75v16.5a2.25 2.25 0 0 0 2.25 2.25h7.5A2.25 2.25 0 0 0 18 20.25V3.75a2.25 2.25 0 0 0-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" />
+              </svg>
+            )}
+            {card.icon === 'campus' && (
+              <svg class="h-6 w-6 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5" />
+              </svg>
+            )}
+            {card.icon === 'community' && (
+              <svg class="h-6 w-6 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 21v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21m0 0h4.5V3.545M12.75 21h7.5V10.75M2.25 21h1.5m18 0h-18M2.25 9l4.5-1.636M18.75 3l-1.5.545m0 6.205 3 1m1.5.5-1.5-.5M6.75 7.364V3h-3v18m3-13.636 10.5-3.819" />
+              </svg>
+            )}
+            {card.icon === 'conspiracy' && (
+              <svg class="h-6 w-6 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+              </svg>
+            )}
+            {(!card.icon || !KNOWN_ICONS.has(card.icon)) && (
+              <svg class="h-6 w-6 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <circle cx="12" cy="12" r="8" />
+              </svg>
+            )}
+          </div>
+          <h3 class="font-body text-lg font-medium text-text-heading">{card.title}</h3>
+          <p class="mt-2 font-body text-sm leading-relaxed text-text-body">
+            {card.description}
+          </p>
+        </article>
+      ))}
     </div>
   </div>
 </section>
