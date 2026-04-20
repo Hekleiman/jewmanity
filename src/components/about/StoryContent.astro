@@ -1,36 +1,33 @@
 ---
-interface Props {}
+interface Props {
+  heading?: string;
+  paragraphs?: string[];
+}
+
+const fallbackParagraphs: string[] = [
+  'Jewmanity was founded in response to a growing need: the unique mental health challenges faced by Jewish and Israeli communities, particularly those impacted by antisemitic violence, intergenerational trauma, and the ongoing effects of conflict.',
+  'For too long, many individuals within our community have carried their pain in silence\u2014unsure where to turn, afraid of being misunderstood, or unable to access culturally sensitive support. We recognized that healing requires more than clinical intervention. It requires community, connection, and the knowledge that you are not alone.',
+  'Our approach is grounded in trauma-informed care that honors the complexity of Jewish identity and experience. We understand that trauma does not exist in a vacuum\u2014it is shaped by history, culture, family, and faith. And so, our work meets people where they are, with the respect and awareness their stories deserve.',
+  'Since our founding, Jewmanity has grown into a trusted network of support, education, and healing. We are counselors, survivors, advocates, and community members who believe deeply in the power of shared experience and the possibility of recovery.',
+];
+
+const { heading, paragraphs } = Astro.props;
+const displayHeading = heading || 'Our Story';
+const displayParagraphs = paragraphs && paragraphs.length > 0 ? paragraphs : fallbackParagraphs;
 ---
 
 <section id="our-story" class="py-16 md:py-20 lg:py-24">
   <div class="mx-auto max-w-[720px] px-6 text-center lg:max-w-[900px]">
     <h2 data-animate="fade-up" class="font-heading text-[clamp(28px,4vw,36px)] font-medium leading-tight text-text-heading">
-      Our Story
+      {displayHeading}
     </h2>
 
     <div class="mt-10 space-y-8" data-animate="stagger">
-      <p class="font-heading text-[clamp(18px,2.5vw,24px)] font-normal leading-[1.4] text-text-body">
-        Jewmanity was founded in response to a growing need: the unique mental health challenges
-        faced by Jewish and Israeli communities, particularly those impacted by antisemitic
-        violence, intergenerational trauma, and the ongoing effects of conflict.
-      </p>
-      <p class="font-heading text-[clamp(18px,2.5vw,24px)] font-normal leading-[1.4] text-text-body">
-        For too long, many individuals within our community have carried their pain in
-        silence—unsure where to turn, afraid of being misunderstood, or unable to access
-        culturally sensitive support. We recognized that healing requires more than clinical
-        intervention. It requires community, connection, and the knowledge that you are not alone.
-      </p>
-      <p class="font-heading text-[clamp(18px,2.5vw,24px)] font-normal leading-[1.4] text-text-body">
-        Our approach is grounded in trauma-informed care that honors the complexity of Jewish
-        identity and experience. We understand that trauma does not exist in a vacuum—it is shaped
-        by history, culture, family, and faith. And so, our work meets people where they are, with
-        the respect and awareness their stories deserve.
-      </p>
-      <p class="font-heading text-[clamp(18px,2.5vw,24px)] font-normal leading-[1.4] text-text-body">
-        Since our founding, Jewmanity has grown into a trusted network of support, education, and
-        healing. We are counselors, survivors, advocates, and community members who believe deeply
-        in the power of shared experience and the possibility of recovery.
-      </p>
+      {displayParagraphs.map((p) => (
+        <p class="font-heading text-[clamp(18px,2.5vw,24px)] font-normal leading-[1.4] text-text-body">
+          {p}
+        </p>
+      ))}
     </div>
   </div>
 </section>

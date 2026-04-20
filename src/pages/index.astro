@@ -6,15 +6,60 @@ import ImpactStories from '../components/home/ImpactStories.astro';
 import DonationCTA from '../components/home/DonationCTA.astro';
 import Newsletter from '../components/home/Newsletter.astro';
 import StatsBar from '../components/home/StatsBar.astro';
+import { getHomepage, urlFor } from '../lib/sanity';
+
+let cms: Record<string, any> | null = null;
+try {
+  cms = await getHomepage();
+} catch (e) {
+  console.warn('Sanity fetch failed for homepage, using hardcoded fallbacks');
+}
+
+const heroImage = cms?.heroImage ? urlFor(cms.heroImage).width(1920).quality(80).url() : undefined;
+
+const programCards = Array.isArray(cms?.howWeHelpPrograms)
+  ? cms!.howWeHelpPrograms.map((p: any) => ({
+      title: p?.title,
+      description: p?.description,
+      href: p?.href,
+      alt: p?.alt,
+      image: p?.image ? urlFor(p.image).width(800).quality(80).url() : undefined,
+    }))
+  : undefined;
 ---
 <Layout
   title="Jewmanity | Supporting Healing & Resilience for the Jewish Community"
   description="Jewmanity is a 501(c)(3) nonprofit providing mental health support, healing retreats, and community care for Jewish and Israeli individuals navigating PTSD and trauma."
 >
-  <Hero />
-  <HowWeHelp />
-  <ImpactStories />
-  <DonationCTA />
-  <Newsletter />
-  <StatsBar />
+  <Hero
+    heading={cms?.heroHeading}
+    subtitle={cms?.heroSubtitle}
+    imageUrl={heroImage}
+    imageAlt={cms?.heroImageAlt}
+    primaryCta={cms?.heroPrimaryCta}
+    secondaryCta={cms?.heroSecondaryCta}
+  />
+  <HowWeHelp
+    heading={cms?.howWeHelpHeading}
+    subtitle={cms?.howWeHelpSubtitle}
+    programs={programCards}
+  />
+  <ImpactStories
+    heading={cms?.impactStoriesHeading}
+    subtitle={cms?.impactStoriesSubtitle}
+  />
+  <DonationCTA
+    heading={cms?.donationHeading}
+    subtitle={cms?.donationSubtitle}
+    tiers={cms?.donationAmounts}
+    button={cms?.donationButton}
+    footerText={cms?.donationFooterText}
+  />
+  <Newsletter
+    heading={cms?.newsletterHeading}
+    description={cms?.newsletterDescription}
+  />
+  <StatsBar
+    stats={cms?.statsItems}
+  />
 </Layout>

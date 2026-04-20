@@ -4,20 +4,62 @@ import HeroSection from '../../components/shared/HeroSection.astro';
 import StoryContent from '../../components/about/StoryContent.astro';
 import ValuesGrid from '../../components/about/ValuesGrid.astro';
 import CTASection from '../../components/shared/CTASection.astro';
+import { getAboutStory, urlFor } from '../../lib/sanity';
+
+interface PortableBlock {
+  _type: string;
+  style?: string;
+  listItem?: string;
+  children?: { text?: string }[];
+}
+
+function extractParagraphs(blocks: PortableBlock[] | undefined): string[] {
+  if (!Array.isArray(blocks)) return [];
+  return blocks
+    .filter((b) => b._type === 'block' && !b.listItem && (b.style === 'normal' || !b.style))
+    .map((b) => (b.children || []).map((c) => c.text || '').join(''))
+    .filter((t) => t.length > 0);
+}
+
+let cms: Record<string, any> | null = null;
+try {
+  cms = await getAboutStory();
+} catch (e) {
+  console.warn('Sanity fetch failed for aboutStory, using hardcoded fallbacks');
+}
+
+const heroBg = cms?.hero?.backgroundImage
+  ? urlFor(cms.hero.backgroundImage).width(1920).quality(80).url()
+  : '/images/hero/about-story.jpg';
+
+const storyParagraphs = extractParagraphs(cms?.storyBody);
+const primaryCta = cms?.ctaPrimaryButton?.text && cms?.ctaPrimaryButton?.href
+  ? cms.ctaPrimaryButton
+  : { text: 'Support Healing', href: '/donate' };
+const secondaryCta = cms?.ctaSecondaryButton?.text && cms?.ctaSecondaryButton?.href
+  ? cms.ctaSecondaryButton
+  : { text: 'Become a Volunteer', href: '/get-involved/volunteer' };
 ---
 <Layout title="Our Story | Jewmanity" description="Learn how Jewmanity was founded to address the unique mental health challenges faced by Jewish and Israeli communities through trauma-informed care.">
   <HeroSection
-    heading="Creating space for healing, connection, and resilience"
-    subtitle="Supporting Jewish and Israeli communities navigating trauma, PTSD, and cultural stress with compassion and care."
-    backgroundImage="/images/hero/about-story.jpg"
+    heading={cms?.hero?.heading ?? 'Creating space for healing, connection, and resilience'}
+    subtitle={cms?.hero?.subtitle ?? 'Supporting Jewish and Israeli communities navigating trauma, PTSD, and cultural stress with compassion and care.'}
+    backgroundImage={heroBg}
     heightClass="min-h-[55vh] md:min-h-[65vh]"
   />
-  <StoryContent />
-  <ValuesGrid />
+  <StoryContent
+    heading={cms?.storyHeading}
+    paragraphs={storyParagraphs.length > 0 ? storyParagraphs : undefined}
+  />
+  <ValuesGrid
+    heading={cms?.valuesHeading}
+    subtitle={cms?.valuesSubtitle}
+    values={cms?.values}
+  />
   <CTASection
-    heading="Join Us in Supporting Healing"
-    subtitle="Whether through volunteering, donating, or simply spreading awareness, your support helps us create a safer, more connected community for those navigating trauma."
-    primaryCta={{ text: 'Support Healing', href: '/donate' }}
-    secondaryCta={{ text: 'Become a Volunteer', href: '/get-involved/volunteer' }}
+    heading={cms?.ctaHeading ?? 'Join Us in Supporting Healing'}
+    subtitle={cms?.ctaDescription ?? 'Whether through volunteering, donating, or simply spreading awareness, your support helps us create a safer, more connected community for those navigating trauma.'}
+    primaryCta={primaryCta}
+    secondaryCta={secondaryCta}
   />
 </Layout>

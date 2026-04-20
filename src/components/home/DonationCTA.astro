@@ -1,40 +1,58 @@
 ---
-interface Props {}
-
 interface DonationTier {
-  amount: string;
-  value: number;
-  description: string;
+  amount?: number;
+  label?: string;
+  description?: string;
 }
 
-const tiers: DonationTier[] = [
-  { amount: '$18', value: 18, description: 'Provides trauma education materials for one individual' },
-  { amount: '$36', value: 36, description: 'Supports a person\u2019s participation in a peer support group' },
-  { amount: '$180', value: 180, description: 'Sponsors a day of retreat programming for one participant' },
-  { amount: '$360', value: 360, description: 'Funds a week of therapeutic care and community healing' },
+interface Button {
+  text?: string;
+  href?: string;
+}
+
+interface Props {
+  heading?: string;
+  subtitle?: string;
+  tiers?: DonationTier[];
+  button?: Button | null;
+  footerText?: string;
+}
+
+const fallbackTiers: DonationTier[] = [
+  { amount: 18, description: 'Provides trauma education materials for one individual' },
+  { amount: 36, description: "Supports a person\u2019s participation in a peer support group" },
+  { amount: 180, description: 'Sponsors a day of retreat programming for one participant' },
+  { amount: 360, description: 'Funds a week of therapeutic care and community healing' },
 ];
+
+const { heading, subtitle, tiers, button, footerText } = Astro.props;
+
+const displayHeading = heading || 'How You Can Help';
+const displaySubtitle = subtitle || 'Your contribution directly supports healing, connection, and recovery for individuals and families in our community.';
+const displayTiers = tiers && tiers.length > 0 ? tiers : fallbackTiers;
+const displayButton = button && button.text && button.href ? button : { text: 'Learn More', href: '/donate' };
+const displayFooter = footerText || 'Your contribution helps fund healing retreats, peer support, and ongoing care for individuals and families in our community.';
 ---
 
 <section id="donation-cta" class="py-16 md:py-20 lg:py-24">
   <div class="mx-auto max-w-[1200px] px-6">
     <div class="mb-12 text-center" data-animate="fade-up">
       <h2 class="font-heading text-[clamp(28px,4vw,36px)] font-medium leading-tight text-text-heading">
-        How You Can Help
+        {displayHeading}
       </h2>
       <p class="mx-auto mt-4 max-w-[600px] font-heading text-[clamp(18px,2.5vw,24px)] font-normal leading-relaxed text-text-body lg:max-w-[750px]">
-        Your contribution directly supports healing, connection, and recovery for individuals and
-        families in our community.
+        {displaySubtitle}
       </p>
     </div>
 
     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2" data-animate="stagger">
-      {tiers.map((tier) => (
+      {displayTiers.map((tier) => (
         <a
-          href={`/donate?amount=${tier.value}`}
+          href={`/donate?amount=${tier.amount}`}
           class="group flex items-center gap-4 rounded-2xl border border-[#DADADA] bg-[#F2F2F2] px-5 py-4 transition-all hover:bg-white hover:shadow-md"
         >
           <span class="shrink-0 font-heading text-lg font-medium text-primary">
-            {tier.amount}
+            ${tier.amount}
           </span>
           <span class="flex-1 font-body text-sm font-normal text-text-body">
             {tier.description}
@@ -59,14 +77,13 @@ const tiers: DonationTier[] = [
 
     <div class="mt-10 text-center">
       <a
-        href="/donate"
+        href={displayButton.href}
         class="inline-block rounded-[100px] bg-primary px-8 py-3 font-heading text-base font-medium text-white transition-colors hover:bg-primary-hover"
       >
-        Learn More
+        {displayButton.text}
       </a>
       <p class="mx-auto mt-4 max-w-[500px] font-body text-xs text-text-muted">
-        Your contribution helps fund healing retreats, peer support, and ongoing care for
-        individuals and families in our community.
+        {displayFooter}
       </p>
     </div>
   </div>

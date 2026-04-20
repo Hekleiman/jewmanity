@@ -3,6 +3,7 @@ import '../styles/global.css';
 import Navigation from '../components/Navigation.astro';
 import MobileMenu from '../components/MobileMenu.astro';
 import Footer from '../components/Footer.astro';
+import { getSiteSettings } from '../lib/sanity';
 
 interface Props {
   title?: string;
@@ -15,6 +16,13 @@ const {
   description = 'Jewmanity is a 501(c)(3) nonprofit supporting mental health and healing for Jewish and Israeli communities through retreats, peer support, education, and ongoing care.',
   ogImage = '/og-default.png',
 } = Astro.props;
+
+let siteSettings = null;
+try {
+  siteSettings = await getSiteSettings();
+} catch (e) {
+  console.warn('Sanity fetch failed for siteSettings, footer will use hardcoded fallbacks');
+}
 
 const canonicalUrl = `https://jewmanity.org${Astro.url.pathname}`;
 ---
@@ -95,7 +103,7 @@ const canonicalUrl = `https://jewmanity.org${Astro.url.pathname}`;
     <main id="main-content">
       <slot />
     </main>
-    <Footer />
+    <Footer siteSettings={siteSettings} />
     <script>
       import { initAnimations } from '../scripts/animations';
 

@@ -1,65 +1,70 @@
 ---
-interface Props {}
-
 interface ProgramCard {
-  title: string;
-  description: string;
-  href: string;
-  image: string;
-  alt: string;
+  title?: string;
+  description?: string;
+  href?: string;
+  image?: string;
+  alt?: string;
 }
 
-const programs: ProgramCard[] = [
+interface Props {
+  heading?: string;
+  subtitle?: string;
+  programs?: ProgramCard[];
+}
+
+const fallbackPrograms: ProgramCard[] = [
   {
     title: 'Heads Up Healing Retreats',
-    description:
-      'Immersive retreat experiences in safe, supportive environments that foster healing and connection.',
+    description: 'Immersive retreat experiences in safe, supportive environments that foster healing and connection.',
     href: '/programs/heads-up',
     image: '/images/cards/how-we-help-1.jpg',
     alt: 'Healing retreat participants in a supportive group setting',
   },
   {
     title: 'Community & Peer Support',
-    description:
-      'Guided group sessions and peer networks that foster understanding, shared experience, and mutual support.',
+    description: 'Guided group sessions and peer networks that foster understanding, shared experience, and mutual support.',
     href: '/about/community-stories',
     image: '/images/cards/how-we-help-2.jpg',
     alt: 'Community members supporting each other through peer connection',
   },
   {
     title: 'Education & Awareness',
-    description:
-      'Evidence-based workshops and resources to help individuals and families understand and navigate trauma.',
+    description: 'Evidence-based workshops and resources to help individuals and families understand and navigate trauma.',
     href: '/resources',
     image: '/images/cards/how-we-help-3.jpg',
     alt: 'Educational workshop on mental health awareness',
   },
   {
     title: 'Ongoing Care Resources',
-    description:
-      'Accessible mental health tools, therapist referrals, and ongoing connection to care networks.',
+    description: 'Accessible mental health tools, therapist referrals, and ongoing connection to care networks.',
     href: '/resources',
     image: '/images/cards/how-we-help-4.jpg',
     alt: 'Ongoing care and mental health resources',
   },
 ];
+
+const { heading, subtitle, programs } = Astro.props;
+const displayHeading = heading || 'How We Help You';
+const displaySubtitle = subtitle || 'Comprehensive programs designed to support healing at every stage.';
+const displayPrograms = programs && programs.length > 0 ? programs : fallbackPrograms;
 ---
 
 <section id="how-we-help" class="py-16 md:py-20 lg:py-24">
   <div class="mx-auto max-w-[1200px] px-6">
     <div class="mb-12 text-center" data-animate="fade-up">
       <h2 class="font-heading text-[clamp(28px,4vw,36px)] font-medium leading-tight text-text-heading">
-        How We Help You
+        {displayHeading}
       </h2>
       <p class="mx-auto mt-4 max-w-[600px] font-heading text-[clamp(18px,2.5vw,24px)] font-normal leading-relaxed text-text-body">
-        Comprehensive programs designed to support healing at every stage.
+        {displaySubtitle}
       </p>
     </div>
 
     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2" data-animate="stagger">
-      {programs.map((program) => (
+      {displayPrograms.map((program) => (
         <article class="group overflow-hidden rounded-[24px] border-[0.5px] border-border-card bg-white shadow-[0px_16px_32px_rgba(12,12,13,0.1),0px_4px_4px_rgba(12,12,13,0.05)] transition-shadow hover:shadow-[0px_20px_40px_rgba(12,12,13,0.14),0px_6px_6px_rgba(12,12,13,0.07)]">
-          <img src={program.image} alt={program.alt} class="h-48 w-full object-cover" width="600" height="400" loading="lazy" />
+          <img src={program.image} alt={program.alt || program.title} class="h-48 w-full object-cover" width="600" height="400" loading="lazy" />
           <div class="p-5">
             <h3 class="font-body text-xl font-medium leading-7 text-text-heading">
               {program.title}

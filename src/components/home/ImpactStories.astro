@@ -12,7 +12,14 @@ interface Testimonial {
   link?: string;
 }
 
-interface Props {}
+interface Props {
+  heading?: string;
+  subtitle?: string;
+}
+
+const { heading, subtitle } = Astro.props;
+const displayHeading = heading || 'Impact Stories';
+const displaySubtitle = subtitle || "Real stories from individuals supported through Jewmanity's programs and community.";
 
 // Hardcoded fallbacks with real testimonial data
 const fallbackTestimonials: Testimonial[] = [
@@ -74,10 +81,10 @@ if (testimonials.length === 0) {
   <div class="mx-auto max-w-[1200px] px-6">
     <div class="mb-12 text-center" data-animate="fade-up">
       <h2 class="font-heading text-[clamp(28px,4vw,36px)] font-medium leading-tight text-text-heading">
-        Impact Stories
+        {displayHeading}
       </h2>
       <p class="mx-auto mt-4 max-w-[600px] font-heading text-[clamp(18px,2.5vw,24px)] font-normal leading-relaxed text-text-body">
-        Real stories from individuals supported through Jewmanity's programs and community.
+        {displaySubtitle}
       </p>
     </div>
 

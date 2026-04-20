@@ -1,16 +1,45 @@
 ---
+interface CtaButton {
+  text?: string;
+  href?: string;
+}
+
 interface Props {
+  heading?: string;
+  subtitle?: string;
+  imageUrl?: string;
+  imageAlt?: string;
+  primaryCta?: CtaButton | null;
+  secondaryCta?: CtaButton | null;
   imagePosition?: string;
 }
 
-const { imagePosition = 'center 30%' } = Astro.props;
+const {
+  heading,
+  subtitle,
+  imageUrl,
+  imageAlt,
+  primaryCta,
+  secondaryCta,
+  imagePosition = 'center 30%',
+} = Astro.props;
+
+const displayHeading = heading || 'Supporting healing and resilience for the Jewish Community';
+const displaySubtitle = subtitle || 'Jewmanity provides compassionate mental health support for Israelis and Jewish individuals navigating PTSD and trauma.';
+const displayImage = imageUrl || '/images/hero/homepage.jpg';
+const displayAlt = imageAlt || 'Jewish community members gathering together in support';
+
+const displayPrimary = primaryCta && primaryCta.text && primaryCta.href
+  ? primaryCta
+  : { text: 'Learn About Our Work', href: '/about/story' };
+const displaySecondary = secondaryCta && secondaryCta.text && secondaryCta.href ? secondaryCta : null;
 ---
 
 <section
   id="hero"
   class="relative flex min-h-screen items-center justify-center overflow-hidden md:min-h-[60vh] lg:min-h-[100vh]"
 >
-  <img src="/images/hero/homepage.jpg" alt="Jewish community members gathering together in support" class="absolute inset-0 h-full w-full object-cover" style={`object-position: ${imagePosition}`} width="1920" height="1080" loading="eager" />
+  <img src={displayImage} alt={displayAlt} class="absolute inset-0 h-full w-full object-cover" style={`object-position: ${imagePosition}`} width="1920" height="1080" loading="eager" />
   <div class="absolute inset-0 bg-black/50"></div>
 
   <div class="relative z-10 mx-auto max-w-[800px] px-6 pt-20 text-center">
@@ -18,21 +47,31 @@ const { imagePosition = 'center 30%' } = Astro.props;
       data-animate="hero-fade-up"
       class="font-heading text-[clamp(36px,5vw,64px)] font-medium leading-[1.1] text-white"
     >
-      Supporting healing and resilience for the Jewish Community
+      {displayHeading}
     </h1>
     <p
       data-animate="hero-fade-up"
       class="mx-auto mt-6 max-w-[600px] font-heading text-[clamp(16px,2.5vw,20px)] font-normal leading-relaxed text-white/85"
     >
-      Jewmanity provides compassionate mental health support for Israelis and
-      Jewish individuals navigating PTSD and trauma.
+      {displaySubtitle}
     </p>
-    <a
-      data-animate="hero-scale-in"
-      href="/about/story"
-      class="mt-8 inline-block rounded-[100px] bg-[#FAF8F5] px-8 py-3 font-heading text-base font-medium text-primary transition-colors hover:bg-white sm:w-auto"
-    >
-      Learn About Our Work
-    </a>
+    <div class="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
+      <a
+        data-animate="hero-scale-in"
+        href={displayPrimary.href}
+        class="inline-block rounded-[100px] bg-[#FAF8F5] px-8 py-3 font-heading text-base font-medium text-primary transition-colors hover:bg-white sm:w-auto"
+      >
+        {displayPrimary.text}
+      </a>
+      {displaySecondary && (
+        <a
+          data-animate="hero-scale-in"
+          href={displaySecondary.href}
+          class="inline-block rounded-[100px] border-2 border-white/80 px-8 py-3 font-heading text-base font-medium text-white transition-colors hover:bg-white/10 sm:w-auto"
+        >
+          {displaySecondary.text}
+        </a>
+      )}
+    </div>
   </div>
 </section>

@@ -1,40 +1,31 @@
 ---
-interface Props {}
-
 interface Stat {
-  icon: string;
-  number: string;
-  label: string;
+  icon?: string;
+  value?: string;
+  label?: string;
 }
 
-const stats: Stat[] = [
-  {
-    icon: 'shield',
-    number: '501(c)(3) Nonprofit',
-    label: 'Tax-exempt charitable organization',
-  },
-  {
-    icon: 'calendar',
-    number: 'Established 2019',
-    label: 'Years of dedicated service',
-  },
-  {
-    icon: 'people',
-    number: '1,500+ Helped',
-    label: 'Individuals across all programs',
-  },
-  {
-    icon: 'heart',
-    number: '4 Core Programs',
-    label: 'Comprehensive healing services',
-  },
+interface Props {
+  stats?: Stat[];
+}
+
+const fallbackStats: Stat[] = [
+  { icon: 'shield', value: '501(c)(3) Nonprofit', label: 'Tax-exempt charitable organization' },
+  { icon: 'calendar', value: 'Established 2019', label: 'Years of dedicated service' },
+  { icon: 'people', value: '1,500+ Helped', label: 'Individuals across all programs' },
+  { icon: 'heart', value: '4 Core Programs', label: 'Comprehensive healing services' },
 ];
+
+const KNOWN_ICONS = new Set(['shield', 'calendar', 'people', 'heart']);
+
+const { stats } = Astro.props;
+const displayStats = stats && stats.length > 0 ? stats : fallbackStats;
 ---
 
 <section id="stats" class="py-14 md:py-16 lg:py-20">
   <div class="mx-auto max-w-[1200px] px-6">
     <div class="grid grid-cols-2 gap-8 lg:grid-cols-4" data-animate="stagger">
-      {stats.map((stat) => (
+      {displayStats.map((stat) => (
         <div class="flex flex-col items-center text-center">
           <div class="mb-3 text-primary">
             {stat.icon === 'shield' && (
@@ -69,9 +60,14 @@ const stats: Stat[] = [
                 <path d="M18 30s-10-6.5-10-14a6.5 6.5 0 0113 0" stroke="currentColor" stroke-width="2" fill="none"/>
               </svg>
             )}
+            {(!stat.icon || !KNOWN_ICONS.has(stat.icon)) && (
+              <svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+                <circle cx="18" cy="18" r="12" stroke="currentColor" stroke-width="2" fill="none"/>
+              </svg>
+            )}
           </div>
           <p class="font-heading text-base font-medium text-text-heading md:text-lg">
-            {stat.number}
+            {stat.value}
           </p>
           <p class="mt-1 font-body text-xs text-text-body md:text-[13px]">
             {stat.label}
