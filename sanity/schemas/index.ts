@@ -4,6 +4,22 @@ import heroSection from './objects/heroSection';
 import ctaButton from './objects/ctaButton';
 import statItem from './objects/statItem';
 import valueCard from './objects/valueCard';
+import aboutValueCard from './objects/aboutValueCard';
+import supportCard from './objects/supportCard';
+import experienceItem from './objects/experienceItem';
+import carePillar from './objects/carePillar';
+import includedItem from './objects/includedItem';
+import programCard from './objects/programCard';
+import homepageStat from './objects/homepageStat';
+import contactCard from './objects/contactCard';
+import shopImpactIcon from './objects/shopImpactIcon';
+import howToHelpCard from './objects/howToHelpCard';
+import donateImpactCard from './objects/donateImpactCard';
+import whyGiveValue from './objects/whyGiveValue';
+import antisemitismStat from './objects/antisemitismStat';
+import antisemitismFormCard from './objects/antisemitismFormCard';
+import actionStep from './objects/actionStep';
+import antisemitismOrg from './objects/antisemitismOrg';
 
 // Collection document types
 import recipe from './documents/recipe';
@@ -36,6 +52,22 @@ export const schemaTypes = [
   ctaButton,
   statItem,
   valueCard,
+  aboutValueCard,
+  supportCard,
+  experienceItem,
+  carePillar,
+  includedItem,
+  programCard,
+  homepageStat,
+  contactCard,
+  shopImpactIcon,
+  howToHelpCard,
+  donateImpactCard,
+  whyGiveValue,
+  antisemitismStat,
+  antisemitismFormCard,
+  actionStep,
+  antisemitismOrg,
 
   // Collections
   recipe,

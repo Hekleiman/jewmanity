@@ -66,12 +66,6 @@ export default defineType({
       description: 'The full story broken into paragraphs. Each array item is one paragraph.',
     }),
     defineField({
-      name: 'body',
-      title: 'Full Story (Rich Text)',
-      type: 'portableText',
-      description: 'Alternative rich-text body. Used only if paragraphs field is empty.',
-    }),
-    defineField({
       name: 'pullQuote',
       title: 'Pull Quote',
       type: 'text',
