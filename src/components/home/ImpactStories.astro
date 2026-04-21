@@ -24,12 +24,12 @@ const displaySubtitle = subtitle || "Real stories from individuals supported thr
 // Hardcoded fallbacks with real testimonial data
 const fallbackTestimonials: Testimonial[] = [
   {
-    name: 'Matamba Lassan',
-    role: 'Retreat Participant',
+    name: 'Matan Balahsan',
+    role: 'Heads Up Participant',
     excerpt:
       'After October 7th, I lost my faith \u2014 especially in myself. Through Jewmanity, I spent a month in the U.S. healing and being supported by professional care. This journey helped me believe in myself again.',
-    slug: 'matamba-lassan',
-    imageUrl: '/images/testimonials/matamba.png',
+    slug: 'matan-balahsan',
+    imageUrl: '/images/testimonials/matan.png',
   },
   {
     name: 'Dahlia',
@@ -52,7 +52,7 @@ const fallbackTestimonials: Testimonial[] = [
 let testimonials: Testimonial[] = [];
 
 try {
-  const raw = await getTestimonials();
+  const raw = await getTestimonials('general');
   if (raw && raw.length > 0) {
     testimonials = raw.map((t: Record<string, unknown>) => ({
       name: (t.authorName as string) || '',

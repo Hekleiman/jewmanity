@@ -8,8 +8,9 @@ import EvidenceBasedCare from '../../components/programs/EvidenceBasedCare.astro
 import WhatsIncluded from '../../components/programs/WhatsIncluded.astro';
 import CommunityPowered from '../../components/programs/CommunityPowered.astro';
 import ImpactStats from '../../components/programs/ImpactStats.astro';
+import TestimonialCarousel from '../../components/shared/TestimonialCarousel.astro';
 import CTASection from '../../components/shared/CTASection.astro';
-import { getHeadsUp, urlFor } from '../../lib/sanity';
+import { getHeadsUp, getTestimonials, urlFor } from '../../lib/sanity';
 
 interface PortableBlock {
   _type: string;
@@ -46,6 +47,32 @@ const safeHavenParagraphs = extractParagraphs(cms?.safeHavenBody);
 const ctaPrimary = cms?.ctaPrimaryButton?.text && cms?.ctaPrimaryButton?.href
   ? cms.ctaPrimaryButton
   : { text: 'Support Healing', href: '/donate' };
+
+let cmsTestimonials: { quote: string; author: string; context: string; imageUrl?: string }[] = [];
+try {
+  const raw = await getTestimonials('headsup');
+  cmsTestimonials = raw.map((t: any) => ({
+    quote: t.excerpt || t.quote,
+    author: t.authorName || '',
+    context: t.authorRole || '',
+    imageUrl: t.imageUrl
+      ? t.imageUrl
+      : t.authorImage
+        ? urlFor(t.authorImage).width(224).height(224).url()
+        : undefined,
+  }));
+} catch (e) {
+  console.warn('Sanity fetch failed for headsup testimonials, using fallback content');
+}
+
+const fallbackTestimonials = [
+  {
+    quote: 'After October 7th, I lost my faith — especially in myself. Through Jewmanity, I spent a month in the U.S. healing and being supported by professional care. This journey helped me believe in myself again.',
+    author: 'Matan Balahsan',
+    context: 'Heads Up Participant',
+    imageUrl: '/images/testimonials/matan.png',
+  },
+];
 ---
 <Layout title="Heads Up Healing Retreats | Jewmanity" description="A comprehensive rehabilitation retreat in San Diego supporting Israeli soldiers and their loved ones experiencing PTSD and ongoing trauma.">
   <HeroSection
@@ -84,6 +111,11 @@ const ctaPrimary = cms?.ctaPrimaryButton?.text && cms?.ctaPrimaryButton?.href
     bullets={cms?.communityBullets}
     button={cms?.communityButton}
     imageUrl={communityImage}
+  />
+  <TestimonialCarousel
+    heading="Voices from Heads Up"
+    subtitle="Honest reflections from soldiers who found healing, connection, and renewed strength through our retreats."
+    testimonials={cmsTestimonials.length > 0 ? cmsTestimonials : fallbackTestimonials}
   />
   <ImpactStats
     heading={cms?.impactHeading}

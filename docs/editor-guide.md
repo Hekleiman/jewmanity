@@ -71,7 +71,7 @@ Current counts (as of launch). In Studio, the left nav shows the live count next
 | **Retreats** | 4 | Heads Up retreat write-ups. One entry per retreat. |
 | **Team Members** | (see Studio) | Staff bios for the About → Team page. |
 | **Products** | 4 | Shop items (water bottle, hats, candle set). |
-| **Testimonials** | (see Studio) | Participant quotes shown on Homepage + Volunteer page carousels. |
+| **Testimonials** | (see Studio) | Participant quotes shown in carousels across the site. The **Display Context** field controls where each quote appears: `General / Homepage` → Homepage Impact Stories; `Heads Up Program` → Heads Up + Past Retreats carousels; `Volunteer` → Volunteer page carousel; `Antisemitism Story` → "Voices From Our Community" section on Community Stories. Tag each testimonial with the context that matches where it should appear. |
 | **Community Stories** | 6 | Retreat and volunteer stories shown on the Community Stories page. |
 | **Recommended Articles** | 6 | External articles featured on the Fighting Antisemitism → Learn More section. |
 | **FAQ Items** | 20 | Questions and answers. Each FAQ is tagged with which page it appears on. |

@@ -1,9 +1,8 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import HeroSection from '../../components/shared/HeroSection.astro';
-import StoriesGrid from '../../components/about/StoriesGrid.astro';
 import CTASection from '../../components/shared/CTASection.astro';
-import { getCommunityStories, getTestimonials, urlFor } from '../../lib/sanity';
+import { getTestimonials, urlFor } from '../../lib/sanity';
 import type { SanityImageSource } from '@sanity/image-url/lib/types/types';
 
 interface PersonalStory {
@@ -16,11 +15,11 @@ interface PersonalStory {
 
 const fallbackStories: PersonalStory[] = [
   {
-    name: 'Matamba Lassan',
-    role: 'Retreat Participant \u2014 Heads Up Program',
-    slug: 'matamba-lassan',
-    quote: "My name is Matamba Lassan. I'm 23 years old, recently married. After October 7th, I lost my faith \u2014 especially in myself. Through my journey with the Jewmanity organization, we spent a month in the U.S. healing, sharing, and being supported by professional care. This journey helped me believe in myself again. When I came back to Israel, I finally knew how to move forward. I want to say thank you to Jewmanity for everything. Keep going. Am Israel Chai. Thank you for everything.",
-    imageUrl: '/images/testimonials/matamba.png',
+    name: 'Matan Balahsan',
+    role: 'Heads Up Participant',
+    slug: 'matan-balahsan',
+    quote: "My name is Matan Balahsan. I'm 23 years old, recently married. After October 7th, I lost my faith \u2014 especially in myself. Through my journey with the Jewmanity organization, we spent a month in the U.S. healing, sharing, and being supported by professional care. This journey helped me believe in myself again. When I came back to Israel, I finally knew how to move forward. I want to say thank you to Jewmanity for everything. Keep going. Am Israel Chai. Thank you for everything.",
+    imageUrl: '/images/testimonials/matan.png',
   },
   {
     name: 'Dahlia',
@@ -55,36 +54,6 @@ try {
 
 if (personalStories.length === 0) {
   personalStories = fallbackStories;
-}
-
-interface CmsStory {
-  title: string;
-  paragraphs?: string[];
-  description?: string;
-  image?: string;
-  url?: string;
-  external?: boolean;
-  tag?: string;
-  pullQuote?: string;
-  pullAttribution?: string;
-}
-
-let cmsStories: CmsStory[] = [];
-try {
-  const raw = await getCommunityStories();
-  cmsStories = raw.map((s: Record<string, unknown>) => ({
-    title: (s.title as string) || '',
-    paragraphs: (s.paragraphs as string[] | undefined) || undefined,
-    description: (s.excerpt as string) || undefined,
-    image: (s.imageUrl as string) || (s.image ? urlFor(s.image as SanityImageSource).width(600).url() : undefined),
-    url: (s.externalUrl as string) || (s.internalUrl as string) || (s.slug ? `/about/community-stories/${s.slug}` : undefined),
-    external: !!(s.externalUrl as string),
-    tag: (s.tag as string) || undefined,
-    pullQuote: (s.pullQuote as string) || undefined,
-    pullAttribution: (s.pullQuoteAttribution as string) || undefined,
-  }));
-} catch (e) {
-  console.warn('Sanity fetch failed for community stories, using fallback content');
 }
 ---
 <Layout title="Community Stories | Jewmanity" description="Inspiring stories of compassion, service, and solidarity from Jewish communities around the world.">
@@ -161,8 +130,6 @@ try {
       </div>
     </div>
   </section>
-
-  <StoriesGrid stories={cmsStories.length > 0 ? cmsStories : undefined} />
 
   <CTASection
     heading="Be Part of the Ongoing Story"
