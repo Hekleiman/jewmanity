@@ -347,6 +347,18 @@ No `FIXME`, `HACK`, or `XXX` markers found anywhere under `src/`, `sanity/`, or 
 
 ## 11. Git State
 
+> **STALE NOTE — added 2026-04-20 end of day:**
+>
+> The "62 modified files and 30 untracked paths" described in §11 (Git State) have been
+> committed. As of session end on 2026-04-20, `main` is 12 commits ahead of `origin/main`
+> (commits `b45a788` through `76ca270`).
+>
+> The dirty working tree no longer exists. The audit's structural information (sections
+> 1-10, 12-13) remains accurate; only §11 is out of date.
+>
+> Backup branch `backup/2026-04-20-pre-cleanup` (local + remote) preserves the
+> pre-cleanup state if needed.
+
 ### Current branch
 `main` (local `main` tracks `origin/main`; at HEAD `8c94e84`).
 
