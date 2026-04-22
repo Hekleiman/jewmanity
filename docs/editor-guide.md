@@ -113,6 +113,20 @@ Each task below is a 3–6 step walkthrough. If you get stuck, jump to Troublesh
 
 ---
 
+### 3a. Adjusting team member photo framing
+
+If a team member's face isn't visible on their card — head cut off, or a full-body shot cropped through the torso — you can reposition the focal point so the card crop centers on their face.
+
+1. In Studio's left nav, click **Team Members**, then open the person's doc.
+2. Click the photo field to open it.
+3. Click the photo thumbnail to expand the edit controls.
+4. Drag the circular **hotspot** marker to where the face is.
+5. Click outside to save, then **Publish**.
+
+The card will use your new hotspot on the next deploy (2–3 minutes).
+
+---
+
 ### 4. How to edit a FAQ (and how FAQs route to pages)
 
 Each FAQ has a **Page Context** field that tells the site which page the FAQ should appear on. Options are:

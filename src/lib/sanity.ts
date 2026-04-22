@@ -15,6 +15,21 @@ export function urlFor(source: SanityImageSource) {
   return builder.image(source);
 }
 
+/**
+ * Hotspot-aware image URL builder for cropped card/thumbnail images.
+ *
+ * Sanity's hotspot/crop metadata only takes effect when both width AND height
+ * are constrained AND the URL requests `.fit('crop').crop('focalpoint')`.
+ * This helper bundles all three so consumers don't have to remember.
+ *
+ * Use for any image rendered in a fixed aspect-ratio container (cards,
+ * thumbnails, grid tiles). For hero backgrounds and full-bleed images, use
+ * `urlFor(...).width(...).url()` without cropping.
+ */
+export function urlForCropped(source: SanityImageSource, width: number, height: number) {
+  return builder.image(source).width(width).height(height).fit('crop').crop('focalpoint');
+}
+
 // ============ Collection Queries ============
 
 export async function getRecipes() {

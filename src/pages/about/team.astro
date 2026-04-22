@@ -3,7 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import HeroSection from '../../components/shared/HeroSection.astro';
 import TeamGrid from '../../components/about/TeamGrid.astro';
 import CTASection from '../../components/shared/CTASection.astro';
-import { getTeamMembers, urlFor } from '../../lib/sanity';
+import { getTeamMembers, urlForCropped } from '../../lib/sanity';
 
 let cmsMembers: { name: string; role: string; bio: string; image?: string }[] = [];
 try {
@@ -12,7 +12,7 @@ try {
     name: m.name,
     role: m.role || '',
     bio: m.bio || '',
-    image: m.photo ? urlFor(m.photo).width(400).url() : undefined,
+    image: m.photo ? urlForCropped(m.photo, 800, 600).url() : undefined,
   }));
 } catch (e) {
   console.warn('Sanity fetch failed for team members, using fallback content');
