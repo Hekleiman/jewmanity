@@ -2,70 +2,54 @@
 import Layout from '../../layouts/Layout.astro';
 import RetreatArticle from '../../components/programs/RetreatArticle.astro';
 import { getRetreats, urlFor } from '../../lib/sanity';
-import { retreatData } from '../../data/retreats';
-import type { ContentBlock } from '../../data/retreats';
 
-const allSlugs = Object.keys(retreatData);
+interface ContentBlock {
+  type: 'paragraph' | 'heading' | 'image';
+  level?: 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+  text?: string;
+  src?: string;
+  alt?: string;
+}
 
 export async function getStaticPaths() {
-  let retreats: Record<string, unknown>[] = [];
-  try {
-    retreats = await getRetreats();
-  } catch (e) {
-    console.warn('Sanity fetch failed for retreat paths, using fallback');
-  }
-
-  const cmsPaths = retreats.map((retreat: Record<string, unknown>) => ({
+  const retreats = await getRetreats();
+  return retreats.map((retreat: Record<string, unknown>) => ({
     params: { slug: (retreat.slug as { current: string }).current },
     props: { retreat },
   }));
-
-  const cmsSlugs = new Set(cmsPaths.map((p) => p.params.slug));
-  const fallbackPaths = ['heads-up-first-retreat', 'heads-up-second-retreat', 'heads-up-third-retreat', 'heads-up-retreat-4-fathers-fighters']
-    .filter((s) => !cmsSlugs.has(s))
-    .map((s) => ({ params: { slug: s } }));
-
-  return [...cmsPaths, ...fallbackPaths];
 }
 
-const { slug } = Astro.params;
-const cmsRetreat = (Astro.props as Record<string, unknown>).retreat as Record<string, unknown> | null || null;
-const fallback = slug ? retreatData[slug] : undefined;
+const { retreat } = Astro.props as { retreat: Record<string, unknown> };
 
-const title = fallback?.title || (cmsRetreat?.title as string) || 'Retreat';
-const subtitle = fallback?.subtitle || (cmsRetreat?.subtitle as string) || '';
-const author = fallback?.author || (cmsRetreat?.author as string) || '';
-const coverImage = fallback?.coverImage
-  || (cmsRetreat?.coverImage ? urlFor(cmsRetreat.coverImage as any).width(1920).url() : '/images/hero/retreat-article.jpg');
+const title = (retreat.title as string) || 'Retreat';
+const subtitle = (retreat.subtitle as string) || '';
+const author = (retreat.author as string) || '';
+const coverImage = retreat.coverImage
+  ? urlFor(retreat.coverImage as any).width(1920).url()
+  : '/images/hero/retreat-article.jpg';
 
-// Build body from CMS portable text or fallback
-// Only use CMS body if it has substantial content (>3 blocks); otherwise prefer fallback
-let body: ContentBlock[] = [];
-const cmsBody = cmsRetreat?.body as Record<string, unknown>[] | undefined;
-if (cmsBody && Array.isArray(cmsBody) && cmsBody.length > 3) {
-  body = cmsBody.map((block) => {
-    if (block._type === 'image' && block.asset) {
-      return {
-        type: 'image' as const,
-        src: urlFor(block as any).width(1280).url(),
-        alt: (block.alt as string) || title,
-      };
-    }
-    const style = block.style as string;
-    if (style === 'h2' || style === 'h3') {
-      const children = block.children as { text: string }[];
-      return { type: 'heading' as const, text: children?.map((c) => c.text).join('') || '' };
-    }
-    const children = block.children as { text: string }[];
-    return { type: 'paragraph' as const, text: children?.map((c) => c.text).join('') || '' };
-  });
-}
-if (body.length === 0 && fallback) {
-  body = fallback.body;
-}
+const HEADING_STYLES = new Set(['h2', 'h3', 'h4', 'h5', 'h6']);
+
+const cmsBody = (retreat.body as Record<string, unknown>[] | undefined) ?? [];
+const body: ContentBlock[] = cmsBody.map((block) => {
+  if (block._type === 'image' && block.asset) {
+    return {
+      type: 'image' as const,
+      src: urlFor(block as any).width(1280).url(),
+      alt: (block.alt as string) || title,
+    };
+  }
+  const style = block.style as string;
+  const children = block.children as { text: string }[] | undefined;
+  const text = children?.map((c) => c.text).join('') || '';
+  if (HEADING_STYLES.has(style)) {
+    return { type: 'heading' as const, level: style as ContentBlock['level'], text };
+  }
+  return { type: 'paragraph' as const, text };
+});
 ---
 
-<Layout title={`${title} | Jewmanity`} description={fallback?.description || 'Read about this transformative Heads Up healing retreat experience.'}>
+<Layout title={`${title} | Jewmanity`} description="Read about this transformative Heads Up healing retreat experience.">
   <RetreatArticle
     title={title}
     subtitle={subtitle}

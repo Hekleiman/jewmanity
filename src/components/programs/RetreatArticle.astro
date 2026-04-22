@@ -1,6 +1,7 @@
 ---
 interface ContentBlock {
   type: 'paragraph' | 'heading' | 'image';
+  level?: 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
   text?: string;
   src?: string;
   alt?: string;
@@ -41,6 +42,11 @@ const { title, subtitle, author, coverImage = '/images/hero/retreat-article.jpg'
     <div class="space-y-6 font-body text-base leading-[1.8] text-text-body md:text-[17px]">
       {body.map((block) => {
         if (block.type === 'heading') {
+          const level = block.level || 'h2';
+          if (level === 'h3') return <h3 class="!mt-10 font-heading text-xl font-medium text-text-heading">{block.text}</h3>;
+          if (level === 'h4') return <h4 class="!mt-8 font-heading text-lg font-medium text-text-heading">{block.text}</h4>;
+          if (level === 'h5') return <h5 class="!mt-8 font-heading text-base font-medium text-text-heading">{block.text}</h5>;
+          if (level === 'h6') return <h6 class="!mt-8 font-heading text-sm font-medium uppercase tracking-wide text-text-heading">{block.text}</h6>;
           return <h2 class="!mt-10 font-heading text-2xl font-medium text-text-heading">{block.text}</h2>;
         }
         if (block.type === 'image') {
