@@ -7,6 +7,7 @@ interface Props {
 }
 
 const { name, role, bio, image } = Astro.props;
+const bioParagraphs = bio.split(/\n{2,}/).map((p) => p.trim()).filter(Boolean);
 ---
 
 <article class="overflow-hidden rounded-[24px] border-[0.5px] border-border-card bg-white shadow-[0px_16px_32px_rgba(12,12,13,0.1),0px_4px_4px_rgba(12,12,13,0.05)] transition-shadow hover:shadow-[0px_20px_40px_rgba(12,12,13,0.14),0px_6px_6px_rgba(12,12,13,0.07)]">
@@ -31,8 +32,10 @@ const { name, role, bio, image } = Astro.props;
     <p class="mt-1 font-body text-sm font-medium leading-6 text-primary">
       {role}
     </p>
-    <p class="mt-3 font-body text-sm leading-6 text-text-body">
-      {bio}
-    </p>
+    {bioParagraphs.map((para) => (
+      <p class="mt-3 font-body text-sm leading-6 text-text-body">
+        {para}
+      </p>
+    ))}
   </div>
 </article>

@@ -33,7 +33,7 @@ export default defineType({
       type: 'text',
       rows: 4,
       description: 'A brief biography. 2-3 sentences about their background and what they do at Jewmanity.',
-      validation: (rule) => rule.max(300).warning('Keep bios concise — under 300 characters.'),
+      validation: (rule) => rule.max(1000).warning('Keep bios concise — under 1000 characters.'),
     }),
     defineField({
       name: 'orderRank',
