@@ -192,16 +192,6 @@ export default defineType({
       group: 'faq',
     }),
     defineField({
-      name: 'faqContext',
-      title: 'FAQ Filter',
-      type: 'string',
-      description: 'Internal — used to show Donate-specific FAQs.',
-      initialValue: 'donate',
-      hidden: true,
-      group: 'faq',
-    }),
-
-    defineField({
       name: 'ctaHeading',
       title: 'CTA Heading',
       type: 'string',

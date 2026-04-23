@@ -132,16 +132,6 @@ export default defineType({
       group: 'faq',
     }),
     defineField({
-      name: 'faqContext',
-      title: 'FAQ Filter',
-      type: 'string',
-      description: 'Internal — used to show Volunteer-specific FAQs.',
-      initialValue: 'volunteer',
-      hidden: true,
-      group: 'faq',
-    }),
-
-    defineField({
       name: 'formHeading',
       title: 'Form Heading',
       type: 'string',
