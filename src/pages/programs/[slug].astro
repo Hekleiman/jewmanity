@@ -28,6 +28,13 @@ const coverImage = retreat.coverImage
   ? urlFor(retreat.coverImage as any).width(1920).url()
   : '/images/hero/retreat-article.jpg';
 
+const cmsGallery = retreat.gallery as Record<string, unknown>[] | undefined;
+const gallery: { url: string; alt?: string }[] = Array.isArray(cmsGallery)
+  ? cmsGallery
+      .filter((g) => (g as any)?.asset)
+      .map((g) => ({ url: urlFor(g as any).width(1280).url(), alt: (g.alt as string) || undefined }))
+  : [];
+
 const HEADING_STYLES = new Set(['h2', 'h3', 'h4', 'h5', 'h6']);
 
 const cmsBody = (retreat.body as Record<string, unknown>[] | undefined) ?? [];
@@ -56,5 +63,6 @@ const body: ContentBlock[] = cmsBody.map((block) => {
     author={author}
     coverImage={coverImage}
     body={body}
+    gallery={gallery}
   />
 </Layout>

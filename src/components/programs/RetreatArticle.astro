@@ -7,15 +7,23 @@ interface ContentBlock {
   alt?: string;
 }
 
+interface GalleryImage {
+  url: string;
+  alt?: string;
+}
+
 interface Props {
   title: string;
   subtitle: string;
   author: string;
   coverImage?: string;
   body?: ContentBlock[];
+  gallery?: GalleryImage[];
 }
 
-const { title, subtitle, author, coverImage = '/images/hero/retreat-article.jpg', body = [] } = Astro.props;
+const { title, subtitle, author, coverImage = '/images/hero/retreat-article.jpg', body = [], gallery = [] } = Astro.props;
+const galleryImages: GalleryImage[] = (gallery || []).filter((g) => g?.url);
+const carouselId = `gc-${Math.random().toString(36).slice(2, 8)}`;
 ---
 
 <!-- Hero image -->
@@ -35,6 +43,82 @@ const { title, subtitle, author, coverImage = '/images/hero/retreat-article.jpg'
     </p>
   </div>
 </section>
+
+{galleryImages.length > 0 && (
+  <section class="bg-bg-section-alt py-12 md:py-16">
+    <div class="mx-auto max-w-[900px] px-6">
+      <h2 class="text-center font-heading text-[clamp(24px,3.5vw,32px)] font-medium leading-tight text-text-heading">
+        Retreat Photos
+      </h2>
+      <div class="gc-carousel relative mt-8" data-carousel-id={carouselId}>
+        <div class="relative aspect-[16/10] w-full overflow-hidden rounded-2xl">
+          {galleryImages.map((img, i) => (
+            <img
+              src={img.url}
+              alt={img.alt || title}
+              class:list={[
+                'gc-slide absolute inset-0 h-full w-full object-cover transition-opacity duration-300',
+                i === 0 ? 'opacity-100' : 'opacity-0 pointer-events-none',
+              ]}
+              width="1280"
+              height="800"
+              loading={i === 0 ? 'eager' : 'lazy'}
+              data-index={i}
+            />
+          ))}
+          {galleryImages.length > 1 && (
+            <>
+              <button
+                type="button"
+                class="gc-prev absolute left-3 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/85 text-text-heading shadow-sm transition-colors hover:bg-white"
+                aria-label="Previous photo"
+                data-carousel-id={carouselId}
+              >
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <path d="M10 4l-4 4 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+              <button
+                type="button"
+                class="gc-next absolute right-3 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/85 text-text-heading shadow-sm transition-colors hover:bg-white"
+                aria-label="Next photo"
+                data-carousel-id={carouselId}
+              >
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+              <span
+                class="gc-counter absolute bottom-3 right-3 rounded-full bg-black/55 px-2.5 py-1 font-body text-xs font-medium text-white"
+                data-carousel-id={carouselId}
+              >
+                1 / {galleryImages.length}
+              </span>
+            </>
+          )}
+        </div>
+        {galleryImages.length > 1 && (
+          <div class="mt-3 flex justify-center gap-1.5" role="tablist" aria-label="Retreat photos">
+            {galleryImages.map((_, i) => (
+              <button
+                type="button"
+                class:list={[
+                  'gc-dot h-2 w-2 rounded-full transition-colors',
+                  i === 0 ? 'bg-primary' : 'bg-gray-300',
+                ]}
+                role="tab"
+                aria-label={`Photo ${i + 1}`}
+                aria-selected={i === 0 ? 'true' : 'false'}
+                data-carousel-id={carouselId}
+                data-index={i}
+              ></button>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  </section>
+)}
 
 <!-- Article body -->
 <article class="py-12 md:py-16 lg:py-20">
@@ -70,3 +154,40 @@ const { title, subtitle, author, coverImage = '/images/hero/retreat-article.jpg'
     </div>
   </div>
 </article>
+
+<script>
+  // Retreat gallery carousel (renders only when gallery has 2+ images)
+  document.querySelectorAll<HTMLElement>('.gc-carousel').forEach((carousel) => {
+    const id = carousel.dataset.carouselId!;
+    const slides = carousel.querySelectorAll<HTMLImageElement>('.gc-slide');
+    const dots = carousel.querySelectorAll<HTMLButtonElement>(`.gc-dot[data-carousel-id="${id}"]`);
+    const prev = carousel.querySelector<HTMLButtonElement>(`.gc-prev[data-carousel-id="${id}"]`);
+    const next = carousel.querySelector<HTMLButtonElement>(`.gc-next[data-carousel-id="${id}"]`);
+    const counter = carousel.querySelector<HTMLElement>(`.gc-counter[data-carousel-id="${id}"]`);
+    const total = slides.length;
+    if (total < 2) return;
+    let current = 0;
+
+    function goTo(index: number) {
+      const i = (index + total) % total;
+      slides.forEach((slide, k) => {
+        slide.classList.toggle('opacity-100', k === i);
+        slide.classList.toggle('opacity-0', k !== i);
+        slide.classList.toggle('pointer-events-none', k !== i);
+      });
+      dots.forEach((dot, k) => {
+        dot.classList.toggle('bg-primary', k === i);
+        dot.classList.toggle('bg-gray-300', k !== i);
+        dot.setAttribute('aria-selected', k === i ? 'true' : 'false');
+      });
+      if (counter) counter.textContent = `${i + 1} / ${total}`;
+      current = i;
+    }
+
+    prev?.addEventListener('click', () => goTo(current - 1));
+    next?.addEventListener('click', () => goTo(current + 1));
+    dots.forEach((dot) => {
+      dot.addEventListener('click', () => goTo(Number(dot.dataset.index)));
+    });
+  });
+</script>
