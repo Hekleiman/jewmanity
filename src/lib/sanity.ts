@@ -18,16 +18,22 @@ export function urlFor(source: SanityImageSource) {
 /**
  * Hotspot-aware image URL builder for cropped card/thumbnail images.
  *
- * Sanity's hotspot/crop metadata only takes effect when both width AND height
- * are constrained AND the URL requests `.fit('crop').crop('focalpoint')`.
- * This helper bundles all three so consumers don't have to remember.
+ * Constrains both width and height and lets @sanity/image-url derive a pixel
+ * rect from the source's hotspot/crop metadata (emitted as `rect=L,T,W,H`).
+ *
+ * Do NOT call `.crop('focalpoint')` here: setting `spec.crop` to any value
+ * disables the library's `fit()` auto-rect computation (see
+ * node_modules/@sanity/image-url/src/urlForImage.ts:82), which is the only
+ * path that reads the document's hotspot. The resulting URL would ship
+ * `crop=focalpoint` with no `fp-x`/`fp-y` and no `rect=`, and the CDN would
+ * silently fall back to a centered crop.
  *
  * Use for any image rendered in a fixed aspect-ratio container (cards,
  * thumbnails, grid tiles). For hero backgrounds and full-bleed images, use
  * `urlFor(...).width(...).url()` without cropping.
  */
 export function urlForCropped(source: SanityImageSource, width: number, height: number) {
-  return builder.image(source).width(width).height(height).fit('crop').crop('focalpoint');
+  return builder.image(source).width(width).height(height).fit('crop');
 }
 
 // ============ Collection Queries ============
