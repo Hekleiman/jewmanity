@@ -54,7 +54,7 @@ const {
 
     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4" data-animate="stagger">
       {cards.map((card) => (
-        <div class="rounded-3xl border-[0.5px] border-border-card bg-white p-6 shadow-[0px_8px_16px_rgba(12,12,13,0.06),0px_2px_4px_rgba(12,12,13,0.04)]">
+        <div class="flex flex-col items-center rounded-3xl border-[0.5px] border-border-card bg-white p-6 text-center shadow-[0px_8px_16px_rgba(12,12,13,0.06),0px_2px_4px_rgba(12,12,13,0.04)]">
           <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary-light text-primary">
             {card.icon === 'shield' && (
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">

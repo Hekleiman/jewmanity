@@ -53,7 +53,7 @@ const {
 
     <div class="grid grid-cols-1 gap-6 md:grid-cols-3" data-animate="stagger">
       {paths.map((path) => (
-        <div class="flex flex-col rounded-3xl border-[0.5px] border-border-card bg-white p-6 shadow-[0px_8px_16px_rgba(12,12,13,0.06),0px_2px_4px_rgba(12,12,13,0.04)]">
+        <div class="flex flex-col items-center rounded-3xl border-[0.5px] border-border-card bg-white p-6 text-center shadow-[0px_8px_16px_rgba(12,12,13,0.06),0px_2px_4px_rgba(12,12,13,0.04)]">
           <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary-light text-primary">
             {path.icon === 'fundraise' && (
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -80,13 +80,11 @@ const {
           <p class="mt-2 font-body text-sm leading-relaxed text-text-body">
             {path.description}
           </p>
-          <ul class="mt-4 flex flex-col gap-2">
+          <ul class="mt-4 flex flex-col gap-2 text-left">
             {path.bullets.map((bullet) => (
               <li class="flex items-start gap-2 font-body text-sm text-text-body">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" class="mt-0.5 shrink-0 text-primary" aria-hidden="true">
-                  <path d="M5 8l2.5 2.5L11 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                {bullet}
+                <span aria-hidden="true" class="mt-0.5 shrink-0 leading-none text-primary">•</span>
+                <span>{bullet}</span>
               </li>
             ))}
           </ul>

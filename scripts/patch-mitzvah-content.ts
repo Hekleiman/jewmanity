@@ -1,9 +1,7 @@
 /**
  * Patches the Sanity mitzvahProject singleton with full PDF-accurate content:
- * - Opening quote
  * - Updated WhyThisMatters paragraphs
- * - Full step titles, labels, action items, and tip boxes
- * - Inspirational quote
+ * - Full step titles, labels, action items, and tip boxes (retained in schema; not currently rendered)
  * - Updated fundraising heading
  *
  * Usage:
@@ -33,10 +31,6 @@ async function main() {
   await client
     .patch('mitzvahProject')
     .set({
-      // Opening quote
-      openingQuote:
-        "The most important moment in Jewish life is not the party \u2014 it\u2019s the promise you make to your community. Your mitzvah project is that promise.",
-
       // Why This Matters — original spec paragraphs
       whyParagraphs: [
         'At a time when antisemitism in America is rising and Jewish identity is under attack, your bar or bat mitzvah can be more than a celebration. It can be a stand for what you believe in.',
@@ -142,11 +136,6 @@ async function main() {
           tip: 'You\u2019re now a Jewish adult. The promise you made to your community on the bimah isn\u2019t just words \u2014 this project is proof that you meant it. Mazel tov!',
         },
       ],
-
-      // Inspirational quote
-      inspirationalQuote:
-        'In every generation, they rise up against us \u2014 and in every generation, we rise to meet them. Your mitzvah project is how our generation answers that call.',
-      inspirationalQuoteAttribution: 'JEWMANITY.COM',
 
       // Updated fundraising heading
       goalsHeading: 'Set Your Fundraising Goal',
