@@ -10,7 +10,7 @@ import CommunityPowered from '../../components/programs/CommunityPowered.astro';
 import ImpactStats from '../../components/programs/ImpactStats.astro';
 import TestimonialCarousel from '../../components/shared/TestimonialCarousel.astro';
 import CTASection from '../../components/shared/CTASection.astro';
-import { getHeadsUp, getTestimonials, urlFor } from '../../lib/sanity';
+import { getHeadsUp, getTestimonials, urlFor, urlForCropped } from '../../lib/sanity';
 
 interface PortableBlock {
   _type: string;
@@ -58,7 +58,7 @@ try {
     imageUrl: t.imageUrl
       ? t.imageUrl
       : t.authorImage
-        ? urlFor(t.authorImage).width(224).height(224).url()
+        ? urlForCropped(t.authorImage, 224, 224).url()
         : undefined,
   }));
 } catch (e) {

@@ -1,5 +1,5 @@
 ---
-import { getTestimonials, urlFor } from '../../lib/sanity';
+import { getTestimonials, urlForCropped } from '../../lib/sanity';
 import type { SanityImageSource } from '@sanity/image-url/lib/types/types';
 
 interface Testimonial {
@@ -62,7 +62,7 @@ try {
       imageUrl: t.imageUrl
         ? (t.imageUrl as string)
         : t.authorImage
-          ? urlFor(t.authorImage as SanityImageSource).width(160).height(160).url()
+          ? urlForCropped(t.authorImage as SanityImageSource, 160, 160).url()
           : undefined,
     }));
     // Always append the "Your Story" placeholder

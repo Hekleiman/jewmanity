@@ -8,7 +8,7 @@ import TestimonialCarousel from '../../components/shared/TestimonialCarousel.ast
 import FAQAccordion from '../../components/shared/FAQAccordion.astro';
 import VolunteerForm from '../../components/volunteer/VolunteerForm.astro';
 import CTASection from '../../components/shared/CTASection.astro';
-import { getTestimonials, getFaqItems, getVolunteerPage, urlFor } from '../../lib/sanity';
+import { getTestimonials, getFaqItems, getVolunteerPage, urlFor, urlForCropped } from '../../lib/sanity';
 import { toHTML } from '@portabletext/to-html';
 
 interface PortableBlock {
@@ -43,7 +43,7 @@ try {
     imageUrl: t.imageUrl
       ? t.imageUrl
       : t.authorImage
-        ? urlFor(t.authorImage).width(224).height(224).url()
+        ? urlForCropped(t.authorImage, 224, 224).url()
         : undefined,
   }));
 } catch (e) {

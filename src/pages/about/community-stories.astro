@@ -2,7 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import HeroSection from '../../components/shared/HeroSection.astro';
 import CTASection from '../../components/shared/CTASection.astro';
-import { getTestimonials, urlFor } from '../../lib/sanity';
+import { getTestimonials, urlForCropped } from '../../lib/sanity';
 import type { SanityImageSource } from '@sanity/image-url/lib/types/types';
 
 interface PersonalStory {
@@ -44,7 +44,7 @@ try {
         imageUrl: t.imageUrl
           ? (t.imageUrl as string)
           : t.authorImage
-            ? urlFor(t.authorImage as SanityImageSource).width(640).height(854).url()
+            ? urlForCropped(t.authorImage as SanityImageSource, 640, 854).url()
             : '/images/testimonials/placeholder.png',
       }));
   }

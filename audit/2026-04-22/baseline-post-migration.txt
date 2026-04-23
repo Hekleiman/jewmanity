@@ -1,0 +1,82 @@
+The default export of @sanity/image-url has been deprecated. Use the named export `createImageUrlBuilder` instead.
+Image URL baseline — 2026-04-23T02:08:44.109Z
+
+=== ImpactStories (home) ===
+file:    src/components/home/ImpactStories.astro
+context: general
+dims:    160 x 160
+count:   0
+
+=== Volunteer page ===
+file:    src/pages/get-involved/volunteer.astro
+context: volunteer
+dims:    224 x 224
+count:   1
+
+--- testimonial id=JleuOHvwcJTkboNylsmghi name=Dahlia slug=dahlia ctx=volunteer ---
+  authorImage: <present>
+  hotspot:     null
+  imageUrl (bare asset): https://cdn.sanity.io/images/9pc3wgri/production/bf8f906c9761d2532ca5bdbb86f6f323f125a606-480x640.png
+  current: https://cdn.sanity.io/images/9pc3wgri/production/bf8f906c9761d2532ca5bdbb86f6f323f125a606-480x640.png?rect=0,80,480,480&w=224&h=224
+    tokens: w=224  h=224  fit=<MISSING>  crop=<MISSING>  rect=0,80,480,480  fp-x=<MISSING>  fp-y=<MISSING>  auto=<MISSING>
+  new:     https://cdn.sanity.io/images/9pc3wgri/production/bf8f906c9761d2532ca5bdbb86f6f323f125a606-480x640.png?rect=0,80,480,480&w=224&h=224&fit=crop
+    tokens: w=224  h=224  fit=crop  crop=<MISSING>  rect=0,80,480,480  fp-x=<MISSING>  fp-y=<MISSING>  auto=<MISSING>
+  identical: false
+
+=== Past Retreats ===
+file:    src/pages/programs/past-retreats.astro
+context: headsup
+dims:    224 x 224
+count:   1
+
+--- testimonial id=AlZ3wEBVs3Hpaeh4ZZvhLn name=Matamba Lassan slug=matamba-lassan ctx=headsup ---
+  authorImage: <present>
+  hotspot:     null
+  imageUrl (bare asset): https://cdn.sanity.io/images/9pc3wgri/production/4678590e907c07b3d0ca95725a933e448c067fa3-283x487.png
+  current: https://cdn.sanity.io/images/9pc3wgri/production/4678590e907c07b3d0ca95725a933e448c067fa3-283x487.png?rect=0,103,283,283&w=224&h=224
+    tokens: w=224  h=224  fit=<MISSING>  crop=<MISSING>  rect=0,103,283,283  fp-x=<MISSING>  fp-y=<MISSING>  auto=<MISSING>
+  new:     https://cdn.sanity.io/images/9pc3wgri/production/4678590e907c07b3d0ca95725a933e448c067fa3-283x487.png?rect=0,103,283,283&w=224&h=224&fit=crop
+    tokens: w=224  h=224  fit=crop  crop=<MISSING>  rect=0,103,283,283  fp-x=<MISSING>  fp-y=<MISSING>  auto=<MISSING>
+  identical: false
+
+=== Heads Up ===
+file:    src/pages/programs/heads-up.astro
+context: headsup
+dims:    224 x 224
+count:   1
+
+--- testimonial id=AlZ3wEBVs3Hpaeh4ZZvhLn name=Matamba Lassan slug=matamba-lassan ctx=headsup ---
+  authorImage: <present>
+  hotspot:     null
+  imageUrl (bare asset): https://cdn.sanity.io/images/9pc3wgri/production/4678590e907c07b3d0ca95725a933e448c067fa3-283x487.png
+  current: https://cdn.sanity.io/images/9pc3wgri/production/4678590e907c07b3d0ca95725a933e448c067fa3-283x487.png?rect=0,103,283,283&w=224&h=224
+    tokens: w=224  h=224  fit=<MISSING>  crop=<MISSING>  rect=0,103,283,283  fp-x=<MISSING>  fp-y=<MISSING>  auto=<MISSING>
+  new:     https://cdn.sanity.io/images/9pc3wgri/production/4678590e907c07b3d0ca95725a933e448c067fa3-283x487.png?rect=0,103,283,283&w=224&h=224&fit=crop
+    tokens: w=224  h=224  fit=crop  crop=<MISSING>  rect=0,103,283,283  fp-x=<MISSING>  fp-y=<MISSING>  auto=<MISSING>
+  identical: false
+
+=== Community Stories ===
+file:    src/pages/about/community-stories.astro
+context: <all>
+dims:    640 x 854
+count:   2
+
+--- testimonial id=AlZ3wEBVs3Hpaeh4ZZvhLn name=Matamba Lassan slug=matamba-lassan ctx=headsup ---
+  authorImage: <present>
+  hotspot:     null
+  imageUrl (bare asset): https://cdn.sanity.io/images/9pc3wgri/production/4678590e907c07b3d0ca95725a933e448c067fa3-283x487.png
+  current: https://cdn.sanity.io/images/9pc3wgri/production/4678590e907c07b3d0ca95725a933e448c067fa3-283x487.png?rect=0,55,283,378&w=640&h=854
+    tokens: w=640  h=854  fit=<MISSING>  crop=<MISSING>  rect=0,55,283,378  fp-x=<MISSING>  fp-y=<MISSING>  auto=<MISSING>
+  new:     https://cdn.sanity.io/images/9pc3wgri/production/4678590e907c07b3d0ca95725a933e448c067fa3-283x487.png?rect=0,55,283,378&w=640&h=854&fit=crop
+    tokens: w=640  h=854  fit=crop  crop=<MISSING>  rect=0,55,283,378  fp-x=<MISSING>  fp-y=<MISSING>  auto=<MISSING>
+  identical: false
+
+--- testimonial id=JleuOHvwcJTkboNylsmghi name=Dahlia slug=dahlia ctx=volunteer ---
+  authorImage: <present>
+  hotspot:     null
+  imageUrl (bare asset): https://cdn.sanity.io/images/9pc3wgri/production/bf8f906c9761d2532ca5bdbb86f6f323f125a606-480x640.png
+  current: https://cdn.sanity.io/images/9pc3wgri/production/bf8f906c9761d2532ca5bdbb86f6f323f125a606-480x640.png?w=640&h=854
+    tokens: w=640  h=854  fit=<MISSING>  crop=<MISSING>  rect=<MISSING>  fp-x=<MISSING>  fp-y=<MISSING>  auto=<MISSING>
+  new:     https://cdn.sanity.io/images/9pc3wgri/production/bf8f906c9761d2532ca5bdbb86f6f323f125a606-480x640.png?w=640&h=854&fit=crop
+    tokens: w=640  h=854  fit=crop  crop=<MISSING>  rect=<MISSING>  fp-x=<MISSING>  fp-y=<MISSING>  auto=<MISSING>
+  identical: false

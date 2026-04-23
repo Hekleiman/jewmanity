@@ -4,7 +4,7 @@ import HeroSection from '../../components/shared/HeroSection.astro';
 import RetreatGrid from '../../components/programs/RetreatGrid.astro';
 import TestimonialCarousel from '../../components/shared/TestimonialCarousel.astro';
 import CTASection from '../../components/shared/CTASection.astro';
-import { getRetreats, getTestimonials, urlFor } from '../../lib/sanity';
+import { getRetreats, getTestimonials, urlFor, urlForCropped } from '../../lib/sanity';
 
 let cmsRetreats: { title: string; location: string; description: string; href: string; image?: string }[] = [];
 try {
@@ -30,7 +30,7 @@ try {
     imageUrl: t.imageUrl
       ? t.imageUrl
       : t.authorImage
-        ? urlFor(t.authorImage).width(224).height(224).url()
+        ? urlForCropped(t.authorImage, 224, 224).url()
         : undefined,
   }));
 } catch (e) {
