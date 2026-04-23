@@ -160,7 +160,6 @@ export async function getCommunityStories() {
       "imageUrl": image.asset->url,
       excerpt,
       paragraphs,
-      body,
       tag,
       pullQuote,
       pullQuoteAttribution,
