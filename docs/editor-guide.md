@@ -125,6 +125,8 @@ If a team member's face isn't visible on their card — head cut off, or a full-
 
 The card will use your new hotspot on the next deploy (2–3 minutes).
 
+**Important — don't nudge the hotspot by accident.** The hotspot marker is easy to click on unintentionally while editing an image. If you click the hotspot and then publish, Studio saves wherever it landed — often dead-center, which can crop out a face. Rule of thumb: if you didn't open the photo with the intent of re-centering the crop, don't touch the circle at all. If you're unsure, close the image without publishing.
+
 ---
 
 ### 4. How to edit a FAQ (and how FAQs route to pages)
