@@ -1,0 +1,265 @@
+The default export of @sanity/image-url has been deprecated. Use the named export `createImageUrlBuilder` instead.
+Hotspot diagnostic — 2026-04-22T23:31:17.613Z
+Client config: { projectId: '9pc3wgri', dataset: 'production', useCdn: true }
+
+=== teamMember.photo (4 image field values) ===
+
+[teamMember] team-andrew-donner  field=photo
+  image JSON: {"_type":"image","asset":{"_ref":"image-7e1146f8caf8b9cc68a82d4f933a2d1a4d581bc5-2500x3125-webp","_type":"reference"},"hotspot":{"_type":"sanity.imageHotspot","height":1,"width":1,"x":0.5,"y":0.33}}
+  URL:  https://cdn.sanity.io/images/9pc3wgri/production/7e1146f8caf8b9cc68a82d4f933a2d1a4d581bc5-2500x3125.webp?w=800&h=600&fit=crop&crop=focalpoint
+  tokens: w=800  h=600  fit=crop  crop=focalpoint  rect=<MISSING>  fp-x=<MISSING>  fp-y=<MISSING>  auto=<MISSING>
+
+[teamMember] team-belinda-donner  field=photo
+  image JSON: {"_type":"image","asset":{"_ref":"image-5c8dfa079be1ed8f389b9d0cf713f49e008ae3ef-2500x3757-webp","_type":"reference"},"crop":{"_type":"sanity.imageCrop","bottom":0,"left":0,"right":0,"top":0},"hotspot":{"_type":"sanity.imageHotspot","height":1,"width":1,"x":0.5,"y":0.5}}
+  URL:  https://cdn.sanity.io/images/9pc3wgri/production/5c8dfa079be1ed8f389b9d0cf713f49e008ae3ef-2500x3757.webp?w=800&h=600&fit=crop&crop=focalpoint
+  tokens: w=800  h=600  fit=crop  crop=focalpoint  rect=<MISSING>  fp-x=<MISSING>  fp-y=<MISSING>  auto=<MISSING>
+
+[teamMember] team-rabbi-avi-libman  field=photo
+  image JSON: {"_type":"image","asset":{"_ref":"image-54223a41aa2639fbf8d2047d63cf6be959e8e90f-457x466-webp","_type":"reference"},"hotspot":{"_type":"sanity.imageHotspot","height":1,"width":1,"x":0.5,"y":0.33}}
+  URL:  https://cdn.sanity.io/images/9pc3wgri/production/54223a41aa2639fbf8d2047d63cf6be959e8e90f-457x466.webp?w=800&h=600&fit=crop&crop=focalpoint
+  tokens: w=800  h=600  fit=crop  crop=focalpoint  rect=<MISSING>  fp-x=<MISSING>  fp-y=<MISSING>  auto=<MISSING>
+
+[teamMember] team-shai-gino  field=photo
+  image JSON: {"_type":"image","asset":{"_ref":"image-876bb298b496f7c3b6db24f9c4462b8e57f316d2-704x867-webp","_type":"reference"},"hotspot":{"_type":"sanity.imageHotspot","height":1,"width":1,"x":0.5,"y":0.33}}
+  URL:  https://cdn.sanity.io/images/9pc3wgri/production/876bb298b496f7c3b6db24f9c4462b8e57f316d2-704x867.webp?w=800&h=600&fit=crop&crop=focalpoint
+  tokens: w=800  h=600  fit=crop  crop=focalpoint  rect=<MISSING>  fp-x=<MISSING>  fp-y=<MISSING>  auto=<MISSING>
+
+=== product.mainImage (4 image field values) ===
+
+[product] QrKCx2a7vek2SCnRyrUMUG  slug=heads-up-water-bottle  field=mainImage
+  image JSON: {"_type":"image","asset":{"_ref":"image-72574ab32a8a70cc5c7fa0e69a8044f63a1cc7b6-1080x1080-webp","_type":"reference"}}
+  URL:  https://cdn.sanity.io/images/9pc3wgri/production/72574ab32a8a70cc5c7fa0e69a8044f63a1cc7b6-1080x1080.webp?w=800&h=600&fit=crop&crop=focalpoint
+  tokens: w=800  h=600  fit=crop  crop=focalpoint  rect=<MISSING>  fp-x=<MISSING>  fp-y=<MISSING>  auto=<MISSING>
+
+[product] QrKCx2a7vek2SCnRyrUMbW  slug=black-trucker-hat  field=mainImage
+  image JSON: {"_type":"image","asset":{"_ref":"image-a52e5f877e558e4f091ea8893b99d3020f973e28-1024x1024-webp","_type":"reference"}}
+  URL:  https://cdn.sanity.io/images/9pc3wgri/production/a52e5f877e558e4f091ea8893b99d3020f973e28-1024x1024.webp?w=800&h=600&fit=crop&crop=focalpoint
+  tokens: w=800  h=600  fit=crop  crop=focalpoint  rect=<MISSING>  fp-x=<MISSING>  fp-y=<MISSING>  auto=<MISSING>
+
+[product] ZcsA5FnBNDYjFyFpQgAyDI  slug=pink-trucker-hat  field=mainImage
+  image JSON: {"_type":"image","asset":{"_ref":"image-98169e396bad2087d6203550a43f4423675e1b3e-1024x1024-webp","_type":"reference"}}
+  URL:  https://cdn.sanity.io/images/9pc3wgri/production/98169e396bad2087d6203550a43f4423675e1b3e-1024x1024.webp?w=800&h=600&fit=crop&crop=focalpoint
+  tokens: w=800  h=600  fit=crop  crop=focalpoint  rect=<MISSING>  fp-x=<MISSING>  fp-y=<MISSING>  auto=<MISSING>
+
+[product] ZcsA5FnBNDYjFyFpQgAz3Y  slug=travel-shabbat-candle-set  field=mainImage
+  image JSON: {"_type":"image","asset":{"_ref":"image-4a5ce8a6eff4ad4e185510810709b3576da47862-2500x1875-webp","_type":"reference"}}
+  URL:  https://cdn.sanity.io/images/9pc3wgri/production/4a5ce8a6eff4ad4e185510810709b3576da47862-2500x1875.webp?w=800&h=600&fit=crop&crop=focalpoint
+  tokens: w=800  h=600  fit=crop  crop=focalpoint  rect=<MISSING>  fp-x=<MISSING>  fp-y=<MISSING>  auto=<MISSING>
+
+=== recipe.image (7 image field values) ===
+
+[recipe] recipe-bubbas-brisket  slug=bubbas-brisket  field=image
+  image JSON: {"_type":"image","asset":{"_ref":"image-cf1f3591166edc7a3890500c81d6de89e061d308-1500x2000-jpg","_type":"reference"}}
+  URL:  https://cdn.sanity.io/images/9pc3wgri/production/cf1f3591166edc7a3890500c81d6de89e061d308-1500x2000.jpg?w=800&h=600&fit=crop&crop=focalpoint
+  tokens: w=800  h=600  fit=crop  crop=focalpoint  rect=<MISSING>  fp-x=<MISSING>  fp-y=<MISSING>  auto=<MISSING>
+
+[recipe] recipe-grammys-chocolate-pb-candy  slug=grammys-chocolate-peanut-butter-candy  field=image
+  image JSON: {"_type":"image","asset":{"_ref":"image-aaf07ba72eb1bc4485551d2378da34afbfbbacc7-1500x1260-webp","_type":"reference"}}
+  URL:  https://cdn.sanity.io/images/9pc3wgri/production/aaf07ba72eb1bc4485551d2378da34afbfbbacc7-1500x1260.webp?w=800&h=600&fit=crop&crop=focalpoint
+  tokens: w=800  h=600  fit=crop  crop=focalpoint  rect=<MISSING>  fp-x=<MISSING>  fp-y=<MISSING>  auto=<MISSING>
+
+[recipe] recipe-grandma-joyces-lemon-cake  slug=grandma-joyces-lemon-cake  field=image
+  image JSON: {"_type":"image","asset":{"_ref":"image-ff162f400ab1af82d08339af887d1e98fb70085a-2500x3333-webp","_type":"reference"}}
+  URL:  https://cdn.sanity.io/images/9pc3wgri/production/ff162f400ab1af82d08339af887d1e98fb70085a-2500x3333.webp?w=800&h=600&fit=crop&crop=focalpoint
+  tokens: w=800  h=600  fit=crop  crop=focalpoint  rect=<MISSING>  fp-x=<MISSING>  fp-y=<MISSING>  auto=<MISSING>
+
+[recipe] recipe-grandma-mendelsons-apple-cake  slug=grandma-mendelsons-apple-butter-cake  field=image
+  image JSON: {"_type":"image","asset":{"_ref":"image-f6d7d35166c719ab6b81fcc23eb57c90ec71386e-2500x1667-webp","_type":"reference"}}
+  URL:  https://cdn.sanity.io/images/9pc3wgri/production/f6d7d35166c719ab6b81fcc23eb57c90ec71386e-2500x1667.webp?w=800&h=600&fit=crop&crop=focalpoint
+  tokens: w=800  h=600  fit=crop  crop=focalpoint  rect=<MISSING>  fp-x=<MISSING>  fp-y=<MISSING>  auto=<MISSING>
+
+[recipe] recipe-memas-mondel-brot  slug=memas-mondel-brot  field=image
+  image JSON: {"_type":"image","asset":{"_ref":"image-eaab6350d3ae9bfcd44236a5509ffcb095fde989-865x840-webp","_type":"reference"}}
+  URL:  https://cdn.sanity.io/images/9pc3wgri/production/eaab6350d3ae9bfcd44236a5509ffcb095fde989-865x840.webp?w=800&h=600&fit=crop&crop=focalpoint
+  tokens: w=800  h=600  fit=crop  crop=focalpoint  rect=<MISSING>  fp-x=<MISSING>  fp-y=<MISSING>  auto=<MISSING>
+
+[recipe] recipe-mimas-noodle-kugel  slug=mimas-noodle-kugel  field=image
+  image JSON: {"_type":"image","asset":{"_ref":"image-9a857bfe06cc70373cee472a294a49ca0625968f-1320x980-webp","_type":"reference"}}
+  URL:  https://cdn.sanity.io/images/9pc3wgri/production/9a857bfe06cc70373cee472a294a49ca0625968f-1320x980.webp?w=800&h=600&fit=crop&crop=focalpoint
+  tokens: w=800  h=600  fit=crop  crop=focalpoint  rect=<MISSING>  fp-x=<MISSING>  fp-y=<MISSING>  auto=<MISSING>
+
+[recipe] recipe-savtas-stuffed-chicken  slug=savtas-stuffed-chicken  field=image
+  image JSON: {"_type":"image","asset":{"_ref":"image-9986606c665139f08849463542f4a726f6f13349-640x360-webp","_type":"reference"}}
+  URL:  https://cdn.sanity.io/images/9pc3wgri/production/9986606c665139f08849463542f4a726f6f13349-640x360.webp?w=800&h=600&fit=crop&crop=focalpoint
+  tokens: w=800  h=600  fit=crop  crop=focalpoint  rect=<MISSING>  fp-x=<MISSING>  fp-y=<MISSING>  auto=<MISSING>
+
+=== retreat.coverImage (4 image field values) ===
+
+[retreat] retreat-heads-up-first  slug=heads-up-first-retreat  field=coverImage
+  image JSON: {"_type":"image","asset":{"_ref":"image-b69307b705618c18b35d4946193ec1e57baff172-589x589-webp","_type":"reference"}}
+  URL:  https://cdn.sanity.io/images/9pc3wgri/production/b69307b705618c18b35d4946193ec1e57baff172-589x589.webp?w=800&h=600&fit=crop&crop=focalpoint
+  tokens: w=800  h=600  fit=crop  crop=focalpoint  rect=<MISSING>  fp-x=<MISSING>  fp-y=<MISSING>  auto=<MISSING>
+
+[retreat] retreat-heads-up-fourth  slug=heads-up-retreat-4-fathers-fighters  field=coverImage
+  image JSON: {"_type":"image","asset":{"_ref":"image-80e83b041a236244b0c5d75d9f927d5620d2bf6b-2048x1536-jpg","_type":"reference"}}
+  URL:  https://cdn.sanity.io/images/9pc3wgri/production/80e83b041a236244b0c5d75d9f927d5620d2bf6b-2048x1536.jpg?w=800&h=600&fit=crop&crop=focalpoint
+  tokens: w=800  h=600  fit=crop  crop=focalpoint  rect=<MISSING>  fp-x=<MISSING>  fp-y=<MISSING>  auto=<MISSING>
+
+[retreat] retreat-heads-up-second  slug=heads-up-second-retreat  field=coverImage
+  image JSON: {"_type":"image","asset":{"_ref":"image-513e4b49f499b655269ce741c234603b4cc8b1ca-2500x3333-webp","_type":"reference"}}
+  URL:  https://cdn.sanity.io/images/9pc3wgri/production/513e4b49f499b655269ce741c234603b4cc8b1ca-2500x3333.webp?w=800&h=600&fit=crop&crop=focalpoint
+  tokens: w=800  h=600  fit=crop  crop=focalpoint  rect=<MISSING>  fp-x=<MISSING>  fp-y=<MISSING>  auto=<MISSING>
+
+[retreat] retreat-heads-up-third  slug=heads-up-third-retreat  field=coverImage
+  image JSON: {"_type":"image","asset":{"_ref":"image-2af0730be530b9023a132ee6dad2b97fdf95ded7-534x401-webp","_type":"reference"}}
+  URL:  https://cdn.sanity.io/images/9pc3wgri/production/2af0730be530b9023a132ee6dad2b97fdf95ded7-534x401.webp?w=800&h=600&fit=crop&crop=focalpoint
+  tokens: w=800  h=600  fit=crop  crop=focalpoint  rect=<MISSING>  fp-x=<MISSING>  fp-y=<MISSING>  auto=<MISSING>
+
+=== communityStory.image (6 image field values) ===
+
+[communityStory] AlZ3wEBVs3Hpaeh4ZZy467  slug=golani-boys  field=image
+  image JSON: {"_type":"image","asset":{"_ref":"image-24b9b24e5ab33dc5c10f1efeb3d9230e13de8cd9-1170x780-webp","_type":"reference"}}
+  URL:  https://cdn.sanity.io/images/9pc3wgri/production/24b9b24e5ab33dc5c10f1efeb3d9230e13de8cd9-1170x780.webp?w=800&h=600&fit=crop&crop=focalpoint
+  tokens: w=800  h=600  fit=crop  crop=focalpoint  rect=<MISSING>  fp-x=<MISSING>  fp-y=<MISSING>  auto=<MISSING>
+
+[communityStory] AlZ3wEBVs3Hpaeh4ZZy4QF  slug=fathers-fighters  field=image
+  image JSON: {"_type":"image","asset":{"_ref":"image-adfd4195a03e24e7b8f8b88a83f2fcf51972b891-2048x1536-webp","_type":"reference"}}
+  URL:  https://cdn.sanity.io/images/9pc3wgri/production/adfd4195a03e24e7b8f8b88a83f2fcf51972b891-2048x1536.webp?w=800&h=600&fit=crop&crop=focalpoint
+  tokens: w=800  h=600  fit=crop  crop=focalpoint  rect=<MISSING>  fp-x=<MISSING>  fp-y=<MISSING>  auto=<MISSING>
+
+[communityStory] AlZ3wEBVs3Hpaeh4ZZy4df  slug=matamba-journey  field=image
+  image JSON: {"_type":"image","asset":{"_ref":"image-4678590e907c07b3d0ca95725a933e448c067fa3-283x487-png","_type":"reference"}}
+  URL:  https://cdn.sanity.io/images/9pc3wgri/production/4678590e907c07b3d0ca95725a933e448c067fa3-283x487.png?w=800&h=600&fit=crop&crop=focalpoint
+  tokens: w=800  h=600  fit=crop  crop=focalpoint  rect=<MISSING>  fp-x=<MISSING>  fp-y=<MISSING>  auto=<MISSING>
+
+[communityStory] DDkH7Ore4K9MDVWIp2wQ9j  slug=first-retreat  field=image
+  image JSON: {"_type":"image","asset":{"_ref":"image-49d184fc32bfdbd3cc3e5f0f11d6fcff893c405a-1600x1200-webp","_type":"reference"}}
+  URL:  https://cdn.sanity.io/images/9pc3wgri/production/49d184fc32bfdbd3cc3e5f0f11d6fcff893c405a-1600x1200.webp?w=800&h=600&fit=crop&crop=focalpoint
+  tokens: w=800  h=600  fit=crop  crop=focalpoint  rect=<MISSING>  fp-x=<MISSING>  fp-y=<MISSING>  auto=<MISSING>
+
+[communityStory] DDkH7Ore4K9MDVWIp2wQaL  slug=brave-girls  field=image
+  image JSON: {"_type":"image","asset":{"_ref":"image-aac7c06b9661e13822bae6cb6136487bac309b41-2500x1875-webp","_type":"reference"}}
+  URL:  https://cdn.sanity.io/images/9pc3wgri/production/aac7c06b9661e13822bae6cb6136487bac309b41-2500x1875.webp?w=800&h=600&fit=crop&crop=focalpoint
+  tokens: w=800  h=600  fit=crop  crop=focalpoint  rect=<MISSING>  fp-x=<MISSING>  fp-y=<MISSING>  auto=<MISSING>
+
+[communityStory] DDkH7Ore4K9MDVWIp2wQkz  slug=dahlia-volunteer  field=image
+  image JSON: {"_type":"image","asset":{"_ref":"image-bf8f906c9761d2532ca5bdbb86f6f323f125a606-480x640-png","_type":"reference"}}
+  URL:  https://cdn.sanity.io/images/9pc3wgri/production/bf8f906c9761d2532ca5bdbb86f6f323f125a606-480x640.png?w=800&h=600&fit=crop&crop=focalpoint
+  tokens: w=800  h=600  fit=crop  crop=focalpoint  rect=<MISSING>  fp-x=<MISSING>  fp-y=<MISSING>  auto=<MISSING>
+
+=== testimonial.authorImage (2 image field values) ===
+
+[testimonial] AlZ3wEBVs3Hpaeh4ZZvhLn  slug=matamba-lassan  field=authorImage
+  image JSON: {"_type":"image","asset":{"_ref":"image-4678590e907c07b3d0ca95725a933e448c067fa3-283x487-png","_type":"reference"}}
+  URL:  https://cdn.sanity.io/images/9pc3wgri/production/4678590e907c07b3d0ca95725a933e448c067fa3-283x487.png?w=800&h=600&fit=crop&crop=focalpoint
+  tokens: w=800  h=600  fit=crop  crop=focalpoint  rect=<MISSING>  fp-x=<MISSING>  fp-y=<MISSING>  auto=<MISSING>
+
+[testimonial] JleuOHvwcJTkboNylsmghi  slug=dahlia  field=authorImage
+  image JSON: {"_type":"image","asset":{"_ref":"image-bf8f906c9761d2532ca5bdbb86f6f323f125a606-480x640-png","_type":"reference"}}
+  URL:  https://cdn.sanity.io/images/9pc3wgri/production/bf8f906c9761d2532ca5bdbb86f6f323f125a606-480x640.png?w=800&h=600&fit=crop&crop=focalpoint
+  tokens: w=800  h=600  fit=crop  crop=focalpoint  rect=<MISSING>  fp-x=<MISSING>  fp-y=<MISSING>  auto=<MISSING>
+
+=== homepage.heroImage (1 image field values) ===
+
+[homepage] homepage  field=heroImage
+  image JSON: {"_type":"image","asset":{"_ref":"image-7d0d32be6fe3fa088cb3a77587172d5de76f0091-2500x3333-webp","_type":"reference"}}
+  URL:  https://cdn.sanity.io/images/9pc3wgri/production/7d0d32be6fe3fa088cb3a77587172d5de76f0091-2500x3333.webp?w=800&h=600&fit=crop&crop=focalpoint
+  tokens: w=800  h=600  fit=crop  crop=focalpoint  rect=<MISSING>  fp-x=<MISSING>  fp-y=<MISSING>  auto=<MISSING>
+
+=== headsUp images (4 image field values) ===
+
+[headsUp] headsUp  field=hero
+  image JSON: {"_type":"image","asset":{"_ref":"image-25aa09721501030275d35aef6e5559847ad960f4-1920x1280-jpg","_type":"reference"}}
+  URL:  https://cdn.sanity.io/images/9pc3wgri/production/25aa09721501030275d35aef6e5559847ad960f4-1920x1280.jpg?w=800&h=600&fit=crop&crop=focalpoint
+  tokens: w=800  h=600  fit=crop  crop=focalpoint  rect=<MISSING>  fp-x=<MISSING>  fp-y=<MISSING>  auto=<MISSING>
+
+[headsUp] headsUp  field=safeHavenImage
+  image JSON: {"_type":"image","asset":{"_ref":"image-600392e4c118f0c10f64a11c38bb29e22bc8884d-2500x3333-webp","_type":"reference"}}
+  URL:  https://cdn.sanity.io/images/9pc3wgri/production/600392e4c118f0c10f64a11c38bb29e22bc8884d-2500x3333.webp?w=800&h=600&fit=crop&crop=focalpoint
+  tokens: w=800  h=600  fit=crop  crop=focalpoint  rect=<MISSING>  fp-x=<MISSING>  fp-y=<MISSING>  auto=<MISSING>
+
+[headsUp] headsUp  field=careImage
+  image JSON: {"_type":"image","asset":{"_ref":"image-513e4b49f499b655269ce741c234603b4cc8b1ca-2500x3333-webp","_type":"reference"}}
+  URL:  https://cdn.sanity.io/images/9pc3wgri/production/513e4b49f499b655269ce741c234603b4cc8b1ca-2500x3333.webp?w=800&h=600&fit=crop&crop=focalpoint
+  tokens: w=800  h=600  fit=crop  crop=focalpoint  rect=<MISSING>  fp-x=<MISSING>  fp-y=<MISSING>  auto=<MISSING>
+
+[headsUp] headsUp  field=communityImage
+  image JSON: {"_type":"image","asset":{"_ref":"image-8de0f3e619d7d93718cc66cd5aa4de9ed5f9a023-1542x1542-webp","_type":"reference"}}
+  URL:  https://cdn.sanity.io/images/9pc3wgri/production/8de0f3e619d7d93718cc66cd5aa4de9ed5f9a023-1542x1542.webp?w=800&h=600&fit=crop&crop=focalpoint
+  tokens: w=800  h=600  fit=crop  crop=focalpoint  rect=<MISSING>  fp-x=<MISSING>  fp-y=<MISSING>  auto=<MISSING>
+
+=== resources images (4 image field values) ===
+
+[resources] resources  field=hero
+  image JSON: {"_type":"image","asset":{"_ref":"image-c16c21fb2978123ad1c73208e6e43ade05161603-1920x1280-jpg","_type":"reference"}}
+  URL:  https://cdn.sanity.io/images/9pc3wgri/production/c16c21fb2978123ad1c73208e6e43ade05161603-1920x1280.jpg?w=800&h=600&fit=crop&crop=focalpoint
+  tokens: w=800  h=600  fit=crop  crop=focalpoint  rect=<MISSING>  fp-x=<MISSING>  fp-y=<MISSING>  auto=<MISSING>
+
+[resources] resources  field=whyMattersImage
+  image JSON: {"_type":"image","asset":{"_ref":"image-281895093015f7cdbe26d4992c00c017ca63249b-1920x1280-jpg","_type":"reference"}}
+  URL:  https://cdn.sanity.io/images/9pc3wgri/production/281895093015f7cdbe26d4992c00c017ca63249b-1920x1280.jpg?w=800&h=600&fit=crop&crop=focalpoint
+  tokens: w=800  h=600  fit=crop  crop=focalpoint  rect=<MISSING>  fp-x=<MISSING>  fp-y=<MISSING>  auto=<MISSING>
+
+[resources] resources  field=commonStrugglesImage
+  image JSON: {"_type":"image","asset":{"_ref":"image-fae23c9f007d906fc3d42b1bfc9412f9b5532b6d-1920x1280-jpg","_type":"reference"}}
+  URL:  https://cdn.sanity.io/images/9pc3wgri/production/fae23c9f007d906fc3d42b1bfc9412f9b5532b6d-1920x1280.jpg?w=800&h=600&fit=crop&crop=focalpoint
+  tokens: w=800  h=600  fit=crop  crop=focalpoint  rect=<MISSING>  fp-x=<MISSING>  fp-y=<MISSING>  auto=<MISSING>
+
+[resources] resources  field=signsSectionImage
+  image JSON: {"_type":"image","asset":{"_ref":"image-85eb0c3ce918af64f78ebd35a7d7280b21855467-1920x1280-jpg","_type":"reference"}}
+  URL:  https://cdn.sanity.io/images/9pc3wgri/production/85eb0c3ce918af64f78ebd35a7d7280b21855467-1920x1280.jpg?w=800&h=600&fit=crop&crop=focalpoint
+  tokens: w=800  h=600  fit=crop  crop=focalpoint  rect=<MISSING>  fp-x=<MISSING>  fp-y=<MISSING>  auto=<MISSING>
+
+=== mitzvahProject images (0 image field values) ===
+
+=== donatePage images (2 image field values) ===
+
+[donatePage] donatePage  field=hero
+  image JSON: {"_type":"image","asset":{"_ref":"image-10f095af9f1972300f550e24cbd04f7553e882a0-1536x2048-webp","_type":"reference"}}
+  URL:  https://cdn.sanity.io/images/9pc3wgri/production/10f095af9f1972300f550e24cbd04f7553e882a0-1536x2048.webp?w=800&h=600&fit=crop&crop=focalpoint
+  tokens: w=800  h=600  fit=crop  crop=focalpoint  rect=<MISSING>  fp-x=<MISSING>  fp-y=<MISSING>  auto=<MISSING>
+
+[donatePage] donatePage  field=whyGiveImage
+  image JSON: {"_type":"image","asset":{"_ref":"image-7d0d32be6fe3fa088cb3a77587172d5de76f0091-2500x3333-webp","_type":"reference"}}
+  URL:  https://cdn.sanity.io/images/9pc3wgri/production/7d0d32be6fe3fa088cb3a77587172d5de76f0091-2500x3333.webp?w=800&h=600&fit=crop&crop=focalpoint
+  tokens: w=800  h=600  fit=crop  crop=focalpoint  rect=<MISSING>  fp-x=<MISSING>  fp-y=<MISSING>  auto=<MISSING>
+
+=== volunteerPage images (2 image field values) ===
+
+[volunteerPage] volunteerPage  field=hero
+  image JSON: {"_type":"image","asset":{"_ref":"image-8de0f3e619d7d93718cc66cd5aa4de9ed5f9a023-1542x1542-webp","_type":"reference"}}
+  URL:  https://cdn.sanity.io/images/9pc3wgri/production/8de0f3e619d7d93718cc66cd5aa4de9ed5f9a023-1542x1542.webp?w=800&h=600&fit=crop&crop=focalpoint
+  tokens: w=800  h=600  fit=crop  crop=focalpoint  rect=<MISSING>  fp-x=<MISSING>  fp-y=<MISSING>  auto=<MISSING>
+
+[volunteerPage] volunteerPage  field=whyVolunteerImage
+  image JSON: {"_type":"image","asset":{"_ref":"image-d7c48ece13a08579e6d800c5fb1a14f29862fbb3-2500x1875-webp","_type":"reference"}}
+  URL:  https://cdn.sanity.io/images/9pc3wgri/production/d7c48ece13a08579e6d800c5fb1a14f29862fbb3-2500x1875.webp?w=800&h=600&fit=crop&crop=focalpoint
+  tokens: w=800  h=600  fit=crop  crop=focalpoint  rect=<MISSING>  fp-x=<MISSING>  fp-y=<MISSING>  auto=<MISSING>
+
+=== contactPage.hero (1 image field values) ===
+
+[contactPage] contactPage  field=hero
+  image JSON: {"_type":"image","asset":{"_ref":"image-16550345734d59b90f06635707a04a3985ac957a-1920x1280-jpg","_type":"reference"}}
+  URL:  https://cdn.sanity.io/images/9pc3wgri/production/16550345734d59b90f06635707a04a3985ac957a-1920x1280.jpg?w=800&h=600&fit=crop&crop=focalpoint
+  tokens: w=800  h=600  fit=crop  crop=focalpoint  rect=<MISSING>  fp-x=<MISSING>  fp-y=<MISSING>  auto=<MISSING>
+
+=== aboutStory.hero (1 image field values) ===
+
+[aboutStory] aboutStory  field=hero
+  image JSON: {"_type":"image","asset":{"_ref":"image-387053c72e9c26c9a977d139253086449502cab0-2315x1851-webp","_type":"reference"}}
+  URL:  https://cdn.sanity.io/images/9pc3wgri/production/387053c72e9c26c9a977d139253086449502cab0-2315x1851.webp?w=800&h=600&fit=crop&crop=focalpoint
+  tokens: w=800  h=600  fit=crop  crop=focalpoint  rect=<MISSING>  fp-x=<MISSING>  fp-y=<MISSING>  auto=<MISSING>
+
+=== shopPage.hero (1 image field values) ===
+
+[shopPage] shopPage  field=hero
+  image JSON: {"_type":"image","asset":{"_ref":"image-bb8248e0231c61ced872a526831904c8b142815c-2500x1875-jpg","_type":"reference"}}
+  URL:  https://cdn.sanity.io/images/9pc3wgri/production/bb8248e0231c61ced872a526831904c8b142815c-2500x1875.jpg?w=800&h=600&fit=crop&crop=focalpoint
+  tokens: w=800  h=600  fit=crop  crop=focalpoint  rect=<MISSING>  fp-x=<MISSING>  fp-y=<MISSING>  auto=<MISSING>
+
+=== fightingAntisemitism.hero (1 image field values) ===
+
+[fightingAntisemitism] fightingAntisemitism  field=hero
+  image JSON: {"_type":"image","asset":{"_ref":"image-dab43f52f790253b0bdaa7290aeb034fd336b187-1536x1024-png","_type":"reference"}}
+  URL:  https://cdn.sanity.io/images/9pc3wgri/production/dab43f52f790253b0bdaa7290aeb034fd336b187-1536x1024.png?w=800&h=600&fit=crop&crop=focalpoint
+  tokens: w=800  h=600  fit=crop  crop=focalpoint  rect=<MISSING>  fp-x=<MISSING>  fp-y=<MISSING>  auto=<MISSING>
+
+=== SUMMARY ===
+Total image field values checked: 44
+URLs with rect=  : 0
+URLs with fp-x=  : 0
+URLs with fp-y=  : 0
+URLs with crop=  : 44
+Hotspots present in docs: 4
+  at center (0.5, 0.5 ± 0.01): 1
+  offset from center        : 3
