@@ -63,25 +63,6 @@ export async function getRecipes() {
   `);
 }
 
-export async function getRecipeBySlug(slug: string) {
-  return client.fetch(
-    `*[_type == "recipe" && slug.current == $slug][0] {
-      _id,
-      title,
-      slug,
-      description,
-      image,
-      tags,
-      prepTime,
-      servings,
-      ingredients,
-      instructions,
-      culturalContext
-    }`,
-    { slug },
-  );
-}
-
 export async function getRetreats() {
   return client.fetch(`
     *[_type == "retreat"] | order(date desc) {
@@ -99,25 +80,6 @@ export async function getRetreats() {
       orderRank
     }
   `);
-}
-
-export async function getRetreatBySlug(slug: string) {
-  return client.fetch(
-    `*[_type == "retreat" && slug.current == $slug][0] {
-      _id,
-      title,
-      slug,
-      subtitle,
-      author,
-      date,
-      coverImage,
-      gallery,
-      body,
-      participants,
-      location
-    }`,
-    { slug },
-  );
 }
 
 export async function getTeamMembers() {
@@ -149,24 +111,6 @@ export async function getProducts() {
       orderRank
     }
   `);
-}
-
-export async function getProductBySlug(slug: string) {
-  return client.fetch(
-    `*[_type == "product" && slug.current == $slug][0] {
-      _id,
-      name,
-      slug,
-      price,
-      description,
-      snipcartId,
-      mainImage,
-      gallery,
-      features,
-      inStock
-    }`,
-    { slug },
-  );
 }
 
 export async function getTestimonials(context?: string) {
@@ -225,20 +169,6 @@ export async function getCommunityStories() {
       orderRank
     }
   `);
-}
-
-export async function getCommunityStoryBySlug(slug: string) {
-  return client.fetch(
-    `*[_type == "communityStory" && slug.current == $slug][0] {
-      _id,
-      title,
-      slug,
-      image,
-      excerpt,
-      body
-    }`,
-    { slug },
-  );
 }
 
 export async function getRecommendedArticles() {
