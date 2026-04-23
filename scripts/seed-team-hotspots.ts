@@ -11,7 +11,7 @@
  *   npx tsx scripts/seed-team-hotspots.ts --dry-run
  *   npx tsx scripts/seed-team-hotspots.ts
  *
- * Token: reads SANITY_API_TOKEN from .env (or SANITY_WRITE_TOKEN / process.env).
+ * Token: reads SANITY_API_TOKEN from .env or process.env.
  *
  * Editors can refine per-person in Studio afterward — see
  * docs/editor-guide.md → "Adjusting team member photo framing".
@@ -67,10 +67,10 @@ function hotspotEquals(a: Hotspot | null | undefined, b: Hotspot): boolean {
 
 async function main() {
   await loadEnv();
-  const token = process.env.SANITY_API_TOKEN || process.env.SANITY_WRITE_TOKEN;
+  const token = process.env.SANITY_API_TOKEN;
 
   if (!DRY_RUN && !token) {
-    console.error('Error: SANITY_API_TOKEN (or SANITY_WRITE_TOKEN) is required for live run.');
+    console.error('Error: SANITY_API_TOKEN is required for live run.');
     process.exit(1);
   }
 

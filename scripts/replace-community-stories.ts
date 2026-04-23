@@ -3,16 +3,16 @@
  * Downloads retreat photos, reuses Dahlia/Matamba testimonial images.
  *
  * Usage:
- *   SANITY_WRITE_TOKEN=<token> npx tsx scripts/replace-community-stories.ts
+ *   SANITY_API_TOKEN=<token> npx tsx scripts/replace-community-stories.ts
  */
 
 import { createClient } from '@sanity/client';
 import { readFileSync } from 'node:fs';
 
-const token = process.env.SANITY_WRITE_TOKEN;
+const token = process.env.SANITY_API_TOKEN;
 
 if (!token) {
-  console.error('Error: SANITY_WRITE_TOKEN env var is required.');
+  console.error('Error: SANITY_API_TOKEN env var is required.');
   process.exit(1);
 }
 

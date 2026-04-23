@@ -6,7 +6,7 @@
  *   npx tsx scripts/seed-team-members.ts --dry-run   # plan + verify URLs, no writes
  *   npx tsx scripts/seed-team-members.ts             # upload photos, createOrReplace docs
  *
- * Token: reads SANITY_API_TOKEN from .env (or SANITY_WRITE_TOKEN / process.env).
+ * Token: reads SANITY_API_TOKEN from .env or process.env.
  * Idempotent: uses createOrReplace on the 4 predictable _ids that already exist.
  */
 
@@ -107,10 +107,10 @@ async function fetchImageBuffer(url: string): Promise<Buffer> {
 
 async function main() {
   await loadEnv();
-  const token = process.env.SANITY_API_TOKEN || process.env.SANITY_WRITE_TOKEN;
+  const token = process.env.SANITY_API_TOKEN;
 
   if (!DRY_RUN && !token) {
-    console.error('Error: SANITY_API_TOKEN (or SANITY_WRITE_TOKEN) is required for live run.');
+    console.error('Error: SANITY_API_TOKEN is required for live run.');
     process.exit(1);
   }
 

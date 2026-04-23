@@ -2,9 +2,9 @@
  * One-time script to seed Sanity with real testimonial data + photos.
  *
  * Usage:
- *   SANITY_WRITE_TOKEN=<token> npx tsx scripts/seed-testimonials.ts
+ *   SANITY_API_TOKEN=<token> npx tsx scripts/seed-testimonials.ts
  *
- * Requires the SANITY_WRITE_TOKEN env var (a Sanity write-token for project 9pc3wgri).
+ * Requires the SANITY_API_TOKEN env var (a Sanity write-token for project 9pc3wgri).
  */
 
 import { createClient } from '@sanity/client';
@@ -13,11 +13,11 @@ import { resolve } from 'node:path';
 
 const projectId = process.env.PUBLIC_SANITY_PROJECT_ID || '9pc3wgri';
 const dataset = process.env.PUBLIC_SANITY_DATASET || 'production';
-const token = process.env.SANITY_WRITE_TOKEN;
+const token = process.env.SANITY_API_TOKEN;
 
 if (!token) {
-  console.error('Error: SANITY_WRITE_TOKEN env var is required.');
-  console.error('Usage: SANITY_WRITE_TOKEN=<token> npx tsx scripts/seed-testimonials.ts');
+  console.error('Error: SANITY_API_TOKEN env var is required.');
+  console.error('Usage: SANITY_API_TOKEN=<token> npx tsx scripts/seed-testimonials.ts');
   process.exit(1);
 }
 

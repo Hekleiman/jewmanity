@@ -7,10 +7,10 @@
 
 import { createClient } from '@sanity/client';
 
-const token = process.env.SANITY_API_TOKEN || process.env.SANITY_WRITE_TOKEN;
+const token = process.env.SANITY_API_TOKEN;
 
 if (!token) {
-  console.error('Error: SANITY_API_TOKEN (or SANITY_WRITE_TOKEN) env var is required.');
+  console.error('Error: SANITY_API_TOKEN env var is required.');
   process.exit(1);
 }
 
