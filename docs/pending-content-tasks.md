@@ -2,6 +2,14 @@
 
 Last updated: 2026-04-28
 
+## Donate page — Givebutter migration
+- **Status:** Pre-staged, waiting on Belinda
+- **Blocker:** Givebutter `ACCOUNT_ID` and `WIDGET_ID` not yet provided
+- **Current state:** Production reverted to Donorbox on 2026-04-28 after `76ca270` was found shipping placeholder IDs to `jewmanity.vercel.app` (canonical `jewmanity.org` is parked GoDaddy, so no real donors were affected). Givebutter scaffold preserved on branch `feat/givebutter-migration` (tip `76ca270`). Privacy/terms now vendor-neutral (commit `5ea08ea`). Runbook at `docs/givebutter-swap-runbook.md`. Campaign config (with ASK BELINDA items) at `docs/givebutter-campaign-config.md`. Test plan at `docs/givebutter-test-plan.md`.
+- **Lessons learned:** Future processor migrations stage on a feature branch from day one. WIP commits with placeholder IDs never land on `main`, even when the canonical domain isn't pointing at Vercel.
+- **Next action:** Belinda delivers IDs → checkout branch, rebase on main, replace 2 placeholders, run test plan in dev, merge.
+
+
 ## A5 — Fighting Antisemitism metric cards
 - **Status:** Waiting on Belinda
 - **Blocker:** 2025/2026 ADL/AJC data not yet sourced
