@@ -46,9 +46,9 @@ const mitzvahProject = {
     {
       _key: 'card1',
       icon: 'shield',
-      title: "Fight the World\u2019s Oldest Hatred",
+      title: "Fight the World’s Oldest Hatred",
       description:
-        "Your project directly supports Jewmanity\u2019s mission to educate communities, publish resources, and combat antisemitism at every level.",
+        "Your project directly supports Jewmanity’s mission to educate communities, publish resources, and combat antisemitism at every level.",
     },
     {
       _key: 'card2',
@@ -62,14 +62,14 @@ const mitzvahProject = {
       icon: 'handshake',
       title: 'Volunteer with Jewish Soldiers',
       description:
-        "When Israeli soldiers visit San Diego, you can be there to welcome, serve, and honor them \u2014 a once-in-a-lifetime volunteer experience you\u2019ll never forget.",
+        "When Israeli soldiers visit San Diego, you can be there to welcome, serve, and honor them — a once-in-a-lifetime volunteer experience you’ll never forget.",
     },
     {
       _key: 'card4',
-      icon: 'heart',
+      icon: 'star-of-david',
       title: 'Live Jewish Values',
       description:
-        "Tikkun olam. Tzedakah. Ahavat Yisrael. This project isn\u2019t just a requirement \u2014 it\u2019s a living expression of everything your bar or bat mitzvah stands for.",
+        "Tikkun olam. Tzedakah. Ahavat Yisrael. This project isn’t just a requirement — it’s a living expression of everything your bar or bat mitzvah stands for.",
     },
   ],
 
@@ -156,7 +156,7 @@ const mitzvahProject = {
       icon: 'awareness',
       title: 'Raise Awareness',
       description:
-        'Use your voice \u2014 in your school, synagogue, and online \u2014 to educate others about antisemitism and what they can do about it.',
+        'Use your voice — in your school, synagogue, and online — to educate others about antisemitism and what they can do about it.',
       bullets: [
         'Give a presentation at your school or synagogue',
         'Create an informational display or poster series',
