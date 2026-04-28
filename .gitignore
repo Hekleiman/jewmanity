@@ -22,6 +22,7 @@ screenshots/
 
 # design reference files
 design-reference/
+design-refs/
 
 # raw Figma image downloads (not needed in repo)
 public/images/figma-raw/
