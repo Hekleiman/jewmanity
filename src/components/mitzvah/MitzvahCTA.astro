@@ -20,12 +20,12 @@ const {
 const isDownload = button2Url?.endsWith('.pdf');
 ---
 
-<section class="bg-bg-footer py-16 md:py-20 lg:py-24">
+<section class="bg-bg-page py-16 md:py-20 lg:py-24">
   <div class="mx-auto max-w-[700px] px-6 text-center" data-animate="fade-up">
-    <h2 class="font-heading text-[clamp(28px,4vw,36px)] font-medium italic leading-tight text-white">
+    <h2 class="font-heading text-[clamp(28px,4vw,36px)] font-medium leading-tight text-text-heading">
       {heading}
     </h2>
-    <p class="mx-auto mt-4 max-w-[600px] font-heading text-[clamp(16px,2.2vw,20px)] font-normal leading-relaxed text-white/80">
+    <p class="mx-auto mt-4 max-w-[600px] font-heading text-[clamp(16px,2.2vw,20px)] font-normal leading-relaxed text-text-body">
       {description}
     </p>
     <div class="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
@@ -38,7 +38,7 @@ const isDownload = button2Url?.endsWith('.pdf');
       <a
         href={button2Url}
         download={isDownload ? '' : undefined}
-        class="inline-block rounded-[100px] border-2 border-white bg-transparent px-8 py-3 font-heading text-base font-medium text-white transition-colors hover:bg-white hover:text-primary"
+        class="inline-block rounded-[100px] border-2 border-primary bg-white px-8 py-3 font-heading text-base font-medium text-primary transition-colors hover:bg-primary hover:text-white"
       >
         {button2Text}
       </a>
