@@ -1,6 +1,6 @@
 /**
  * Replaces all communityStory documents in Sanity with 6 Jewmanity-only stories.
- * Downloads retreat photos, reuses Dahlia/Matamba testimonial images.
+ * Downloads retreat photos, reuses Dahlia/Matan testimonial images.
  *
  * Usage:
  *   SANITY_API_TOKEN=<token> npx tsx scripts/replace-community-stories.ts
@@ -51,27 +51,27 @@ async function main() {
   const retreat4Img = await uploadImage('/tmp/retreat-4.webp', 'retreat-4-fathers-fighters.webp', 'image/webp');
   console.log('');
 
-  // Step 3: Get Dahlia and Matamba's existing image asset references
+  // Step 3: Get Dahlia and Matan's existing image asset references
   console.log('Fetching existing testimonial image refs...');
   const testimonials: { authorName: string; imageRef: string }[] = await client.fetch(`
-    *[_type == "testimonial" && authorName in ["Dahlia", "Matamba Lassan"]] {
+    *[_type == "testimonial" && authorName in ["Dahlia", "Matan Balahsan"]] {
       authorName,
       "imageRef": authorImage.asset._ref
     }
   `);
 
   const dahliaRef = testimonials.find((t) => t.authorName === 'Dahlia')?.imageRef;
-  const matambaRef = testimonials.find((t) => t.authorName === 'Matamba Lassan')?.imageRef;
+  const matanRef = testimonials.find((t) => t.authorName === 'Matan Balahsan')?.imageRef;
 
-  if (!dahliaRef || !matambaRef) {
-    console.error('Could not find testimonial image refs:', { dahliaRef, matambaRef });
+  if (!dahliaRef || !matanRef) {
+    console.error('Could not find testimonial image refs:', { dahliaRef, matanRef });
     process.exit(1);
   }
 
   const dahliaImg: ImageRef = { _type: 'image', asset: { _type: 'reference', _ref: dahliaRef } };
-  const matambaImg: ImageRef = { _type: 'image', asset: { _type: 'reference', _ref: matambaRef } };
+  const matanImg: ImageRef = { _type: 'image', asset: { _type: 'reference', _ref: matanRef } };
   console.log(`  Dahlia: ${dahliaRef}`);
-  console.log(`  Matamba: ${matambaRef}\n`);
+  console.log(`  Matan: ${matanRef}\n`);
 
   // Step 4: Create 6 stories
   const stories = [
@@ -147,19 +147,19 @@ async function main() {
       pullQuoteAttribution: 'Dahlia, Jewmanity Volunteer',
     },
     {
-      title: "Believing Again: Matamba\u2019s Journey Home",
-      slug: 'matamba-journey',
+      title: "Believing Again: Matan\u2019s Journey Home",
+      slug: 'matan-journey',
       tag: 'Jewmanity Retreat',
-      internalUrl: '/about/community-stories#matamba-lassan',
-      image: matambaImg,
+      internalUrl: '/about/community-stories#matan-balahsan',
+      image: matanImg,
       orderRank: 6,
       paragraphs: [
-        'Matamba Lassan was 23 years old and recently married when October 7th shattered his world. In the aftermath, he lost his faith \u2014 especially in himself. The trauma of what he had witnessed left him unable to see a path forward.',
-        "Through Jewmanity\u2019s Heads Up program, Matamba traveled to the United States for a month of healing. The retreat combined professional psychological care with the warmth of a community that embraced him and his fellow soldiers. For the first time since the attack, he felt supported \u2014 not as a soldier, but as a person.",
-        'When Matamba returned to Israel, something had changed. The journey had helped him believe in himself again. He finally knew how to move forward. His message to Jewmanity was simple and heartfelt: keep going. Am Israel Chai.',
+        'Matan Balahsan was 23 years old and recently married when October 7th shattered his world. In the aftermath, he lost his faith \u2014 especially in himself. The trauma of what he had witnessed left him unable to see a path forward.',
+        "Through Jewmanity\u2019s Heads Up program, Matan traveled to the United States for a month of healing. The retreat combined professional psychological care with the warmth of a community that embraced him and his fellow soldiers. For the first time since the attack, he felt supported \u2014 not as a soldier, but as a person.",
+        'When Matan returned to Israel, something had changed. The journey had helped him believe in himself again. He finally knew how to move forward. His message to Jewmanity was simple and heartfelt: keep going. Am Israel Chai.',
       ],
       pullQuote: 'This journey helped me believe in myself again. When I came back to Israel, I finally knew how to move forward.',
-      pullQuoteAttribution: 'Matamba Lassan, Retreat Participant',
+      pullQuoteAttribution: 'Matan Balahsan, Heads Up Participant',
     },
   ];
 

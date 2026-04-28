@@ -42,16 +42,16 @@ interface TestimonialData {
 
 const testimonials: TestimonialData[] = [
   {
-    authorName: 'Matamba Lassan',
-    authorRole: 'Retreat Participant',
+    authorName: 'Matan Balahsan',
+    authorRole: 'Heads Up Participant',
     context: 'headsup',
-    slug: 'matamba-lassan',
+    slug: 'matan-balahsan',
     order: 1,
     quote:
-      "My name is Matamba Lassan. I'm 23 years old, recently married. After October 7th, I lost my faith \u2014 especially in myself. Through my journey with the Jewmanity organization, we spent a month in the U.S. healing, sharing, and being supported by professional care. This journey helped me believe in myself again. When I came back to Israel, I finally knew how to move forward. I want to say thank you to Jewmanity for everything. Keep going. Am Israel Chai. Thank you for everything.",
+      "My name is Matan Balahsan. I'm 23 years old, recently married. After October 7th, I lost my faith \u2014 especially in myself. Through my journey with the Jewmanity organization, we spent a month in the U.S. healing, sharing, and being supported by professional care. This journey helped me believe in myself again. When I came back to Israel, I finally knew how to move forward. I want to say thank you to Jewmanity for everything. Keep going. Am Israel Chai. Thank you for everything.",
     excerpt:
       "After October 7th, I lost my faith \u2014 especially in myself. Through Jewmanity, I spent a month in the U.S. healing and being supported by professional care. This journey helped me believe in myself again.",
-    photoFile: 'testimonial-matamba.png',
+    photoFile: 'public/images/testimonials/matan.png',
   },
   {
     authorName: 'Dahlia',
