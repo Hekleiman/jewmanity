@@ -8,13 +8,30 @@ interface Props {
   heading?: string;
   subtitle?: string;
   items: FAQItem[];
+  variant?: 'flat' | 'cards';
 }
 
-const { heading, subtitle, items } = Astro.props;
+const { heading, subtitle, items, variant = 'flat' } = Astro.props;
+
+const containerClass = variant === 'cards'
+  ? 'mx-auto max-w-[1100px] px-6'
+  : 'mx-auto max-w-[800px] px-6 lg:max-w-[960px]';
+
+const listClass = variant === 'cards' ? 'space-y-3' : 'divide-y divide-border-card';
+
+const itemClass = variant === 'cards'
+  ? 'group rounded-2xl border-[0.5px] border-border-card bg-white px-5 shadow-[0px_8px_16px_rgba(12,12,13,0.06),0px_2px_4px_rgba(12,12,13,0.04)] md:px-6'
+  : 'group';
+
+const summaryClass = variant === 'cards'
+  ? 'flex cursor-pointer items-center justify-between gap-4 py-6 md:py-7 font-body text-base font-medium text-text-heading transition-colors hover:text-primary md:text-lg [&::-webkit-details-marker]:hidden list-none'
+  : 'flex cursor-pointer items-center justify-between gap-4 py-5 font-body text-base font-medium text-text-heading transition-colors hover:text-primary md:text-lg [&::-webkit-details-marker]:hidden list-none';
+
+const answerWrapperClass = variant === 'cards' ? 'pb-6 pr-8 md:pb-7' : 'pb-5 pr-8';
 ---
 
 <section id="faq" class="py-16 md:py-20 lg:py-24">
-  <div class="mx-auto max-w-[800px] px-6 lg:max-w-[960px]">
+  <div class={containerClass}>
     {heading && (
       <div class="mb-12 text-center">
         <h2 class="font-heading text-[clamp(28px,4vw,36px)] font-medium leading-tight text-text-heading">
@@ -28,16 +45,16 @@ const { heading, subtitle, items } = Astro.props;
       </div>
     )}
 
-    <div class="divide-y divide-border-card">
+    <div class={listClass}>
       {items.map((item) => (
-        <details class="group">
-          <summary class="flex cursor-pointer items-center justify-between gap-4 py-5 font-body text-base font-medium text-text-heading transition-colors hover:text-primary md:text-lg [&::-webkit-details-marker]:hidden list-none">
+        <details class={itemClass}>
+          <summary class={summaryClass}>
             {item.question}
             <svg class="h-5 w-5 shrink-0 text-text-muted transition-transform group-open:rotate-180" viewBox="0 0 20 20" fill="none" aria-hidden="true">
               <path d="M5 7.5l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </summary>
-          <div class="pb-5 pr-8">
+          <div class={answerWrapperClass}>
             <div class="font-body text-sm leading-relaxed text-text-body md:text-[15px]" set:html={item.answer} />
           </div>
         </details>

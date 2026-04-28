@@ -117,13 +117,20 @@ const {
 
     <div class="mx-auto flex max-w-[720px] flex-col gap-3 lg:max-w-[900px]" data-animate="stagger">
       {steps.map((step, i) => (
-        <div class="flex items-center gap-4 rounded-2xl border-[0.5px] border-border-card bg-white px-5 py-4 shadow-[0px_4px_8px_rgba(12,12,13,0.04),0px_1px_2px_rgba(12,12,13,0.03)] md:gap-5 md:px-6">
-          <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary font-heading text-sm font-medium text-white">
+        <div class="flex items-start gap-4 rounded-2xl border-[0.5px] border-border-card bg-white px-5 py-4 shadow-[0px_4px_8px_rgba(12,12,13,0.04),0px_1px_2px_rgba(12,12,13,0.03)] md:gap-5 md:px-6 md:py-5">
+          <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary-light font-heading text-sm font-medium text-primary">
             {i + 1}
           </div>
-          <h3 class="font-heading text-base font-medium text-text-heading md:text-lg">
-            {step.title}
-          </h3>
+          <div class="flex-1">
+            <h3 class="font-heading text-base font-medium text-text-heading md:text-lg">
+              {step.title}
+            </h3>
+            {step.description && (
+              <p class="mt-1 font-body text-sm leading-relaxed text-text-body md:text-[15px]">
+                {step.description}
+              </p>
+            )}
+          </div>
         </div>
       ))}
     </div>
