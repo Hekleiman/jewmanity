@@ -165,7 +165,7 @@ async function main() {
       'Your compassion and generosity create pathways to recovery, resilience, and hope. Together, we build a stronger, more supported community.',
     ctaContactPrompt: 'Questions about donating or want to discuss giving options?',
     ctaContactLink: {
-      text: 'Contact us at donations@jewmanity.org',
+      text: 'Contact us at donations@jewmanity.com',
       href: '/get-involved/contact',
     },
   };
