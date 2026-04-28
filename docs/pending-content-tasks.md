@@ -27,3 +27,10 @@ Last updated: 2026-04-28
 - **Blocker:** Need second photo for each of 7 recipes (dish + family/context image)
 - **Current state:** `recipe.gallery` field exists in schema; `RecipePage.astro` renders carousel when `galleryImages.length > 1`; all 7 recipes currently have `gallery: []` or unset
 - **Next action:** Source family/context photos (client photos preferred; can fall back to Squarespace CDN per project pattern), upload to Sanity, populate `gallery` for each recipe
+
+## Sanity content — `.org` references to patch
+- **Status:** Identified 2026-04-28; not yet patched
+- **Blocker:** Needs a small Sanity patch script (similar shape to `scripts/patch-designer-audit-2026-04-28.ts`); explicit approval required before mutation
+- **Findings:** **One field, one document.** `donatePage.ctaContactLink.text` in production currently reads `"Contact us at donations@jewmanity.org"`. All other singletons (`contactPage`, `homepage`, `volunteerPage`, `mitzvahProject`, `aboutStory`, `headsUp`, `fightingAntisemitism`, `resources`, `shopPage`) and all 8 collections (`recipe`, `retreat`, `teamMember`, `product`, `testimonial`, `faqItem`, `communityStory`, `recommendedArticle`) audited and returned 0 `.org` hits.
+- **Code-side already fixed:** `scripts/seed-donate-page.ts:168` updated to `donations@jewmanity.com` in commit `597ed14`, so a future reseed won't re-introduce the `.org` value. The field-description help-text in `sanity/schemas/singletons/donatePage.ts:236` was also updated to use the `.com` example mailto in commit `9baac92`.
+- **Next action:** Write a tiny patch script that runs `client.patch('donatePage').set({ 'ctaContactLink.text': 'Contact us at donations@jewmanity.com' }).commit()` with a `--dry-run` default and `--apply` to actually write. Same shape as the 2026-04-28 designer-audit patch script. Until then, the live `/donate` page renders the `.org` mailto from CMS (component fallback in `donate.astro:36` is already `.com`, but Sanity wins at runtime).
