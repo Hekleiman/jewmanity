@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /api/
 
-Sitemap: https://jewmanity.org/sitemap-index.xml
+Sitemap: https://jewmanity.com/sitemap-index.xml
