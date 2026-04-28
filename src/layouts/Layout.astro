@@ -24,7 +24,7 @@ try {
   console.warn('Sanity fetch failed for siteSettings, footer will use hardcoded fallbacks');
 }
 
-const canonicalUrl = `https://jewmanity.org${Astro.url.pathname}`;
+const canonicalUrl = `https://jewmanity.com${Astro.url.pathname}`;
 ---
 <!doctype html>
 <html lang="en">
@@ -42,7 +42,7 @@ const canonicalUrl = `https://jewmanity.org${Astro.url.pathname}`;
     <!-- Open Graph -->
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={`https://jewmanity.org${ogImage}`} />
+    <meta property="og:image" content={`https://jewmanity.com${ogImage}`} />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Jewmanity" />
     <meta property="og:url" content={canonicalUrl} />
@@ -52,7 +52,7 @@ const canonicalUrl = `https://jewmanity.org${Astro.url.pathname}`;
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={`https://jewmanity.org${ogImage}`} />
+    <meta name="twitter:image" content={`https://jewmanity.com${ogImage}`} />
 
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
@@ -71,8 +71,8 @@ const canonicalUrl = `https://jewmanity.org${Astro.url.pathname}`;
       "@context": "https://schema.org",
       "@type": "NonprofitOrganization",
       "name": "Jewmanity",
-      "url": "https://jewmanity.org",
-      "logo": "https://jewmanity.org/images/logo.png",
+      "url": "https://jewmanity.com",
+      "logo": "https://jewmanity.com/images/logo.png",
       "description": "A 501(c)(3) nonprofit supporting mental health and healing for Jewish and Israeli communities.",
       "foundingDate": "2019",
       "address": {
