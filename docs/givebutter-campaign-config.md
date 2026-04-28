@@ -83,7 +83,7 @@ Jewmanity is a 501(c)(3); donations are tax-deductible. Receipts are required.
   - Belinda's contact email for receipt corrections
 
 - **ASK BELINDA:** What is the EIN format Givebutter expects? US EINs are formatted `XX-XXXXXXX` (two digits, hyphen, seven digits). Confirm the EIN string Belinda enters in the Givebutter dashboard receipt template.
-- **ASK BELINDA:** Does Belinda want the receipt to come from a `info@jewmanity.org`-style address (preferred — looks more official) or from Givebutter's default receipt sender?
+- **ASK BELINDA:** Does Belinda want the receipt to come from a `info@jewmanity.com`-style address (preferred — looks more official) or from Givebutter's default receipt sender?
 
 ---
 
@@ -114,9 +114,9 @@ This is presentation-level and won't break functionality, but it'll feel jarring
 
 ## Domain / DNS interaction
 
-Note: as of 2026-04-28, `jewmanity.org` is still parked at GoDaddy and DNS hasn't been pointed at Vercel. The current production-accessible Vercel URL is `jewmanity.vercel.app`. Givebutter doesn't typically care which domain embeds the widget, but if Givebutter has any allowed-origin / referrer settings, ensure both `jewmanity.vercel.app` and (eventually) `jewmanity.org` are in the allowlist before the canonical-domain DNS cutover.
+Note: as of 2026-04-28, `jewmanity.com` runs the old Squarespace site (where real donors are today) and DNS hasn't been pointed at Vercel. The current production-accessible Vercel URL is `jewmanity.vercel.app`. Givebutter doesn't typically care which domain embeds the widget, but if Givebutter has any allowed-origin / referrer settings, ensure both `jewmanity.vercel.app` and `jewmanity.com` are in the allowlist before the DNS cutover.
 
-- **ASK BELINDA:** Does Givebutter campaign have allowed-origin restrictions? If so, add `jewmanity.vercel.app` and `jewmanity.org`.
+- **ASK BELINDA:** Does Givebutter campaign have allowed-origin restrictions? If so, add `jewmanity.vercel.app` and `jewmanity.com`.
 
 ---
 

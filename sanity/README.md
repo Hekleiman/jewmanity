@@ -1,6 +1,6 @@
 # Jewmanity — Sanity Studio
 
-Content management system for jewmanity.org.
+Content management system for jewmanity.com.
 
 ## Local Development
 

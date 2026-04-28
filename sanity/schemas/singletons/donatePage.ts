@@ -233,7 +233,7 @@ export default defineType({
           title: 'Link URL',
           type: 'string',
           description:
-            "Where this link goes. Options: (1) An internal path like '/get-involved/contact' to open the contact page. (2) A mailto link like 'mailto:donations@jewmanity.org' to open the user's email client with the address pre-filled. (3) An external URL.",
+            "Where this link goes. Options: (1) An internal path like '/get-involved/contact' to open the contact page. (2) A mailto link like 'mailto:donations@jewmanity.com' to open the user's email client with the address pre-filled. (3) An external URL.",
         }),
       ],
     }),

@@ -3,7 +3,7 @@
 ## Prerequisites
 - GitHub repo: Hekleiman/jewmanity (main branch, up to date)
 - Vercel account (free tier works)
-- Domain access for jewmanity.org
+- Domain access for jewmanity.com
 
 ## Environment Variables
 Set these in Vercel dashboard under Settings → Environment Variables:
@@ -23,10 +23,10 @@ PUBLIC_SANITY_DATASET=production
 
 ## Custom Domain Setup
 
-1. In Vercel: **Settings → Domains → Add** `jewmanity.org`
+1. In Vercel: **Settings → Domains → Add** `jewmanity.com`
 2. At your domain registrar, add one of:
-   - **CNAME** record: `jewmanity.org` → `cname.vercel-dns.com`
-   - **A** record: `jewmanity.org` → `76.76.21.21`
+   - **CNAME** record: `jewmanity.com` → `cname.vercel-dns.com`
+   - **A** record: `jewmanity.com` → `76.76.21.21`
 3. Vercel auto-provisions an SSL certificate once DNS propagates
 
 ## Sanity Webhook (Auto-Redeploy on CMS Publish)

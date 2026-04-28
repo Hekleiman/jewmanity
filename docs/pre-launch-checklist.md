@@ -131,13 +131,12 @@ Most active content items live in `docs/pending-content-tasks.md`. Cross-referen
 - **Description:** Move the Snipcart API key out of source code into `import.meta.env.PUBLIC_SNIPCART_API_KEY` (must be `PUBLIC_*` prefix to be readable in client-side template). Add to `.env.example` and Vercel env vars. Keeps the value out of git history and lets test/live mode swap via env without code changes.
 - **Next action:** Do this at the same time as A2 — single commit that moves the key to env and switches to live in Vercel env config.
 
-### C2. `info@jewmanity.com` vs `info@jewmanity.org` typo
-- **Status:** [ ]
-- **Owner:** CC
-- **Blocker level:** 🚫 BLOCKER
-- **Source:** `src/components/mitzvah/HowItWorks.astro:22` — `'Email Jewmanity at info@jewmanity.com with the subject line: "Mitzvah Project – [Your Name]"'`. Every other contact-email reference uses `info@jewmanity.org`: `src/pages/privacy.astro:84`, `src/pages/terms.astro:35,88`, `src/pages/nonprofit-disclosures.astro:90`.
-- **Description:** Single string in the Mitzvah Project step-1 instructions points donors at `.com` instead of `.org`. If `.com` doesn't have an MX record routing to the same inbox (likely doesn't, given `.com` runs Squarespace), donors who follow the instructions will email a black hole.
-- **Next action:** One-character/three-character fix. Out of scope for this discovery prompt (rules say no code changes); flag for the next code-cleanup batch.
+### C2. ~~`info@jewmanity.com` vs `info@jewmanity.org` typo~~ — RESOLVED
+- **Status:** [x]
+- **Owner:** —
+- **Blocker level:** —
+- **Source:** Original C2 framing was inverted: `.com` is the canonical domain, so `HowItWorks.astro:22` was correct and the `.org` mailtos in privacy/terms/nonprofit-disclosures were the typos. All four files now consistently use `info@jewmanity.com` after the 2026-04-28 .org→.com sweep.
+- **Description:** No further action required.
 
 ### C3. Stale TODO comments in components
 - **Status:** [ ]
@@ -273,7 +272,7 @@ Most active content items live in `docs/pending-content-tasks.md`. Cross-referen
 - **Status:** [x] (build outputs both — verified `dist/robots.txt` and `dist/sitemap-index.xml` exist)
 - **Owner:** —
 - **Blocker level:** —
-- **Source:** Build artifacts at `dist/robots.txt` (89 bytes, points sitemap at `https://jewmanity.org/sitemap-index.xml`) and `dist/sitemap-index.xml` (184 bytes, references `sitemap-0.xml` with 38 URLs).
+- **Source:** Build artifacts at `dist/robots.txt` (points sitemap at `https://jewmanity.com/sitemap-index.xml` after the 2026-04-28 .org→.com sweep) and `dist/sitemap-index.xml` (references `sitemap-0.xml` with 38 URLs, all canonical `.com`).
 - **Description:** Both artifacts generated correctly. Sitemap correctly lists all 38 routes including dynamic recipe/retreat/community-story slugs.
 - **Next action:** None pre-launch. Submit sitemap to Google Search Console post-DNS-cutover.
 
@@ -298,18 +297,9 @@ Most active content items live in `docs/pending-content-tasks.md`. Cross-referen
 - **Status:** [ ]
 - **Owner:** Er + Belinda (registrar access)
 - **Blocker level:** 🚫 BLOCKER (this *is* the launch)
-- **Source:** `DEPLOYMENT.md` "Custom Domain Setup" mentions `jewmanity.org`, but this prompt's context says `jewmanity.com` is where real donors are. **Discrepancy flagged.** `astro.config.mjs:9` declares `site: 'https://jewmanity.org'`, sitemap and OG tags use `.org`.
-- **Description:** **Open question:** is the launch domain `jewmanity.com` or `jewmanity.org`? Currently:
-  - `jewmanity.com` — live Squarespace site (per this prompt's context)
-  - `jewmanity.org` — parked GoDaddy lander (verified earlier this session via curl)
-  - Astro config canonical → `jewmanity.org`
-  - DEPLOYMENT.md → `jewmanity.org`
-  - Phone-canonical and structured-data → `jewmanity.org`
-  
-  This needs a decision before DNS work. Options:
-  1. Keep `.org` as canonical: point `.org` DNS at Vercel; `.com` keeps Squarespace OR redirects to `.org`.
-  2. Switch canonical to `.com`: update `astro.config.mjs`, regenerate sitemap, update OG/structured-data, point `.com` at Vercel; `.org` redirects to `.com`.
-- **Next action:** Confirm with Belinda which domain is the launch domain. Update Astro config + sitemap if option 2. Then point DNS per `DEPLOYMENT.md` "Custom Domain Setup".
+- **Source:** `DEPLOYMENT.md` "Custom Domain Setup". `astro.config.mjs:9` declares `site: 'https://jewmanity.com'` (post-2026-04-28 sweep); sitemap, robots, canonical URLs, OG tags, and JSON-LD all reference `.com`.
+- **Description:** `jewmanity.com` is the canonical and only Jewmanity domain. It currently runs the old Squarespace site (where real donors are today). At launch, point `jewmanity.com` DNS at Vercel per `DEPLOYMENT.md` "Custom Domain Setup" — CNAME `jewmanity.com → cname.vercel-dns.com` or A record `jewmanity.com → 76.76.21.21`. Vercel auto-provisions SSL once DNS propagates.
+- **Next action:** Coordinate the cutover window with Belinda (registrar access). Run final QA (Categories D, E) on `jewmanity.vercel.app` before flipping DNS so a regression isn't user-facing during propagation.
 
 ### F3. Squarespace → Vercel URL redirects
 - **Status:** [ ]

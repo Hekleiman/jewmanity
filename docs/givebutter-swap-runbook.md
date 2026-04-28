@@ -108,7 +108,7 @@ git push origin feat/givebutter-migration
 
 After Vercel rebuild, run the **Post-merge (production)** section of `docs/givebutter-test-plan.md`. Specifically:
 
-- Hit `https://jewmanity.vercel.app/donate` (or whatever the canonical URL is by then — `jewmanity.org` may be DNS-pointed to Vercel by the time of the swap).
+- Hit `https://jewmanity.vercel.app/donate` (or `https://jewmanity.com/donate` if DNS has been cut over to Vercel by the time of the swap).
 - Confirm Givebutter widget renders interactively.
 - Run all tier-card and `?amount=` URL tests against production.
 - Belinda runs a $1 test donation in Givebutter test mode to confirm end-to-end donation flow + Stripe receipt.

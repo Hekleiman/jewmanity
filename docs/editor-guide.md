@@ -33,7 +33,7 @@ This trips up every new editor. There are two steps to making an edit go live:
 1. **Save** — stores your changes as a draft. Nothing on the live site changes yet. You can close the tab and come back later.
 2. **Publish** — pushes the change to the live website.
 
-**Nothing shows up on jewmanity.org until you click Publish.** If you ever make an edit and it "didn't work," check that you actually hit Publish. A yellow "Unpublished changes" banner means you saved but didn't publish yet.
+**Nothing shows up on jewmanity.com until you click Publish.** If you ever make an edit and it "didn't work," check that you actually hit Publish. A yellow "Unpublished changes" banner means you saved but didn't publish yet.
 
 ### How long do changes take to appear on the live site?
 
@@ -368,7 +368,7 @@ Plain-language definitions of terms you might see:
 - **Field Group** — The tabs at the top of a page in Studio (e.g., "Hero," "Impact," "CTA"). They're just a way to organize related fields so Studio isn't overwhelming.
 - **Reference** — A link from one document to another. For example, a recipe might "reference" a tag category. You don't need to worry about this day-to-day.
 - **Asset** — An uploaded file, usually an image. Assets live in Studio's Media Library once uploaded and can be reused across multiple documents.
-- **URL Slug** — The part of a web address that identifies a specific page. If a recipe's slug is `challah`, its URL becomes `jewmanity.org/community/recipes/challah`. Click "Generate" to auto-create one from the title.
+- **URL Slug** — The part of a web address that identifies a specific page. If a recipe's slug is `challah`, its URL becomes `jewmanity.com/community/recipes/challah`. Click "Generate" to auto-create one from the title.
 - **Hotspot** — On an uploaded image, the dot that tells the site which part of the photo to prioritize when cropped.
 
 ---
