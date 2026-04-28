@@ -26,7 +26,7 @@ try {
 
 const canonicalUrl = `https://jewmanity.com${Astro.url.pathname}`;
 
-const SNIPCART_API_KEY = import.meta.env.PUBLIC_SNIPCART_API_KEY ?? 'YzI4MTdlM2YtN2U2NS00YTIxLWE1NGUtNWUwOTU3YzFhZjJkNjM5MDk2MjU4MDY4MDc3ODg1'; // fallback: Snipcart TEST key
+const SNIPCART_API_KEY = import.meta.env.PUBLIC_SNIPCART_API_KEY || 'YzI4MTdlM2YtN2U2NS00YTIxLWE1NGUtNWUwOTU3YzFhZjJkNjM5MDk2MjU4MDY4MDc3ODg1'; // fallback: Snipcart TEST key (also used when env var is empty string)
 ---
 <!doctype html>
 <html lang="en">
