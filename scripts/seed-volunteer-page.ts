@@ -87,13 +87,6 @@ async function main() {
           'Help create nourishing, home-cooked meals that bring comfort and community to retreat participants.',
       },
       {
-        _key: 'help-transport',
-        _type: 'howToHelpCard',
-        icon: 'transport',
-        title: 'Transportation and Logistics',
-        description: 'Provide safe, reliable transportation to and from retreat locations, airports, or local activities.',
-      },
-      {
         _key: 'help-hosting',
         _type: 'howToHelpCard',
         icon: 'hosting',
