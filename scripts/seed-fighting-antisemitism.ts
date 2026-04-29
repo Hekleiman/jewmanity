@@ -90,9 +90,9 @@ async function main() {
       {
         _key: 'stat-online',
         _type: 'antisemitismStat',
-        value: '67%',
-        description: 'of American Jews report seeing antisemitic content online',
-        citation: 'AJC State of Antisemitism in America, 2024',
+        value: '73%',
+        description: 'of American Jews experienced antisemitism online or on social media',
+        citation: 'AJC State of Antisemitism in America, 2025',
       },
     ],
 

@@ -11,10 +11,13 @@ Last updated: 2026-04-28
 
 
 ## A5 — Fighting Antisemitism metric cards
-- **Status:** Waiting on Belinda
-- **Blocker:** 2025/2026 ADL/AJC data not yet sourced
-- **Current state:** Three metrics in Sanity (`fightingAntisemitism.understandingStats`) cite 2024 figures: 9,354 incidents (ADL Audit, 2024), 344% five-year increase (ADL Audit, 2024), 67% online-content exposure (AJC State of Antisemitism in America, 2024)
-- **Next action:** Belinda to provide updated figures + citations, then edit directly in Sanity Studio
+- **Status:** Card 3 patched 2026-04-28; Cards 1 + 2 pending ADL 2025 audit release
+- **Blocker:** ADL has not yet released its 2025 calendar-year Audit of Antisemitic Incidents (typically published around April 22 each year — the 2024 audit dropped 2025-04-22). Cards 1 + 2 are bound to that report.
+- **Current state:** Sanity `fightingAntisemitism.understandingStats` now reads:
+  - [0] 9,354 incidents — ADL Audit of Antisemitic Incidents, 2024 *(latest available)*
+  - [1] 344% five-year increase — ADL Audit of Antisemitic Incidents, 2024 *(latest available)*
+  - [2] 73% online — AJC State of Antisemitism in America, 2025 ✅ *(updated from 67% / 2024 via `scripts/patch-fighting-antisemitism-2026-04-28.ts` on 2026-04-28; seed file aligned)*
+- **Next action:** Once ADL publishes the 2025 audit (expected late April / May 2026), patch Cards 1 + 2 with the new total + multi-year increase. Reuse the same script pattern. Belinda can also override directly in Sanity Studio if she prefers different figures (e.g., the 893% ten-year increase already in the same ADL report).
 
 ## A6 — Recipe author bylines
 - **Status:** Waiting on Belinda
