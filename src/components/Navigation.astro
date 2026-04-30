@@ -63,83 +63,120 @@ function isActive(item: NavItem): boolean {
 <nav
   id="desktop-nav"
   aria-label="Main navigation"
-  class="fixed top-5 left-1/2 z-50 hidden w-[95%] max-w-[1280px] -translate-x-1/2 items-center justify-between rounded-[1000px] bg-[rgba(250,248,245,0.9)] px-5 py-3 pr-3 backdrop-blur-[12px] transition-shadow duration-300 lg:flex"
+  class="fixed top-0 left-0 right-0 z-50 hidden bg-bg-page lg:block"
 >
-  <!-- Logo -->
-  <a href="/" aria-label="Jewmanity home" class="shrink-0">
-    <img src="/images/logo.png" alt="Jewmanity" width="50" height="33" class="h-8 w-auto" />
-  </a>
+  <div class="mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-4">
+    <!-- Logo -->
+    <a
+      href="/"
+      aria-label="Jewmanity home"
+      class="shrink-0 rounded-full focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+    >
+      <img src="/images/logo.png" alt="Jewmanity" width="50" height="33" class="h-8 w-auto" />
+    </a>
 
-  <!-- Nav Links -->
-  <ul class="flex items-center gap-8">
-    {navItems.map((item) => (
-      <li class="relative" data-dropdown={item.children ? 'true' : undefined}>
-        <a
-          href={item.href}
-          class:list={[
-            'inline-flex items-center gap-1 font-heading text-base font-medium leading-6 tracking-[-0.31px] transition-colors',
-            isActive(item)
-              ? 'text-primary border-b-2 border-primary pb-0.5'
-              : 'text-text-heading hover:text-primary',
-          ]}
-          aria-haspopup={item.children ? 'true' : undefined}
-          aria-expanded={item.children ? 'false' : undefined}
-        >
-          {item.label}
-          {item.children && (
-            <svg
-              class="h-4 w-4 transition-transform duration-200"
-              viewBox="0 0 16 16"
-              fill="none"
-              aria-hidden="true"
+    <!-- Nav Links (centered group) -->
+    <ul class="flex items-center gap-8">
+      {navItems.map((item) => {
+        const active = isActive(item);
+        return (
+          <li class="relative" data-dropdown={item.children ? 'true' : undefined}>
+            <a
+              href={item.href}
+              aria-current={active ? 'page' : undefined}
+              aria-haspopup={item.children ? 'true' : undefined}
+              aria-expanded={item.children ? 'false' : undefined}
+              class:list={[
+                'inline-flex items-center gap-1 font-heading text-base font-medium leading-6 tracking-[-0.31px] transition-colors',
+                'rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary',
+                active
+                  ? 'text-primary'
+                  : 'text-text-heading hover:text-primary',
+              ]}
             >
-              <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          )}
-        </a>
-        {item.children && (
-          <ul
-            class="pointer-events-none invisible absolute left-0 top-full min-w-[200px] pt-2 opacity-0 transition-all duration-200"
-            role="menu"
-          >
-            <div class="rounded-xl bg-white py-2 shadow-lg">
-              {item.children.map((child) => (
-                <li role="none">
-                  <a
-                    href={child.href}
-                    role="menuitem"
-                    class:list={[
-                      'block px-4 py-2 font-body text-sm text-text-heading transition-colors hover:bg-gray-50',
-                      (currentPath === child.href || currentPath === child.href + '/') && 'text-primary font-medium',
-                    ]}
-                  >
-                    {child.label}
-                  </a>
-                </li>
-              ))}
-            </div>
-          </ul>
-        )}
-      </li>
-    ))}
-  </ul>
+              {item.label}
+              {item.children && (
+                <svg
+                  class="h-3.5 w-3.5 transition-transform duration-200"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  aria-hidden="true"
+                >
+                  <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              )}
+            </a>
+            {item.children && (
+              <ul
+                class="pointer-events-none invisible absolute left-0 top-full min-w-50 pt-2 opacity-0 transition-all duration-200"
+                role="menu"
+              >
+                <div class="rounded-xl bg-white py-2 shadow-lg">
+                  {item.children.map((child) => {
+                    const childActive = currentPath === child.href || currentPath === child.href + '/';
+                    return (
+                      <li role="none">
+                        <a
+                          href={child.href}
+                          role="menuitem"
+                          aria-current={childActive ? 'page' : undefined}
+                          class:list={[
+                            'block px-4 py-2 font-body text-sm transition-colors hover:bg-gray-50',
+                            childActive ? 'text-primary font-medium' : 'text-text-heading',
+                          ]}
+                        >
+                          {child.label}
+                        </a>
+                      </li>
+                    );
+                  })}
+                </div>
+              </ul>
+            )}
+          </li>
+        );
+      })}
+    </ul>
 
-  <!-- CTA Button -->
-  <a
-    href="/donate"
-    class="shrink-0 rounded-full bg-primary px-5 py-2.5 font-heading text-sm font-medium text-white transition-colors hover:bg-primary-hover"
-  >
-    Support Healing
-  </a>
+    <!-- CTA Button -->
+    <a
+      href="/donate"
+      class="shrink-0 rounded-full bg-primary px-5 py-2.5 font-heading text-sm font-medium text-white transition-colors hover:bg-primary-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+    >
+      Support Healing
+    </a>
+  </div>
 </nav>
 
 <style>
-  /* Dropdown hover behavior */
+  /* Solid cream bar that blends with the page; bottom border fades in on scroll */
+  nav#desktop-nav {
+    border-bottom: 1px solid transparent;
+    transition: border-color 200ms ease-out;
+  }
+  nav#desktop-nav.nav-scrolled {
+    border-bottom-color: rgba(38, 38, 38, 0.08);
+  }
+
+  /* Active item: 2px teal underline directly below the text (selector hook = aria-current) */
+  nav#desktop-nav a[aria-current='page'] {
+    position: relative;
+  }
+  nav#desktop-nav > div > ul > li > a[aria-current='page']::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -6px;
+    height: 2px;
+    background-color: var(--color-primary);
+  }
+
+  /* Dropdown reveal */
   li[data-dropdown] > ul {
     transition: opacity 0.15s ease, visibility 0.15s ease;
     transition-delay: 0.05s;
   }
-
   li[data-dropdown]:hover > ul,
   li[data-dropdown]:focus-within > ul {
     opacity: 1;
@@ -147,15 +184,9 @@ function isActive(item: NavItem): boolean {
     pointer-events: auto;
     transition-delay: 0s;
   }
-
   li[data-dropdown]:hover > a svg,
   li[data-dropdown]:focus-within > a svg {
     transform: rotate(180deg);
-  }
-
-  /* Scroll shadow class added via JS */
-  nav.nav-scrolled {
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   }
 </style>
 
@@ -163,18 +194,38 @@ function isActive(item: NavItem): boolean {
   const nav = document.getElementById('desktop-nav');
   if (nav) {
     let ticking = false;
-    window.addEventListener('scroll', () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          if (window.scrollY > 50) {
-            nav.classList.add('nav-scrolled');
-          } else {
-            nav.classList.remove('nav-scrolled');
-          }
-          ticking = false;
-        });
-        ticking = true;
+    const update = () => {
+      if (window.scrollY > 0) {
+        nav.classList.add('nav-scrolled');
+      } else {
+        nav.classList.remove('nav-scrolled');
       }
-    });
+      ticking = false;
+    };
+    update();
+    window.addEventListener(
+      'scroll',
+      () => {
+        if (!ticking) {
+          window.requestAnimationFrame(update);
+          ticking = true;
+        }
+      },
+      { passive: true }
+    );
   }
+
+  // Keep aria-expanded in sync with hover/focus open state on dropdown triggers
+  document.querySelectorAll<HTMLLIElement>('nav#desktop-nav li[data-dropdown]').forEach((li) => {
+    const trigger = li.querySelector<HTMLAnchorElement>(':scope > a');
+    if (!trigger) return;
+    const setOpen = (open: boolean) => trigger.setAttribute('aria-expanded', String(open));
+    li.addEventListener('mouseenter', () => setOpen(true));
+    li.addEventListener('mouseleave', () => setOpen(false));
+    li.addEventListener('focusin', () => setOpen(true));
+    li.addEventListener('focusout', (e) => {
+      const next = e.relatedTarget as Node | null;
+      if (!next || !li.contains(next)) setOpen(false);
+    });
+  });
 </script>

@@ -60,33 +60,37 @@ function isActive(item: NavItem): boolean {
 }
 ---
 
-<!-- Mobile Nav Bar -->
+<!-- Mobile Nav Bar (closed state): logo | centered pill | hamburger -->
 <nav
   id="mobile-nav"
   aria-label="Mobile navigation"
-  class="fixed top-5 left-1/2 z-50 flex w-[95%] max-w-[600px] -translate-x-1/2 items-center justify-between rounded-[1000px] bg-[rgba(250,248,245,0.9)] px-5 py-3 pr-3 backdrop-blur-[12px] transition-shadow duration-300 lg:hidden"
+  class="fixed top-0 left-0 right-0 z-50 grid grid-cols-[1fr_auto_1fr] items-center gap-3 bg-bg-page px-4 py-3 lg:hidden"
 >
-  <!-- Logo -->
-  <a href="/" aria-label="Jewmanity home" class="shrink-0">
+  <!-- Logo (left) -->
+  <a
+    href="/"
+    aria-label="Jewmanity home"
+    class="justify-self-start shrink-0 rounded-full focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+  >
     <img src="/images/logo.png" alt="Jewmanity" width="50" height="33" class="h-8 w-auto" />
   </a>
 
-  <!-- CTA Button -->
+  <!-- CTA pill (center) — visible in closed state by design -->
   <a
     href="/donate"
-    class="rounded-full bg-primary px-5 py-2.5 font-heading text-sm font-medium text-white transition-colors hover:bg-primary-hover"
+    class="justify-self-center whitespace-nowrap rounded-full bg-primary px-5 py-2 font-heading text-sm font-medium text-white transition-colors hover:bg-primary-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
   >
     Support Healing
   </a>
 
-  <!-- Hamburger Button -->
+  <!-- Hamburger (right) -->
   <button
     id="mobile-menu-toggle"
     type="button"
     aria-label="Open menu"
     aria-expanded="false"
     aria-controls="mobile-menu-panel"
-    class="flex h-10 w-10 items-center justify-center rounded-full transition-colors hover:bg-black/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+    class="justify-self-end flex h-10 w-10 items-center justify-center rounded-full transition-colors hover:bg-black/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
   >
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
       <path d="M3 7H21M3 12H21M3 17H21" stroke="#3783A3" stroke-width="2" stroke-linecap="round"/>
@@ -94,7 +98,7 @@ function isActive(item: NavItem): boolean {
   </button>
 </nav>
 
-<!-- Mobile Menu Panel -->
+<!-- Mobile Menu Panel (slide-in) -->
 <div
   id="mobile-menu-panel"
   class="fixed inset-0 z-[60] translate-x-full bg-bg-page transition-transform duration-300 ease-in-out lg:hidden"
@@ -117,66 +121,72 @@ function isActive(item: NavItem): boolean {
 
     <!-- Nav Links -->
     <ul class="mt-8 flex flex-col gap-2">
-      {navItems.map((item) => (
-        <li>
-          {item.children ? (
-            <div class="mobile-accordion">
-              <button
-                type="button"
+      {navItems.map((item) => {
+        const active = isActive(item);
+        return (
+          <li>
+            {item.children ? (
+              <div class="mobile-accordion">
+                <button
+                  type="button"
+                  class:list={[
+                    'flex w-full items-center justify-between rounded-lg px-4 py-3 font-heading text-lg font-medium transition-colors hover:bg-black/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary',
+                    active ? 'text-primary' : 'text-text-heading',
+                  ]}
+                  aria-expanded="false"
+                >
+                  {item.label}
+                  <svg
+                    class="h-5 w-5 transition-transform duration-200"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    aria-hidden="true"
+                  >
+                    <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+                <ul class="hidden flex-col gap-1 pl-4" role="group">
+                  {item.children.map((child) => {
+                    const childActive = currentPath === child.href || currentPath === child.href + '/';
+                    return (
+                      <li>
+                        <a
+                          href={child.href}
+                          aria-current={childActive ? 'page' : undefined}
+                          class:list={[
+                            'block rounded-lg px-4 py-2 font-body text-base transition-colors hover:bg-black/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary',
+                            childActive ? 'text-primary font-medium' : 'text-text-body',
+                          ]}
+                        >
+                          {child.label}
+                        </a>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            ) : (
+              <a
+                href={item.href}
+                aria-current={active ? 'page' : undefined}
                 class:list={[
-                  'flex w-full items-center justify-between rounded-lg px-4 py-3 font-heading text-lg font-medium transition-colors hover:bg-black/5',
-                  isActive(item) ? 'text-primary' : 'text-text-heading',
+                  'block rounded-lg px-4 py-3 font-heading text-lg font-medium transition-colors hover:bg-black/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary',
+                  active ? 'text-primary' : 'text-text-heading',
                 ]}
-                aria-expanded="false"
               >
                 {item.label}
-                <svg
-                  class="h-5 w-5 transition-transform duration-200"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  aria-hidden="true"
-                >
-                  <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </button>
-              <ul class="hidden flex-col gap-1 pl-4" role="group">
-                {item.children.map((child) => (
-                  <li>
-                    <a
-                      href={child.href}
-                      class:list={[
-                        'block rounded-lg px-4 py-2 font-body text-base transition-colors hover:bg-black/5',
-                        (currentPath === child.href || currentPath === child.href + '/')
-                          ? 'text-primary font-medium'
-                          : 'text-text-body',
-                      ]}
-                    >
-                      {child.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ) : (
-            <a
-              href={item.href}
-              class:list={[
-                'block rounded-lg px-4 py-3 font-heading text-lg font-medium transition-colors hover:bg-black/5',
-                isActive(item) ? 'text-primary' : 'text-text-heading',
-              ]}
-            >
-              {item.label}
-            </a>
-          )}
-        </li>
-      ))}
+              </a>
+            )}
+          </li>
+        );
+      })}
     </ul>
 
     <!-- Bottom CTA -->
     <div class="mt-auto pt-8 pb-4">
       <a
         href="/donate"
-        class="block w-full rounded-full bg-primary py-3.5 text-center font-heading text-base font-medium text-white transition-colors hover:bg-primary-hover"
+        class="block w-full rounded-full bg-primary py-3.5 text-center font-heading text-base font-medium text-white transition-colors hover:bg-primary-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
       >
         Support Healing
       </a>
@@ -185,14 +195,18 @@ function isActive(item: NavItem): boolean {
 </div>
 
 <style>
-  #mobile-nav.nav-scrolled {
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  /* Solid cream bar; bottom border fades in once the page scrolls */
+  nav#mobile-nav {
+    border-bottom: 1px solid transparent;
+    transition: border-color 200ms ease-out;
+  }
+  nav#mobile-nav.nav-scrolled {
+    border-bottom-color: rgba(38, 38, 38, 0.08);
   }
 
   .mobile-accordion[data-expanded='true'] > ul {
     display: flex;
   }
-
   .mobile-accordion[data-expanded='true'] > button svg {
     transform: rotate(180deg);
   }
@@ -209,6 +223,7 @@ function isActive(item: NavItem): boolean {
     panel.classList.remove('translate-x-full');
     panel.setAttribute('aria-hidden', 'false');
     toggle.setAttribute('aria-expanded', 'true');
+    toggle.setAttribute('aria-label', 'Close menu');
     document.body.style.overflow = 'hidden';
   }
 
@@ -217,28 +232,27 @@ function isActive(item: NavItem): boolean {
     panel.classList.add('translate-x-full');
     panel.setAttribute('aria-hidden', 'true');
     toggle.setAttribute('aria-expanded', 'false');
+    toggle.setAttribute('aria-label', 'Open menu');
     document.body.style.overflow = '';
   }
 
   toggle?.addEventListener('click', openMenu);
   closeBtn?.addEventListener('click', closeMenu);
 
-  // Close on Escape
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && !panel?.classList.contains('translate-x-full')) {
       closeMenu();
     }
   });
 
-  // Close on click outside (clicking the backdrop area)
   panel?.addEventListener('click', (e) => {
     if (e.target === panel) {
       closeMenu();
     }
   });
 
-  // Accordion behavior
-  document.querySelectorAll('.mobile-accordion > button').forEach((btn) => {
+  // Accordion behavior + aria-expanded sync
+  document.querySelectorAll<HTMLButtonElement>('.mobile-accordion > button').forEach((btn) => {
     btn.addEventListener('click', () => {
       const accordion = btn.parentElement;
       if (!accordion) return;
@@ -248,21 +262,27 @@ function isActive(item: NavItem): boolean {
     });
   });
 
-  // Scroll shadow for mobile nav
+  // Scroll-fade bottom border
   if (mobileNav) {
     let ticking = false;
-    window.addEventListener('scroll', () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          if (window.scrollY > 50) {
-            mobileNav.classList.add('nav-scrolled');
-          } else {
-            mobileNav.classList.remove('nav-scrolled');
-          }
-          ticking = false;
-        });
-        ticking = true;
+    const update = () => {
+      if (window.scrollY > 0) {
+        mobileNav.classList.add('nav-scrolled');
+      } else {
+        mobileNav.classList.remove('nav-scrolled');
       }
-    });
+      ticking = false;
+    };
+    update();
+    window.addEventListener(
+      'scroll',
+      () => {
+        if (!ticking) {
+          window.requestAnimationFrame(update);
+          ticking = true;
+        }
+      },
+      { passive: true }
+    );
   }
 </script>
