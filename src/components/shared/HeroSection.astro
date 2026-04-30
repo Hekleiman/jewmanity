@@ -9,7 +9,7 @@ interface Props {
   ctaHref?: string;
 }
 
-const { heading, subtitle, backgroundImage, imagePosition = 'center 30%', heightClass = 'min-h-[55vh] md:min-h-[60vh]', ctaText, ctaHref } = Astro.props;
+const { heading, subtitle, backgroundImage, imagePosition = 'center 25%', heightClass = 'min-h-[55vh] md:min-h-[60vh]', ctaText, ctaHref } = Astro.props;
 ---
 
 <section class:list={["relative flex items-center justify-center overflow-hidden", heightClass]}>
