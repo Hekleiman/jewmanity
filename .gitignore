@@ -32,3 +32,6 @@ public/images/figma-raw/
 
 # jetbrains setting folder
 .idea/
+
+# Claude Code tooling artifacts
+.claude/
