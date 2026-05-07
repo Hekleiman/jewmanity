@@ -270,6 +270,6 @@ export default defineConfig({
 
 ### Manual steps remaining for production cutover
 - [ ] Ensure Vercel project has `PUBLIC_SANITY_PROJECT_ID` and `PUBLIC_SANITY_DATASET` env vars set (both have hardcoded fallbacks, so redeploy is safe even if missing — but making them explicit is worth it)
-- [ ] Point `jewmanity.org` DNS to the Vercel project
+- [ ] Point `jewmanity.com` DNS to the Vercel project [corrected 2026-05-07: domain is .com, original snapshot incorrectly said .org]
 - [ ] Configure Sanity → Vercel deploy hook (see Sanity section above)
 - [ ] Decide on custom security headers (CSP, HSTS) — none currently in `vercel.json`

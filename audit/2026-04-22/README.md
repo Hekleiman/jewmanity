@@ -44,7 +44,7 @@ HEAD at audit time: **`fbadfc5`** on `main` (clean working tree, 0 ahead / 0 beh
 3. Swap Snipcart TEST key for LIVE key in `Layout.astro:94`.
 4. Fix the hotspot bug in `urlForCropped`.
 5. Decide fix approach + update docstring to match.
-6. Point `jewmanity.org` DNS at Vercel with TLS.
+6. Point `jewmanity.com` DNS at Vercel with TLS. [corrected 2026-05-07: domain is .com, original snapshot incorrectly said .org]
 
 **Important** (launch-worthy only with explicit acceptance):
 7. Rotate `SANITY_API_TOKEN`.

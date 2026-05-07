@@ -20,7 +20,7 @@ Owner abbreviations: **Er** = Hekleiman (primary dev); **Belinda** = client; **H
 | 3 | Swap Snipcart TEST key (`YzI4MTdlM2Yt…`) at `src/layouts/Layout.astro:94` for a LIVE public key, and remove the "TEST API key" comment on line 95 | code fix + external account setup | Belinda (subscribe + create live store) + Er (swap key) | a test checkout on `/shop/<slug>` processes a real $1 order end-to-end |
 | 4 | Fix the hotspot bug in `urlForCropped` (`src/lib/sanity.ts:29-31`) so URLs include `fp-x`/`fp-y` (or use the library auto-rect path) | code fix | Er | a team photo at `/about/team` with an off-center hotspot renders with the focal point correctly cropped; verify via byte-level CDN diff on three team photos |
 | 5 | Decide and implement: keep `crop=focalpoint` + add `.focalPoint(x,y)`, OR drop `.crop('focalpoint')` and rely on library auto-rect. Update the `urlForCropped` docstring (lines 20-28 of `src/lib/sanity.ts`) to reflect chosen approach | code fix + decision | Er | docstring matches behavior; behavior verified against Sanity docs |
-| 6 | Point `jewmanity.org` DNS at the Vercel project and set up TLS | external account setup | Belinda + Er (coordinate) | `https://jewmanity.org` returns the Vercel-built site with a valid cert |
+| 6 | Point `jewmanity.com` DNS at the Vercel project and set up TLS [corrected 2026-05-07: domain is .com, original snapshot incorrectly said .org] | external account setup | Belinda + Er (coordinate) | `https://jewmanity.com` returns the Vercel-built site with a valid cert |
 
 ## Important
 
