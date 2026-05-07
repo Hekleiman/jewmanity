@@ -226,14 +226,14 @@ export default defineType({
           title: 'Link Text',
           type: 'string',
           description:
-            "The visible link text. Tip: if href is a mailto link, this text usually reads like 'Contact us at name@example.com'. If href is a page link, simpler text like 'Contact us' works better.",
+            "The visible link text. Examples: 'Get in touch', 'Contact us', 'Reach out to our team'.",
         }),
         defineField({
           name: 'href',
           title: 'Link URL',
           type: 'string',
           description:
-            "Where this link goes. Options: (1) An internal path like '/get-involved/contact' to open the contact page. (2) A mailto link like 'mailto:donations@jewmanity.com' to open the user's email client with the address pre-filled. (3) An external URL.",
+            "Where this link goes. Options: (1) An internal path like '/get-involved/contact' to open the contact form. (2) An external URL.",
         }),
       ],
     }),
