@@ -34,9 +34,13 @@ import recommendedArticle from './documents/recommendedArticle';
 // Singleton page documents
 import homepage from './singletons/homepage';
 import aboutStory from './singletons/aboutStory';
+import aboutTeamPage from './singletons/aboutTeamPage';
+import aboutCommunityStoriesPage from './singletons/aboutCommunityStoriesPage';
 import headsUp from './singletons/headsUp';
+import programsPastRetreatsPage from './singletons/programsPastRetreatsPage';
 import fightingAntisemitism from './singletons/fightingAntisemitism';
 import resources from './singletons/resources';
+import communityRecipesPage from './singletons/communityRecipesPage';
 import donatePage from './singletons/donatePage';
 import shopPage from './singletons/shopPage';
 import volunteerPage from './singletons/volunteerPage';
@@ -82,9 +86,13 @@ export const schemaTypes = [
   // Singletons
   homepage,
   aboutStory,
+  aboutTeamPage,
+  aboutCommunityStoriesPage,
   headsUp,
+  programsPastRetreatsPage,
   fightingAntisemitism,
   resources,
+  communityRecipesPage,
   donatePage,
   shopPage,
   volunteerPage,
@@ -97,9 +105,13 @@ export const schemaTypes = [
 export const singletonTypes = new Set([
   'homepage',
   'aboutStory',
+  'aboutTeamPage',
+  'aboutCommunityStoriesPage',
   'headsUp',
+  'programsPastRetreatsPage',
   'fightingAntisemitism',
   'resources',
+  'communityRecipesPage',
   'donatePage',
   'shopPage',
   'volunteerPage',

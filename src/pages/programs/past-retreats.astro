@@ -4,7 +4,22 @@ import HeroSection from '../../components/shared/HeroSection.astro';
 import RetreatGrid from '../../components/programs/RetreatGrid.astro';
 import TestimonialCarousel from '../../components/shared/TestimonialCarousel.astro';
 import CTASection from '../../components/shared/CTASection.astro';
-import { getRetreats, getTestimonials, urlFor, urlForCropped } from '../../lib/sanity';
+import { getProgramsPastRetreatsPage, getRetreats, getTestimonials, urlFor, urlForCropped } from '../../lib/sanity';
+
+let cms: Record<string, any> | null = null;
+try {
+  cms = await getProgramsPastRetreatsPage();
+} catch (e) {
+  console.warn('Sanity fetch failed for programsPastRetreatsPage, using hardcoded fallbacks');
+}
+
+const heroBg = cms?.hero?.backgroundImage
+  ? urlFor(cms.hero.backgroundImage).width(1920).quality(80).url()
+  : '/images/hero/past-retreats.jpg';
+
+const ctaPrimary = cms?.ctaPrimaryButton?.text && cms?.ctaPrimaryButton?.href
+  ? cms.ctaPrimaryButton
+  : { text: 'Learn More About Heads Up', href: '/programs/heads-up' };
 
 let cmsRetreats: { title: string; location: string; description: string; href: string; image?: string }[] = [];
 try {
@@ -39,18 +54,22 @@ try {
 ---
 <Layout title="Past Retreats | Jewmanity" description="Stories of courage, connection, and healing from Jewmanity's Heads Up retreat program.">
   <HeroSection
-    heading="Past Retreats"
-    subtitle="Jewmanity creates safe, restorative spaces where Israeli soldiers and their loved ones find healing, connection, and renewed hope."
-    backgroundImage="/images/hero/past-retreats.jpg"
+    heading={cms?.hero?.heading ?? 'Past Retreats'}
+    subtitle={cms?.hero?.subtitle ?? 'Jewmanity creates safe, restorative spaces where Israeli soldiers and their loved ones find healing, connection, and renewed hope.'}
+    backgroundImage={heroBg}
     imagePosition="center 20%"
   />
-  <RetreatGrid retreats={cmsRetreats.length > 0 ? cmsRetreats : undefined} />
+  <RetreatGrid
+    retreats={cmsRetreats.length > 0 ? cmsRetreats : undefined}
+    heading={cms?.gridHeading}
+    subtitle={cms?.gridSubtitle}
+  />
   <TestimonialCarousel
-    heading="What Our Attendees Say"
-    subtitle="Honest reflections from those who found healing, connection, and renewed strength through Heads Up."
+    heading={cms?.testimonialsHeading ?? 'What Our Attendees Say'}
+    subtitle={cms?.testimonialsSubtitle ?? 'Honest reflections from those who found healing, connection, and renewed strength through Heads Up.'}
     testimonials={cmsTestimonials.length > 0 ? cmsTestimonials : [
       {
-        quote: 'After October 7th, I lost my faith \u2014 especially in myself. Through Jewmanity, I spent a month in the U.S. healing and being supported by professional care. This journey helped me believe in myself again.',
+        quote: 'After October 7th, I lost my faith, especially in myself. Through Jewmanity, I spent a month in the U.S. healing and being supported by professional care. This journey helped me believe in myself again.',
         author: 'Matan Balahsan',
         context: 'Heads Up Participant',
       },
@@ -62,8 +81,8 @@ try {
     ]}
   />
   <CTASection
-    heading="Healing Happens Together"
-    subtitle="These retreats continue to create space for healing, connection, and transformation. Your support helps us expand our reach and serve more individuals on their journey toward recovery."
-    primaryCta={{ text: 'Learn More About Heads Up', href: '/programs/heads-up' }}
+    heading={cms?.ctaHeading ?? 'Healing Happens Together'}
+    subtitle={cms?.ctaSubtitle ?? 'These retreats continue to create space for healing, connection, and transformation. Your support helps us expand our reach and serve more individuals on their journey toward recovery.'}
+    primaryCta={ctaPrimary}
   />
 </Layout>
