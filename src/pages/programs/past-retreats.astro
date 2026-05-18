@@ -44,7 +44,7 @@ try {
     backgroundImage="/images/hero/past-retreats.jpg"
     imagePosition="center 20%"
   />
-  <RetreatGrid />
+  <RetreatGrid retreats={cmsRetreats.length > 0 ? cmsRetreats : undefined} />
   <TestimonialCarousel
     heading="What Our Attendees Say"
     subtitle="Honest reflections from those who found healing, connection, and renewed strength through Heads Up."

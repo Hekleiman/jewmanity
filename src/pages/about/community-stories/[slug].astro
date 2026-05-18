@@ -84,18 +84,17 @@ export async function getStaticPaths() {
     console.warn('Sanity fetch failed for community story paths, using fallback');
   }
 
-  const allSlugs = ['first-retreat', 'golani-boys-return', 'brave-girls', 'fathers-fighters-finding-peace', 'joy-of-giving', 'believing-again'];
-  const allowedSlugs = new Set(allSlugs);
+  const fallbackSlugs = ['first-retreat', 'golani-boys-return', 'brave-girls', 'fathers-fighters-finding-peace', 'joy-of-giving', 'believing-again'];
 
   const cmsPaths = cmsStories
-    .filter((s) => s.slug && allowedSlugs.has(s.slug as string))
+    .filter((s) => s.slug)
     .map((s) => ({
       params: { slug: s.slug as string },
       props: { story: s },
     }));
 
   const cmsSlugs = new Set(cmsPaths.map((p) => p.params.slug));
-  const fallbackPaths = allSlugs
+  const fallbackPaths = fallbackSlugs
     .filter((s) => !cmsSlugs.has(s))
     .map((s) => ({ params: { slug: s } }));
 

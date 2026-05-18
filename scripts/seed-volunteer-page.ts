@@ -118,7 +118,6 @@ async function main() {
 
     faqHeading: 'Frequently Asked Questions',
     faqSubtitle: "Have questions? We're here to help.",
-    faqContext: 'volunteer',
 
     formHeading: 'Volunteer Application',
     formSubtitle: "Fill out the form below and we'll be in touch to find the right fit for you.",
