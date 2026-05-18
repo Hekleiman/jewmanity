@@ -11,6 +11,7 @@ interface SiteSettings {
   ein?: string | null;
   socialLinks?: SocialLinks | null;
   copyrightText?: string | null;
+  footerTagline?: string | null;
 }
 
 interface Props {
@@ -22,6 +23,7 @@ const { siteSettings } = Astro.props;
 const orgName = siteSettings?.orgName || 'Jewmanity';
 const ein = siteSettings?.ein || '99-4219099';
 const copyrightText = siteSettings?.copyrightText || 'A registered 501(c)(3) nonprofit organization.';
+const footerTagline = siteSettings?.footerTagline || null;
 
 const facebook = siteSettings?.socialLinks?.facebook || 'https://www.facebook.com/profile.php?id=61577185790846';
 const instagram = siteSettings?.socialLinks?.instagram || 'https://www.instagram.com/jewmanity_';
@@ -93,6 +95,12 @@ const currentYear = new Date().getFullYear();
         </a>
       )}
     </div>
+
+    {footerTagline && (
+      <p class="text-center font-heading text-base leading-relaxed text-[rgba(250,248,245,0.85)]">
+        {footerTagline}
+      </p>
+    )}
 
     <!-- Text Block -->
     <div class="flex flex-col items-center gap-4">

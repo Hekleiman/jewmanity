@@ -229,6 +229,78 @@ export async function getAboutStory() {
   `);
 }
 
+export async function getAboutTeamPage() {
+  return client.fetch(`
+    *[_type == "aboutTeamPage"][0] {
+      "hero": {
+        "heading": hero.heading,
+        "subtitle": hero.subtitle,
+        "backgroundImage": hero.backgroundImage
+      },
+      ctaHeading,
+      ctaSubtitle,
+      ctaPrimaryButton,
+      ctaSecondaryButton
+    }
+  `);
+}
+
+export async function getAboutCommunityStoriesPage() {
+  return client.fetch(`
+    *[_type == "aboutCommunityStoriesPage"][0] {
+      "hero": {
+        "heading": hero.heading,
+        "subtitle": hero.subtitle,
+        "backgroundImage": hero.backgroundImage
+      },
+      introParagraphs,
+      voicesHeading,
+      voicesSubtitle,
+      ctaHeading,
+      ctaSubtitle,
+      ctaPrimaryButton
+    }
+  `);
+}
+
+export async function getProgramsPastRetreatsPage() {
+  return client.fetch(`
+    *[_type == "programsPastRetreatsPage"][0] {
+      "hero": {
+        "heading": hero.heading,
+        "subtitle": hero.subtitle,
+        "backgroundImage": hero.backgroundImage
+      },
+      gridHeading,
+      gridSubtitle,
+      testimonialsHeading,
+      testimonialsSubtitle,
+      ctaHeading,
+      ctaSubtitle,
+      ctaPrimaryButton
+    }
+  `);
+}
+
+export async function getCommunityRecipesPage() {
+  return client.fetch(`
+    *[_type == "communityRecipesPage"][0] {
+      "hero": {
+        "heading": hero.heading,
+        "subtitle": hero.subtitle,
+        "backgroundImage": hero.backgroundImage
+      },
+      introParagraphs[]{
+        text,
+        italic
+      },
+      ctaHeading,
+      ctaSubtitle,
+      ctaPrimaryButton
+    }
+  `);
+}
+
 export async function getHeadsUp() {
   return client.fetch(`
     *[_type == "headsUp"][0] {

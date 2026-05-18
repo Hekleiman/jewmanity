@@ -158,7 +158,6 @@ async function main() {
 
     faqHeading: 'Frequently Asked Questions',
     faqSubtitle: "Have questions? We're here to help.",
-    faqContext: 'donate',
 
     ctaHeading: 'Healing Happens Because of You',
     ctaDescription:

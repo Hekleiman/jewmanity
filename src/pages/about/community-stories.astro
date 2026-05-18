@@ -2,7 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import HeroSection from '../../components/shared/HeroSection.astro';
 import CTASection from '../../components/shared/CTASection.astro';
-import { getTestimonials, urlForCropped } from '../../lib/sanity';
+import { getAboutCommunityStoriesPage, getTestimonials, urlFor, urlForCropped } from '../../lib/sanity';
 import type { SanityImageSource } from '@sanity/image-url/lib/types/types';
 
 interface PersonalStory {
@@ -13,19 +13,43 @@ interface PersonalStory {
   imageUrl: string;
 }
 
+let cms: Record<string, any> | null = null;
+try {
+  cms = await getAboutCommunityStoriesPage();
+} catch (e) {
+  console.warn('Sanity fetch failed for aboutCommunityStoriesPage, using hardcoded fallbacks');
+}
+
+const heroBg = cms?.hero?.backgroundImage
+  ? urlFor(cms.hero.backgroundImage).width(1920).quality(80).url()
+  : '/images/hero/community-stories.jpg';
+
+const fallbackIntroParagraphs: string[] = [
+  'For thousands of years, Jewish communities have embodied a commitment to compassion, service, and mutual responsibility. This is not a recent response to crisis. It is woven into the fabric of our identity.',
+  'From ancient traditions of caring for the stranger to modern innovations in medical aid and social services, these stories reflect a timeless dedication to human dignity and the belief that we are all responsible for one another.',
+];
+
+const introParagraphs: string[] = Array.isArray(cms?.introParagraphs) && cms!.introParagraphs.length > 0
+  ? (cms!.introParagraphs as string[])
+  : fallbackIntroParagraphs;
+
+const ctaPrimary = cms?.ctaPrimaryButton?.text && cms?.ctaPrimaryButton?.href
+  ? cms.ctaPrimaryButton
+  : { text: 'Get Involved', href: '/get-involved/volunteer' };
+
 const fallbackStories: PersonalStory[] = [
   {
     name: 'Matan Balahsan',
     role: 'Heads Up Participant',
     slug: 'matan-balahsan',
-    quote: "My name is Matan Balahsan. I'm 23 years old, recently married. After October 7th, I lost my faith \u2014 especially in myself. Through my journey with the Jewmanity organization, we spent a month in the U.S. healing, sharing, and being supported by professional care. This journey helped me believe in myself again. When I came back to Israel, I finally knew how to move forward. I want to say thank you to Jewmanity for everything. Keep going. Am Israel Chai. Thank you for everything.",
+    quote: "My name is Matan Balahsan. I'm 23 years old, recently married. After October 7th, I lost my faith — especially in myself. Through my journey with the Jewmanity organization, we spent a month in the U.S. healing, sharing, and being supported by professional care. This journey helped me believe in myself again. When I came back to Israel, I finally knew how to move forward. I want to say thank you to Jewmanity for everything. Keep going. Am Israel Chai. Thank you for everything.",
     imageUrl: '/images/testimonials/matan.png',
   },
   {
     name: 'Dahlia',
     role: 'Volunteer',
     slug: 'dahlia',
-    quote: "I have no words to express my appreciation for Jewmanity, the amazing organization dedicated to providing support for soldiers who live with PTSD after going through war. Every one of them carries a whole life story. They come from all ages and backgrounds \u2014 men and women, married and single \u2014 and each one of them matters deeply to me.\n\nAs a volunteer, I don't do anything big or heroic. Sometimes I cook a meal or two for them. Sometimes I help during our surfing activities. Simple things. But the way they appreciate it touches me more than I can explain.\n\nI give them my heart, my time, and my presence, and somehow I receive so much back. We meet a couple of groups each year, and every time I'm reminded how powerful human connection can be. Being with them, listening, laughing, supporting them through difficult moments \u2014 I enjoy every single minute. The joy of giving to them feels endless, and I'm grateful to be part of their journey.",
+    quote: "I have no words to express my appreciation for Jewmanity, the amazing organization dedicated to providing support for soldiers who live with PTSD after going through war. Every one of them carries a whole life story. They come from all ages and backgrounds — men and women, married and single — and each one of them matters deeply to me.\n\nAs a volunteer, I don't do anything big or heroic. Sometimes I cook a meal or two for them. Sometimes I help during our surfing activities. Simple things. But the way they appreciate it touches me more than I can explain.\n\nI give them my heart, my time, and my presence, and somehow I receive so much back. We meet a couple of groups each year, and every time I'm reminded how powerful human connection can be. Being with them, listening, laughing, supporting them through difficult moments — I enjoy every single minute. The joy of giving to them feels endless, and I'm grateful to be part of their journey.",
     imageUrl: '/images/testimonials/dahlia.png',
   },
 ];
@@ -58,21 +82,20 @@ if (personalStories.length === 0) {
 ---
 <Layout title="Community Stories | Jewmanity" description="Inspiring stories of compassion, service, and solidarity from Jewish communities around the world.">
   <HeroSection
-    heading="Community Stories"
-    subtitle="Celebrating the legacy of care, resilience, and humanity that defines Jewish communities around the world"
-    backgroundImage="/images/hero/community-stories.jpg"
+    heading={cms?.hero?.heading ?? 'Community Stories'}
+    subtitle={cms?.hero?.subtitle ?? 'Celebrating the legacy of care, resilience, and humanity that defines Jewish communities around the world'}
+    backgroundImage={heroBg}
     imagePosition="center 10%"
   />
 
   <section id="intro" class="py-16 md:py-20 lg:py-24">
     <div class="mx-auto max-w-[800px] px-6 text-center">
       <div class="space-y-6">
-        <p class="font-body text-[15px] leading-relaxed text-text-body md:text-base">
-          For thousands of years, Jewish communities have embodied a commitment to compassion, service, and mutual responsibility. This is not a recent response to crisis—it is woven into the fabric of our identity.
-        </p>
-        <p class="font-body text-[15px] leading-relaxed text-text-body md:text-base">
-          From ancient traditions of caring for the stranger to modern innovations in medical aid and social services, these stories reflect a timeless dedication to human dignity and the belief that we are all responsible for one another.
-        </p>
+        {introParagraphs.map((p) => (
+          <p class="font-body text-[15px] leading-relaxed text-text-body md:text-base">
+            {p}
+          </p>
+        ))}
       </div>
     </div>
   </section>
@@ -82,10 +105,10 @@ if (personalStories.length === 0) {
     <div class="mx-auto max-w-[1200px] px-6">
       <div class="mb-12 text-center" data-animate="fade-up">
         <h2 class="font-heading text-[clamp(28px,4vw,36px)] font-medium leading-tight text-text-heading">
-          Voices from Our Community
+          {cms?.voicesHeading ?? 'Voices from Our Community'}
         </h2>
         <p class="mx-auto mt-4 max-w-[700px] font-body text-[15px] leading-relaxed text-text-body md:text-base">
-          Real stories from the people whose lives have been touched by Jewmanity
+          {cms?.voicesSubtitle ?? 'Real stories from the people whose lives have been touched by Jewmanity'}
         </p>
       </div>
 
@@ -133,8 +156,8 @@ if (personalStories.length === 0) {
   </section>
 
   <CTASection
-    heading="Be Part of the Ongoing Story"
-    subtitle="Every act of care, every moment of connection, every gesture of support adds a new chapter to this living legacy. Join us in building a more compassionate world."
-    primaryCta={{ text: 'Get Involved', href: '/get-involved/volunteer' }}
+    heading={cms?.ctaHeading ?? 'Be Part of the Ongoing Story'}
+    subtitle={cms?.ctaSubtitle ?? 'Every act of care, every moment of connection, every gesture of support adds a new chapter to this living legacy. Join us in building a more compassionate world.'}
+    primaryCta={ctaPrimary}
   />
 </Layout>

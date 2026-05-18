@@ -3,7 +3,26 @@ import Layout from '../../layouts/Layout.astro';
 import HeroSection from '../../components/shared/HeroSection.astro';
 import TeamGrid from '../../components/about/TeamGrid.astro';
 import CTASection from '../../components/shared/CTASection.astro';
-import { getTeamMembers, urlForCropped } from '../../lib/sanity';
+import { getAboutTeamPage, getTeamMembers, urlFor, urlForCropped } from '../../lib/sanity';
+
+let cms: Record<string, any> | null = null;
+try {
+  cms = await getAboutTeamPage();
+} catch (e) {
+  console.warn('Sanity fetch failed for aboutTeamPage, using hardcoded fallbacks');
+}
+
+const heroBg = cms?.hero?.backgroundImage
+  ? urlFor(cms.hero.backgroundImage).width(1920).quality(80).url()
+  : '/images/hero/about-team.jpg';
+
+const ctaPrimary = cms?.ctaPrimaryButton?.text && cms?.ctaPrimaryButton?.href
+  ? cms.ctaPrimaryButton
+  : { text: 'Learn How to Get Involved', href: '/get-involved/volunteer' };
+
+const ctaSecondary = cms?.ctaSecondaryButton?.text && cms?.ctaSecondaryButton?.href
+  ? cms.ctaSecondaryButton
+  : undefined;
 
 let cmsMembers: { name: string; role: string; bio: string; image?: string }[] = [];
 try {
@@ -20,14 +39,15 @@ try {
 ---
 <Layout title="Our Team | Jewmanity" description="Meet the dedicated leaders, advocates, and community members behind Jewmanity's mission of healing and resilience.">
   <HeroSection
-    heading="Meet the People Behind Jewmanity"
-    subtitle="A dedicated team united by compassion, lived experience, and a commitment to building resilience in our community."
-    backgroundImage="/images/hero/about-team.jpg"
+    heading={cms?.hero?.heading ?? 'Meet the People Behind Jewmanity'}
+    subtitle={cms?.hero?.subtitle ?? 'A dedicated team united by compassion, lived experience, and a commitment to building resilience in our community.'}
+    backgroundImage={heroBg}
   />
   <TeamGrid members={cmsMembers.length > 0 ? cmsMembers : undefined} />
   <CTASection
-    heading="Be Part of the Work We Do"
-    subtitle="Join a growing community committed to service, responsibility, and impact."
-    primaryCta={{ text: 'Learn How to Get Involved', href: '/get-involved/volunteer' }}
+    heading={cms?.ctaHeading ?? 'Be Part of the Work We Do'}
+    subtitle={cms?.ctaSubtitle ?? 'Join a growing community committed to service, responsibility, and impact.'}
+    primaryCta={ctaPrimary}
+    secondaryCta={ctaSecondary}
   />
 </Layout>

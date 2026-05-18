@@ -46,9 +46,13 @@ export const structure: StructureResolver = (S) =>
             .items([
               singletonListItem(S, 'homepage', 'Homepage', HomeIcon),
               singletonListItem(S, 'aboutStory', 'Our Story', BookIcon),
+              singletonListItem(S, 'aboutTeamPage', 'Team Page', UsersIcon),
+              singletonListItem(S, 'aboutCommunityStoriesPage', 'Community Stories Page', BookIcon),
               singletonListItem(S, 'headsUp', 'Heads Up Program', BulbOutlineIcon),
+              singletonListItem(S, 'programsPastRetreatsPage', 'Past Retreats Page', CalendarIcon),
               singletonListItem(S, 'fightingAntisemitism', 'Fighting Antisemitism', BlockElementIcon),
               singletonListItem(S, 'resources', 'Mental Health Resources', HeartIcon),
+              singletonListItem(S, 'communityRecipesPage', 'Recipes Page', ComposeIcon),
               singletonListItem(S, 'donatePage', 'Donate Page', CreditCardIcon),
               singletonListItem(S, 'shopPage', 'Shop Page', BasketIcon),
               singletonListItem(S, 'volunteerPage', 'Volunteer Page', UsersIcon),

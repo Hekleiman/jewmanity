@@ -12,7 +12,14 @@ interface ContentBlock {
 }
 
 export async function getStaticPaths() {
-  const retreats = await getRetreats();
+  let retreats: Record<string, unknown>[] = [];
+  try {
+    retreats = await getRetreats();
+  } catch (e) {
+    console.warn('Sanity fetch failed for retreat paths, no detail pages will be built');
+    return [];
+  }
+
   return retreats.map((retreat: Record<string, unknown>) => ({
     params: { slug: (retreat.slug as { current: string }).current },
     props: { retreat },

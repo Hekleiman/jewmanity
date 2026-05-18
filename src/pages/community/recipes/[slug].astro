@@ -290,7 +290,7 @@ export async function getStaticPaths() {
   if (recipes.length > 0) {
     return recipes.map((recipe: any) => ({
       params: { slug: recipe.slug.current },
-      props: { recipe },
+      props: { recipe, allCmsRecipes: recipes },
     }));
   }
 
@@ -307,6 +307,7 @@ export async function getStaticPaths() {
 
 const { slug } = Astro.params;
 const cmsRecipe = Astro.props.recipe || null;
+const allCmsRecipes = (Astro.props.allCmsRecipes as any[] | undefined) ?? [];
 
 const fallback = slug ? allRecipes[slug] : undefined;
 
@@ -357,15 +358,25 @@ interface RelatedRecipe {
   image?: string;
 }
 
-const relatedRecipes: RelatedRecipe[] = recipeSlugs
-  .filter((s) => s !== slug)
-  .slice(0, 3)
-  .map((s) => ({
-    title: allRecipes[s].title,
-    description: allRecipes[s].description,
-    slug: s,
-    image: allRecipes[s].image,
-  }));
+const relatedRecipes: RelatedRecipe[] = allCmsRecipes.length > 0
+  ? allCmsRecipes
+      .filter((r) => r.slug?.current && r.slug.current !== slug)
+      .slice(0, 3)
+      .map((r) => ({
+        title: r.title || '',
+        description: r.description || '',
+        slug: r.slug.current,
+        image: r.image?.asset ? urlFor(r.image).width(800).url() : undefined,
+      }))
+  : recipeSlugs
+      .filter((s) => s !== slug)
+      .slice(0, 3)
+      .map((s) => ({
+        title: allRecipes[s].title,
+        description: allRecipes[s].description,
+        slug: s,
+        image: allRecipes[s].image,
+      }));
 ---
 <Layout title={`${recipeTitle} | Jewmanity`} description={recipeDescription}>
   <RecipePage
