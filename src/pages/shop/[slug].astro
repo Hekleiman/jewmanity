@@ -116,6 +116,7 @@ const productImage = cmsProduct?.mainImage ? urlFor(cmsProduct.mainImage).width(
 const productThumbnails = cmsProduct?.gallery
   ? cmsProduct.gallery.map((img: any) => urlFor(img).width(600).url())
   : fallback.thumbnails;
+const productInStock = cmsProduct ? cmsProduct.inStock !== false : true;
 ---
 <Layout title={`${productName} | Jewmanity Shop`} description={productDescription}>
   <ProductDetail
@@ -128,5 +129,6 @@ const productThumbnails = cmsProduct?.gallery
     image={productImage}
     thumbnails={productThumbnails}
     slug={slug ?? 'heads-up-water-bottle'}
+    inStock={productInStock}
   />
 </Layout>

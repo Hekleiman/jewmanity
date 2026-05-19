@@ -82,7 +82,7 @@ export default defineType({
       name: 'inStock',
       title: 'In Stock',
       type: 'boolean',
-      description: 'Turn off to hide the "Add to Cart" button when sold out.',
+      description: 'Turn off to hide the "Add to Cart" button and show a "Sold Out" indicator instead.',
       initialValue: true,
     }),
     defineField({

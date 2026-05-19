@@ -9,9 +9,10 @@ interface Props {
   image: string;
   thumbnails?: string[];
   slug: string;
+  inStock?: boolean;
 }
 
-const { id, name, price, priceNum, description, features, image, thumbnails = [], slug } = Astro.props;
+const { id, name, price, priceNum, description, features, image, thumbnails = [], slug, inStock = true } = Astro.props;
 const allImages = [image, ...thumbnails].filter(Boolean);
 ---
 
@@ -142,19 +143,28 @@ const allImages = [image, ...thumbnails].filter(Boolean);
         </div>
 
         <!-- Add to Cart -->
-        <button
-          id="add-to-cart-btn"
-          class="snipcart-add-item mt-6 w-full rounded-[100px] bg-primary py-3.5 font-heading text-base font-medium text-white transition-colors hover:bg-primary-hover"
-          data-item-id={id}
-          data-item-name={name}
-          data-item-price={priceNum}
-          data-item-url={`/shop/${slug}`}
-          data-item-description={description}
-          data-item-image={image}
-          data-item-quantity="1"
-        >
-          Add to Cart +
-        </button>
+        {inStock ? (
+          <button
+            id="add-to-cart-btn"
+            class="snipcart-add-item mt-6 w-full rounded-[100px] bg-primary py-3.5 font-heading text-base font-medium text-white transition-colors hover:bg-primary-hover"
+            data-item-id={id}
+            data-item-name={name}
+            data-item-price={priceNum}
+            data-item-url={`/shop/${slug}`}
+            data-item-description={description}
+            data-item-image={image}
+            data-item-quantity="1"
+          >
+            Add to Cart +
+          </button>
+        ) : (
+          <div
+            class="mt-6 w-full rounded-[100px] bg-bg-section-alt py-3.5 text-center font-heading text-base font-medium text-text-muted"
+            aria-label="This product is currently sold out"
+          >
+            Sold Out
+          </div>
+        )}
       </div>
     </div>
   </div>

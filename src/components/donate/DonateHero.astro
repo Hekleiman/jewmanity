@@ -1,18 +1,26 @@
 ---
+interface CtaButton {
+  label: string;
+  url: string;
+  style?: 'primary' | 'secondary';
+}
+
 interface Props {
   imagePosition?: string;
   heading?: string;
   subtitle?: string;
   imageUrl?: string;
   taxNote?: string;
+  ctas?: CtaButton[];
 }
 
-const { imagePosition = 'center 25%', heading, subtitle, imageUrl, taxNote } = Astro.props;
+const { imagePosition = 'center 25%', heading, subtitle, imageUrl, taxNote, ctas } = Astro.props;
 
 const displayHeading = heading || 'Give Today. Create Lasting Impact.';
 const displaySubtitle = subtitle || 'Your donation directly funds healing retreats, community care, and trauma-informed programs like Heads Up—supporting Israelis and Jewish individuals on their journey to recovery.';
 const displayImage = imageUrl || '/images/hero/donate.jpg';
 const displayTaxNote = taxNote || 'We are an official tax exempt organization with a 501(c)(3) classification. All donors can deduct contributions.';
+const heroCtas = (ctas ?? []).filter((c) => c && c.label && c.url).slice(0, 2);
 ---
 
 <section id="donate-hero" class="relative min-h-[85vh] overflow-hidden lg:min-h-[calc(100vh-var(--nav-height))]">
@@ -31,6 +39,23 @@ const displayTaxNote = taxNote || 'We are an official tax exempt organization wi
       <p class="mt-6 font-heading text-sm font-normal leading-relaxed text-white/75 italic">
         {displayTaxNote}
       </p>
+      {heroCtas.length > 0 && (
+        <div class="mt-6 flex flex-wrap gap-3">
+          {heroCtas.map((cta) => (
+            <a
+              href={cta.url}
+              class:list={[
+                'inline-block rounded-[100px] px-8 py-3 font-heading text-base font-medium transition-colors',
+                cta.style === 'secondary'
+                  ? 'border border-white/80 text-white hover:bg-white/10'
+                  : 'bg-[#FAF8F5] text-primary hover:bg-white',
+              ]}
+            >
+              {cta.label}
+            </a>
+          ))}
+        </div>
+      )}
     </div>
 
     <!-- Right: Givebutter donation widget -->

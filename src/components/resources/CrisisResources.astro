@@ -10,7 +10,7 @@ interface CrisisResource {
 interface Props {
   heading?: string;
   introParagraphs?: string[];
-  usResources?: CrisisResource[];
+  resourcesByRegion?: Record<string, CrisisResource[]>;
 }
 
 const fallbackIntroParagraphs: string[] = [
@@ -18,17 +18,35 @@ const fallbackIntroParagraphs: string[] = [
   'You do not have to face this moment alone. Help is available, and reaching out can be the first step toward relief.',
 ];
 
-const fallbackUsResources: CrisisResource[] = [
-  { name: '988 Suicide & Crisis Lifeline', description: 'Call or Text 988' },
-  { name: '911 for immediate emergency' },
-  { name: 'Crisis Text Line', description: 'Text HOME to 741741' },
-];
+const fallbackResourcesByRegion: Record<string, CrisisResource[]> = {
+  'United States': [
+    { name: '988 Suicide & Crisis Lifeline', description: 'Call or Text 988' },
+    { name: '911 for immediate emergency' },
+    { name: 'Crisis Text Line', description: 'Text HOME to 741741' },
+  ],
+};
 
-const { heading, introParagraphs, usResources } = Astro.props;
+const { heading, introParagraphs, resourcesByRegion } = Astro.props;
 
 const displayHeading = heading || 'Immediate Help & Crisis Resources';
 const displayIntroParagraphs = introParagraphs && introParagraphs.length > 0 ? introParagraphs : fallbackIntroParagraphs;
-const displayUsResources = usResources && usResources.length > 0 ? usResources : fallbackUsResources;
+
+const sourceByRegion = resourcesByRegion && Object.keys(resourcesByRegion).length > 0
+  ? resourcesByRegion
+  : fallbackResourcesByRegion;
+
+// Region ordering: United States first, Israel second, International third, then alphabetical.
+const regionPriority: Record<string, number> = {
+  'United States': 0,
+  Israel: 1,
+  International: 2,
+};
+const orderedRegions = Object.keys(sourceByRegion).sort((a, b) => {
+  const pa = regionPriority[a] ?? 100;
+  const pb = regionPriority[b] ?? 100;
+  if (pa !== pb) return pa - pb;
+  return a.localeCompare(b);
+});
 ---
 
 <section id="crisis-resources" class="py-16 md:py-20 lg:py-24">
@@ -48,21 +66,35 @@ const displayUsResources = usResources && usResources.length > 0 ? usResources :
 
       <!-- Resource cards -->
       <div class="flex flex-col gap-6 sm:flex-row lg:w-[55%]" data-animate="stagger">
-        <!-- United States -->
-        <div class="flex-1 overflow-hidden rounded-2xl border-[0.5px] border-border-card bg-white shadow-[0px_8px_16px_rgba(12,12,13,0.06),0px_2px_4px_rgba(12,12,13,0.04)]">
-          <div class="bg-[#C74E4E] px-6 py-3">
-            <h3 class="font-heading text-base font-medium text-white">United States</h3>
-          </div>
-          <div class="space-y-4 px-6 py-5">
-            {displayUsResources.map((r) => (
-              <div>
-                <p class="font-body text-sm font-medium text-text-heading">{r.name}</p>
-                {r.description && (
-                  <p class="mt-1 font-body text-sm text-text-body">{r.description}</p>
-                )}
+        <!-- CMS regions, stacked -->
+        <div class="flex flex-1 flex-col gap-6">
+          {orderedRegions.map((region) => (
+            <div class="overflow-hidden rounded-2xl border-[0.5px] border-border-card bg-white shadow-[0px_8px_16px_rgba(12,12,13,0.06),0px_2px_4px_rgba(12,12,13,0.04)]">
+              <div class="bg-[#C74E4E] px-6 py-3">
+                <h3 class="font-heading text-base font-medium text-white">{region}</h3>
               </div>
-            ))}
-          </div>
+              <div class="space-y-4 px-6 py-5">
+                {sourceByRegion[region].map((r) => (
+                  <div>
+                    <p class="font-body text-sm font-medium text-text-heading">{r.name}</p>
+                    {r.description && (
+                      <p class="mt-1 font-body text-sm text-text-body">{r.description}</p>
+                    )}
+                    {r.phone && (
+                      <a href={`tel:${r.phone.replace(/[^0-9+*]/g, '')}`} class="mt-1 inline-block font-body text-sm font-medium text-primary transition-colors hover:text-primary-hover">
+                        {r.phone}
+                      </a>
+                    )}
+                    {r.url && (
+                      <a href={r.url} class="mt-1 inline-block font-body text-sm font-medium text-primary transition-colors hover:text-primary-hover" target="_blank" rel="noopener noreferrer">
+                        Visit website
+                      </a>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
         </div>
 
         <!-- International -->
