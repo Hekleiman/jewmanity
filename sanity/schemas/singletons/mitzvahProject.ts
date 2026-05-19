@@ -117,17 +117,11 @@ export default defineType({
       name: 'steps',
       title: 'Steps',
       type: 'array',
-      description: 'Each step is a single pill row with a number and a short title. The label, description, actions, and tip fields are retained for future use but are not currently rendered.',
+      description: 'Each step is a single pill row with a number, a short title, and a one or two sentence description.',
       of: [
         {
           type: 'object',
           fields: [
-            defineField({
-              name: 'label',
-              title: 'Month Label',
-              type: 'string',
-              description: 'Gold label above the title (e.g., "GETTING STARTED \u2014 MONTH 1").',
-            }),
             defineField({
               name: 'title',
               title: 'Step Title',
@@ -139,25 +133,11 @@ export default defineType({
               title: 'Step Description',
               type: 'text',
               rows: 4,
-              description: 'Retained for future use. Not currently rendered.',
-            }),
-            defineField({
-              name: 'actions',
-              title: 'Action Items',
-              type: 'array',
-              of: [{ type: 'string' }],
-              description: 'Retained for future use. Not currently rendered.',
-            }),
-            defineField({
-              name: 'tip',
-              title: 'Tip / Callout Box',
-              type: 'text',
-              rows: 3,
-              description: 'Optional tip displayed in a highlighted box. Start with the label (e.g., "Tip for your speech: ...").',
+              description: 'One or two sentences shown below the title.',
             }),
           ],
           preview: {
-            select: { title: 'title', subtitle: 'label' },
+            select: { title: 'title', subtitle: 'description' },
           },
         },
       ],

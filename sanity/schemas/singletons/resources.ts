@@ -11,7 +11,6 @@ export default defineType({
     { name: 'commonStruggles', title: 'Common Struggles' },
     { name: 'signs', title: 'Signs to Watch For' },
     { name: 'crisis', title: 'Crisis Resources' },
-    { name: 'legal', title: 'Legal' },
   ],
   fields: [
     defineField({
@@ -254,14 +253,6 @@ export default defineType({
       ],
     }),
 
-    defineField({
-      name: 'disclaimer',
-      title: 'Page Footer Disclaimer (unused)',
-      type: 'text',
-      rows: 3,
-      description: 'Legal disclaimer originally intended for the bottom of the resources page. Not currently rendered.',
-      group: 'legal',
-    }),
   ],
   preview: {
     prepare() {
