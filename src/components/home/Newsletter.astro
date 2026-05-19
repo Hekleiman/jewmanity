@@ -7,6 +7,25 @@ interface Props {
 const { heading, description } = Astro.props;
 const displayHeading = heading || 'Stay Connected';
 const displayDescription = description || 'Receive updates on our programs, resources, and how your support is making a difference. We respect your privacy and will never share your information.';
+
+const formAction = import.meta.env.PUBLIC_MAILCHIMP_FORM_ACTION;
+
+let isConfigured = false;
+let honeypotName = '';
+
+if (formAction && formAction !== 'your_mailchimp_form_action_url') {
+  try {
+    const url = new URL(formAction);
+    const userId = url.searchParams.get('u');
+    const listId = url.searchParams.get('id');
+    if (userId && listId) {
+      isConfigured = true;
+      honeypotName = `b_${userId}_${listId}`;
+    }
+  } catch {
+    // Invalid URL, leave isConfigured false.
+  }
+}
 ---
 
 <section id="newsletter" class="bg-bg-section-alt py-16 md:py-20 lg:py-24" data-animate="fade-up">
@@ -20,7 +39,8 @@ const displayDescription = description || 'Receive updates on our programs, reso
       </p>
     </div>
 
-    <form method="POST" action="https://gmail.us13.list-manage.com/subscribe/post?u=63c97041047a0d6a6e1c61091&id=728dc5cdc2&f_id=0008a0e0f0" target="_blank" class="mx-auto flex max-w-[450px]">
+    {isConfigured ? (
+    <form method="POST" action={formAction} target="_blank" class="mx-auto flex max-w-[450px]">
       <label for="newsletter-email" class="sr-only">Email address</label>
       <input
         id="newsletter-email"
@@ -37,9 +57,14 @@ const displayDescription = description || 'Receive updates on our programs, reso
         Subscribe
       </button>
       <div aria-hidden="true" style="position: absolute; left: -5000px;">
-        <input type="text" name="b_63c97041047a0d6a6e1c61091_728dc5cdc2" tabindex="-1" value="" />
+        <input type="text" name={honeypotName} tabindex="-1" value="" />
       </div>
     </form>
+    ) : (
+    <p class="mx-auto mt-4 max-w-[450px] text-center font-body text-sm text-text-muted">
+      Newsletter signup is being configured. Subscribe at launch.
+    </p>
+    )}
 
     <p class="mx-auto mt-4 max-w-[450px] text-center font-body text-xs text-text-muted">
       You can unsubscribe at any time. Review our

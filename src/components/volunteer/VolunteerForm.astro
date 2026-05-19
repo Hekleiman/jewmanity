@@ -9,6 +9,10 @@ const { heading, subtitle, privacyNote } = Astro.props;
 const displayHeading = heading || 'Volunteer Application';
 const displaySubtitle = subtitle || "Fill out the form below and we'll be in touch to find the right fit for you.";
 const displayPrivacyNote = privacyNote || 'Your information will be kept confidential and used only for volunteer coordination.';
+
+const formId = import.meta.env.PUBLIC_FORMSPREE_VOLUNTEER_ID;
+const isConfigured = !!formId && formId !== 'your_formspree_form_id_for_volunteer_form';
+const actionUrl = isConfigured ? `https://formspree.io/f/${formId}` : '';
 ---
 
 <section id="volunteer-form" class="bg-bg-alt py-16 md:py-20 lg:py-24">
@@ -20,9 +24,10 @@ const displayPrivacyNote = privacyNote || 'Your information will be kept confide
       {displaySubtitle}
     </p>
 
+    {isConfigured ? (
     <form
       id="volunteer-form-el"
-      action="https://formspree.io/f/mwvyqbze"
+      action={actionUrl}
       method="POST"
       class="mt-10 space-y-6"
     >
@@ -215,41 +220,48 @@ const displayPrivacyNote = privacyNote || 'Your information will be kept confide
         Something went wrong. Please try again.
       </div>
     </form>
+    ) : (
+    <p class="mt-10 text-center font-body text-sm text-text-muted">
+      The volunteer application form is being configured. Please check back soon or reach out via the contact page.
+    </p>
+    )}
   </div>
 </section>
 
 <script>
-  const form = document.getElementById('volunteer-form-el') as HTMLFormElement;
-  const submitBtn = document.getElementById('volunteer-submit-btn') as HTMLButtonElement;
-  const successMsg = document.getElementById('volunteer-success') as HTMLDivElement;
-  const errorMsg = document.getElementById('volunteer-error') as HTMLDivElement;
+  const form = document.getElementById('volunteer-form-el') as HTMLFormElement | null;
+  const submitBtn = document.getElementById('volunteer-submit-btn') as HTMLButtonElement | null;
+  const successMsg = document.getElementById('volunteer-success') as HTMLDivElement | null;
+  const errorMsg = document.getElementById('volunteer-error') as HTMLDivElement | null;
 
-  form.addEventListener('submit', async (e: Event) => {
-    e.preventDefault();
+  if (form && submitBtn && successMsg && errorMsg) {
+    form.addEventListener('submit', async (e: Event) => {
+      e.preventDefault();
 
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Submitting...';
-    successMsg.classList.add('hidden');
-    errorMsg.classList.add('hidden');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Submitting...';
+      successMsg.classList.add('hidden');
+      errorMsg.classList.add('hidden');
 
-    try {
-      const response = await fetch(form.action, {
-        method: 'POST',
-        body: new FormData(form),
-        headers: { Accept: 'application/json' },
-      });
+      try {
+        const response = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { Accept: 'application/json' },
+        });
 
-      if (response.ok) {
-        successMsg.classList.remove('hidden');
-        form.reset();
-      } else {
+        if (response.ok) {
+          successMsg.classList.remove('hidden');
+          form.reset();
+        } else {
+          errorMsg.classList.remove('hidden');
+        }
+      } catch {
         errorMsg.classList.remove('hidden');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Volunteer Application';
       }
-    } catch {
-      errorMsg.classList.remove('hidden');
-    } finally {
-      submitBtn.disabled = false;
-      submitBtn.textContent = 'Submit Volunteer Application';
-    }
-  });
+    });
+  }
 </script>
