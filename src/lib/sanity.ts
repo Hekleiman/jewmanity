@@ -385,8 +385,7 @@ export async function getResources() {
       signsSectionImage,
       crisisSectionHeading,
       crisisIntroParagraphs,
-      crisisResources,
-      disclaimer
+      crisisResources
     }
   `);
 }
@@ -481,7 +480,6 @@ export async function getMitzvahProject() {
       heroHeading,
       heroSubtitle,
       heroImage,
-      openingQuote,
       whyHeading,
       whyParagraphs,
       whyImage,
@@ -494,8 +492,6 @@ export async function getMitzvahProject() {
       pathsHeading,
       pathsSubtitle,
       paths,
-      inspirationalQuote,
-      inspirationalQuoteAttribution,
       goalsHeading,
       goalsSubtitle,
       goals,

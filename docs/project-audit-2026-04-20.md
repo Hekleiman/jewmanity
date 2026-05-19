@@ -217,6 +217,8 @@ No wholly-orphan document types — every type has at least one query consumer.
 
 ## 7. GROQ Query Catalogue
 
+> **Stale as of 2026-05-18.** The `*BySlug` exports listed below (`getRecipeBySlug`, `getRetreatBySlug`, `getProductBySlug`, `getCommunityStoryBySlug`) have since been removed from `src/lib/sanity.ts`. See `docs/cms-website-gap-audit-2026-05-18.md` section 2.1 for the current state of orphan queries. The same note applies to references on lines 195–198 and 211 in section 6 above, which call out the same `*BySlug` orphans.
+
 All exports in `src/lib/sanity.ts`.
 
 | Function | Type | Fields requested | Called from |

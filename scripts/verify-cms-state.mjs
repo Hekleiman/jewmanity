@@ -107,8 +107,6 @@ const checks = [
     name: 'Mitzvah Project singleton: section state',
     groq: `*[_type=="mitzvahProject"][0]{
       "heroImagePresent": defined(heroImage.asset),
-      "openingQuoteSet": defined(openingQuote) && openingQuote != "",
-      "inspirationalQuoteSet": defined(inspirationalQuote) && inspirationalQuote != "",
       "impactCardsCount": count(impactCards),
       "stepsCount": count(steps),
       "pathsCount": count(paths),
