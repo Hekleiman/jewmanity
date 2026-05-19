@@ -9,6 +9,7 @@ interface Product {
   slug: string;
   description: string;
   image: string;
+  inStock?: boolean;
 }
 
 interface Props {
@@ -74,6 +75,7 @@ const products = cmsProducts && cmsProducts.length > 0 ? cmsProducts : fallbackP
           href={`/shop/${product.slug}`}
           description={product.description}
           image={product.image}
+          inStock={product.inStock}
         />
       ))}
     </div>

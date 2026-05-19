@@ -6,7 +6,7 @@ import ProductGrid from '../components/shop/ProductGrid.astro';
 import CTASection from '../components/shared/CTASection.astro';
 import { getProducts, getShopPage, urlFor } from '../lib/sanity';
 
-let cmsProducts: { id: string; name: string; price: string; priceNum: string; slug: string; description: string; image: string }[] = [];
+let cmsProducts: { id: string; name: string; price: string; priceNum: string; slug: string; description: string; image: string; inStock: boolean }[] = [];
 try {
   const raw = await getProducts();
   cmsProducts = raw.map((p: any) => ({
@@ -17,6 +17,7 @@ try {
     slug: p.slug?.current || '',
     description: p.description || '',
     image: p.mainImage ? urlFor(p.mainImage).width(600).url() : '',
+    inStock: p.inStock !== false,
   }));
 } catch (e) {
   console.warn('Sanity fetch failed for products, using fallback content');
@@ -36,6 +37,10 @@ const heroBg = cms?.hero?.backgroundImage
 const heroCtaText = cms?.heroCta?.text || 'Shop Our Collection';
 const heroCtaHref = cms?.heroCta?.href || '#product-grid';
 
+const heroCtas = cms?.hero?.ctas && cms.hero.ctas.length > 0
+  ? cms.hero.ctas
+  : (heroCtaText && heroCtaHref ? [{ label: heroCtaText, url: heroCtaHref, style: 'primary' as const }] : undefined);
+
 const ctaPrimary = cms?.ctaPrimaryButton?.text && cms?.ctaPrimaryButton?.href
   ? cms.ctaPrimaryButton
   : { text: 'Learn About Heads Up', href: '/programs/heads-up' };
@@ -44,8 +49,7 @@ const ctaPrimary = cms?.ctaPrimaryButton?.text && cms?.ctaPrimaryButton?.href
   <HeroSection
     heading={cms?.hero?.heading ?? 'Shop with Purpose'}
     subtitle={cms?.hero?.subtitle ?? "Wear your values. Every purchase directly supports Jewmanity's healing programs."}
-    ctaText={heroCtaText}
-    ctaHref={heroCtaHref}
+    ctas={heroCtas}
     backgroundImage={heroBg}
     imagePosition="center 40%"
     heightClass="min-h-screen md:min-h-[60vh] lg:min-h-[100vh]"

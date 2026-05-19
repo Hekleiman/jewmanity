@@ -235,7 +235,8 @@ export async function getAboutTeamPage() {
       "hero": {
         "heading": hero.heading,
         "subtitle": hero.subtitle,
-        "backgroundImage": hero.backgroundImage
+        "backgroundImage": hero.backgroundImage,
+        "ctas": hero.ctas[]{ label, url, style }
       },
       ctaHeading,
       ctaSubtitle,
@@ -251,7 +252,8 @@ export async function getAboutCommunityStoriesPage() {
       "hero": {
         "heading": hero.heading,
         "subtitle": hero.subtitle,
-        "backgroundImage": hero.backgroundImage
+        "backgroundImage": hero.backgroundImage,
+        "ctas": hero.ctas[]{ label, url, style }
       },
       introParagraphs,
       voicesHeading,
@@ -269,7 +271,8 @@ export async function getProgramsPastRetreatsPage() {
       "hero": {
         "heading": hero.heading,
         "subtitle": hero.subtitle,
-        "backgroundImage": hero.backgroundImage
+        "backgroundImage": hero.backgroundImage,
+        "ctas": hero.ctas[]{ label, url, style }
       },
       gridHeading,
       gridSubtitle,
@@ -288,7 +291,8 @@ export async function getCommunityRecipesPage() {
       "hero": {
         "heading": hero.heading,
         "subtitle": hero.subtitle,
-        "backgroundImage": hero.backgroundImage
+        "backgroundImage": hero.backgroundImage,
+        "ctas": hero.ctas[]{ label, url, style }
       },
       introParagraphs[]{
         text,

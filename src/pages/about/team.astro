@@ -41,6 +41,7 @@ try {
   <HeroSection
     heading={cms?.hero?.heading ?? 'Meet the People Behind Jewmanity'}
     subtitle={cms?.hero?.subtitle ?? 'A dedicated team united by compassion, lived experience, and a commitment to building resilience in our community.'}
+    ctas={cms?.hero?.ctas}
     backgroundImage={heroBg}
   />
   <TeamGrid members={cmsMembers.length > 0 ? cmsMembers : undefined} />

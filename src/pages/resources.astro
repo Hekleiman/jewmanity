@@ -64,14 +64,25 @@ const signsSectionImage = cms?.signsSectionImage
 const whyMatters = extractIntroAndList(cms?.whyMattersBody);
 const signs = extractIntroAndList(cms?.signsBody);
 
-const usCrisisResources: CrisisResource[] = Array.isArray(cms?.crisisResources)
-  ? (cms!.crisisResources as CrisisResource[]).filter((r) => r?.region === 'United States')
-  : [];
+function groupByRegion(items: CrisisResource[]): Record<string, CrisisResource[]> {
+  const groups: Record<string, CrisisResource[]> = {};
+  for (const item of items) {
+    const region = item.region || 'Other';
+    if (!groups[region]) groups[region] = [];
+    groups[region].push(item);
+  }
+  return groups;
+}
+
+const crisisResourcesByRegion: Record<string, CrisisResource[]> = Array.isArray(cms?.crisisResources)
+  ? groupByRegion(cms!.crisisResources as CrisisResource[])
+  : {};
 ---
 <Layout title="Mental Health Resources | Jewmanity" description="Mental health awareness resources, crisis support information, and guidance for those navigating trauma, depression, anxiety, and PTSD.">
   <HeroSection
     heading={cms?.hero?.heading ?? 'You Are Not Alone'}
     subtitle={cms?.hero?.subtitle ?? "Struggling with anxiety, depression, trauma, or emotional overwhelm can feel isolating. It doesn't have to be. Jewmanity stands in advocacy, compassion, and connection for those navigating mental health challenges."}
+    ctas={cms?.hero?.ctas}
     backgroundImage={heroBg}
   />
   <AdvocacyPillars
@@ -103,6 +114,6 @@ const usCrisisResources: CrisisResource[] = Array.isArray(cms?.crisisResources)
   <CrisisResources
     heading={cms?.crisisSectionHeading}
     introParagraphs={cms?.crisisIntroParagraphs}
-    usResources={usCrisisResources.length > 0 ? usCrisisResources : undefined}
+    resourcesByRegion={Object.keys(crisisResourcesByRegion).length > 0 ? crisisResourcesByRegion : undefined}
   />
 </Layout>

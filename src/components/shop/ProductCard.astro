@@ -7,9 +7,10 @@ interface Props {
   href: string;
   description: string;
   image: string;
+  inStock?: boolean;
 }
 
-const { id, name, price, priceNum, href, description, image } = Astro.props;
+const { id, name, price, priceNum, href, description, image, inStock = true } = Astro.props;
 ---
 
 <article class="overflow-hidden rounded-[24px] border-[0.5px] border-border-card bg-white shadow-[0px_16px_32px_rgba(12,12,13,0.1),0px_4px_4px_rgba(12,12,13,0.05)]">
@@ -27,16 +28,25 @@ const { id, name, price, priceNum, href, description, image } = Astro.props;
       </h3>
       <span class="shrink-0 font-heading text-lg font-medium text-primary">{price}</span>
     </div>
-    <button
-      class="snipcart-add-item mt-4 w-full rounded-[100px] bg-primary py-3 font-heading text-sm font-medium text-white transition-colors hover:bg-primary-hover"
-      data-item-id={id}
-      data-item-name={name}
-      data-item-price={priceNum}
-      data-item-url="/shop"
-      data-item-description={description}
-      data-item-image={image}
-    >
-      Add to Cart +
-    </button>
+    {inStock ? (
+      <button
+        class="snipcart-add-item mt-4 w-full rounded-[100px] bg-primary py-3 font-heading text-sm font-medium text-white transition-colors hover:bg-primary-hover"
+        data-item-id={id}
+        data-item-name={name}
+        data-item-price={priceNum}
+        data-item-url="/shop"
+        data-item-description={description}
+        data-item-image={image}
+      >
+        Add to Cart +
+      </button>
+    ) : (
+      <div
+        class="mt-4 w-full rounded-[100px] bg-bg-section-alt py-3 text-center font-heading text-sm font-medium text-text-muted"
+        aria-label="This product is currently sold out"
+      >
+        Sold Out
+      </div>
+    )}
   </div>
 </article>

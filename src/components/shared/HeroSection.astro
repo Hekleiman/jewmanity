@@ -1,15 +1,29 @@
 ---
+interface CtaButton {
+  label: string;
+  url: string;
+  style?: 'primary' | 'secondary';
+}
+
 interface Props {
   heading: string;
   subtitle?: string;
   backgroundImage?: string;
   imagePosition?: string;
   heightClass?: string;
-  ctaText?: string;
-  ctaHref?: string;
+  ctas?: CtaButton[];
 }
 
-const { heading, subtitle, backgroundImage, imagePosition = 'center 25%', heightClass = 'min-h-[55vh] md:min-h-[60vh]', ctaText, ctaHref } = Astro.props;
+const {
+  heading,
+  subtitle,
+  backgroundImage,
+  imagePosition = 'center 25%',
+  heightClass = 'min-h-[55vh] md:min-h-[60vh]',
+  ctas,
+} = Astro.props;
+
+const heroCtas = (ctas ?? []).filter((c) => c && c.label && c.url).slice(0, 2);
 ---
 
 <section class:list={["relative flex items-center justify-center overflow-hidden", heightClass]}>
@@ -38,13 +52,22 @@ const { heading, subtitle, backgroundImage, imagePosition = 'center 25%', height
         {subtitle}
       </p>
     )}
-    {ctaText && ctaHref && (
-      <a
-        href={ctaHref}
-        class="mt-8 inline-block rounded-[100px] bg-[#FAF8F5] px-8 py-3 font-heading text-base font-medium text-primary transition-colors hover:bg-white"
-      >
-        {ctaText}
-      </a>
+    {heroCtas.length > 0 && (
+      <div data-animate="hero-fade-up" class="mt-8 flex flex-wrap justify-center gap-3">
+        {heroCtas.map((cta) => (
+          <a
+            href={cta.url}
+            class:list={[
+              'inline-block rounded-[100px] px-8 py-3 font-heading text-base font-medium transition-colors',
+              cta.style === 'secondary'
+                ? 'border border-white/80 text-white hover:bg-white/10'
+                : 'bg-[#FAF8F5] text-primary hover:bg-white',
+            ]}
+          >
+            {cta.label}
+          </a>
+        ))}
+      </div>
     )}
   </div>
 </section>

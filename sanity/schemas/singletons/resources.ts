@@ -208,7 +208,7 @@ export default defineType({
       name: 'crisisResources',
       title: 'Crisis Resources',
       type: 'array',
-      description: 'Hotlines and resources for people in crisis. The "United States" card is rendered from entries whose region is "United States".',
+      description: 'Hotlines and resources for people in crisis. Entries are grouped by region on the page. Add resources for any region (United States, Israel, International, or others) and they will appear as their own section.',
       group: 'crisis',
       of: [
         defineArrayMember({
