@@ -35,3 +35,4 @@ public/images/figma-raw/
 
 # Claude Code tooling artifacts
 .claude/
+.vercel
