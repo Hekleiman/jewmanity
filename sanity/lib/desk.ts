@@ -17,6 +17,7 @@ import {
   CogIcon,
   CommentIcon,
   ComposeIcon,
+  MenuIcon,
 } from '@sanity/icons';
 
 // Helper: create a singleton list item that goes straight to the editor
@@ -114,4 +115,5 @@ export const structure: StructureResolver = (S) =>
 
       // ── Site Settings ───────────────────────────────
       singletonListItem(S, 'siteSettings', 'Site Settings', CogIcon),
+      singletonListItem(S, 'navigation', 'Site Navigation', MenuIcon),
     ]);

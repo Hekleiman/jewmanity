@@ -12,9 +12,23 @@ interface Props {
   imageUrl?: string;
   taxNote?: string;
   ctas?: CtaButton[];
+  givebutterAccountId?: string;
+  givebutterWidgetId?: string;
 }
 
-const { imagePosition = 'center 25%', heading, subtitle, imageUrl, taxNote, ctas } = Astro.props;
+const {
+  imagePosition = 'center 25%',
+  heading,
+  subtitle,
+  imageUrl,
+  taxNote,
+  ctas,
+  givebutterAccountId,
+  givebutterWidgetId,
+} = Astro.props;
+
+const acctId = givebutterAccountId || 'qGMyp9PcvINJwyvd';
+const widgetId = givebutterWidgetId || 'g8MJdP';
 
 const displayHeading = heading || 'Give Today. Create Lasting Impact.';
 const displaySubtitle = subtitle || 'Your donation directly funds healing retreats, community care, and trauma-informed programs like Heads Up—supporting Israelis and Jewish individuals on their journey to recovery.';
@@ -61,8 +75,8 @@ const heroCtas = (ctas ?? []).filter((c) => c && c.label && c.url).slice(0, 2);
     <!-- Right: Givebutter donation widget -->
     <!-- Note: Widget color/branding is set in the Givebutter dashboard (Campaign > Design). Platform fee mode (0% + donor tips, or 3% flat + Stripe) is also chosen per-campaign in the dashboard, not here. -->
     <div class="w-full max-w-[440px] lg:w-1/2">
-      <script src="https://widgets.givebutter.com/latest.umd.cjs?acct=qGMyp9PcvINJwyvd&p=other" async is:inline></script>
-      <givebutter-widget id="g8MJdP"></givebutter-widget>
+      <script src={`https://widgets.givebutter.com/latest.umd.cjs?acct=${acctId}&p=other`} async is:inline></script>
+      <givebutter-widget id={widgetId}></givebutter-widget>
       <script is:inline>
         (function () {
           var params = new URLSearchParams(window.location.search);

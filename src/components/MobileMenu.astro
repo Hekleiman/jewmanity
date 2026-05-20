@@ -1,51 +1,31 @@
 ---
+import { getNavigation, getSiteSettings, urlFor } from '../lib/sanity';
+import { fallbackNavItems, fallbackNavCta, type NavItem } from '../lib/navigation-fallback';
+
 interface Props {}
 
-interface NavItem {
-  label: string;
-  href: string;
-  children?: { label: string; href: string }[];
+let nav: { items?: NavItem[]; ctaButton?: { text?: string; href?: string } } | null = null;
+let siteSettings: { logo?: any; orgName?: string | null } | null = null;
+try {
+  nav = await getNavigation();
+} catch (e) {
+  console.warn('Sanity fetch failed for navigation, using hardcoded fallbacks');
+}
+try {
+  siteSettings = await getSiteSettings();
+} catch (e) {
+  console.warn('Sanity fetch failed for siteSettings (nav logo), using hardcoded fallback');
 }
 
-const navItems: NavItem[] = [
-  { label: 'Home', href: '/' },
-  {
-    label: 'About',
-    href: '/about/story',
-    children: [
-      { label: 'Our Story', href: '/about/story' },
-      { label: 'Our Team', href: '/about/team' },
-    ],
-  },
-  {
-    label: 'Programs',
-    href: '/programs/heads-up',
-    children: [
-      { label: 'Heads Up', href: '/programs/heads-up' },
-      { label: 'Past Retreats', href: '/programs/past-retreats' },
-    ],
-  },
-  {
-    label: 'Community',
-    href: '/community/fighting-antisemitism',
-    children: [
-      { label: 'Community Stories', href: '/about/community-stories' },
-      { label: 'Fighting Antisemitism', href: '/community/fighting-antisemitism' },
-      { label: 'Recipes', href: '/community/recipes' },
-    ],
-  },
-  {
-    label: 'Get Involved',
-    href: '/get-involved/volunteer',
-    children: [
-      { label: 'Volunteer', href: '/get-involved/volunteer' },
-      { label: 'Mitzvah Project', href: '/get-involved/mitzvah-project' },
-      { label: 'Contact', href: '/get-involved/contact' },
-    ],
-  },
-  { label: 'Resources', href: '/resources' },
-  { label: 'Shop', href: '/shop' },
-];
+const navItems: NavItem[] = nav?.items && nav.items.length > 0 ? nav.items : fallbackNavItems;
+const navCta = {
+  text: nav?.ctaButton?.text || fallbackNavCta.text,
+  href: nav?.ctaButton?.href || fallbackNavCta.href,
+};
+const logoUrl = siteSettings?.logo
+  ? urlFor(siteSettings.logo).width(100).url()
+  : '/images/logo.png';
+const logoAlt = siteSettings?.orgName || 'Jewmanity';
 
 const currentPath = Astro.url.pathname;
 
@@ -72,15 +52,15 @@ function isActive(item: NavItem): boolean {
     aria-label="Jewmanity home"
     class="justify-self-start shrink-0 rounded-full focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
   >
-    <img src="/images/logo.png" alt="Jewmanity" width="50" height="33" class="h-8 w-auto" />
+    <img src={logoUrl} alt={logoAlt} width="50" height="33" class="h-8 w-auto" />
   </a>
 
   <!-- CTA pill (center) — visible in closed state by design -->
   <a
-    href="/donate"
+    href={navCta.href}
     class="justify-self-center whitespace-nowrap rounded-full bg-primary px-5 py-2 font-heading text-sm font-medium text-white transition-colors hover:bg-primary-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
   >
-    Support Healing
+    {navCta.text}
   </a>
 
   <!-- Hamburger (right) -->
@@ -185,10 +165,10 @@ function isActive(item: NavItem): boolean {
     <!-- Bottom CTA -->
     <div class="mt-auto pt-8 pb-4">
       <a
-        href="/donate"
+        href={navCta.href}
         class="block w-full rounded-full bg-primary py-3.5 text-center font-heading text-base font-medium text-white transition-colors hover:bg-primary-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
       >
-        Support Healing
+        {navCta.text}
       </a>
     </div>
   </div>

@@ -5,7 +5,7 @@ import ImpactCards from '../components/donate/ImpactCards.astro';
 import WhyGive from '../components/donate/WhyGive.astro';
 import CostBreakdown from '../components/donate/CostBreakdown.astro';
 import FAQAccordion from '../components/shared/FAQAccordion.astro';
-import { getFaqItems, getDonatePage, urlFor } from '../lib/sanity';
+import { getFaqItems, getDonatePage, getSiteSettings, urlFor } from '../lib/sanity';
 import { toHTML } from '@portabletext/to-html';
 
 let cms: Record<string, any> | null = null;
@@ -13,6 +13,13 @@ try {
   cms = await getDonatePage();
 } catch (e) {
   console.warn('Sanity fetch failed for donatePage, using hardcoded fallbacks');
+}
+
+let siteSettings: Record<string, any> | null = null;
+try {
+  siteSettings = await getSiteSettings();
+} catch (e) {
+  console.warn('Sanity fetch failed for siteSettings on donate page, using hardcoded fallbacks');
 }
 
 let cmsFaqItems: { question: string; answer: string }[] = [];
@@ -51,6 +58,8 @@ const fallbackFaqs = [
     imageUrl={heroBg}
     taxNote={cms?.heroTaxNote}
     ctas={cms?.hero?.ctas}
+    givebutterAccountId={siteSettings?.givebutterAccountId}
+    givebutterWidgetId={siteSettings?.givebutterWidgetId}
   />
   <ImpactCards
     heading={cms?.impactHeading}

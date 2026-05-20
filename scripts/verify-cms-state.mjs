@@ -221,6 +221,29 @@ const checks = [
       "hasLinkedin": defined(socialLinks.linkedin)
     }`,
   },
+  {
+    name: 'Navigation singleton (phase 1)',
+    groq: `*[_type=="navigation"][0]{
+      "itemCount": count(items),
+      items[]{ label, href, "childCount": count(children) },
+      ctaButton
+    }`,
+  },
+  {
+    name: 'Site Settings extended fields (phase 1)',
+    groq: `*[_type=="siteSettings"][0]{
+      foundingYear,
+      "hasLogo": defined(logo.asset),
+      "hasDefaultOgImage": defined(defaultOgImage.asset),
+      defaultPageTitle,
+      "hasDefaultDescription": defined(defaultPageDescription),
+      address,
+      "legalLinkCount": count(legalLinks),
+      footerDisclaimer,
+      givebutterAccountId,
+      givebutterWidgetId
+    }`,
+  },
 ];
 
 console.log(`Verifying Sanity ${PROJECT}/${DATASET} via CDN`);
