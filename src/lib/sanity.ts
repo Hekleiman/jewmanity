@@ -207,6 +207,10 @@ export async function getHomepage() {
       donationFooterText,
       newsletterHeading,
       newsletterDescription,
+      newsletterEmailPlaceholder,
+      newsletterButtonText,
+      newsletterFootnote,
+      newsletterPlaceholder,
       statsItems
     }
   `);
@@ -453,6 +457,19 @@ export async function getVolunteerPage() {
       formHeading,
       formSubtitle,
       formPrivacyNote,
+      formSection{
+        fields[]{
+          name,
+          label,
+          placeholder,
+          helperText,
+          type,
+          required,
+          options[]{ label, value }
+        },
+        emailSubject,
+        messages
+      },
       ctaHeading,
       ctaDescription,
       ctaPrimaryButton,
@@ -468,6 +485,18 @@ export async function getContactPage() {
       introText,
       formHeading,
       privacyNote,
+      formSection{
+        fields[]{
+          name,
+          label,
+          placeholder,
+          helperText,
+          type,
+          required,
+          options[]{ label, value }
+        },
+        messages
+      },
       otherWaysHeading,
       otherWaysCards
     }

@@ -259,6 +259,35 @@ const checks = [
     }`,
   },
   {
+    name: 'Contact form CMS content (phase 3)',
+    groq: `*[_type=="contactPage"][0]{
+      "fieldCount": count(formSection.fields),
+      "fieldNames": formSection.fields[].name,
+      "subjectOptionCount": count(formSection.fields[name == "subject"][0].options),
+      "messagesSet": defined(formSection.messages.submitButton)
+    }`,
+  },
+  {
+    name: 'Volunteer form CMS content (phase 3)',
+    groq: `*[_type=="volunteerPage"][0]{
+      "fieldCount": count(formSection.fields),
+      "fieldNames": formSection.fields[].name,
+      "interestOptionCount": count(formSection.fields[name == "interests"][0].options),
+      "availabilityOptionCount": count(formSection.fields[name == "availability"][0].options),
+      "emailSubject": formSection.emailSubject,
+      "messagesSet": defined(formSection.messages.submitButton)
+    }`,
+  },
+  {
+    name: 'Homepage newsletter strings (phase 3)',
+    groq: `*[_type=="homepage"][0]{
+      newsletterEmailPlaceholder,
+      newsletterButtonText,
+      newsletterFootnote,
+      newsletterPlaceholder
+    }`,
+  },
+  {
     name: 'Site Settings extended fields (phase 1)',
     groq: `*[_type=="siteSettings"][0]{
       foundingYear,

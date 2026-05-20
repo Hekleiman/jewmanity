@@ -136,7 +136,7 @@ export default defineType({
       title: 'Form Heading',
       type: 'string',
       description:
-        'Heading above the volunteer application form. The form fields and submission behavior are managed via Formspree in code — contact your developer to change those.',
+        'Heading above the volunteer application form. The fields, dropdown options, checkbox lists, and submission messages are now editable in the Form Fields and Messages section below.',
       initialValue: 'Volunteer Application',
       group: 'form',
     }),
@@ -153,8 +153,38 @@ export default defineType({
       title: 'Form Privacy Note',
       type: 'text',
       rows: 2,
-      description: 'Privacy/confidentiality note displayed near the form. Review wording with care — this sets user expectations about how their information is handled.',
+      description: 'Privacy/confidentiality note displayed near the form. Review wording with care, this sets user expectations about how their information is handled.',
       group: 'form',
+    }),
+    defineField({
+      name: 'formSection',
+      title: 'Form Fields and Messages',
+      type: 'object',
+      description:
+        'Labels, placeholders, dropdown options, checkbox lists, and submission messages for the volunteer application form. Fields: firstName, lastName, email, phone, location, referral, interests, about, availability.',
+      group: 'form',
+      fields: [
+        defineField({
+          name: 'fields',
+          title: 'Form Fields',
+          type: 'array',
+          description:
+            'The 9 fields on the volunteer form. Match the "Field Name" exactly to what is in code.',
+          of: [{ type: 'formField' }],
+        }),
+        defineField({
+          name: 'emailSubject',
+          title: 'Email Subject Line',
+          type: 'string',
+          description:
+            'Subject line of the email that Formspree sends to Belinda when someone submits this form. Default: "New Volunteer Application".',
+        }),
+        defineField({
+          name: 'messages',
+          title: 'Submit and Status Messages',
+          type: 'formMessages',
+        }),
+      ],
     }),
 
     defineField({
