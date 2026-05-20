@@ -50,7 +50,11 @@ try {
   />
 
   <RecipesIntro paragraphs={introParagraphs} />
-  <RecipeGrid recipes={cmsRecipes.length > 0 ? cmsRecipes : undefined} />
+  <RecipeGrid
+    recipes={cmsRecipes.length > 0 ? cmsRecipes : undefined}
+    heading={cms?.gridHeading}
+    subtitle={cms?.gridSubtitle}
+  />
 
   <CTASection
     heading={cms?.ctaHeading ?? 'Share Your Recipe, Share Your Story'}

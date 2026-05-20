@@ -279,6 +279,21 @@ const checks = [
     }`,
   },
   {
+    name: 'Sweep: section headings + image alts (phase 4)',
+    groq: `{
+      "mitzvah": *[_type=="mitzvahProject"][0]{ faqHeading, faqSubtitle, "whyImageAlt": whyImage.alt },
+      "team": *[_type=="aboutTeamPage"][0]{ teamSectionHeading, "hasSubtitle": defined(teamSectionSubtitle) },
+      "headsUp": *[_type=="headsUp"][0]{ testimonialsHeading, "safeHavenImageAlt": safeHavenImage.alt },
+      "recipesPage": *[_type=="communityRecipesPage"][0]{
+        gridHeading,
+        "detailLabelsCount": length([detailIngredientsLabel, detailInstructionsLabel, detailChefsNotesLabel, detailPrepLabel, detailCookLabel, detailServingsLabel, detailDifficultyLabel][@ != null])
+      },
+      "shop": *[_type=="shopPage"][0]{ gridHeading },
+      "retreats": *[_type=="programsPastRetreatsPage"][0]{ detailGalleryHeading, detailBackLinkText },
+      "donate": *[_type=="donatePage"][0]{ "whyGiveImageAlt": whyGiveImage.alt }
+    }`,
+  },
+  {
     name: 'Homepage newsletter strings (phase 3)',
     groq: `*[_type=="homepage"][0]{
       newsletterEmailPlaceholder,

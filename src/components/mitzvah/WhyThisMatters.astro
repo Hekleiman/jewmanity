@@ -3,6 +3,7 @@ interface Props {
   heading?: string;
   paragraphs?: string[];
   imageUrl?: string;
+  imageAlt?: string;
 }
 
 const {
@@ -13,7 +14,9 @@ const {
     'This is your chance to not only mark your Jewish milestone, but to fight for your people, live your values, and make a difference that matters.',
   ],
   imageUrl,
+  imageAlt,
 } = Astro.props;
+const displayImageAlt = imageAlt || 'Community gathering';
 ---
 
 <section id="why-this-matters" class="py-16 md:py-20 lg:py-24">
@@ -35,7 +38,7 @@ const {
 
       <!-- Image -->
       <div class="lg:w-[45%]" data-animate="slide-right">
-        <img src={imageUrl || '/images/sections/mitzvah-why-matters.jpg'} alt="Community gathering" class="aspect-[4/3] w-full rounded-2xl object-cover" width="600" height="400" loading="lazy" />
+        <img src={imageUrl || '/images/sections/mitzvah-why-matters.jpg'} alt={displayImageAlt} class="aspect-[4/3] w-full rounded-2xl object-cover" width="600" height="400" loading="lazy" />
       </div>
     </div>
   </div>

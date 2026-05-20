@@ -46,10 +46,19 @@ export default defineType({
     }),
     defineField({
       name: 'whyImage',
-      title: 'Why This Matters — Image',
+      title: 'Why This Matters Image',
       type: 'image',
       description: 'Photo displayed beside the text. Recommended: 800x600px or larger.',
       options: { hotspot: true },
+      fields: [
+        defineField({
+          name: 'alt',
+          title: 'Alt Text',
+          type: 'string',
+          description:
+            'Short description of the image for screen readers and SEO. If left blank, the site uses: "Community gathering".',
+        }),
+      ],
     }),
 
     // ── Impact Cards ──────────────────────────────────
@@ -247,6 +256,22 @@ export default defineType({
         },
       ],
       validation: (rule) => rule.max(8).warning('6 tiers is the intended layout.'),
+    }),
+
+    // ── FAQ Section ───────────────────────────────────
+    defineField({
+      name: 'faqHeading',
+      title: 'FAQ Section Heading',
+      type: 'string',
+      description: 'Heading above the FAQ accordion. Default: "Frequently Asked Questions".',
+      initialValue: 'Frequently Asked Questions',
+    }),
+    defineField({
+      name: 'faqSubtitle',
+      title: 'FAQ Section Subtitle',
+      type: 'text',
+      rows: 2,
+      description: 'Short line under the FAQ heading. Default: "Have questions? We\'re here to help."',
     }),
 
     // ── CTA Section ───────────────────────────────────

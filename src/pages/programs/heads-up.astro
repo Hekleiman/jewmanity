@@ -38,7 +38,7 @@ const heroBg = cms?.hero?.backgroundImage
   ? urlFor(cms.hero.backgroundImage).width(1920).quality(80).url()
   : '/images/hero/heads-up.jpg';
 
-const safeHavenImage = cms?.safeHavenImage ? urlFor(cms.safeHavenImage).width(800).quality(80).url() : undefined;
+const safeHavenImage = cms?.safeHavenImage?.asset ? urlFor(cms.safeHavenImage).width(800).quality(80).url() : undefined;
 const careImage = cms?.careImage ? urlFor(cms.careImage).width(800).quality(80).url() : undefined;
 const communityImage = cms?.communityImage ? urlFor(cms.communityImage).width(800).quality(80).url() : undefined;
 
@@ -85,6 +85,7 @@ const fallbackTestimonials = [
     heading={cms?.safeHavenHeading}
     paragraphs={safeHavenParagraphs.length > 0 ? safeHavenParagraphs : undefined}
     imageUrl={safeHavenImage}
+    imageAlt={cms?.safeHavenImage?.alt}
   />
   <WhoWeSupport
     heading={cms?.supportHeading}
@@ -114,8 +115,8 @@ const fallbackTestimonials = [
     imageUrl={communityImage}
   />
   <TestimonialCarousel
-    heading="Voices from Heads Up"
-    subtitle="Honest reflections from soldiers who found healing, connection, and renewed strength through our retreats."
+    heading={cms?.testimonialsHeading ?? 'Voices from Heads Up'}
+    subtitle={cms?.testimonialsSubtitle ?? 'Honest reflections from soldiers who found healing, connection, and renewed strength through our retreats.'}
     testimonials={cmsTestimonials.length > 0 ? cmsTestimonials : fallbackTestimonials}
   />
   <ImpactStats

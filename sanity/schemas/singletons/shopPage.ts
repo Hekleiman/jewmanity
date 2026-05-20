@@ -7,6 +7,7 @@ export default defineType({
   groups: [
     { name: 'hero', title: 'Hero' },
     { name: 'impact', title: 'Impact Section' },
+    { name: 'grid', title: 'Product Grid' },
     { name: 'cta', title: 'Call to Action' },
   ],
   fields: [
@@ -63,6 +64,23 @@ export default defineType({
       description: 'Icon + label pairs shown in a row (usually 3).',
       of: [{ type: 'shopImpactIcon' }],
       group: 'impact',
+    }),
+
+    defineField({
+      name: 'gridHeading',
+      title: 'Product Grid Heading',
+      type: 'string',
+      description: 'Heading above the product cards. Default: "Our Current Collection".',
+      initialValue: 'Our Current Collection',
+      group: 'grid',
+    }),
+    defineField({
+      name: 'gridSubtitle',
+      title: 'Product Grid Subtitle',
+      type: 'text',
+      rows: 3,
+      description: 'Optional short paragraph below the heading. Leave blank to show only the heading.',
+      group: 'grid',
     }),
 
     defineField({

@@ -1,7 +1,7 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
 import RecipePage from '../../../components/community/RecipePage.astro';
-import { getRecipes, urlFor } from '../../../lib/sanity';
+import { getRecipes, getCommunityRecipesPage, urlFor } from '../../../lib/sanity';
 import { toHTML } from '@portabletext/to-html';
 
 interface RecipeData {
@@ -309,6 +309,28 @@ const { slug } = Astro.params;
 const cmsRecipe = Astro.props.recipe || null;
 const allCmsRecipes = (Astro.props.allCmsRecipes as any[] | undefined) ?? [];
 
+let recipesPage: Record<string, any> | null = null;
+try {
+  recipesPage = await getCommunityRecipesPage();
+} catch (e) {
+  console.warn('Sanity fetch failed for communityRecipesPage on recipe detail, using fallbacks');
+}
+const recipeLabels = {
+  ingredients: recipesPage?.detailIngredientsLabel,
+  instructions: recipesPage?.detailInstructionsLabel,
+  chefsNotes: recipesPage?.detailChefsNotesLabel,
+  shareHeading: recipesPage?.detailShareHeading,
+  shareSubtitle: recipesPage?.detailShareSubtitle,
+  copyLink: recipesPage?.detailCopyLinkText,
+  print: recipesPage?.detailPrintText,
+  relatedHeading: recipesPage?.detailRelatedHeading,
+  viewAll: recipesPage?.detailViewAllText,
+  prep: recipesPage?.detailPrepLabel,
+  cook: recipesPage?.detailCookLabel,
+  servings: recipesPage?.detailServingsLabel,
+  difficulty: recipesPage?.detailDifficultyLabel,
+};
+
 const fallback = slug ? allRecipes[slug] : undefined;
 
 const recipeTitle = cmsRecipe?.title || fallback?.title || 'Recipe';
@@ -395,5 +417,6 @@ const relatedRecipes: RelatedRecipe[] = allCmsRecipes.length > 0
     date={recipeDate}
     notes={recipeNotes}
     relatedRecipes={relatedRecipes}
+    labels={recipeLabels}
   />
 </Layout>

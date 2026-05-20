@@ -34,7 +34,7 @@ try {
 
 // Build image URLs from Sanity
 const heroImageUrl = cms?.heroImage ? urlFor(cms.heroImage).width(1920).quality(80).url() : undefined;
-const whyImageUrl = cms?.whyImage ? urlFor(cms.whyImage).width(800).quality(80).url() : undefined;
+const whyImageUrl = cms?.whyImage?.asset ? urlFor(cms.whyImage).width(800).quality(80).url() : undefined;
 
 const fallbackFaqItems = [
   {
@@ -81,6 +81,7 @@ const fallbackFaqItems = [
     heading={cms?.whyHeading}
     paragraphs={cms?.whyParagraphs}
     imageUrl={whyImageUrl}
+    imageAlt={cms?.whyImage?.alt}
   />
   <ImpactCards
     heading={cms?.impactHeading}
@@ -103,8 +104,8 @@ const fallbackFaqItems = [
     goals={cms?.goals}
   />
   <FAQAccordion
-    heading="Frequently Asked Questions"
-    subtitle="Have questions? We're here to help."
+    heading={cms?.faqHeading ?? 'Frequently Asked Questions'}
+    subtitle={cms?.faqSubtitle ?? "Have questions? We're here to help."}
     items={cmsFaqItems.length > 0 ? cmsFaqItems : fallbackFaqItems}
     variant="cards"
   />

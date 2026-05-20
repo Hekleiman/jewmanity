@@ -3,6 +3,7 @@ interface Props {
   heading?: string;
   paragraphs?: string[];
   imageUrl?: string;
+  imageAlt?: string;
 }
 
 const fallbackParagraphs: string[] = [
@@ -11,10 +12,11 @@ const fallbackParagraphs: string[] = [
   'Located in San Diego, California, our retreat creates space for Israeli soldiers, widows, widowers, and family members to reconnect with themselves, their communities, and their sense of purpose.',
 ];
 
-const { heading, paragraphs, imageUrl } = Astro.props;
+const { heading, paragraphs, imageUrl, imageAlt } = Astro.props;
 const displayHeading = heading || 'A Safe Haven for Healing';
 const displayParagraphs = paragraphs && paragraphs.length > 0 ? paragraphs : fallbackParagraphs;
 const displayImage = imageUrl || '/images/sections/heads-up-safe-haven.jpg';
+const displayImageAlt = imageAlt || 'Safe, supportive retreat environment for healing';
 ---
 
 <section id="safe-haven" class="py-16 md:py-20 lg:py-24">
@@ -34,7 +36,7 @@ const displayImage = imageUrl || '/images/sections/heads-up-safe-haven.jpg';
 
       <!-- Image -->
       <div class="lg:w-[45%]" data-animate="slide-right">
-        <img src={displayImage} alt="Safe, supportive retreat environment for healing" class="aspect-[4/3] w-full rounded-2xl object-cover" width="600" height="400" loading="lazy" />
+        <img src={displayImage} alt={displayImageAlt} class="aspect-[4/3] w-full rounded-2xl object-cover" width="600" height="400" loading="lazy" />
       </div>
     </div>
   </div>

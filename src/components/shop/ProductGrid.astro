@@ -14,6 +14,8 @@ interface Product {
 
 interface Props {
   products?: Product[];
+  heading?: string;
+  subtitle?: string;
 }
 
 const fallbackProducts: Product[] = [
@@ -55,15 +57,24 @@ const fallbackProducts: Product[] = [
   },
 ];
 
-const { products: cmsProducts } = Astro.props;
+const { products: cmsProducts, heading, subtitle } = Astro.props;
 const products = cmsProducts && cmsProducts.length > 0 ? cmsProducts : fallbackProducts;
+const displayHeading = heading || 'Our Current Collection';
+const displaySubtitle = subtitle || '';
 ---
 
 <section id="product-grid" class="py-16 md:py-20 lg:py-24">
   <div class="mx-auto max-w-[1200px] px-6">
-    <h2 class="mb-12 text-center font-heading text-[clamp(28px,4vw,36px)] font-medium leading-tight text-text-heading">
-      Our Current Collection
-    </h2>
+    <div class="mb-12 text-center">
+      <h2 class="font-heading text-[clamp(28px,4vw,36px)] font-medium leading-tight text-text-heading">
+        {displayHeading}
+      </h2>
+      {displaySubtitle && (
+        <p class="mx-auto mt-4 max-w-[700px] font-heading text-[clamp(16px,2.2vw,20px)] font-normal leading-relaxed text-text-body">
+          {displaySubtitle}
+        </p>
+      )}
+    </div>
 
     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4" data-animate="stagger">
       {products.map((product) => (

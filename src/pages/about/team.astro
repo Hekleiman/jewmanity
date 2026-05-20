@@ -44,7 +44,11 @@ try {
     ctas={cms?.hero?.ctas}
     backgroundImage={heroBg}
   />
-  <TeamGrid members={cmsMembers.length > 0 ? cmsMembers : undefined} />
+  <TeamGrid
+    members={cmsMembers.length > 0 ? cmsMembers : undefined}
+    heading={cms?.teamSectionHeading}
+    subtitle={cms?.teamSectionSubtitle}
+  />
   <CTASection
     heading={cms?.ctaHeading ?? 'Be Part of the Work We Do'}
     subtitle={cms?.ctaSubtitle ?? 'Join a growing community committed to service, responsibility, and impact.'}

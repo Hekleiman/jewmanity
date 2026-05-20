@@ -13,6 +13,7 @@ export default defineType({
     { name: 'included', title: "What's Included" },
     { name: 'community', title: 'Community Powered' },
     { name: 'impact', title: 'Impact Stats' },
+    { name: 'testimonials', title: 'Testimonials' },
     { name: 'cta', title: 'Call to Action' },
   ],
   fields: [
@@ -45,6 +46,15 @@ export default defineType({
       type: 'image',
       description: 'Photo shown beside the opening text. Recommended: 600x400px, landscape.',
       options: { hotspot: true },
+      fields: [
+        defineField({
+          name: 'alt',
+          title: 'Alt Text',
+          type: 'string',
+          description:
+            'Short description of the image for screen readers and SEO. Describe what is in the photo. If left blank, the site uses the default: "Safe, supportive retreat environment for healing".',
+        }),
+      ],
       group: 'safeHaven',
     }),
 
@@ -221,6 +231,24 @@ export default defineType({
       of: [{ type: 'statItem' }],
       validation: (rule) => rule.max(4).warning('4 stats maximum for this layout.'),
       group: 'impact',
+    }),
+
+    defineField({
+      name: 'testimonialsHeading',
+      title: 'Testimonials Heading',
+      type: 'string',
+      description: 'Heading above the testimonial carousel. Default: "Voices from Heads Up".',
+      initialValue: 'Voices from Heads Up',
+      group: 'testimonials',
+    }),
+    defineField({
+      name: 'testimonialsSubtitle',
+      title: 'Testimonials Subtitle',
+      type: 'text',
+      rows: 2,
+      description:
+        'Short line under the testimonials heading. Default: "Honest reflections from soldiers and family members who have walked this path."',
+      group: 'testimonials',
     }),
 
     defineField({

@@ -6,6 +6,7 @@ export default defineType({
   type: 'document',
   groups: [
     { name: 'hero', title: 'Hero' },
+    { name: 'teamSection', title: 'Team Section' },
     { name: 'cta', title: 'Call to Action' },
   ],
   fields: [
@@ -15,6 +16,23 @@ export default defineType({
       type: 'heroSection',
       description: 'The hero banner at the top of the Team page.',
       group: 'hero',
+    }),
+
+    defineField({
+      name: 'teamSectionHeading',
+      title: 'Team Section Heading',
+      type: 'string',
+      description: 'Heading above the grid of team members. Default: "Our Team".',
+      initialValue: 'Our Team',
+      group: 'teamSection',
+    }),
+    defineField({
+      name: 'teamSectionSubtitle',
+      title: 'Team Section Subtitle',
+      type: 'text',
+      rows: 3,
+      description: 'Short paragraph below the heading describing the team.',
+      group: 'teamSection',
     }),
 
     defineField({

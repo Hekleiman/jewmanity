@@ -19,9 +19,22 @@ interface Props {
   coverImage?: string;
   body?: ContentBlock[];
   gallery?: GalleryImage[];
+  galleryHeading?: string;
+  backLinkText?: string;
 }
 
-const { title, subtitle, author, coverImage = '/images/hero/retreat-article.jpg', body = [], gallery = [] } = Astro.props;
+const {
+  title,
+  subtitle,
+  author,
+  coverImage = '/images/hero/retreat-article.jpg',
+  body = [],
+  gallery = [],
+  galleryHeading,
+  backLinkText,
+} = Astro.props;
+const displayGalleryHeading = galleryHeading || 'Retreat Photos';
+const displayBackLinkText = backLinkText || 'Back to Past Retreats';
 const galleryImages: GalleryImage[] = (gallery || []).filter((g) => g?.url);
 const carouselId = `gc-${Math.random().toString(36).slice(2, 8)}`;
 ---
@@ -48,7 +61,7 @@ const carouselId = `gc-${Math.random().toString(36).slice(2, 8)}`;
   <section class="bg-bg-section-alt py-12 md:py-16">
     <div class="mx-auto max-w-[900px] px-6">
       <h2 class="text-center font-heading text-[clamp(24px,3.5vw,32px)] font-medium leading-tight text-text-heading">
-        Retreat Photos
+        {displayGalleryHeading}
       </h2>
       <div class="gc-carousel relative mt-8" data-carousel-id={carouselId}>
         <div class="relative aspect-[16/10] w-full overflow-hidden rounded-2xl">
@@ -149,7 +162,7 @@ const carouselId = `gc-${Math.random().toString(36).slice(2, 8)}`;
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
           <path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-        Back to Past Retreats
+        {displayBackLinkText}
       </a>
     </div>
   </div>
