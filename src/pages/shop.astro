@@ -59,7 +59,11 @@ const ctaPrimary = cms?.ctaPrimaryButton?.text && cms?.ctaPrimaryButton?.href
     introDescription={cms?.introDescription}
     icons={cms?.impactIcons}
   />
-  <ProductGrid products={cmsProducts.length > 0 ? cmsProducts : undefined} />
+  <ProductGrid
+    products={cmsProducts.length > 0 ? cmsProducts : undefined}
+    heading={cms?.gridHeading}
+    subtitle={cms?.gridSubtitle}
+  />
   <CTASection
     heading={cms?.ctaHeading ?? 'Support Healing Through Everyday Actions'}
     subtitle={cms?.ctaSubtitle ?? "Your choice to shop with purpose makes a real difference in someone's healing journey."}

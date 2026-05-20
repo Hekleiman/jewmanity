@@ -36,7 +36,7 @@ try {
 const heroBg = cms?.hero?.backgroundImage
   ? urlFor(cms.hero.backgroundImage).width(1920).quality(80).url()
   : '/images/hero/donate.jpg';
-const whyGiveImage = cms?.whyGiveImage ? urlFor(cms.whyGiveImage).width(800).quality(80).url() : undefined;
+const whyGiveImage = cms?.whyGiveImage?.asset ? urlFor(cms.whyGiveImage).width(800).quality(80).url() : undefined;
 
 const ctaContactLink = cms?.ctaContactLink?.text && cms?.ctaContactLink?.href
   ? cms.ctaContactLink
@@ -68,6 +68,7 @@ const fallbackFaqs = [
   />
   <WhyGive
     imageUrl={whyGiveImage}
+    imageAlt={cms?.whyGiveImage?.alt}
     heading={cms?.whyGiveHeading}
     values={cms?.whyGiveValues}
     closingText={cms?.whyGiveClosingText}

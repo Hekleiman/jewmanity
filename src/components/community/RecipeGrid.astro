@@ -11,6 +11,8 @@ interface Recipe {
 
 interface Props {
   recipes?: Recipe[];
+  heading?: string;
+  subtitle?: string;
 }
 
 const fallbackRecipes: Recipe[] = [
@@ -65,18 +67,20 @@ const fallbackRecipes: Recipe[] = [
   },
 ];
 
-const { recipes: cmsRecipes } = Astro.props;
+const { recipes: cmsRecipes, heading, subtitle } = Astro.props;
 const recipes = cmsRecipes && cmsRecipes.length > 0 ? cmsRecipes : fallbackRecipes;
+const displayHeading = heading || 'From Our Table to Yours';
+const displaySubtitle = subtitle || 'Delicious recipes passed down that have stood the test of time and perseverance.';
 ---
 
 <section id="recipe-grid" class="py-16 md:py-20 lg:py-24">
   <div class="mx-auto max-w-[1200px] px-6">
     <div class="mb-12 text-center">
       <h2 class="font-heading text-[clamp(28px,4vw,36px)] font-medium leading-tight text-text-heading">
-        From Our Table to Yours
+        {displayHeading}
       </h2>
       <p class="mx-auto mt-4 max-w-[600px] font-heading text-[clamp(16px,2.2vw,20px)] font-normal leading-relaxed text-text-body">
-        Delicious recipes passed down that have stood the test of time and perseverance.
+        {displaySubtitle}
       </p>
     </div>
 

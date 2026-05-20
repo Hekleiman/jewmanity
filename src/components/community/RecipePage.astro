@@ -11,6 +11,22 @@ interface GalleryImage {
   alt?: string;
 }
 
+interface RecipeLabels {
+  ingredients?: string;
+  instructions?: string;
+  chefsNotes?: string;
+  shareHeading?: string;
+  shareSubtitle?: string;
+  copyLink?: string;
+  print?: string;
+  relatedHeading?: string;
+  viewAll?: string;
+  prep?: string;
+  cook?: string;
+  servings?: string;
+  difficulty?: string;
+}
+
 interface Props {
   title: string;
   description: string;
@@ -27,6 +43,7 @@ interface Props {
   date?: string;
   notes?: string;
   relatedRecipes?: RelatedRecipe[];
+  labels?: RecipeLabels;
 }
 
 const {
@@ -45,7 +62,26 @@ const {
   date,
   notes,
   relatedRecipes = [],
+  labels = {},
 } = Astro.props;
+
+const L = {
+  ingredients: labels.ingredients || 'Ingredients',
+  instructions: labels.instructions || 'Instructions',
+  chefsNotes: labels.chefsNotes || "Chef's Notes",
+  shareHeading: labels.shareHeading || 'Share This Recipe',
+  shareSubtitle:
+    labels.shareSubtitle
+      || 'This recipe is shared with love from our community. We hope it brings warmth and sweetness to your table.',
+  copyLink: labels.copyLink || 'Copy Link',
+  print: labels.print || 'Print Recipe',
+  relatedHeading: labels.relatedHeading || 'More from Our Table',
+  viewAll: labels.viewAll || 'View All Recipes →',
+  prep: labels.prep || 'Prep',
+  cook: labels.cook || 'Cook',
+  servings: labels.servings || 'Servings',
+  difficulty: labels.difficulty || 'Difficulty',
+};
 
 const galleryImages: GalleryImage[] = [];
 if (image) galleryImages.push({ url: image, alt: title });
@@ -169,7 +205,7 @@ const carouselId = `rc-${Math.random().toString(36).slice(2, 8)}`;
               <path d="M12 7v5l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
             <div>
-              <span class="block font-body text-xs text-text-muted">Prep</span>
+              <span class="block font-body text-xs text-text-muted">{L.prep}</span>
               <span class="font-body text-sm font-medium text-text-heading">{prepTime}</span>
             </div>
           </div>
@@ -179,7 +215,7 @@ const carouselId = `rc-${Math.random().toString(36).slice(2, 8)}`;
               <path d="M12 6v6h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
             </svg>
             <div>
-              <span class="block font-body text-xs text-text-muted">Cook</span>
+              <span class="block font-body text-xs text-text-muted">{L.cook}</span>
               <span class="font-body text-sm font-medium text-text-heading">{cookTime}</span>
             </div>
           </div>
@@ -190,7 +226,7 @@ const carouselId = `rc-${Math.random().toString(36).slice(2, 8)}`;
               <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
             </svg>
             <div>
-              <span class="block font-body text-xs text-text-muted">Servings</span>
+              <span class="block font-body text-xs text-text-muted">{L.servings}</span>
               <span class="font-body text-sm font-medium text-text-heading">{servings}</span>
             </div>
           </div>
@@ -199,7 +235,7 @@ const carouselId = `rc-${Math.random().toString(36).slice(2, 8)}`;
               <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
             <div>
-              <span class="block font-body text-xs text-text-muted">Difficulty</span>
+              <span class="block font-body text-xs text-text-muted">{L.difficulty}</span>
               <span class="font-body text-sm font-medium text-text-heading">{difficulty}</span>
             </div>
           </div>
@@ -219,7 +255,7 @@ const carouselId = `rc-${Math.random().toString(36).slice(2, 8)}`;
       <!-- Ingredients -->
       <div class="lg:w-[35%] lg:shrink-0">
         <h2 class="font-heading text-2xl font-medium text-text-heading">
-          Ingredients
+          {L.ingredients}
         </h2>
         <ul class="mt-5 space-y-3" id="ingredient-list">
           {ingredients.map((ingredient, i) => (
@@ -239,7 +275,7 @@ const carouselId = `rc-${Math.random().toString(36).slice(2, 8)}`;
       <!-- Instructions -->
       <div class="lg:flex-1">
         <h2 class="font-heading text-2xl font-medium text-text-heading">
-          Instructions
+          {L.instructions}
         </h2>
         <ol class="mt-5 space-y-6">
           {instructions.map((step, index) => (
@@ -259,7 +295,7 @@ const carouselId = `rc-${Math.random().toString(36).slice(2, 8)}`;
     <!-- Chef's notes -->
     {notes && (
       <div class="mt-10 rounded-[16px] border border-[#DADADA] bg-white px-6 py-5">
-        <h3 class="font-heading text-lg font-medium text-text-heading">Chef's Notes</h3>
+        <h3 class="font-heading text-lg font-medium text-text-heading">{L.chefsNotes}</h3>
         <p class="mt-2 font-body text-sm leading-relaxed text-text-body" set:html={notes} />
       </div>
     )}
@@ -268,10 +304,10 @@ const carouselId = `rc-${Math.random().toString(36).slice(2, 8)}`;
     <div class="mt-12 flex flex-col items-center gap-4 rounded-[16px] border-[0.5px] border-border-card bg-white px-6 py-6 shadow-[0px_16px_32px_rgba(12,12,13,0.1),0px_4px_4px_rgba(12,12,13,0.05)] sm:flex-row sm:justify-between">
       <div>
         <h3 class="font-heading text-lg font-medium text-text-heading">
-          Share This Recipe
+          {L.shareHeading}
         </h3>
         <p class="mt-1 font-body text-sm leading-6 text-text-body">
-          This recipe is shared with love from our community. We hope it brings warmth and sweetness to your table.
+          {L.shareSubtitle}
         </p>
       </div>
       <div class="flex shrink-0 gap-3">
@@ -283,7 +319,7 @@ const carouselId = `rc-${Math.random().toString(36).slice(2, 8)}`;
           <svg class="h-4 w-4" viewBox="0 0 16 16" fill="none" aria-hidden="true">
             <path d="M6.5 9.5l3-3M7 5.5l-.354-.354a2.5 2.5 0 1 0-3.536 3.536L4.5 10m4.5-4l1.354 1.354a2.5 2.5 0 0 1-3.536 3.536L5.5 9.5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
-          <span id="copy-link-text">Copy Link</span>
+          <span id="copy-link-text">{L.copyLink}</span>
         </button>
         <button
           type="button"
@@ -292,7 +328,7 @@ const carouselId = `rc-${Math.random().toString(36).slice(2, 8)}`;
           <svg class="h-4 w-4" viewBox="0 0 16 16" fill="none" aria-hidden="true">
             <path d="M4 6V1h8v5M4 12H2.5A1.5 1.5 0 0 1 1 10.5v-3A1.5 1.5 0 0 1 2.5 6h11A1.5 1.5 0 0 1 15 7.5v3a1.5 1.5 0 0 1-1.5 1.5H12m-8 0h8v3H4v-3Z" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
-          Print Recipe
+          {L.print}
         </button>
       </div>
     </div>
@@ -301,7 +337,7 @@ const carouselId = `rc-${Math.random().toString(36).slice(2, 8)}`;
     {relatedRecipes.length > 0 && (
       <div class="mt-16">
         <h2 class="text-center font-heading text-[clamp(24px,3.5vw,32px)] font-medium leading-tight text-text-heading">
-          More from Our Table
+          {L.relatedHeading}
         </h2>
         <div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {relatedRecipes.map((recipe) => (
@@ -320,7 +356,7 @@ const carouselId = `rc-${Math.random().toString(36).slice(2, 8)}`;
         </div>
         <div class="mt-8 text-center">
           <a href="/community/recipes" class="inline-block font-body text-sm font-medium text-primary transition-colors hover:text-primary-hover">
-            View All Recipes &rarr;
+            {L.viewAll}
           </a>
         </div>
       </div>

@@ -61,6 +61,15 @@ export default defineType({
       type: 'image',
       description: 'Photo or illustration displayed alongside the "Why Give" section. Recommended: 600x400px, landscape.',
       options: { hotspot: true },
+      fields: [
+        defineField({
+          name: 'alt',
+          title: 'Alt Text',
+          type: 'string',
+          description:
+            'Short description of the image for screen readers and SEO. If left blank, the site uses: "Community care and support through Jewmanity programs".',
+        }),
+      ],
       group: 'whyGive',
     }),
     defineField({

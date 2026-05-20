@@ -10,6 +10,8 @@ interface Member {
 
 interface Props {
   members?: Member[];
+  heading?: string;
+  subtitle?: string;
 }
 
 const fallbackMembers: Member[] = [
@@ -39,18 +41,20 @@ const fallbackMembers: Member[] = [
   },
 ];
 
-const { members: cmsMembers } = Astro.props;
+const { members: cmsMembers, heading, subtitle } = Astro.props;
 const teamMembers = cmsMembers && cmsMembers.length > 0 ? cmsMembers : fallbackMembers;
+const displayHeading = heading || 'Our Team';
+const displaySubtitle = subtitle || 'A group of leaders, advocates, and community members united by compassion, lived experience, and a shared commitment to healing.';
 ---
 
 <section class="py-16 md:py-20 lg:py-24">
   <div class="mx-auto max-w-[1200px] px-6">
     <div class="mb-12 text-center" data-animate="fade-up">
       <h2 class="font-heading text-[clamp(28px,4vw,36px)] font-medium leading-tight text-text-heading">
-        Our Team
+        {displayHeading}
       </h2>
       <p class="mx-auto mt-4 max-w-[700px] font-heading text-[clamp(16px,2.2vw,20px)] font-normal leading-relaxed text-text-body">
-        A group of leaders, advocates, and community members united by compassion, lived experience, and a shared commitment to healing.
+        {displaySubtitle}
       </p>
     </div>
 

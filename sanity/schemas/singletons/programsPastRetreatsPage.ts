@@ -8,6 +8,7 @@ export default defineType({
     { name: 'hero', title: 'Hero' },
     { name: 'grid', title: 'Retreat Grid Heading' },
     { name: 'testimonials', title: 'Testimonials Section' },
+    { name: 'detail', title: 'Retreat Detail Page' },
     { name: 'cta', title: 'Call to Action' },
   ],
   fields: [
@@ -52,6 +53,23 @@ export default defineType({
       rows: 2,
       description: 'Short line below the testimonials heading.',
       group: 'testimonials',
+    }),
+
+    defineField({
+      name: 'detailGalleryHeading',
+      title: 'Retreat Detail: Gallery Heading',
+      type: 'string',
+      description: 'Heading above the photo gallery on an individual retreat page. Default: "Retreat Photos".',
+      initialValue: 'Retreat Photos',
+      group: 'detail',
+    }),
+    defineField({
+      name: 'detailBackLinkText',
+      title: 'Retreat Detail: Back Link Text',
+      type: 'string',
+      description: 'Text of the "back" link at the bottom of an individual retreat page. Default: "Back to Past Retreats".',
+      initialValue: 'Back to Past Retreats',
+      group: 'detail',
     }),
 
     defineField({

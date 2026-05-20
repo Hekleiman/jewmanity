@@ -1,7 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import RetreatArticle from '../../components/programs/RetreatArticle.astro';
-import { getRetreats, urlFor } from '../../lib/sanity';
+import { getRetreats, getProgramsPastRetreatsPage, urlFor } from '../../lib/sanity';
 
 interface ContentBlock {
   type: 'paragraph' | 'heading' | 'image';
@@ -27,6 +27,13 @@ export async function getStaticPaths() {
 }
 
 const { retreat } = Astro.props as { retreat: Record<string, unknown> };
+
+let pastRetreatsPage: Record<string, any> | null = null;
+try {
+  pastRetreatsPage = await getProgramsPastRetreatsPage();
+} catch (e) {
+  console.warn('Sanity fetch failed for programsPastRetreatsPage on retreat detail, using fallbacks');
+}
 
 const title = (retreat.title as string) || 'Retreat';
 const subtitle = (retreat.subtitle as string) || '';
@@ -71,5 +78,7 @@ const body: ContentBlock[] = cmsBody.map((block) => {
     coverImage={coverImage}
     body={body}
     gallery={gallery}
+    galleryHeading={pastRetreatsPage?.detailGalleryHeading}
+    backLinkText={pastRetreatsPage?.detailBackLinkText}
   />
 </Layout>
