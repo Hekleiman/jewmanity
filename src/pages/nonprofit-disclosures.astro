@@ -1,14 +1,89 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { getNonprofitDisclosuresPage, urlFor } from '../lib/sanity';
+import { toHTML } from '@portabletext/to-html';
+
+let cms: Record<string, any> | null = null;
+try {
+  cms = await getNonprofitDisclosuresPage();
+} catch (e) {
+  console.warn('Sanity fetch failed for nonprofitDisclosuresPage, using hardcoded fallback');
+}
+
+const heading = cms?.heading || 'Nonprofit Disclosures';
+const heroSubtitle = cms?.heroSubtitle || 'Transparency and accountability in everything we do';
+
+const orgInfo = cms?.organizationInfo ?? null;
+const legalName = orgInfo?.legalName || 'Jewmanity';
+const orgType = orgInfo?.orgType || '501(c)(3) Nonprofit Organization';
+const ein = orgInfo?.ein || '99-4219099';
+const yearEstablished = orgInfo?.yearEstablished || '2019';
+const stateOfIncorporation = orgInfo?.stateOfIncorporation || 'California';
+
+const taxStatusHeading = cms?.taxStatusHeading || 'Tax-Deductible Status';
+const taxStatusHtml = Array.isArray(cms?.taxStatusBody) && cms.taxStatusBody.length > 0 ? toHTML(cms.taxStatusBody) : null;
+
+const missionHeading = cms?.missionHeading || 'Mission Statement';
+const missionStatement = cms?.missionStatement || 'Jewmanity is dedicated to supporting mental health and healing for Jewish and Israeli communities through rehabilitation retreats, peer support programs, education, and ongoing care resources.';
+
+const programsHeading = cms?.programsHeading || 'Use of Funds';
+const programsIntro = cms?.programsIntro || 'Jewmanity is committed to responsible stewardship of all contributions. Our programs include:';
+const programs: { name: string; description: string }[] = Array.isArray(cms?.programs) && cms.programs.length > 0
+  ? cms.programs
+  : [
+      { name: 'Heads Up Healing Retreats', description: 'Comprehensive rehabilitation retreats in San Diego for Israeli soldiers, widows, widowers, and family members experiencing PTSD and trauma' },
+      { name: 'Community & Peer Support', description: 'Group sessions and peer networks that foster understanding and mutual support' },
+      { name: 'Education & Awareness', description: 'Workshops and resources addressing mental health stigma, trauma, and antisemitism' },
+      { name: 'Ongoing Care Resources', description: 'Therapist referrals, mental health tools, and continuing support' },
+    ];
+
+const financialHeading = cms?.financialHeading || 'Financial Transparency';
+const financialIntro = cms?.financialIntro || 'We believe in complete transparency about how donations are used. The average cost to support one participant through a healing retreat is approximately $4,500, which covers:';
+const financialClosing = cms?.financialClosing || 'Administrative costs are kept minimal to ensure maximum impact from every contribution.';
+
+const useDonateBreakdown = cms?.useDonatePageCostBreakdown !== false;
+const donateBreakdown: { title: string; amount: string }[] = Array.isArray(cms?.donateCostBreakdown) ? cms.donateCostBreakdown : [];
+const fallbackBreakdown: { title: string; amount: string }[] = [
+  { title: 'International flights', amount: '$1,200' },
+  { title: 'Housing and accommodations', amount: '$800' },
+  { title: 'Therapy and clinical support', amount: '$1,500' },
+  { title: 'Meals and nutrition', amount: '$400' },
+  { title: 'Program activities and logistics', amount: '$600' },
+];
+const breakdownItems: { title: string; amount: string }[] =
+  useDonateBreakdown && donateBreakdown.length > 0 ? donateBreakdown : fallbackBreakdown;
+
+const boardHeading = cms?.boardHeading || 'Board of Directors';
+const boardMembers: { name: string; role?: string }[] = Array.isArray(cms?.boardMembers) && cms.boardMembers.length > 0
+  ? cms.boardMembers
+  : [
+      { name: 'Belinda Donner', role: 'Founding Board Member' },
+      { name: 'Andrew Donner', role: 'Founding Board Member' },
+      { name: 'Shai Gino', role: 'Executive Director' },
+      { name: 'Rabbi Avi Libman', role: 'Board Member' },
+    ];
+
+const contactHeading = cms?.contactHeading || 'Contact';
+const contactHtml = Array.isArray(cms?.contactBody) && cms.contactBody.length > 0 ? toHTML(cms.contactBody) : null;
+
+const metaTitle = cms?.meta?.title;
+const metaDescription = cms?.meta?.description;
+const metaOgImage = cms?.meta?.ogImage
+  ? urlFor(cms.meta.ogImage).width(1200).height(630).url()
+  : undefined;
 ---
-<Layout title="Nonprofit Disclosures | Jewmanity" description="Transparency about Jewmanity's 501(c)(3) status, use of funds, and organizational governance.">
+<Layout
+  title={metaTitle || 'Nonprofit Disclosures | Jewmanity'}
+  description={metaDescription || "Transparency about Jewmanity's 501(c)(3) status, use of funds, and organizational governance."}
+  ogImage={metaOgImage}
+>
   <section id="disclosures-hero" class="bg-primary-light py-20 pt-32 md:py-24 md:pt-36">
     <div class="mx-auto max-w-[800px] px-6 text-center">
       <h1 class="font-heading text-[clamp(32px,5vw,48px)] font-medium leading-tight text-text-heading">
-        Nonprofit Disclosures
+        {heading}
       </h1>
       <p class="mt-3 font-heading text-lg text-text-muted">
-        Transparency and accountability in everything we do
+        {heroSubtitle}
       </p>
     </div>
   </section>
@@ -17,78 +92,67 @@ import Layout from '../layouts/Layout.astro';
     <div class="prose-legal mx-auto max-w-[800px] px-6">
       <h2>Organization Information</h2>
       <p>
-        <strong>Legal Name:</strong> Jewmanity<br />
-        <strong>Type:</strong> 501(c)(3) Nonprofit Organization<br />
-        <strong>EIN:</strong> 99-4219099<br />
-        <strong>Year Established:</strong> 2019<br />
-        <strong>State of Incorporation:</strong> California
+        <strong>Legal Name:</strong> {legalName}<br />
+        <strong>Type:</strong> {orgType}<br />
+        <strong>EIN:</strong> {ein}<br />
+        <strong>Year Established:</strong> {yearEstablished}<br />
+        <strong>State of Incorporation:</strong> {stateOfIncorporation}
       </p>
 
-      <h2>Tax-Deductible Status</h2>
-      <p>
-        Jewmanity is recognized by the Internal Revenue Service as a tax-exempt organization under Section 501(c)(3) of
-        the Internal Revenue Code. All donations to Jewmanity are tax-deductible to the fullest extent allowed by law.
-      </p>
-      <p>
-        Donors will receive a tax receipt via email for all contributions. For donations of $250 or more, a written
-        acknowledgment will be provided as required by IRS regulations.
-      </p>
+      <h2>{taxStatusHeading}</h2>
+      {taxStatusHtml ? (
+        <div set:html={taxStatusHtml} />
+      ) : (
+        <>
+          <p>
+            Jewmanity is recognized by the Internal Revenue Service as a tax-exempt organization under Section 501(c)(3) of
+            the Internal Revenue Code. All donations to Jewmanity are tax-deductible to the fullest extent allowed by law.
+          </p>
+          <p>
+            Donors will receive a tax receipt via email for all contributions. For donations of $250 or more, a written
+            acknowledgment will be provided as required by IRS regulations.
+          </p>
+        </>
+      )}
 
-      <h2>Mission Statement</h2>
-      <p>
-        Jewmanity is dedicated to supporting mental health and healing for Jewish and Israeli communities through
-        rehabilitation retreats, peer support programs, education, and ongoing care resources.
-      </p>
+      <h2>{missionHeading}</h2>
+      <p>{missionStatement}</p>
 
-      <h2>Use of Funds</h2>
-      <p>
-        Jewmanity is committed to responsible stewardship of all contributions. Our programs include:
-      </p>
+      <h2>{programsHeading}</h2>
+      <p>{programsIntro}</p>
       <ul>
-        <li>
-          <strong>Heads Up Healing Retreats</strong> — Comprehensive rehabilitation retreats in San Diego for Israeli
-          soldiers, widows, widowers, and family members experiencing PTSD and trauma
-        </li>
-        <li>
-          <strong>Community &amp; Peer Support</strong> — Group sessions and peer networks that foster understanding and
-          mutual support
-        </li>
-        <li>
-          <strong>Education &amp; Awareness</strong> — Workshops and resources addressing mental health stigma, trauma,
-          and antisemitism
-        </li>
-        <li>
-          <strong>Ongoing Care Resources</strong> — Therapist referrals, mental health tools, and continuing support
-        </li>
+        {programs.map((p) => (
+          <li>
+            <strong>{p.name}</strong>{p.description ? <> — {p.description}</> : null}
+          </li>
+        ))}
       </ul>
 
-      <h2>Financial Transparency</h2>
-      <p>
-        We believe in complete transparency about how donations are used. The average cost to support one participant
-        through a healing retreat is approximately $4,500, which covers:
-      </p>
+      <h2>{financialHeading}</h2>
+      <p>{financialIntro}</p>
       <ul>
-        <li>International flights: $1,200</li>
-        <li>Housing and accommodations: $800</li>
-        <li>Therapy and clinical support: $1,500</li>
-        <li>Meals and nutrition: $400</li>
-        <li>Program activities and logistics: $600</li>
+        {breakdownItems.map((item) => (
+          <li>{item.title}: {item.amount}</li>
+        ))}
       </ul>
-      <p>Administrative costs are kept minimal to ensure maximum impact from every contribution.</p>
+      <p>{financialClosing}</p>
 
-      <h2>Board of Directors</h2>
+      <h2>{boardHeading}</h2>
       <ul>
-        <li>Belinda Donner, Founding Board Member</li>
-        <li>Andrew Donner, Founding Board Member</li>
-        <li>Shai Gino, Executive Director</li>
-        <li>Rabbi Avi Libman, Board Member</li>
+        {boardMembers.map((m) => (
+          <li>{m.name}{m.role ? `, ${m.role}` : ''}</li>
+        ))}
       </ul>
 
-      <h2>Contact</h2>
-      <p>
-        For questions about our nonprofit status, financial practices, or organizational governance, please reach out
-        through our <a href="/get-involved/contact">contact form</a>.
-      </p>
+      <h2>{contactHeading}</h2>
+      {contactHtml ? (
+        <div set:html={contactHtml} />
+      ) : (
+        <p>
+          For questions about our nonprofit status, financial practices, or organizational governance, please reach out
+          through our <a href="/get-involved/contact">contact form</a>.
+        </p>
+      )}
     </div>
   </section>
 </Layout>

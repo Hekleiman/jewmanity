@@ -527,6 +527,66 @@ export async function getSiteSettings() {
   `);
 }
 
+export async function getNotFoundPage() {
+  return client.fetch(`
+    *[_type == "notFoundPage"][0] {
+      meta,
+      heading,
+      body,
+      buttons[]{ label, href }
+    }
+  `);
+}
+
+export async function getPrivacyPage() {
+  return client.fetch(`
+    *[_type == "privacyPage"][0] {
+      meta,
+      heading,
+      lastUpdated,
+      body
+    }
+  `);
+}
+
+export async function getTermsPage() {
+  return client.fetch(`
+    *[_type == "termsPage"][0] {
+      meta,
+      heading,
+      lastUpdated,
+      body
+    }
+  `);
+}
+
+export async function getNonprofitDisclosuresPage() {
+  return client.fetch(`
+    *[_type == "nonprofitDisclosuresPage"][0] {
+      meta,
+      heading,
+      heroSubtitle,
+      organizationInfo,
+      taxStatusHeading,
+      taxStatusBody,
+      missionHeading,
+      missionStatement,
+      programsHeading,
+      programsIntro,
+      programs[]{ name, description },
+      financialHeading,
+      financialIntro,
+      useDonatePageCostBreakdown,
+      financialClosing,
+      boardHeading,
+      boardMembers[]{ name, role },
+      contactHeading,
+      contactBody,
+      "donateCostBreakdown": *[_type == "donatePage"][0].costBreakdown[]{ title, description, amount }
+    }
+  `);
+}
+
 export async function getNavigation() {
   return client.fetch(`
     *[_type == "navigation"][0] {

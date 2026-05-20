@@ -1,87 +1,120 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { getPrivacyPage, urlFor } from '../lib/sanity';
+import { toHTML } from '@portabletext/to-html';
+
+let cms: Record<string, any> | null = null;
+try {
+  cms = await getPrivacyPage();
+} catch (e) {
+  console.warn('Sanity fetch failed for privacyPage, using hardcoded fallback');
+}
+
+const heading = cms?.heading || 'Privacy Policy';
+const lastUpdatedRaw = cms?.lastUpdated;
+const lastUpdated = lastUpdatedRaw
+  ? new Date(lastUpdatedRaw).toLocaleDateString('en-US', { year: 'numeric', month: 'long' })
+  : 'March 2026';
+
+const bodyHtml = Array.isArray(cms?.body) && cms.body.length > 0 ? toHTML(cms.body) : null;
+
+const metaTitle = cms?.meta?.title;
+const metaDescription = cms?.meta?.description;
+const metaOgImage = cms?.meta?.ogImage
+  ? urlFor(cms.meta.ogImage).width(1200).height(630).url()
+  : undefined;
 ---
-<Layout title="Privacy Policy | Jewmanity" description="How Jewmanity collects, uses, and protects your personal information.">
+<Layout
+  title={metaTitle || 'Privacy Policy | Jewmanity'}
+  description={metaDescription || 'How Jewmanity collects, uses, and protects your personal information.'}
+  ogImage={metaOgImage}
+>
   <section id="privacy-hero" class="bg-primary-light py-20 pt-32 md:py-24 md:pt-36">
     <div class="mx-auto max-w-[800px] px-6 text-center">
       <h1 class="font-heading text-[clamp(32px,5vw,48px)] font-medium leading-tight text-text-heading">
-        Privacy Policy
+        {heading}
       </h1>
-      <p class="mt-3 font-heading text-lg text-text-muted">Last updated: March 2026</p>
+      <p class="mt-3 font-heading text-lg text-text-muted">Last updated: {lastUpdated}</p>
     </div>
   </section>
 
   <section id="privacy-content" class="py-16 md:py-20">
     <div class="prose-legal mx-auto max-w-[800px] px-6">
-      <h2>Information We Collect</h2>
-      <p>
-        Jewmanity collects information you voluntarily provide when using our website, including:
-      </p>
-      <ul>
-        <li>Contact information (name, email address) submitted through our contact and volunteer forms</li>
-        <li>Donation information processed through our third-party donation platform</li>
-        <li>Purchase information processed through our third-party shop platform (Snipcart)</li>
-        <li>Email addresses submitted through our newsletter signup</li>
-        <li>Usage data collected automatically (browser type, pages visited, referring site) through standard web analytics</li>
-      </ul>
+      {bodyHtml ? (
+        <div set:html={bodyHtml} />
+      ) : (
+        <>
+          <h2>Information We Collect</h2>
+          <p>
+            Jewmanity collects information you voluntarily provide when using our website, including:
+          </p>
+          <ul>
+            <li>Contact information (name, email address) submitted through our contact and volunteer forms</li>
+            <li>Donation information processed through our third-party donation platform</li>
+            <li>Purchase information processed through our third-party shop platform (Snipcart)</li>
+            <li>Email addresses submitted through our newsletter signup</li>
+            <li>Usage data collected automatically (browser type, pages visited, referring site) through standard web analytics</li>
+          </ul>
 
-      <h2>How We Use Your Information</h2>
-      <p>We use the information we collect to:</p>
-      <ul>
-        <li>Respond to your inquiries and support requests</li>
-        <li>Process donations and purchases</li>
-        <li>Send newsletters and program updates (only if you opted in)</li>
-        <li>Improve our website and programs</li>
-        <li>Comply with legal obligations</li>
-      </ul>
+          <h2>How We Use Your Information</h2>
+          <p>We use the information we collect to:</p>
+          <ul>
+            <li>Respond to your inquiries and support requests</li>
+            <li>Process donations and purchases</li>
+            <li>Send newsletters and program updates (only if you opted in)</li>
+            <li>Improve our website and programs</li>
+            <li>Comply with legal obligations</li>
+          </ul>
 
-      <h2>Third-Party Services</h2>
-      <p>We use the following third-party services that may collect data:</p>
-      <ul>
-        <li><strong>Third-party donation processor</strong> for donation processing</li>
-        <li><strong>Snipcart</strong> for merchandise purchases (see Snipcart Privacy Policy)</li>
-        <li><strong>Formspree</strong> for form submissions (see Formspree Privacy Policy)</li>
-        <li><strong>Vercel</strong> for website hosting (see Vercel Privacy Policy)</li>
-      </ul>
-      <p>We do not sell, rent, or share your personal information with third parties for marketing purposes.</p>
+          <h2>Third-Party Services</h2>
+          <p>We use the following third-party services that may collect data:</p>
+          <ul>
+            <li><strong>Third-party donation processor</strong> for donation processing</li>
+            <li><strong>Snipcart</strong> for merchandise purchases (see Snipcart Privacy Policy)</li>
+            <li><strong>Formspree</strong> for form submissions (see Formspree Privacy Policy)</li>
+            <li><strong>Vercel</strong> for website hosting (see Vercel Privacy Policy)</li>
+          </ul>
+          <p>We do not sell, rent, or share your personal information with third parties for marketing purposes.</p>
 
-      <h2>Data Security</h2>
-      <p>
-        We implement reasonable security measures to protect your personal information. However, no method of
-        transmission over the internet is 100% secure, and we cannot guarantee absolute security.
-      </p>
+          <h2>Data Security</h2>
+          <p>
+            We implement reasonable security measures to protect your personal information. However, no method of
+            transmission over the internet is 100% secure, and we cannot guarantee absolute security.
+          </p>
 
-      <h2>Cookies</h2>
-      <p>
-        Our website may use essential cookies for basic functionality. We do not use advertising or tracking cookies.
-      </p>
+          <h2>Cookies</h2>
+          <p>
+            Our website may use essential cookies for basic functionality. We do not use advertising or tracking cookies.
+          </p>
 
-      <h2>Your Rights</h2>
-      <p>You have the right to:</p>
-      <ul>
-        <li>Request access to the personal information we hold about you</li>
-        <li>Request correction or deletion of your personal information</li>
-        <li>Opt out of newsletter communications at any time</li>
-        <li>Contact us with any privacy-related concerns</li>
-      </ul>
+          <h2>Your Rights</h2>
+          <p>You have the right to:</p>
+          <ul>
+            <li>Request access to the personal information we hold about you</li>
+            <li>Request correction or deletion of your personal information</li>
+            <li>Opt out of newsletter communications at any time</li>
+            <li>Contact us with any privacy-related concerns</li>
+          </ul>
 
-      <h2>Children's Privacy</h2>
-      <p>
-        Our website is not directed at children under the age of 13, and we do not knowingly collect personal
-        information from children.
-      </p>
+          <h2>Children's Privacy</h2>
+          <p>
+            Our website is not directed at children under the age of 13, and we do not knowingly collect personal
+            information from children.
+          </p>
 
-      <h2>Changes to This Policy</h2>
-      <p>
-        We may update this Privacy Policy from time to time. Changes will be posted on this page with an updated
-        revision date.
-      </p>
+          <h2>Changes to This Policy</h2>
+          <p>
+            We may update this Privacy Policy from time to time. Changes will be posted on this page with an updated
+            revision date.
+          </p>
 
-      <h2>Contact Us</h2>
-      <p>
-        If you have questions about this Privacy Policy, please reach out through our
-        <a href="/get-involved/contact">contact form</a>.
-      </p>
+          <h2>Contact Us</h2>
+          <p>
+            If you have questions about this Privacy Policy, please reach out through our
+            <a href="/get-involved/contact">contact form</a>.
+          </p>
+        </>
+      )}
     </div>
   </section>
 </Layout>
