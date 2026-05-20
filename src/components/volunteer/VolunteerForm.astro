@@ -1,14 +1,95 @@
 ---
+interface FormFieldOption {
+  label: string;
+  value?: string;
+}
+interface FormFieldConfig {
+  name: string;
+  label?: string;
+  placeholder?: string;
+  helperText?: string;
+  type?: string;
+  required?: boolean;
+  options?: FormFieldOption[];
+}
+interface FormMessagesConfig {
+  submitButton?: string;
+  submittingButton?: string;
+  success?: string;
+  error?: string;
+  configurationPending?: string;
+}
 interface Props {
   heading?: string;
   subtitle?: string;
   privacyNote?: string;
+  formSection?: {
+    fields?: FormFieldConfig[];
+    emailSubject?: string;
+    messages?: FormMessagesConfig;
+  };
 }
 
-const { heading, subtitle, privacyNote } = Astro.props;
+const { heading, subtitle, privacyNote, formSection } = Astro.props;
 const displayHeading = heading || 'Volunteer Application';
 const displaySubtitle = subtitle || "Fill out the form below and we'll be in touch to find the right fit for you.";
 const displayPrivacyNote = privacyNote || 'Your information will be kept confidential and used only for volunteer coordination.';
+
+const formFields: FormFieldConfig[] = formSection?.fields || [];
+function field(name: string, fallback: { label: string; placeholder?: string }) {
+  const cms = formFields.find((f) => f.name === name);
+  return {
+    label: cms?.label || fallback.label,
+    placeholder: cms?.placeholder || fallback.placeholder || '',
+    options: cms?.options || [],
+  };
+}
+const fFirstName = field('firstName', { label: 'First Name', placeholder: 'Enter your first name' });
+const fLastName = field('lastName', { label: 'Last Name', placeholder: 'Enter your last name' });
+const fEmail = field('email', { label: 'Email Address', placeholder: 'your@email.com' });
+const fPhone = field('phone', { label: 'Phone Number', placeholder: '(555) 123-4567' });
+const fLocation = field('location', { label: 'City / Location', placeholder: 'e.g. San Diego, CA' });
+const fReferral = field('referral', { label: 'How did you hear about us?', placeholder: 'Select an option' });
+const fInterests = field('interests', { label: 'Areas of Interest' });
+const fAbout = field('about', {
+  label: 'Tell us about yourself',
+  placeholder: "Share anything you'd like us to know, your background, availability, or what drew you to volunteer.",
+});
+const fAvailability = field('availability', { label: 'Availability', placeholder: 'Select your availability' });
+
+const fallbackReferralOptions: FormFieldOption[] = [
+  { label: 'Social Media' },
+  { label: 'Friend or Family' },
+  { label: 'Synagogue or Community Org' },
+  { label: 'Web Search' },
+  { label: 'Event' },
+  { label: 'Other' },
+];
+const fallbackInterestOptions: FormFieldOption[] = [
+  { label: 'Preparing and Serving Meals' },
+  { label: 'Hosting Dinners and Gatherings' },
+  { label: 'Day-to-Day Support' },
+  { label: 'Other' },
+];
+const fallbackAvailabilityOptions: FormFieldOption[] = [
+  { label: 'A few hours per retreat' },
+  { label: 'Full retreat (5-7 days)' },
+  { label: 'Ongoing/regular basis' },
+  { label: "Flexible, tell me what's needed", value: 'Flexible' },
+];
+const referralOptions = fReferral.options.length > 0 ? fReferral.options : fallbackReferralOptions;
+const interestOptions = fInterests.options.length > 0 ? fInterests.options : fallbackInterestOptions;
+const availabilityOptions = fAvailability.options.length > 0 ? fAvailability.options : fallbackAvailabilityOptions;
+
+const messages = formSection?.messages || {};
+const submitText = messages.submitButton || 'Submit Volunteer Application';
+const submittingText = messages.submittingButton || 'Submitting...';
+const successText = messages.success || "Thank you for your application! We'll be in touch soon.";
+const errorText = messages.error || 'Something went wrong. Please try again.';
+const configPendingText = messages.configurationPending
+  || 'The volunteer application form is being configured. Please check back soon or reach out via the contact page.';
+
+const emailSubject = formSection?.emailSubject || 'New Volunteer Application';
 
 const formId = import.meta.env.PUBLIC_FORMSPREE_VOLUNTEER_ID;
 const isConfigured = !!formId && formId !== 'your_formspree_form_id_for_volunteer_form';
@@ -31,14 +112,14 @@ const actionUrl = isConfigured ? `https://formspree.io/f/${formId}` : '';
       method="POST"
       class="mt-10 space-y-6"
     >
-      <input type="hidden" name="_subject" value="New Volunteer Application" />
+      <input type="hidden" name="_subject" value={emailSubject} />
       <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" />
 
       <!-- Row 1: Name -->
       <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
         <div>
           <label for="vol-firstName" class="mb-1.5 block font-body text-sm font-medium text-text-heading">
-            First Name <span class="text-red-500">*</span>
+            {fFirstName.label} <span class="text-red-500">*</span>
           </label>
           <input
             type="text"
@@ -46,13 +127,13 @@ const actionUrl = isConfigured ? `https://formspree.io/f/${formId}` : '';
             name="firstName"
             required
             aria-required="true"
-            placeholder="Enter your first name"
+            placeholder={fFirstName.placeholder}
             class="w-full rounded-lg border border-[#DADADA] bg-white px-4 py-3 font-body text-sm text-text-heading placeholder:text-text-muted focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
           />
         </div>
         <div>
           <label for="vol-lastName" class="mb-1.5 block font-body text-sm font-medium text-text-heading">
-            Last Name <span class="text-red-500">*</span>
+            {fLastName.label} <span class="text-red-500">*</span>
           </label>
           <input
             type="text"
@@ -60,7 +141,7 @@ const actionUrl = isConfigured ? `https://formspree.io/f/${formId}` : '';
             name="lastName"
             required
             aria-required="true"
-            placeholder="Enter your last name"
+            placeholder={fLastName.placeholder}
             class="w-full rounded-lg border border-[#DADADA] bg-white px-4 py-3 font-body text-sm text-text-heading placeholder:text-text-muted focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
           />
         </div>
@@ -70,7 +151,7 @@ const actionUrl = isConfigured ? `https://formspree.io/f/${formId}` : '';
       <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
         <div>
           <label for="vol-email" class="mb-1.5 block font-body text-sm font-medium text-text-heading">
-            Email Address <span class="text-red-500">*</span>
+            {fEmail.label} <span class="text-red-500">*</span>
           </label>
           <input
             type="email"
@@ -78,19 +159,19 @@ const actionUrl = isConfigured ? `https://formspree.io/f/${formId}` : '';
             name="email"
             required
             aria-required="true"
-            placeholder="your@email.com"
+            placeholder={fEmail.placeholder}
             class="w-full rounded-lg border border-[#DADADA] bg-white px-4 py-3 font-body text-sm text-text-heading placeholder:text-text-muted focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
           />
         </div>
         <div>
           <label for="vol-phone" class="mb-1.5 block font-body text-sm font-medium text-text-heading">
-            Phone Number
+            {fPhone.label}
           </label>
           <input
             type="tel"
             id="vol-phone"
             name="phone"
-            placeholder="(555) 123-4567"
+            placeholder={fPhone.placeholder}
             class="w-full rounded-lg border border-[#DADADA] bg-white px-4 py-3 font-body text-sm text-text-heading placeholder:text-text-muted focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
           />
         </div>
@@ -100,32 +181,29 @@ const actionUrl = isConfigured ? `https://formspree.io/f/${formId}` : '';
       <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
         <div>
           <label for="vol-location" class="mb-1.5 block font-body text-sm font-medium text-text-heading">
-            City / Location
+            {fLocation.label}
           </label>
           <input
             type="text"
             id="vol-location"
             name="location"
-            placeholder="e.g. San Diego, CA"
+            placeholder={fLocation.placeholder}
             class="w-full rounded-lg border border-[#DADADA] bg-white px-4 py-3 font-body text-sm text-text-heading placeholder:text-text-muted focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
           />
         </div>
         <div>
           <label for="vol-referral" class="mb-1.5 block font-body text-sm font-medium text-text-heading">
-            How did you hear about us?
+            {fReferral.label}
           </label>
           <select
             id="vol-referral"
             name="referral"
             class="w-full appearance-none rounded-lg border border-[#DADADA] bg-white px-4 py-3 font-body text-sm text-text-heading focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
           >
-            <option value="" disabled selected>Select an option</option>
-            <option value="Social Media">Social Media</option>
-            <option value="Friend or Family">Friend or Family</option>
-            <option value="Synagogue or Community Org">Synagogue or Community Org</option>
-            <option value="Web Search">Web Search</option>
-            <option value="Event">Event</option>
-            <option value="Other">Other</option>
+            <option value="" disabled selected>{fReferral.placeholder}</option>
+            {referralOptions.map((opt) => (
+              <option value={opt.value || opt.label}>{opt.label}</option>
+            ))}
           </select>
         </div>
       </div>
@@ -133,23 +211,18 @@ const actionUrl = isConfigured ? `https://formspree.io/f/${formId}` : '';
       <!-- Row 4: Areas of Interest -->
       <fieldset>
         <legend class="mb-3 font-body text-sm font-medium text-text-heading">
-          Areas of Interest
+          {fInterests.label}
         </legend>
         <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
-          {[
-            'Preparing and Serving Meals',
-            'Hosting Dinners and Gatherings',
-            'Day-to-Day Support',
-            'Other',
-          ].map((interest) => (
+          {interestOptions.map((opt) => (
             <label class="flex cursor-pointer items-center gap-3 rounded-lg border border-[#DADADA] bg-white px-4 py-3 transition-colors has-[:checked]:border-primary has-[:checked]:bg-primary/5">
               <input
                 type="checkbox"
                 name="interests"
-                value={interest}
+                value={opt.value || opt.label}
                 class="h-4 w-4 shrink-0 rounded border-[#DADADA] accent-primary"
               />
-              <span class="font-body text-sm text-text-heading">{interest}</span>
+              <span class="font-body text-sm text-text-heading">{opt.label}</span>
             </label>
           ))}
         </div>
@@ -158,13 +231,13 @@ const actionUrl = isConfigured ? `https://formspree.io/f/${formId}` : '';
       <!-- Row 5: About yourself -->
       <div>
         <label for="vol-about" class="mb-1.5 block font-body text-sm font-medium text-text-heading">
-          Tell us about yourself
+          {fAbout.label}
         </label>
         <textarea
           id="vol-about"
           name="about"
           rows="4"
-          placeholder="Share anything you'd like us to know — your background, availability, or what drew you to volunteer."
+          placeholder={fAbout.placeholder}
           class="w-full resize-vertical rounded-lg border border-[#DADADA] bg-white px-4 py-3 font-body text-sm text-text-heading placeholder:text-text-muted focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
         ></textarea>
       </div>
@@ -172,18 +245,17 @@ const actionUrl = isConfigured ? `https://formspree.io/f/${formId}` : '';
       <!-- Row 6: Availability -->
       <div>
         <label for="vol-availability" class="mb-1.5 block font-body text-sm font-medium text-text-heading">
-          Availability
+          {fAvailability.label}
         </label>
         <select
           id="vol-availability"
           name="availability"
           class="w-full appearance-none rounded-lg border border-[#DADADA] bg-white px-4 py-3 font-body text-sm text-text-heading focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
         >
-          <option value="" disabled selected>Select your availability</option>
-          <option value="A few hours per retreat">A few hours per retreat</option>
-          <option value="Full retreat (5-7 days)">Full retreat (5-7 days)</option>
-          <option value="Ongoing/regular basis">Ongoing/regular basis</option>
-          <option value="Flexible">Flexible — tell me what's needed</option>
+          <option value="" disabled selected>{fAvailability.placeholder}</option>
+          {availabilityOptions.map((opt) => (
+            <option value={opt.value || opt.label}>{opt.label}</option>
+          ))}
         </select>
       </div>
 
@@ -192,9 +264,11 @@ const actionUrl = isConfigured ? `https://formspree.io/f/${formId}` : '';
         <button
           type="submit"
           id="volunteer-submit-btn"
+          data-submit-text={submitText}
+          data-submitting-text={submittingText}
           class="inline-block rounded-[100px] bg-primary px-8 py-3 font-heading text-sm font-medium leading-6 text-white transition-colors hover:bg-primary-hover disabled:cursor-not-allowed disabled:opacity-60"
         >
-          Submit Volunteer Application
+          {submitText}
         </button>
       </div>
 
@@ -208,7 +282,7 @@ const actionUrl = isConfigured ? `https://formspree.io/f/${formId}` : '';
         class="hidden rounded-lg border border-green-200 bg-green-50 p-4 text-center font-body text-sm text-green-800"
         role="alert"
       >
-        Thank you for your application! We'll be in touch soon.
+        {successText}
       </div>
 
       <!-- Error message -->
@@ -217,12 +291,12 @@ const actionUrl = isConfigured ? `https://formspree.io/f/${formId}` : '';
         class="hidden rounded-lg border border-red-200 bg-red-50 p-4 text-center font-body text-sm text-red-800"
         role="alert"
       >
-        Something went wrong. Please try again.
+        {errorText}
       </div>
     </form>
     ) : (
     <p class="mt-10 text-center font-body text-sm text-text-muted">
-      The volunteer application form is being configured. Please check back soon or reach out via the contact page.
+      {configPendingText}
     </p>
     )}
   </div>
@@ -235,11 +309,14 @@ const actionUrl = isConfigured ? `https://formspree.io/f/${formId}` : '';
   const errorMsg = document.getElementById('volunteer-error') as HTMLDivElement | null;
 
   if (form && submitBtn && successMsg && errorMsg) {
+    const submitText = submitBtn.dataset.submitText || 'Submit Volunteer Application';
+    const submittingText = submitBtn.dataset.submittingText || 'Submitting...';
+
     form.addEventListener('submit', async (e: Event) => {
       e.preventDefault();
 
       submitBtn.disabled = true;
-      submitBtn.textContent = 'Submitting...';
+      submitBtn.textContent = submittingText;
       successMsg.classList.add('hidden');
       errorMsg.classList.add('hidden');
 
@@ -260,7 +337,7 @@ const actionUrl = isConfigured ? `https://formspree.io/f/${formId}` : '';
         errorMsg.classList.remove('hidden');
       } finally {
         submitBtn.disabled = false;
-        submitBtn.textContent = 'Submit Volunteer Application';
+        submitBtn.textContent = submitText;
       }
     });
   }

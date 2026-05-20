@@ -33,7 +33,7 @@ export default defineType({
       title: 'Form Heading',
       type: 'string',
       description:
-        'Heading above the contact form. The form itself (fields, subject options, submit behavior) is connected to Formspree and managed in code — contact your web developer to change those elements.',
+        'Heading above the contact form. The fields, dropdown options, and submission messages are now editable in the Form Fields and Messages section below.',
       initialValue: 'Contact Us',
       group: 'form',
     }),
@@ -43,6 +43,29 @@ export default defineType({
       type: 'string',
       description: 'A brief privacy assurance shown near the form (e.g., "Your information is kept confidential").',
       group: 'form',
+    }),
+    defineField({
+      name: 'formSection',
+      title: 'Form Fields and Messages',
+      type: 'object',
+      description:
+        'Labels, placeholders, dropdown options, and submission messages for the contact form. The form has 5 fields: firstName, lastName, email, subject, message. Adding or removing fields here without a code change will not affect the form.',
+      group: 'form',
+      fields: [
+        defineField({
+          name: 'fields',
+          title: 'Form Fields',
+          type: 'array',
+          description:
+            'The 5 fields on the contact form. Match the "Field Name" exactly to what is in code: firstName, lastName, email, subject, message.',
+          of: [{ type: 'formField' }],
+        }),
+        defineField({
+          name: 'messages',
+          title: 'Submit and Status Messages',
+          type: 'formMessages',
+        }),
+      ],
     }),
 
     defineField({

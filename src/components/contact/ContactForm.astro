@@ -1,12 +1,70 @@
 ---
+interface FormFieldOption {
+  label: string;
+  value?: string;
+}
+interface FormFieldConfig {
+  name: string;
+  label?: string;
+  placeholder?: string;
+  helperText?: string;
+  type?: string;
+  required?: boolean;
+  options?: FormFieldOption[];
+}
+interface FormMessagesConfig {
+  submitButton?: string;
+  submittingButton?: string;
+  success?: string;
+  error?: string;
+  configurationPending?: string;
+}
 interface Props {
   heading?: string;
   privacyNote?: string;
+  formSection?: {
+    fields?: FormFieldConfig[];
+    messages?: FormMessagesConfig;
+  };
 }
 
-const { heading, privacyNote } = Astro.props;
+const { heading, privacyNote, formSection } = Astro.props;
 const displayHeading = heading || 'Contact Us';
 const displayPrivacyNote = privacyNote || 'Your message will be kept private and treated with care.';
+
+const formFields: FormFieldConfig[] = formSection?.fields || [];
+function field(name: string, fallback: { label: string; placeholder?: string }) {
+  const cms = formFields.find((f) => f.name === name);
+  return {
+    label: cms?.label || fallback.label,
+    placeholder: cms?.placeholder || fallback.placeholder || '',
+    options: cms?.options || [],
+  };
+}
+const fFirstName = field('firstName', { label: 'First Name', placeholder: 'Enter your first name' });
+const fLastName = field('lastName', { label: 'Last Name', placeholder: 'Enter your last name' });
+const fEmail = field('email', { label: 'Email Address', placeholder: 'your@email.com' });
+const fSubject = field('subject', { label: 'Subject', placeholder: 'Select a topic' });
+const fMessage = field('message', { label: 'Message', placeholder: 'Write your message here...' });
+
+const messages = formSection?.messages || {};
+const submitText = messages.submitButton || 'Send Message';
+const submittingText = messages.submittingButton || 'Sending...';
+const successText = messages.success || 'Thank you! Your message has been sent.';
+const errorText = messages.error || 'Something went wrong. Please try again.';
+const configPendingText = messages.configurationPending
+  || 'The contact form is being configured. Please email us at the address shown on this page or check back soon.';
+
+const fallbackSubjectOptions: FormFieldOption[] = [
+  { label: 'General Inquiry' },
+  { label: 'Program Information' },
+  { label: 'Volunteer Opportunities' },
+  { label: 'Donation Questions' },
+  { label: 'Mitzvah Project' },
+  { label: 'Partnership' },
+  { label: 'Other' },
+];
+const subjectOptions = fSubject.options.length > 0 ? fSubject.options : fallbackSubjectOptions;
 
 const formId = import.meta.env.PUBLIC_FORMSPREE_CONTACT_ID;
 const isConfigured = !!formId && formId !== 'your_formspree_form_id_for_contact_form';
@@ -33,7 +91,7 @@ const actionUrl = isConfigured ? `https://formspree.io/f/${formId}` : '';
       <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
         <div>
           <label for="firstName" class="mb-1.5 block font-body text-sm font-medium text-text-heading">
-            First Name
+            {fFirstName.label}
           </label>
           <input
             type="text"
@@ -41,13 +99,13 @@ const actionUrl = isConfigured ? `https://formspree.io/f/${formId}` : '';
             name="firstName"
             required
             aria-required="true"
-            placeholder="Enter your first name"
+            placeholder={fFirstName.placeholder}
             class="w-full rounded-lg border border-[#DADADA] bg-white px-4 py-3 font-body text-sm text-text-heading placeholder:text-text-muted focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
           />
         </div>
         <div>
           <label for="lastName" class="mb-1.5 block font-body text-sm font-medium text-text-heading">
-            Last Name
+            {fLastName.label}
           </label>
           <input
             type="text"
@@ -55,7 +113,7 @@ const actionUrl = isConfigured ? `https://formspree.io/f/${formId}` : '';
             name="lastName"
             required
             aria-required="true"
-            placeholder="Enter your last name"
+            placeholder={fLastName.placeholder}
             class="w-full rounded-lg border border-[#DADADA] bg-white px-4 py-3 font-body text-sm text-text-heading placeholder:text-text-muted focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
           />
         </div>
@@ -64,7 +122,7 @@ const actionUrl = isConfigured ? `https://formspree.io/f/${formId}` : '';
       <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
         <div>
           <label for="email" class="mb-1.5 block font-body text-sm font-medium text-text-heading">
-            Email Address
+            {fEmail.label}
           </label>
           <input
             type="email"
@@ -72,13 +130,13 @@ const actionUrl = isConfigured ? `https://formspree.io/f/${formId}` : '';
             name="email"
             required
             aria-required="true"
-            placeholder="your@email.com"
+            placeholder={fEmail.placeholder}
             class="w-full rounded-lg border border-[#DADADA] bg-white px-4 py-3 font-body text-sm text-text-heading placeholder:text-text-muted focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
           />
         </div>
         <div>
           <label for="subject" class="mb-1.5 block font-body text-sm font-medium text-text-heading">
-            Subject
+            {fSubject.label}
           </label>
           <select
             id="subject"
@@ -87,21 +145,17 @@ const actionUrl = isConfigured ? `https://formspree.io/f/${formId}` : '';
             aria-required="true"
             class="w-full appearance-none rounded-lg border border-[#DADADA] bg-white px-4 py-3 font-body text-sm text-text-heading focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
           >
-            <option value="" disabled selected>Select a topic</option>
-            <option value="General Inquiry">General Inquiry</option>
-            <option value="Program Information">Program Information</option>
-            <option value="Volunteer Opportunities">Volunteer Opportunities</option>
-            <option value="Donation Questions">Donation Questions</option>
-            <option value="Mitzvah Project">Mitzvah Project</option>
-            <option value="Partnership">Partnership</option>
-            <option value="Other">Other</option>
+            <option value="" disabled selected>{fSubject.placeholder}</option>
+            {subjectOptions.map((opt) => (
+              <option value={opt.value || opt.label}>{opt.label}</option>
+            ))}
           </select>
         </div>
       </div>
 
       <div>
         <label for="message" class="mb-1.5 block font-body text-sm font-medium text-text-heading">
-          Message
+          {fMessage.label}
         </label>
         <textarea
           id="message"
@@ -109,7 +163,7 @@ const actionUrl = isConfigured ? `https://formspree.io/f/${formId}` : '';
           required
           aria-required="true"
           rows="5"
-          placeholder="Write your message here..."
+          placeholder={fMessage.placeholder}
           class="w-full resize-vertical rounded-lg border border-[#DADADA] bg-white px-4 py-3 font-body text-sm text-text-heading placeholder:text-text-muted focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
         ></textarea>
       </div>
@@ -118,9 +172,11 @@ const actionUrl = isConfigured ? `https://formspree.io/f/${formId}` : '';
         <button
           type="submit"
           id="contact-submit-btn"
+          data-submit-text={submitText}
+          data-submitting-text={submittingText}
           class="inline-block rounded-[100px] bg-primary px-8 py-3 font-heading text-sm font-medium leading-6 text-white transition-colors hover:bg-primary-hover disabled:cursor-not-allowed disabled:opacity-60"
         >
-          Send Message
+          {submitText}
         </button>
       </div>
 
@@ -134,7 +190,7 @@ const actionUrl = isConfigured ? `https://formspree.io/f/${formId}` : '';
         class="hidden rounded-lg bg-green-50 border border-green-200 p-4 text-center font-body text-sm text-green-800"
         role="alert"
       >
-        Thank you! Your message has been sent.
+        {successText}
       </div>
 
       <!-- Error message -->
@@ -143,12 +199,12 @@ const actionUrl = isConfigured ? `https://formspree.io/f/${formId}` : '';
         class="hidden rounded-lg bg-red-50 border border-red-200 p-4 text-center font-body text-sm text-red-800"
         role="alert"
       >
-        Something went wrong. Please try again.
+        {errorText}
       </div>
     </form>
     ) : (
     <p class="mt-10 text-center font-body text-sm text-text-muted">
-      The contact form is being configured. Please email us at the address shown on this page or check back soon.
+      {configPendingText}
     </p>
     )}
   </div>
@@ -161,11 +217,14 @@ const actionUrl = isConfigured ? `https://formspree.io/f/${formId}` : '';
   const errorMsg = document.getElementById('contact-error') as HTMLDivElement | null;
 
   if (form && submitBtn && successMsg && errorMsg) {
+    const submitText = submitBtn.dataset.submitText || 'Send Message';
+    const submittingText = submitBtn.dataset.submittingText || 'Sending...';
+
     form.addEventListener('submit', async (e: Event) => {
       e.preventDefault();
 
       submitBtn.disabled = true;
-      submitBtn.textContent = 'Sending...';
+      submitBtn.textContent = submittingText;
       successMsg.classList.add('hidden');
       errorMsg.classList.add('hidden');
 
@@ -186,7 +245,7 @@ const actionUrl = isConfigured ? `https://formspree.io/f/${formId}` : '';
         errorMsg.classList.remove('hidden');
       } finally {
         submitBtn.disabled = false;
-        submitBtn.textContent = 'Send Message';
+        submitBtn.textContent = submitText;
       }
     });
   }

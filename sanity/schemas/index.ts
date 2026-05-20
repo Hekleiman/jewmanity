@@ -21,6 +21,8 @@ import antisemitismFormCard from './objects/antisemitismFormCard';
 import actionStep from './objects/actionStep';
 import antisemitismOrg from './objects/antisemitismOrg';
 import pageMetaOverride from './objects/pageMetaOverride';
+import formField from './objects/formField';
+import formMessages from './objects/formMessages';
 
 // Collection document types
 import recipe from './documents/recipe';
@@ -79,6 +81,8 @@ export const schemaTypes = [
   actionStep,
   antisemitismOrg,
   pageMetaOverride,
+  formField,
+  formMessages,
 
   // Collections
   recipe,

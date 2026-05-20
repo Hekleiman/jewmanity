@@ -204,6 +204,41 @@ export default defineType({
       description: 'Brief text encouraging visitors to subscribe.',
       group: 'newsletter',
     }),
+    defineField({
+      name: 'newsletterEmailPlaceholder',
+      title: 'Email Input Placeholder',
+      type: 'string',
+      description: 'Placeholder text inside the email box (default: "Enter your email").',
+      initialValue: 'Enter your email',
+      group: 'newsletter',
+    }),
+    defineField({
+      name: 'newsletterButtonText',
+      title: 'Subscribe Button Text',
+      type: 'string',
+      description: 'Text on the subscribe button (default: "Subscribe").',
+      initialValue: 'Subscribe',
+      group: 'newsletter',
+    }),
+    defineField({
+      name: 'newsletterFootnote',
+      title: 'Newsletter Footnote',
+      type: 'string',
+      description:
+        'Small print under the form (default: "You can unsubscribe at any time. Review our Privacy Policy."). The Privacy Policy link is rendered automatically and wraps the words "Privacy Policy" in this text.',
+      initialValue: 'You can unsubscribe at any time. Review our Privacy Policy.',
+      group: 'newsletter',
+    }),
+    defineField({
+      name: 'newsletterPlaceholder',
+      title: 'Configuration Pending Message',
+      type: 'text',
+      rows: 2,
+      description:
+        'Shown when the Mailchimp form action is not yet configured (default: "Newsletter signup is being configured. Subscribe at launch.").',
+      initialValue: 'Newsletter signup is being configured. Subscribe at launch.',
+      group: 'newsletter',
+    }),
 
     defineField({
       name: 'statsItems',

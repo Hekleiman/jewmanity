@@ -2,9 +2,21 @@
 interface Props {
   heading?: string;
   description?: string;
+  emailPlaceholder?: string;
+  buttonText?: string;
+  footnote?: string;
+  configurationPending?: string;
 }
 
-const { heading, description } = Astro.props;
+const {
+  heading,
+  description,
+  emailPlaceholder = 'Enter your email',
+  buttonText = 'Subscribe',
+  footnote = 'You can unsubscribe at any time. Review our Privacy Policy.',
+  configurationPending = 'Newsletter signup is being configured. Subscribe at launch.',
+} = Astro.props;
+
 const displayHeading = heading || 'Stay Connected';
 const displayDescription = description || 'Receive updates on our programs, resources, and how your support is making a difference. We respect your privacy and will never share your information.';
 
@@ -26,6 +38,12 @@ if (formAction && formAction !== 'your_mailchimp_form_action_url') {
     // Invalid URL, leave isConfigured false.
   }
 }
+
+const PRIVACY_LINK_TARGET = 'Privacy Policy';
+const footnoteParts = footnote.split(PRIVACY_LINK_TARGET);
+const footnoteBefore = footnoteParts[0];
+const footnoteAfter = footnoteParts.length > 1 ? footnoteParts.slice(1).join(PRIVACY_LINK_TARGET) : '';
+const hasPrivacyLink = footnoteParts.length > 1;
 ---
 
 <section id="newsletter" class="bg-bg-section-alt py-16 md:py-20 lg:py-24" data-animate="fade-up">
@@ -47,14 +65,14 @@ if (formAction && formAction !== 'your_mailchimp_form_action_url') {
         type="email"
         name="EMAIL"
         required
-        placeholder="Enter your email"
+        placeholder={emailPlaceholder}
         class="min-w-0 flex-1 rounded-l-[100px] border border-r-0 border-border-card bg-white px-5 py-3 font-body text-base text-text-heading placeholder:text-text-muted focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
       />
       <button
         type="submit"
         class="shrink-0 rounded-r-[100px] bg-primary px-6 py-3 font-heading text-sm font-medium text-white transition-colors hover:bg-primary-hover"
       >
-        Subscribe
+        {buttonText}
       </button>
       <div aria-hidden="true" style="position: absolute; left: -5000px;">
         <input type="text" name={honeypotName} tabindex="-1" value="" />
@@ -62,13 +80,18 @@ if (formAction && formAction !== 'your_mailchimp_form_action_url') {
     </form>
     ) : (
     <p class="mx-auto mt-4 max-w-[450px] text-center font-body text-sm text-text-muted">
-      Newsletter signup is being configured. Subscribe at launch.
+      {configurationPending}
     </p>
     )}
 
     <p class="mx-auto mt-4 max-w-[450px] text-center font-body text-xs text-text-muted">
-      You can unsubscribe at any time. Review our
-      <a href="/privacy" class="text-primary hover:underline">Privacy Policy</a>.
+      {hasPrivacyLink ? (
+        <>
+          {footnoteBefore}<a href="/privacy" class="text-primary hover:underline">Privacy Policy</a>{footnoteAfter}
+        </>
+      ) : (
+        footnote
+      )}
     </p>
   </div>
 </section>
