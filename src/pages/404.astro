@@ -1,37 +1,63 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { getNotFoundPage, urlFor } from '../lib/sanity';
+
+let cms: Record<string, any> | null = null;
+try {
+  cms = await getNotFoundPage();
+} catch (e) {
+  console.warn('Sanity fetch failed for notFoundPage, using hardcoded fallback');
+}
+
+const heading = cms?.heading || 'Page Not Found';
+const body =
+  cms?.body
+    || "The page you're looking for doesn't exist or has been moved. Let's get you back on track.";
+
+const fallbackButtons = [
+  { label: 'Go Home', href: '/' },
+  { label: 'Browse Programs', href: '/programs/heads-up' },
+  { label: 'Get in Touch', href: '/get-involved/contact' },
+];
+const buttons: { label: string; href: string }[] =
+  cms?.buttons && cms.buttons.length > 0 ? cms.buttons : fallbackButtons;
+
+const metaTitle = cms?.meta?.title;
+const metaDescription = cms?.meta?.description;
+const metaOgImage = cms?.meta?.ogImage
+  ? urlFor(cms.meta.ogImage).width(1200).height(630).url()
+  : undefined;
 ---
-<Layout title="Page Not Found | Jewmanity" description="The page you're looking for doesn't exist or has been moved.">
+<Layout
+  title={metaTitle || 'Page Not Found | Jewmanity'}
+  description={metaDescription || "The page you're looking for doesn't exist or has been moved."}
+  ogImage={metaOgImage}
+>
   <section class="flex min-h-[70vh] items-center justify-center px-6 pt-24 pb-16">
     <div class="mx-auto max-w-[480px] text-center">
       <img src="/images/logo.png" alt="" class="mx-auto mb-8 h-16 w-auto opacity-40" width="150" height="100" aria-hidden="true" />
 
       <h1 class="font-heading text-[clamp(32px,5vw,48px)] font-medium leading-tight text-text-heading">
-        Page Not Found
+        {heading}
       </h1>
       <p class="mx-auto mt-4 max-w-[400px] font-body text-base leading-relaxed text-text-body">
-        The page you're looking for doesn't exist or has been moved. Let's get you back on track.
+        {body}
       </p>
 
       <div class="mt-10 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-        <a
-          href="/"
-          class="inline-block rounded-[100px] bg-primary px-8 py-3 font-heading text-sm font-medium text-white transition-colors hover:bg-primary-hover"
-        >
-          Go Home
-        </a>
-        <a
-          href="/programs/heads-up"
-          class="inline-block rounded-[100px] border border-[#DADADA] bg-white px-8 py-3 font-heading text-sm font-medium text-text-heading transition-colors hover:border-primary hover:text-primary"
-        >
-          Browse Programs
-        </a>
-        <a
-          href="/get-involved/contact"
-          class="inline-block rounded-[100px] border border-[#DADADA] bg-white px-8 py-3 font-heading text-sm font-medium text-text-heading transition-colors hover:border-primary hover:text-primary"
-        >
-          Get in Touch
-        </a>
+        {buttons.map((btn, i) => (
+          <a
+            href={btn.href}
+            class:list={[
+              'inline-block rounded-[100px] px-8 py-3 font-heading text-sm font-medium transition-colors',
+              i === 0
+                ? 'bg-primary text-white hover:bg-primary-hover'
+                : 'border border-[#DADADA] bg-white text-text-heading hover:border-primary hover:text-primary',
+            ]}
+          >
+            {btn.label}
+          </a>
+        ))}
       </div>
     </div>
   </section>

@@ -18,6 +18,8 @@ import {
   CommentIcon,
   ComposeIcon,
   MenuIcon,
+  DocumentTextIcon,
+  ErrorOutlineIcon,
 } from '@sanity/icons';
 
 // Helper: create a singleton list item that goes straight to the editor
@@ -59,6 +61,11 @@ export const structure: StructureResolver = (S) =>
               singletonListItem(S, 'volunteerPage', 'Volunteer Page', UsersIcon),
               singletonListItem(S, 'contactPage', 'Contact Page', EnvelopeIcon),
               singletonListItem(S, 'mitzvahProject', 'Mitzvah Project', BulbOutlineIcon),
+              S.divider(),
+              singletonListItem(S, 'notFoundPage', '404 Page', ErrorOutlineIcon),
+              singletonListItem(S, 'privacyPage', 'Privacy Policy', DocumentTextIcon),
+              singletonListItem(S, 'termsPage', 'Terms of Service', DocumentTextIcon),
+              singletonListItem(S, 'nonprofitDisclosuresPage', 'Nonprofit Disclosures', DocumentTextIcon),
             ]),
         ),
 

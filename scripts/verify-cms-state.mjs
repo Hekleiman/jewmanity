@@ -230,6 +230,35 @@ const checks = [
     }`,
   },
   {
+    name: '404 page singleton (phase 2)',
+    groq: `*[_type=="notFoundPage"][0]{
+      heading, body, "buttonCount": count(buttons), meta
+    }`,
+  },
+  {
+    name: 'Privacy page singleton (phase 2)',
+    groq: `*[_type=="privacyPage"][0]{
+      heading, lastUpdated, "bodyBlocks": count(body), meta
+    }`,
+  },
+  {
+    name: 'Terms page singleton (phase 2)',
+    groq: `*[_type=="termsPage"][0]{
+      heading, lastUpdated, "bodyBlocks": count(body), meta
+    }`,
+  },
+  {
+    name: 'Nonprofit disclosures page singleton (phase 2)',
+    groq: `*[_type=="nonprofitDisclosuresPage"][0]{
+      heading,
+      organizationInfo,
+      "programCount": count(programs),
+      "boardCount": count(boardMembers),
+      useDonatePageCostBreakdown,
+      meta
+    }`,
+  },
+  {
     name: 'Site Settings extended fields (phase 1)',
     groq: `*[_type=="siteSettings"][0]{
       foundingYear,

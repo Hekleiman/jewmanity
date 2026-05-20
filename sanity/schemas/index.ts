@@ -49,6 +49,10 @@ import contactPage from './singletons/contactPage';
 import mitzvahProject from './singletons/mitzvahProject';
 import siteSettings from './singletons/siteSettings';
 import navigation from './singletons/navigation';
+import notFoundPage from './singletons/notFoundPage';
+import privacyPage from './singletons/privacyPage';
+import termsPage from './singletons/termsPage';
+import nonprofitDisclosuresPage from './singletons/nonprofitDisclosuresPage';
 
 // All schema types
 export const schemaTypes = [
@@ -103,6 +107,10 @@ export const schemaTypes = [
   mitzvahProject,
   siteSettings,
   navigation,
+  notFoundPage,
+  privacyPage,
+  termsPage,
+  nonprofitDisclosuresPage,
 ];
 
 // Singleton type names — used by desk structure and config to prevent duplicates
@@ -123,4 +131,8 @@ export const singletonTypes = new Set([
   'mitzvahProject',
   'siteSettings',
   'navigation',
+  'notFoundPage',
+  'privacyPage',
+  'termsPage',
+  'nonprofitDisclosuresPage',
 ]);
