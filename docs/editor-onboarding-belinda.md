@@ -16,6 +16,11 @@ Open this link in your browser:
 
 Sign in with the email address Erik invited you with. You will see the Studio dashboard.
 
+Two small things to know about the interface:
+
+- The short URL above will redirect to a longer one (something like `sanity.io/@.../studio/.../jewmanity/`). That's normal; Sanity wraps the Studio inside their broader dashboard. Bookmark the short URL — it always works.
+- At the bottom of the screen you may see a banner that says "Studio is not fully compatible with Dashboard. Content Agent is not supported." This is about a Sanity AI feature unrelated to editing the site. Click the X to dismiss it.
+
 ---
 
 ## 2. The map (what controls what)
