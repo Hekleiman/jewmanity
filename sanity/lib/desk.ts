@@ -10,7 +10,6 @@ import {
   UsersIcon,
   EnvelopeIcon,
   DocumentsIcon,
-  EarthGlobeIcon,
   CalendarIcon,
   TagIcon,
   HelpCircleIcon,
@@ -20,6 +19,9 @@ import {
   MenuIcon,
   DocumentTextIcon,
   ErrorOutlineIcon,
+  FolderIcon,
+  ProjectsIcon,
+  BookmarkIcon,
 } from '@sanity/icons';
 
 // Helper: create a singleton list item that goes straight to the editor
@@ -39,7 +41,7 @@ export const structure: StructureResolver = (S) =>
   S.list()
     .title('Content')
     .items([
-      // ── Pages (singletons) ──────────────────────────
+      // ── Pages (singletons, grouped by nav section) ──
       S.listItem()
         .title('Pages')
         .icon(DocumentsIcon)
@@ -48,20 +50,62 @@ export const structure: StructureResolver = (S) =>
             .title('Pages')
             .items([
               singletonListItem(S, 'homepage', 'Homepage', HomeIcon),
-              singletonListItem(S, 'aboutStory', 'Our Story', BookIcon),
-              singletonListItem(S, 'aboutTeamPage', 'Team Page', UsersIcon),
-              singletonListItem(S, 'aboutCommunityStoriesPage', 'Community Stories Page', BookIcon),
-              singletonListItem(S, 'headsUp', 'Heads Up Program', BulbOutlineIcon),
-              singletonListItem(S, 'programsPastRetreatsPage', 'Past Retreats Page', CalendarIcon),
-              singletonListItem(S, 'fightingAntisemitism', 'Fighting Antisemitism', BlockElementIcon),
-              singletonListItem(S, 'resources', 'Mental Health Resources', HeartIcon),
-              singletonListItem(S, 'communityRecipesPage', 'Recipes Page', ComposeIcon),
-              singletonListItem(S, 'donatePage', 'Donate Page', CreditCardIcon),
-              singletonListItem(S, 'shopPage', 'Shop Page', BasketIcon),
-              singletonListItem(S, 'volunteerPage', 'Volunteer Page', UsersIcon),
-              singletonListItem(S, 'contactPage', 'Contact Page', EnvelopeIcon),
-              singletonListItem(S, 'mitzvahProject', 'Mitzvah Project', BulbOutlineIcon),
+
+              S.listItem()
+                .title('About')
+                .icon(FolderIcon)
+                .child(
+                  S.list()
+                    .title('About')
+                    .items([
+                      singletonListItem(S, 'aboutStory', 'Our Story', BookIcon),
+                      singletonListItem(S, 'aboutTeamPage', 'Team Page', UsersIcon),
+                      singletonListItem(S, 'aboutCommunityStoriesPage', 'Community Stories Page', BookIcon),
+                    ]),
+                ),
+
+              S.listItem()
+                .title('Programs')
+                .icon(FolderIcon)
+                .child(
+                  S.list()
+                    .title('Programs')
+                    .items([
+                      singletonListItem(S, 'headsUp', 'Heads Up Program', BulbOutlineIcon),
+                      singletonListItem(S, 'programsPastRetreatsPage', 'Past Retreats Page', CalendarIcon),
+                    ]),
+                ),
+
+              S.listItem()
+                .title('Community')
+                .icon(FolderIcon)
+                .child(
+                  S.list()
+                    .title('Community')
+                    .items([
+                      singletonListItem(S, 'fightingAntisemitism', 'Fighting Antisemitism', BlockElementIcon),
+                      singletonListItem(S, 'resources', 'Mental Health Resources', HeartIcon),
+                      singletonListItem(S, 'communityRecipesPage', 'Recipes Page', ComposeIcon),
+                    ]),
+                ),
+
+              S.listItem()
+                .title('Get Involved')
+                .icon(FolderIcon)
+                .child(
+                  S.list()
+                    .title('Get Involved')
+                    .items([
+                      singletonListItem(S, 'donatePage', 'Donate Page', CreditCardIcon),
+                      singletonListItem(S, 'shopPage', 'Shop Page', BasketIcon),
+                      singletonListItem(S, 'volunteerPage', 'Volunteer Page', UsersIcon),
+                      singletonListItem(S, 'contactPage', 'Contact Page', EnvelopeIcon),
+                      singletonListItem(S, 'mitzvahProject', 'Mitzvah Project', BulbOutlineIcon),
+                    ]),
+                ),
+
               S.divider(),
+
               singletonListItem(S, 'notFoundPage', '404 Page', ErrorOutlineIcon),
               singletonListItem(S, 'privacyPage', 'Privacy Policy', DocumentTextIcon),
               singletonListItem(S, 'termsPage', 'Terms of Service', DocumentTextIcon),
@@ -71,52 +115,48 @@ export const structure: StructureResolver = (S) =>
 
       S.divider(),
 
-      // ── Team Members ────────────────────────────────
+      // ── Content Library (all collection document types) ──
       S.listItem()
-        .title('Team Members')
-        .icon(UsersIcon)
-        .child(S.documentTypeList('teamMember').title('Team Members')),
-
-      // ── Community ───────────────────────────────────
-      S.listItem()
-        .title('Community')
-        .icon(EarthGlobeIcon)
+        .title('Content Library')
+        .icon(ProjectsIcon)
         .child(
           S.list()
-            .title('Community')
+            .title('Content Library')
             .items([
               S.listItem()
-                .title('Recipes')
-                .icon(ComposeIcon)
-                .child(S.documentTypeList('recipe').title('Recipes')),
+                .title('Team Members')
+                .icon(UsersIcon)
+                .child(S.documentTypeList('teamMember').title('Team Members')),
+              S.listItem()
+                .title('Testimonials')
+                .icon(CommentIcon)
+                .child(S.documentTypeList('testimonial').title('Testimonials')),
               S.listItem()
                 .title('Community Stories')
                 .icon(BookIcon)
                 .child(S.documentTypeList('communityStory').title('Community Stories')),
               S.listItem()
-                .title('Testimonials')
-                .icon(CommentIcon)
-                .child(S.documentTypeList('testimonial').title('Testimonials')),
+                .title('Recipes')
+                .icon(ComposeIcon)
+                .child(S.documentTypeList('recipe').title('Recipes')),
+              S.listItem()
+                .title('Retreats')
+                .icon(CalendarIcon)
+                .child(S.documentTypeList('retreat').title('Retreats')),
+              S.listItem()
+                .title('Products')
+                .icon(TagIcon)
+                .child(S.documentTypeList('product').title('Products')),
+              S.listItem()
+                .title('FAQ Items')
+                .icon(HelpCircleIcon)
+                .child(S.documentTypeList('faqItem').title('FAQ Items')),
+              S.listItem()
+                .title('Recommended Articles')
+                .icon(BookmarkIcon)
+                .child(S.documentTypeList('recommendedArticle').title('Recommended Articles')),
             ]),
         ),
-
-      // ── Retreats ────────────────────────────────────
-      S.listItem()
-        .title('Retreats')
-        .icon(CalendarIcon)
-        .child(S.documentTypeList('retreat').title('Retreats')),
-
-      // ── Products ────────────────────────────────────
-      S.listItem()
-        .title('Products')
-        .icon(TagIcon)
-        .child(S.documentTypeList('product').title('Products')),
-
-      // ── FAQ Items ───────────────────────────────────
-      S.listItem()
-        .title('FAQ Items')
-        .icon(HelpCircleIcon)
-        .child(S.documentTypeList('faqItem').title('FAQ Items')),
 
       S.divider(),
 
