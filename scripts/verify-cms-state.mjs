@@ -234,7 +234,9 @@ const checks = [
     groq: `*[_type=="siteSettings"][0]{
       foundingYear,
       "hasLogo": defined(logo.asset),
+      "logoUrl": logo.asset->url,
       "hasDefaultOgImage": defined(defaultOgImage.asset),
+      "defaultOgImageUrl": defaultOgImage.asset->url,
       defaultPageTitle,
       "hasDefaultDescription": defined(defaultPageDescription),
       address,
