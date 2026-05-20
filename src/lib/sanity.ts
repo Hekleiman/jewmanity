@@ -510,9 +510,32 @@ export async function getSiteSettings() {
     *[_type == "siteSettings"][0] {
       orgName,
       ein,
+      foundingYear,
+      logo,
       socialLinks,
       footerTagline,
-      copyrightText
+      copyrightText,
+      defaultPageTitle,
+      defaultPageDescription,
+      defaultOgImage,
+      address,
+      legalLinks,
+      footerDisclaimer,
+      givebutterAccountId,
+      givebutterWidgetId
+    }
+  `);
+}
+
+export async function getNavigation() {
+  return client.fetch(`
+    *[_type == "navigation"][0] {
+      items[]{
+        label,
+        href,
+        children[]{ label, href }
+      },
+      ctaButton
     }
   `);
 }

@@ -20,6 +20,7 @@ import antisemitismStat from './objects/antisemitismStat';
 import antisemitismFormCard from './objects/antisemitismFormCard';
 import actionStep from './objects/actionStep';
 import antisemitismOrg from './objects/antisemitismOrg';
+import pageMetaOverride from './objects/pageMetaOverride';
 
 // Collection document types
 import recipe from './documents/recipe';
@@ -47,6 +48,7 @@ import volunteerPage from './singletons/volunteerPage';
 import contactPage from './singletons/contactPage';
 import mitzvahProject from './singletons/mitzvahProject';
 import siteSettings from './singletons/siteSettings';
+import navigation from './singletons/navigation';
 
 // All schema types
 export const schemaTypes = [
@@ -72,6 +74,7 @@ export const schemaTypes = [
   antisemitismFormCard,
   actionStep,
   antisemitismOrg,
+  pageMetaOverride,
 
   // Collections
   recipe,
@@ -99,6 +102,7 @@ export const schemaTypes = [
   contactPage,
   mitzvahProject,
   siteSettings,
+  navigation,
 ];
 
 // Singleton type names — used by desk structure and config to prevent duplicates
@@ -118,4 +122,5 @@ export const singletonTypes = new Set([
   'contactPage',
   'mitzvahProject',
   'siteSettings',
+  'navigation',
 ]);

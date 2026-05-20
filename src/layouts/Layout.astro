@@ -3,7 +3,7 @@ import '../styles/global.css';
 import Navigation from '../components/Navigation.astro';
 import MobileMenu from '../components/MobileMenu.astro';
 import Footer from '../components/Footer.astro';
-import { getSiteSettings } from '../lib/sanity';
+import { getSiteSettings, urlFor } from '../lib/sanity';
 
 interface Props {
   title?: string;
@@ -11,20 +11,57 @@ interface Props {
   ogImage?: string;
 }
 
-const {
-  title = 'Jewmanity | Supporting Healing & Resilience',
-  description = 'Jewmanity is a 501(c)(3) nonprofit supporting mental health and healing for Jewish and Israeli communities through retreats, peer support, education, and ongoing care.',
-  ogImage = '/og-default.png',
-} = Astro.props;
+const { title: propTitle, description: propDescription, ogImage: propOgImage } = Astro.props;
 
-let siteSettings = null;
+let siteSettings: any = null;
 try {
   siteSettings = await getSiteSettings();
 } catch (e) {
-  console.warn('Sanity fetch failed for siteSettings, footer will use hardcoded fallbacks');
+  console.warn('Sanity fetch failed for siteSettings, layout will use hardcoded fallbacks');
 }
 
+const title =
+  propTitle
+    || siteSettings?.defaultPageTitle
+    || 'Jewmanity | Supporting Healing & Resilience';
+
+const description =
+  propDescription
+    || siteSettings?.defaultPageDescription
+    || 'Jewmanity is a 501(c)(3) nonprofit supporting mental health and healing for Jewish and Israeli communities through retreats, peer support, education, and ongoing care.';
+
+const defaultOgImageUrl = siteSettings?.defaultOgImage
+  ? urlFor(siteSettings.defaultOgImage).width(1200).height(630).url()
+  : '/og-default.png';
+
+const ogImage = propOgImage || defaultOgImageUrl;
+
+const absoluteOgImage = ogImage.startsWith('http')
+  ? ogImage
+  : `https://jewmanity.com${ogImage}`;
+
 const canonicalUrl = `https://jewmanity.com${Astro.url.pathname}`;
+
+const orgName = siteSettings?.orgName || 'Jewmanity';
+const foundingYear = siteSettings?.foundingYear || '2019';
+const addressLocality = siteSettings?.address?.addressLocality || 'San Diego';
+const addressRegion = siteSettings?.address?.addressRegion || 'CA';
+const addressCountry = siteSettings?.address?.addressCountry || 'US';
+const logoUrl = siteSettings?.logo
+  ? urlFor(siteSettings.logo).width(400).url()
+  : 'https://jewmanity.com/images/logo.png';
+const sameAs = [
+  siteSettings?.socialLinks?.facebook,
+  siteSettings?.socialLinks?.instagram,
+  siteSettings?.socialLinks?.twitter,
+  siteSettings?.socialLinks?.linkedin,
+].filter(Boolean);
+if (sameAs.length === 0) {
+  sameAs.push(
+    'https://www.facebook.com/profile.php?id=61577185790846',
+    'https://www.instagram.com/jewmanity_',
+  );
+}
 
 const SNIPCART_API_KEY = import.meta.env.PUBLIC_SNIPCART_API_KEY || 'YzI4MTdlM2YtN2U2NS00YTIxLWE1NGUtNWUwOTU3YzFhZjJkNjM5MDk2MjU4MDY4MDc3ODg1'; // fallback: Snipcart TEST key (also used when env var is empty string)
 ---
@@ -44,7 +81,7 @@ const SNIPCART_API_KEY = import.meta.env.PUBLIC_SNIPCART_API_KEY || 'YzI4MTdlM2Y
     <!-- Open Graph -->
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={`https://jewmanity.com${ogImage}`} />
+    <meta property="og:image" content={absoluteOgImage} />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Jewmanity" />
     <meta property="og:url" content={canonicalUrl} />
@@ -54,7 +91,7 @@ const SNIPCART_API_KEY = import.meta.env.PUBLIC_SNIPCART_API_KEY || 'YzI4MTdlM2Y
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={`https://jewmanity.com${ogImage}`} />
+    <meta name="twitter:image" content={absoluteOgImage} />
 
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
@@ -72,21 +109,18 @@ const SNIPCART_API_KEY = import.meta.env.PUBLIC_SNIPCART_API_KEY || 'YzI4MTdlM2Y
     <script type="application/ld+json" set:html={JSON.stringify({
       "@context": "https://schema.org",
       "@type": "NonprofitOrganization",
-      "name": "Jewmanity",
+      "name": orgName,
       "url": "https://jewmanity.com",
-      "logo": "https://jewmanity.com/images/logo.png",
+      "logo": logoUrl,
       "description": "A 501(c)(3) nonprofit supporting mental health and healing for Jewish and Israeli communities.",
-      "foundingDate": "2019",
+      "foundingDate": foundingYear,
       "address": {
         "@type": "PostalAddress",
-        "addressLocality": "San Diego",
-        "addressRegion": "CA",
-        "addressCountry": "US"
+        "addressLocality": addressLocality,
+        "addressRegion": addressRegion,
+        "addressCountry": addressCountry
       },
-      "sameAs": [
-        "https://www.facebook.com/profile.php?id=61577185790846",
-        "https://www.instagram.com/jewmanity_"
-      ]
+      "sameAs": sameAs
     })} />
 
     <!-- Snipcart E-Commerce -->

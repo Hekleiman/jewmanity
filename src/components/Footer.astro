@@ -6,12 +6,19 @@ interface SocialLinks {
   linkedin?: string | null;
 }
 
+interface LegalLink {
+  label: string;
+  href: string;
+}
+
 interface SiteSettings {
   orgName?: string | null;
   ein?: string | null;
   socialLinks?: SocialLinks | null;
   copyrightText?: string | null;
   footerTagline?: string | null;
+  legalLinks?: LegalLink[] | null;
+  footerDisclaimer?: string | null;
 }
 
 interface Props {
@@ -29,6 +36,19 @@ const facebook = siteSettings?.socialLinks?.facebook || 'https://www.facebook.co
 const instagram = siteSettings?.socialLinks?.instagram || 'https://www.instagram.com/jewmanity_';
 const twitter = siteSettings?.socialLinks?.twitter || null;
 const linkedin = siteSettings?.socialLinks?.linkedin || null;
+
+const fallbackLegalLinks: LegalLink[] = [
+  { label: 'Privacy Policy', href: '/privacy' },
+  { label: 'Terms of Service', href: '/terms' },
+  { label: 'Nonprofit Disclosures', href: '/nonprofit-disclosures' },
+];
+const legalLinks: LegalLink[] =
+  siteSettings?.legalLinks && siteSettings.legalLinks.length > 0
+    ? siteSettings.legalLinks
+    : fallbackLegalLinks;
+const footerDisclaimer =
+  siteSettings?.footerDisclaimer
+    || 'All donations are tax-deductible to the fullest extent allowed by law.';
 
 const currentYear = new Date().getFullYear();
 ---
@@ -106,24 +126,14 @@ const currentYear = new Date().getFullYear();
     <div class="flex flex-col items-center gap-4">
       <!-- Legal Links -->
       <div class="flex flex-wrap items-center justify-center gap-6">
-        <a
-          href="/privacy"
-          class="font-body text-sm leading-5 tracking-[-0.15px] text-[rgba(250,248,245,0.7)] transition-opacity hover:opacity-100"
-        >
-          Privacy Policy
-        </a>
-        <a
-          href="/terms"
-          class="font-body text-sm leading-5 tracking-[-0.15px] text-[rgba(250,248,245,0.7)] transition-opacity hover:opacity-100"
-        >
-          Terms of Service
-        </a>
-        <a
-          href="/nonprofit-disclosures"
-          class="font-body text-sm leading-5 tracking-[-0.15px] text-[rgba(250,248,245,0.7)] transition-opacity hover:opacity-100"
-        >
-          Nonprofit Disclosures
-        </a>
+        {legalLinks.map((link) => (
+          <a
+            href={link.href}
+            class="font-body text-sm leading-5 tracking-[-0.15px] text-[rgba(250,248,245,0.7)] transition-opacity hover:opacity-100"
+          >
+            {link.label}
+          </a>
+        ))}
       </div>
 
       <!-- Copyright -->
@@ -133,7 +143,7 @@ const currentYear = new Date().getFullYear();
 
       <!-- Disclaimer -->
       <p class="text-center font-body text-xs leading-4 text-[rgba(250,248,245,0.6)]">
-        All donations are tax-deductible to the fullest extent allowed by law.
+        {footerDisclaimer}
       </p>
     </div>
   </div>
