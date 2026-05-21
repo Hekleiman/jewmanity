@@ -40,7 +40,7 @@ PUBLIC_SNIPCART_API_KEY=<live key from Snipcart dashboard>
    - URL: the deploy hook URL from step 2
    - Trigger on: Create, Update, Delete
    - Filter: leave blank (all content types)
-4. When content is published in Sanity, the site auto-rebuilds (~30 seconds)
+4. When content is published in Sanity, the site auto-rebuilds. Expect changes to be live within 2 to 3 minutes (the rebuild itself runs in about 30 seconds; the extra time covers queue wait plus CDN propagation).
 
 ## Sanity Studio
 
