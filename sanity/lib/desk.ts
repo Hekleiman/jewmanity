@@ -60,7 +60,6 @@ export const structure: StructureResolver = (S) =>
                     .items([
                       singletonListItem(S, 'aboutStory', 'Our Story', BookIcon),
                       singletonListItem(S, 'aboutTeamPage', 'Team Page', UsersIcon),
-                      singletonListItem(S, 'aboutCommunityStoriesPage', 'Community Stories Page', BookIcon),
                     ]),
                 ),
 
@@ -84,7 +83,7 @@ export const structure: StructureResolver = (S) =>
                     .title('Community')
                     .items([
                       singletonListItem(S, 'fightingAntisemitism', 'Fighting Antisemitism', BlockElementIcon),
-                      singletonListItem(S, 'resources', 'Mental Health Resources', HeartIcon),
+                      singletonListItem(S, 'aboutCommunityStoriesPage', 'Community Stories Page', BookIcon),
                       singletonListItem(S, 'communityRecipesPage', 'Recipes Page', ComposeIcon),
                     ]),
                 ),
@@ -96,8 +95,6 @@ export const structure: StructureResolver = (S) =>
                   S.list()
                     .title('Get Involved')
                     .items([
-                      singletonListItem(S, 'donatePage', 'Donate Page', CreditCardIcon),
-                      singletonListItem(S, 'shopPage', 'Shop Page', BasketIcon),
                       singletonListItem(S, 'volunteerPage', 'Volunteer Page', UsersIcon),
                       singletonListItem(S, 'contactPage', 'Contact Page', EnvelopeIcon),
                       singletonListItem(S, 'mitzvahProject', 'Mitzvah Project', BulbOutlineIcon),
@@ -110,6 +107,37 @@ export const structure: StructureResolver = (S) =>
               singletonListItem(S, 'privacyPage', 'Privacy Policy', DocumentTextIcon),
               singletonListItem(S, 'termsPage', 'Terms of Service', DocumentTextIcon),
               singletonListItem(S, 'nonprofitDisclosuresPage', 'Nonprofit Disclosures', DocumentTextIcon),
+            ]),
+        ),
+
+      S.divider(),
+
+      // ── Promoted top-level sections (Resources, Shop, Donate) ──
+      singletonListItem(S, 'resources', 'Mental Health Resources', HeartIcon),
+
+      S.listItem()
+        .title('Shop')
+        .icon(BasketIcon)
+        .child(
+          S.list()
+            .title('Shop')
+            .items([
+              singletonListItem(S, 'shopPage', 'Shop Page', BasketIcon),
+              S.listItem()
+                .title('Products')
+                .icon(TagIcon)
+                .child(S.documentTypeList('product').title('Products')),
+            ]),
+        ),
+
+      S.listItem()
+        .title('Donate')
+        .icon(CreditCardIcon)
+        .child(
+          S.list()
+            .title('Donate')
+            .items([
+              singletonListItem(S, 'donatePage', 'Donate Page', CreditCardIcon),
             ]),
         ),
 
@@ -143,10 +171,6 @@ export const structure: StructureResolver = (S) =>
                 .title('Retreats')
                 .icon(CalendarIcon)
                 .child(S.documentTypeList('retreat').title('Retreats')),
-              S.listItem()
-                .title('Products')
-                .icon(TagIcon)
-                .child(S.documentTypeList('product').title('Products')),
               S.listItem()
                 .title('FAQ Items')
                 .icon(HelpCircleIcon)
