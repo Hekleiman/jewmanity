@@ -32,13 +32,13 @@ export default defineType({
     // ── Why This Matters ──────────────────────────────
     defineField({
       name: 'whyHeading',
-      title: 'Why This Matters — Heading',
+      title: 'Why This Matters: Heading',
       type: 'string',
       description: 'Heading for the "Why This Matters" section.',
     }),
     defineField({
       name: 'whyParagraphs',
-      title: 'Why This Matters — Paragraphs',
+      title: 'Why This Matters: Paragraphs',
       type: 'array',
       description: 'The body text for this section. Each item is one paragraph.',
       of: [{ type: 'text', rows: 4 }],
@@ -64,13 +64,13 @@ export default defineType({
     // ── Impact Cards ──────────────────────────────────
     defineField({
       name: 'impactHeading',
-      title: 'Impact Section — Heading',
+      title: 'Impact Section: Heading',
       type: 'string',
       description: 'Heading for the impact cards section (e.g., "The Impact You\'ll Make").',
     }),
     defineField({
       name: 'impactSubtitle',
-      title: 'Impact Section — Subtitle',
+      title: 'Impact Section: Subtitle',
       type: 'string',
       description: 'Brief subtitle below the heading.',
     }),
@@ -114,12 +114,12 @@ export default defineType({
     // ── How It Works ──────────────────────────────────
     defineField({
       name: 'howItWorksHeading',
-      title: 'How It Works — Heading',
+      title: 'How It Works: Heading',
       type: 'string',
     }),
     defineField({
       name: 'howItWorksSubtitle',
-      title: 'How It Works — Subtitle',
+      title: 'How It Works: Subtitle',
       type: 'string',
     }),
     defineField({
@@ -155,12 +155,12 @@ export default defineType({
     // ── Choose Your Path ──────────────────────────────
     defineField({
       name: 'pathsHeading',
-      title: 'Choose Your Path — Heading',
+      title: 'Choose Your Path: Heading',
       type: 'string',
     }),
     defineField({
       name: 'pathsSubtitle',
-      title: 'Choose Your Path — Subtitle',
+      title: 'Choose Your Path: Subtitle',
       type: 'string',
     }),
     defineField({
@@ -210,12 +210,12 @@ export default defineType({
     // ── Fundraising Goals ─────────────────────────────
     defineField({
       name: 'goalsHeading',
-      title: 'Fundraising Goals — Heading',
+      title: 'Fundraising Goals: Heading',
       type: 'string',
     }),
     defineField({
       name: 'goalsSubtitle',
-      title: 'Fundraising Goals — Subtitle',
+      title: 'Fundraising Goals: Subtitle',
       type: 'text',
       rows: 3,
     }),

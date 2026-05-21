@@ -56,7 +56,7 @@ export default defineType({
       type: 'text',
       rows: 2,
       description: 'Short preview shown on the card. 1-2 sentences to draw readers in.',
-      validation: (rule) => rule.max(200).warning('Keep the preview short — it appears on the card.'),
+      validation: (rule) => rule.max(200).warning('Keep the preview short. It appears on the card.'),
     }),
     defineField({
       name: 'paragraphs',

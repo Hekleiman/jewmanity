@@ -119,7 +119,7 @@ export default defineType({
       name: 'faqHeading',
       title: 'FAQ Heading',
       type: 'string',
-      description: "Heading for the FAQ section. Default is 'Frequently Asked Questions' — change if you prefer something like 'Common Questions' or 'Volunteer FAQs'.",
+      description: "Heading for the FAQ section. Default is 'Frequently Asked Questions'. Change if you prefer something like 'Common Questions' or 'Volunteer FAQs'.",
       initialValue: 'Frequently Asked Questions',
       group: 'faq',
     }),

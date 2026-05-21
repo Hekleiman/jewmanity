@@ -99,6 +99,8 @@ A 30-minute live walkthrough of Sanity Studio for Belinda's first onboarding cal
 
 > "Collections are content types where you can have many entries. Recipes, Team Members, Testimonials, Community Stories, Retreats, FAQ Items, Recommended Articles. They all live under **Content Library** in the left sidebar. Products are the one exception; they live under **Shop** because they belong to that section, but they work the same way."
 
+> "Quick note before we open Recipes: the **Recipes collection** (the individual recipes) lives under Content Library. The **Recipes index page** heading and intro live separately under Pages > Community > Recipes Page. Two different documents, both editable, both already populated. We're going to the collection now."
+
 ### Walk to the recipes list (1 min)
 
 > "In the left sidebar, click **Content Library**. You'll see all seven collections. Click **Recipes**. The list opens with all current recipes shown. The number next to the title is the live count, always up to date."
@@ -107,21 +109,35 @@ A 30-minute live walkthrough of Sanity Studio for Belinda's first onboarding cal
 
 > "At the top of the recipe list, you'll see a green **+** icon (sometimes labeled **Create**). Click it. A blank recipe document opens on the right."
 
-> "Fill in these fields, in this order: Title, Description, then scroll down and add at least one ingredient line and one instruction step. Use anything for the demo; we'll delete this at the end."
+> "The form is long. The fields appear in this order: **Recipe Title**, **URL Slug**, **Short Description**, **Recipe Photo**, then a stretch of optional fields (Tags, Prep Time, Cook Time, Servings, Difficulty, Recipe Author, Publish Date), then **Ingredients** and **Instructions**, then a few more optional fields below. For the demo we'll fill in the required fields and the photo. Scroll past the optional middle for now; we can come back to those later if there's time."
 
-(Wait. Coach if she gets stuck on the ingredients or instructions array. Each is a list of strings, with an Add button at the bottom.)
+> "Start with **Recipe Title**. Type anything. We'll delete this recipe at the end."
+
+(Wait. As she types, the URL Slug field below it will auto-suggest a slug. Point that out briefly; we'll come back to it.)
+
+> "Skip down to **Short Description**. One or two sentences, anything. Then we'll do the photo next."
 
 ### Image upload (2 min)
 
-> "Find the **Photo** field. Click the upload area, then choose any image from your computer. Once it uploads, you'll see two extra fields appear: the image itself and an **Alt text** field underneath. Always fill in the alt text. A short sentence describing what's in the photo. Screen readers and search engines use it."
+> "Find the **Recipe Photo** field. Click the upload area, then choose any image from your computer."
 
 (Wait for upload.)
 
+> "Once it uploads, you'll see an **Alt Text** field appear below the photo. Always fill it in: a short sentence describing what's in the photo. Screen readers and search engines use it."
+
 > "You'll also see a small circle on the photo, called the hotspot. It tells the site which part of the photo to keep in view when the image gets cropped on mobile. For most photos the default is fine. For headshots, drag it onto the face. We covered hotspot etiquette in the editor guide."
+
+### Ingredients and Instructions (2 min)
+
+> "Scroll past the optional middle fields (Tags, Prep Time, Cook Time, Servings, Difficulty, Recipe Author, Publish Date) until you hit **Ingredients**. That's a list of strings: hit the **Add** button below the last line for a new entry, type the ingredient, repeat."
+
+> "Below that is **Instructions**. It's a rich text editor, not a list. To add a new step, hit Enter for a new line. Use the numbered list button in the toolbar at the top to make the lines auto-number as steps."
+
+(Coach if she gets stuck. Ingredients is a list of strings, hit the Add button below the last line. Instructions is a rich text editor, hit Enter for a new line and use the numbered list button in the toolbar for steps.)
 
 ### URL slug (1 min)
 
-> "Find the **URL Slug** field. Next to it is a **Generate** button. Click Generate. It auto-creates the URL from the title. So if your title is 'Honey Cake', the slug becomes `honey-cake`, and the recipe's live URL becomes `jewmanity.com/community/recipes/honey-cake`."
+> "Scroll back up to the **URL Slug** field, just under the title. Next to it is a **Generate** button. Click Generate. It auto-creates the URL from the title. So if your title is 'Honey Cake', the slug becomes `honey-cake`, and the recipe's live URL becomes `jewmanity.com/community/recipes/honey-cake`."
 
 ### Publish the new recipe (1 min)
 

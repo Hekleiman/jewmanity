@@ -17,7 +17,7 @@ export default defineType({
       title: 'Hero Subtitle',
       type: 'string',
       description: 'A supporting line beneath the heading. 1-2 short sentences.',
-      validation: (rule) => rule.max(200).warning('Keep it concise — this appears below the heading.'),
+      validation: (rule) => rule.max(200).warning('Keep it concise. This appears below the heading.'),
     }),
     defineField({
       name: 'backgroundImage',

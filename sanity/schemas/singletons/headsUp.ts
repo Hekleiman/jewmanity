@@ -37,7 +37,7 @@ export default defineType({
       name: 'safeHavenBody',
       title: 'Safe Haven Body',
       type: 'portableText',
-      description: 'Intro paragraphs about the retreat. Write as separate paragraphs — each renders with breathing space.',
+      description: 'Intro paragraphs about the retreat. Write as separate paragraphs. Each renders with breathing space.',
       group: 'safeHaven',
     }),
     defineField({
@@ -178,7 +178,7 @@ export default defineType({
       name: 'communityBullets',
       title: 'Community Bullet Points',
       type: 'array',
-      description: 'Short bullet points about how community support works — keep each under 80 chars for best visual fit.',
+      description: 'Short bullet points about how community support works. Keep each under 80 chars for best visual fit.',
       of: [defineArrayMember({ type: 'string' })],
       group: 'community',
     }),
