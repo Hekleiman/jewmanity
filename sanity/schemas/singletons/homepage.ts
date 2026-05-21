@@ -26,7 +26,7 @@ export default defineType({
       title: 'Hero Subtitle',
       type: 'string',
       description: 'Supporting text below the heading. 1-2 short sentences.',
-      validation: (rule) => rule.max(200).warning('Keep it brief — this sits below the heading.'),
+      validation: (rule) => rule.max(200).warning('Keep it brief. This sits below the heading.'),
       group: 'hero',
     }),
     defineField({
@@ -41,7 +41,7 @@ export default defineType({
       name: 'heroImageAlt',
       title: 'Hero Image Alt Text',
       type: 'string',
-      description: 'Alt text for screen readers and SEO — describe the image briefly.',
+      description: 'Alt text for screen readers and SEO. Describe the image briefly.',
       group: 'hero',
     }),
     defineField({
@@ -163,7 +163,7 @@ export default defineType({
           preview: {
             select: { amount: 'amount', label: 'label' },
             prepare({ amount, label }) {
-              return { title: `$${amount || 0}${label ? ' — ' + label : ''}` };
+              return { title: `$${amount || 0}${label ? ', ' + label : ''}` };
             },
           },
         }),

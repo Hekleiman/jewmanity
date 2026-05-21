@@ -30,7 +30,7 @@ export default defineType({
     select: { value: 'value', suffix: 'suffix', label: 'label' },
     prepare({ value, suffix, label }) {
       return {
-        title: `${value || '0'}${suffix || ''} — ${label || ''}`,
+        title: `${value || '0'}${suffix || ''} · ${label || ''}`,
       };
     },
   },

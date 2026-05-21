@@ -50,7 +50,7 @@ export default defineType({
   preview: {
     select: { title: 'title', icon: 'icon', subtitle: 'href' },
     prepare({ title, icon, subtitle }) {
-      return { title: title || 'Untitled card', subtitle: [icon, subtitle].filter(Boolean).join(' — ') };
+      return { title: title || 'Untitled card', subtitle: [icon, subtitle].filter(Boolean).join(' · ') };
     },
   },
 });

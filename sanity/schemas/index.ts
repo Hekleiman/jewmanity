@@ -117,7 +117,7 @@ export const schemaTypes = [
   nonprofitDisclosuresPage,
 ];
 
-// Singleton type names — used by desk structure and config to prevent duplicates
+// Singleton type names, used by desk structure and config to prevent duplicates
 export const singletonTypes = new Set([
   'homepage',
   'aboutStory',

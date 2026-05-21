@@ -25,7 +25,7 @@ export default defineType({
       title: 'Value',
       type: 'string',
       description:
-        "Can be any short phrase or number — e.g., '501(c)(3) Nonprofit', 'Established 2019', or '1,500+ Helped'.",
+        "Can be any short phrase or number (e.g., '501(c)(3) Nonprofit', 'Established 2019', or '1,500+ Helped').",
       validation: (rule) => rule.required().error('Please add a value.'),
     }),
     defineField({
@@ -38,7 +38,7 @@ export default defineType({
   preview: {
     select: { value: 'value', label: 'label', icon: 'icon' },
     prepare({ value, label, icon }) {
-      return { title: value || 'Untitled stat', subtitle: [icon, label].filter(Boolean).join(' — ') };
+      return { title: value || 'Untitled stat', subtitle: [icon, label].filter(Boolean).join(' · ') };
     },
   },
 });

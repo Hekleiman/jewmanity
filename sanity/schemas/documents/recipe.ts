@@ -13,7 +13,7 @@ export default defineType({
       validation: (rule) =>
         rule
           .required()
-          .error('Please add a recipe title — this is what visitors see on the card.')
+          .error('Please add a recipe title. This is what visitors see on the card.')
           .max(80)
           .warning('Shorter titles display better on mobile.'),
     }),
@@ -21,7 +21,7 @@ export default defineType({
       name: 'slug',
       title: 'URL Slug',
       type: 'slug',
-      description: 'Auto-generated from the title. This becomes the page URL (e.g., /recipes/grandmas-challah).',
+      description: 'Auto-generated from the title. This becomes the page URL (e.g., /community/recipes/grandmas-challah).',
       options: {
         source: 'title',
         maxLength: 96,
@@ -36,7 +36,7 @@ export default defineType({
       type: 'text',
       rows: 2,
       description: 'A mouth-watering teaser shown on the recipe card. 1-2 sentences.',
-      validation: (rule) => rule.max(200).warning('Keep it short — this appears on the preview card.'),
+      validation: (rule) => rule.max(200).warning('Keep it short. This appears on the preview card.'),
     }),
     defineField({
       name: 'image',
@@ -44,6 +44,14 @@ export default defineType({
       type: 'image',
       description: 'A mouth-watering photo of the finished dish. Recommended: 800x600px or larger, landscape orientation.',
       options: { hotspot: true },
+      fields: [
+        defineField({
+          name: 'alt',
+          title: 'Alt Text',
+          type: 'string',
+          description: 'Describe the photo for screen readers and SEO.',
+        }),
+      ],
       validation: (rule) => rule.required().error('Every recipe needs a beautiful photo!'),
     }),
     defineField({
@@ -120,7 +128,7 @@ export default defineType({
       name: 'culturalContext',
       title: 'Cultural Context',
       type: 'portableText',
-      description: 'Optional: the story behind this recipe — its origin, family history, or cultural significance.',
+      description: 'Optional: the story behind this recipe (its origin, family history, or cultural significance).',
     }),
     defineField({
       name: 'notes',

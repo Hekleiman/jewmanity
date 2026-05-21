@@ -26,7 +26,7 @@ export default defineType({
       type: 'text',
       rows: 3,
       description:
-        'Small tax-exempt disclaimer displayed under the hero. Legal/compliance language — review with your accountant before changing.',
+        'Small tax-exempt disclaimer displayed under the hero. Legal/compliance language. Review with your accountant before changing.',
       group: 'hero',
     }),
 
@@ -84,7 +84,7 @@ export default defineType({
       name: 'whyGiveValues',
       title: 'Why Give Value Props',
       type: 'array',
-      description: '3 short value props — each with a heading and 1-2 sentence description. Keep titles under ~30 characters.',
+      description: '3 short value props, each with a heading and 1-2 sentence description. Keep titles under ~30 characters.',
       of: [{ type: 'whyGiveValue' }],
       group: 'whyGive',
     }),

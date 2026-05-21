@@ -70,7 +70,7 @@ export default defineType({
           preview: {
             select: { number: 'number', title: 'title' },
             prepare({ number, title }) {
-              return { title: `${number || '#'} — ${title || 'Untitled'}` };
+              return { title: `${number || '#'}. ${title || 'Untitled'}` };
             },
           },
         }),
@@ -87,7 +87,7 @@ export default defineType({
     }),
     defineField({
       name: 'whyMattersBody',
-      title: 'Why Mental Health Matters — Body',
+      title: 'Why Mental Health Matters: Body',
       type: 'portableText',
       description: 'Intro paragraph and stats for the "Why This Matters" section. Use a bulleted list for the stats.',
       group: 'whyMatters',

@@ -4,7 +4,7 @@ export default defineType({
   name: 'actionStep',
   title: 'Action Step',
   type: 'object',
-  description: 'A numbered action step. Steps auto-number by position — drag to reorder in Studio and numbers update automatically.',
+  description: 'A numbered action step. Steps auto-number by position. Drag to reorder in Studio and numbers update automatically.',
   fields: [
     defineField({
       name: 'title',

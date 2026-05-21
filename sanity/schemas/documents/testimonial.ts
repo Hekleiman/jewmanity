@@ -10,13 +10,13 @@ export default defineType({
       title: 'Quote',
       type: 'text',
       rows: 4,
-      description: 'The testimonial text. Use their exact words — authentic quotes resonate most.',
+      description: 'The testimonial text. Use their exact words. Authentic quotes resonate most.',
       validation: (rule) =>
         rule
           .required()
           .error('Please add the testimonial quote.')
           .max(500)
-          .warning('Shorter quotes have more impact — try to keep under 500 characters.'),
+          .warning('Shorter quotes have more impact. Try to keep under 500 characters.'),
     }),
     defineField({
       name: 'authorName',
@@ -60,7 +60,6 @@ export default defineType({
       description: 'Where should this testimonial appear? Used to filter testimonials by page.',
       options: {
         list: [
-          { title: 'Retreat', value: 'retreat' },
           { title: 'Volunteer', value: 'volunteer' },
           { title: 'Heads Up Program', value: 'headsup' },
           { title: 'Antisemitism Story', value: 'antisemitism' },
