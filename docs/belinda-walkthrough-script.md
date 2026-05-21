@@ -149,7 +149,7 @@ A 30-minute live walkthrough of Sanity Studio for Belinda's first onboarding cal
 
 > "Important: every collection works exactly like this. Click into the collection, click +, fill in the fields, click Publish. Adding a new team member, a new testimonial, a new community story, a new FAQ, a new article: same pattern every time. The only thing that varies is the fields."
 
-> "One thing worth flagging: testimonials have a **Display Context** field that controls which page they appear on. General/Homepage, Heads Up, Volunteer, or Antisemitism Story. If you create a testimonial without setting that, it won't appear anywhere. The editor guide has the full mapping."
+> "One thing worth flagging: testimonials have a **Display Context** field that controls which page they appear on. The options in the dropdown are **General / Homepage**, **Heads Up Program**, **Volunteer**, and **Antisemitism Story**. If you create a testimonial without setting that, it won't appear anywhere. The editor guide has the full mapping."
 
 ---
 

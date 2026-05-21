@@ -145,7 +145,7 @@ If a field is missing or behaving strangely (you expect a field to exist but it 
 
 A few pages have non-obvious behaviors worth flagging:
 
-- **Homepage's "Impact Stories" carousel.** The testimonials shown here are pulled from Content Library → Testimonials based on a flag on each testimonial. To add a new one to the homepage rotation, create the testimonial and tick the "Show on homepage" option (or similar; the exact field name will be on the document).
+- **Homepage's "Impact Stories" carousel.** The testimonials shown here are pulled from Content Library → Testimonials based on the **Display Context** field on each testimonial. To add a new one to the homepage rotation, create the testimonial and set **Display Context** to **General / Homepage**. The other Display Context options (Heads Up Program, Volunteer, Antisemitism Story) route the testimonial to other pages instead.
 
 - **Mailchimp newsletter signup.** The signup form on the homepage submits subscribers to your Mailchimp account. You manage subscribers, send campaigns, and check signups from your Mailchimp dashboard, not from Studio.
 
@@ -187,7 +187,7 @@ If something you need to change isn't in Studio, that's a developer task. Send E
 | A page's main heading or intro | Pages → [section] → that page |
 | The nav menu | Site Navigation |
 | The footer disclaimer | Site Settings → Footer |
-| The logo | Site Settings → Identity |
+| The logo | Site Settings → Organization Identity |
 | The default social card image | Site Settings → Site Meta Defaults |
 | Donation amounts | Donate → Donate Page (and Pages → Homepage for the homepage tiers) |
 | A testimonial | Content Library → Testimonials |
