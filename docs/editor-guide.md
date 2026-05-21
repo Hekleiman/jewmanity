@@ -103,8 +103,8 @@ In Studio, the left nav shows the live count next to each collection, so you can
 Most fields in Studio are optional in the sense that the schema does not block publish if they're empty, but leaving certain fields blank will visibly break a page. Treat these as required when editing:
 
 - **Homepage**: Hero Heading, Hero Subtitle, Hero Primary Button (text and link), How We Help Heading, at least one Program Card, at least one Donation Amount, Donation Section Heading, Donation Section Button.
-- **Donate Page**: Hero Heading, Hero Tax Note, Impact Heading, at least one Impact Card, at least one Cost Breakdown line item with title and amount, Bottom CTA Heading.
-- **Contact Page**: Hero Heading, Intro Paragraph, Form Heading, Privacy Note, at least one Other Ways card.
+- **Donate Page**: Hero Heading (inside the Hero Section field), Hero Tax Note, Impact Section Heading, at least one Impact Card, at least one Cost Breakdown line item with title and amount, CTA Heading (in the Bottom CTA tab).
+- **Contact Page**: Hero Heading (inside the Hero Section field), Intro Paragraph, Form Heading, Privacy Note, at least one Other Ways card.
 
 If you publish a page with one of these blank, expect a broken-looking section on the live site. The rebuild will still succeed, so the safety net is reading the live site after publish.
 
