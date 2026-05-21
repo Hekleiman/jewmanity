@@ -18,7 +18,7 @@ Sign in with the email address Erik invited you with. You will see the Studio da
 
 Two small things to know about the interface:
 
-- The short URL above will redirect to a longer one (something like `sanity.io/@.../studio/.../jewmanity/`). That's normal; Sanity wraps the Studio inside their broader dashboard. Bookmark the short URL — it always works.
+- The short URL above will redirect to a longer one (something like `sanity.io/@.../studio/.../jewmanity/`). That's normal; Sanity wraps the Studio inside their broader dashboard. Bookmark the short URL. It always works.
 - At the bottom of the screen you may see a banner that says "Studio is not fully compatible with Dashboard. Content Agent is not supported." This is about a Sanity AI feature unrelated to editing the site. Click the X to dismiss it.
 
 ---
@@ -27,19 +27,19 @@ Two small things to know about the interface:
 
 The left sidebar is your map. Here's what each section is for:
 
-**Pages.** Everything tied to a specific page on the site. Each page lives under a folder named after where it appears in the nav. Want to change something on the Donate page? Open **Pages → Get Involved → Donate Page**. Want to update the homepage hero? **Pages → Homepage**.
+**Pages.** Everything tied to a specific page on the site. Each page lives under a folder named after where it appears in the site nav, with one exception: Mental Health Resources, Shop, and Donate are promoted to the top level of the sidebar because they get edited often. Want to change something on the Donate page? Open **Donate → Donate Page**. Want to update the homepage hero? Open **Pages → Homepage**. Want to update a shop product? Open **Shop → Products**.
 
 The order in the sidebar follows the site's navigation, so finding a page is the same as finding it on the website.
 
 **Content Library.** Things the site has many of, not tied to one specific page:
-- **Team Members** — the people on the About > Team page
-- **Testimonials** — the quotes that appear on the homepage, Heads Up, Past Retreats, and other pages
-- **Community Stories** — the full stories under About > Community Stories
-- **Recipes** — every recipe shown under Community > Recipes
-- **Retreats** — each past retreat with its own article
-- **Products** — items for sale in the shop
-- **FAQ Items** — individual questions and answers (used on Donate, Volunteer, Mitzvah, Heads Up)
-- **Recommended Articles** — articles linked from the Fighting Antisemitism page
+- **Team Members**: the people on the About > Team page
+- **Testimonials**: the quotes that appear on the homepage, Heads Up, Past Retreats, and other pages
+- **Community Stories**: the full stories shown under About > Community Stories on the website
+- **Recipes**: every recipe shown under Community > Recipes
+- **Retreats**: each past retreat with its own article
+- **Products**: items for sale in the shop
+- **FAQ Items**: individual questions and answers (used on Donate, Volunteer, Mitzvah, Heads Up)
+- **Recommended Articles**: articles linked from the Fighting Antisemitism page
 
 To add a new testimonial or recipe, open the relevant Content Library section and click "Create new" at the top right.
 
@@ -151,7 +151,7 @@ A few pages have non-obvious behaviors worth flagging:
 
 - **Contact and volunteer forms.** Form submissions go to your Formspree account. You receive each submission as an email. The form labels, dropdown options, and success/error messages are editable in Studio (under **Pages → Get Involved → Contact Page** and **Volunteer Page**), but the recipient address is set in Formspree.
 
-- **Donation tiers.** The dollar amounts shown on the homepage and Donate page are multiples of 18 (chai) by Jewish tradition. Edit them under **Pages → Get Involved → Donate Page → Donation Tiers**, but try to keep the chai pattern.
+- **Donation tiers.** The dollar amounts shown on the homepage and Donate page are multiples of 18 (chai) by Jewish tradition. Edit the homepage amounts under **Pages → Homepage** (Donation CTA tab) and the Donate page amounts under **Donate → Donate Page**, but try to keep the chai pattern.
 
 - **Privacy, Terms, Nonprofit Disclosures.** These are legal pages. Edit with care; if you're not sure whether a change is allowed, ask a lawyer or Erik.
 
@@ -189,11 +189,11 @@ If something you need to change isn't in Studio, that's a developer task. Send E
 | The footer disclaimer | Site Settings → Footer |
 | The logo | Site Settings → Identity |
 | The default social card image | Site Settings → Site Meta Defaults |
-| Donation amounts | Pages → Get Involved → Donate Page |
+| Donation amounts | Donate → Donate Page (and Pages → Homepage for the homepage tiers) |
 | A testimonial | Content Library → Testimonials |
 | A recipe | Content Library → Recipes |
 | A team member | Content Library → Team Members |
-| A product in the shop | Content Library → Products |
+| A product in the shop | Shop → Products |
 | An FAQ answer | Content Library → FAQ Items |
 | A past retreat article | Content Library → Retreats |
 | The privacy or terms page | Pages → Privacy Policy / Terms of Service |
