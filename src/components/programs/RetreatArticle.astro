@@ -147,7 +147,7 @@ const carouselId = `gc-${Math.random().toString(36).slice(2, 8)}`;
           return <h2 class="!mt-10 font-heading text-2xl font-medium text-text-heading">{block.text}</h2>;
         }
         if (block.type === 'image') {
-          return <img src={block.src} alt={block.alt || title} class="my-8 aspect-[16/9] w-full rounded-2xl object-cover" width="1280" height="720" loading="lazy" />;
+          return <img src={block.src} alt={block.alt || title} class="my-8 h-auto w-full rounded-2xl" loading="lazy" />;
         }
         return <p>{block.text}</p>;
       })}
