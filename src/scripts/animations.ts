@@ -121,37 +121,56 @@ export function initAnimations(): void {
     });
   });
 
-  // Slide in from left
-  gsap.utils.toArray<HTMLElement>('[data-animate="slide-left"]').forEach((el) => {
-    gsap.from(el, {
-      x: -60,
-      opacity: 0,
-      duration: 0.8,
-      ease: 'power2.out',
-      clearProps: 'all',
-      scrollTrigger: {
-        trigger: el,
-        start: 'top 85%',
-        toggleActions: 'play none none none',
-      },
-    });
-  });
+  // Slide-in animations are scoped by viewport: the lg: breakpoint is where the
+  // paired two-column layouts (image + text) actually sit side-by-side, so the
+  // horizontal slide only reads as a slide there. On narrower viewports the
+  // columns stack, and a horizontal 60px initial offset would push the right
+  // column past the viewport edge until ScrollTrigger fires, widening the
+  // document and stretching the fixed nav bar. Below lg we fall back to a
+  // vertical fade-up so the entrance still matches the rest of the page.
+  const slideMM = gsap.matchMedia();
 
-  // Slide in from right
-  gsap.utils.toArray<HTMLElement>('[data-animate="slide-right"]').forEach((el) => {
-    gsap.from(el, {
-      x: 60,
-      opacity: 0,
-      duration: 0.8,
-      ease: 'power2.out',
-      clearProps: 'all',
-      scrollTrigger: {
-        trigger: el,
-        start: 'top 85%',
-        toggleActions: 'play none none none',
-      },
-    });
-  });
+  slideMM.add(
+    {
+      isDesktop: '(min-width: 1024px)',
+      isMobile: '(max-width: 1023.98px)',
+    },
+    (ctx) => {
+      const { isDesktop } = ctx.conditions as { isDesktop: boolean; isMobile: boolean };
+
+      gsap.utils.toArray<HTMLElement>('[data-animate="slide-left"]').forEach((el) => {
+        gsap.from(el, {
+          x: isDesktop ? -60 : 0,
+          y: isDesktop ? 0 : 30,
+          opacity: 0,
+          duration: 0.8,
+          ease: 'power2.out',
+          clearProps: 'all',
+          scrollTrigger: {
+            trigger: el,
+            start: 'top 85%',
+            toggleActions: 'play none none none',
+          },
+        });
+      });
+
+      gsap.utils.toArray<HTMLElement>('[data-animate="slide-right"]').forEach((el) => {
+        gsap.from(el, {
+          x: isDesktop ? 60 : 0,
+          y: isDesktop ? 0 : 30,
+          opacity: 0,
+          duration: 0.8,
+          ease: 'power2.out',
+          clearProps: 'all',
+          scrollTrigger: {
+            trigger: el,
+            start: 'top 85%',
+            toggleActions: 'play none none none',
+          },
+        });
+      });
+    }
+  );
 }
 
 export function destroyAnimations(): void {
