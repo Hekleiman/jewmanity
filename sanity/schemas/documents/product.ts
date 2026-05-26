@@ -46,10 +46,15 @@ export default defineType({
       description: 'A compelling description of the product. 2-3 sentences.',
     }),
     defineField({
-      name: 'snipcartId',
-      title: 'Snipcart Product ID',
-      type: 'string',
-      description: 'Unique product ID for the shopping cart. Use lowercase-with-dashes, e.g., "pink-trucker-hat". Must match the Snipcart dashboard.',
+      name: 'stripePaymentLinkUrl',
+      title: 'Stripe Payment Link URL',
+      type: 'url',
+      description: 'Paste the Payment Link URL from your Stripe dashboard (Products > Payment Links). Looks like https://buy.stripe.com/xxxxxxxxx. Leave empty if the product is not yet available for purchase.',
+      validation: (rule) =>
+        rule.uri({
+          scheme: ['https'],
+          allowRelative: false,
+        }),
     }),
     defineField({
       name: 'mainImage',

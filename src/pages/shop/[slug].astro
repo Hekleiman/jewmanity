@@ -106,7 +106,7 @@ const { slug } = Astro.params;
 const cmsProduct = Astro.props.product || null;
 const fallback = fallbackProducts[slug ?? ''] || fallbackProducts['heads-up-water-bottle'];
 
-const productId = cmsProduct?.snipcartId || fallback.id;
+const productId = cmsProduct?.slug?.current || fallback.id;
 const productName = cmsProduct?.name || fallback.name;
 const productPrice = cmsProduct ? `$${cmsProduct.price}` : fallback.price;
 const productPriceNum = cmsProduct ? cmsProduct.price.toFixed(2) : fallback.priceNum;
@@ -117,6 +117,7 @@ const productThumbnails = cmsProduct?.gallery
   ? cmsProduct.gallery.map((img: any) => urlFor(img).width(600).url())
   : fallback.thumbnails;
 const productInStock = cmsProduct ? cmsProduct.inStock !== false : true;
+const productStripePaymentLinkUrl: string | undefined = cmsProduct?.stripePaymentLinkUrl || undefined;
 ---
 <Layout title={`${productName} | Jewmanity Shop`} description={productDescription}>
   <ProductDetail
@@ -130,5 +131,6 @@ const productInStock = cmsProduct ? cmsProduct.inStock !== false : true;
     thumbnails={productThumbnails}
     slug={slug ?? 'heads-up-water-bottle'}
     inStock={productInStock}
+    stripePaymentLinkUrl={productStripePaymentLinkUrl}
   />
 </Layout>

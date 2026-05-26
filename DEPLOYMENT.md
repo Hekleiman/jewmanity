@@ -11,10 +11,9 @@ Set these in Vercel dashboard under Settings → Environment Variables:
 ```
 PUBLIC_SANITY_PROJECT_ID=9pc3wgri
 PUBLIC_SANITY_DATASET=production
-PUBLIC_SNIPCART_API_KEY=<live key from Snipcart dashboard>
 ```
 
-**`PUBLIC_SNIPCART_API_KEY`** — required before launch. The codebase contains a TEST-key fallback so local dev and pre-launch staging deploys work without this var set. Once Vercel has the live key configured, the next build embeds it in the served HTML and Snipcart starts processing real payments. Get the live key from Snipcart dashboard → Account → API Keys (after toggling the account from Test to Live mode). Rotating later is a Vercel env-var update + redeploy — no code change needed.
+**Shop checkout (Stripe Payment Links)**: no env vars needed at the code level. Each product's checkout URL is stored on its Sanity document (Products > [product] > Stripe Payment Link URL). Create the Payment Link in the Stripe dashboard (Products > Payment Links), paste the resulting URL into Sanity Studio, and publish. Products without a URL set render a "Coming Soon" indicator instead of the Add to Cart button.
 
 ## Deploy to Vercel
 
@@ -61,12 +60,11 @@ npx sanity deploy
 
 ## Post-Deploy Checklist
 
-- [ ] Switch Snipcart from Test to Live mode (Dashboard → toggle), copy the LIVE API key
-- [ ] Set `PUBLIC_SNIPCART_API_KEY` in Vercel project settings (Environment Variables → Production) to the LIVE key, then trigger a redeploy
+- [ ] Create Stripe Payment Links for each product in the Stripe dashboard, paste URLs into Sanity Studio (Products > [product] > Stripe Payment Link URL), and publish each document
 - [ ] Verify Givebutter production campaign is active
 - [ ] Test contact form submission (Formspree)
 - [ ] Test newsletter signup (Mailchimp)
-- [ ] Test Add to Cart + checkout flow (Snipcart)
+- [ ] Test Add to Cart + checkout flow (clicks through to Stripe-hosted checkout)
 - [ ] Test donation widget (Givebutter)
 - [ ] Run Lighthouse audit — target 95+ across all categories
 - [ ] Verify all pages render correctly on mobile (375px)

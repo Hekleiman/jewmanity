@@ -6,11 +6,11 @@ import ProductGrid from '../components/shop/ProductGrid.astro';
 import CTASection from '../components/shared/CTASection.astro';
 import { getProducts, getShopPage, urlFor } from '../lib/sanity';
 
-let cmsProducts: { id: string; name: string; price: string; priceNum: string; slug: string; description: string; image: string; inStock: boolean }[] = [];
+let cmsProducts: { id: string; name: string; price: string; priceNum: string; slug: string; description: string; image: string; inStock: boolean; stripePaymentLinkUrl?: string }[] = [];
 try {
   const raw = await getProducts();
   cmsProducts = raw.map((p: any) => ({
-    id: p.snipcartId || p.slug?.current || p._id,
+    id: p.slug?.current || p._id,
     name: p.name,
     price: p.price ? `$${p.price}` : '',
     priceNum: p.price ? p.price.toFixed(2) : '0.00',
@@ -18,6 +18,7 @@ try {
     description: p.description || '',
     image: p.mainImage ? urlFor(p.mainImage).width(600).url() : '',
     inStock: p.inStock !== false,
+    stripePaymentLinkUrl: p.stripePaymentLinkUrl || undefined,
   }));
 } catch (e) {
   console.warn('Sanity fetch failed for products, using fallback content');

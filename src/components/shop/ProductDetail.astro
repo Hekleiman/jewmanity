@@ -10,10 +10,16 @@ interface Props {
   thumbnails?: string[];
   slug: string;
   inStock?: boolean;
+  stripePaymentLinkUrl?: string;
 }
 
-const { id, name, price, priceNum, description, features, image, thumbnails = [], slug, inStock = true } = Astro.props;
+const { name, price, description, features, image, thumbnails = [], inStock = true, stripePaymentLinkUrl } = Astro.props;
 const allImages = [image, ...thumbnails].filter(Boolean);
+const canPurchase = inStock && !!stripePaymentLinkUrl;
+const unavailableLabel = inStock ? 'Coming Soon' : 'Sold Out';
+const unavailableAria = inStock
+  ? 'This product is not yet available for purchase'
+  : 'This product is currently sold out';
 ---
 
 <section id="product-detail" class="pb-16 pt-28 md:pb-20 md:pt-32">
@@ -143,26 +149,21 @@ const allImages = [image, ...thumbnails].filter(Boolean);
         </div>
 
         <!-- Add to Cart -->
-        {inStock ? (
-          <button
+        {canPurchase ? (
+          <a
             id="add-to-cart-btn"
-            class="snipcart-add-item mt-6 w-full rounded-[100px] bg-primary py-3.5 font-heading text-base font-medium text-white transition-colors hover:bg-primary-hover"
-            data-item-id={id}
-            data-item-name={name}
-            data-item-price={priceNum}
-            data-item-url={`/shop/${slug}`}
-            data-item-description={description}
-            data-item-image={image}
-            data-item-quantity="1"
+            href={stripePaymentLinkUrl}
+            data-base-url={stripePaymentLinkUrl}
+            class="mt-6 block w-full rounded-[100px] bg-primary py-3.5 text-center font-heading text-base font-medium text-white transition-colors hover:bg-primary-hover"
           >
             Add to Cart +
-          </button>
+          </a>
         ) : (
           <div
             class="mt-6 w-full rounded-[100px] bg-bg-section-alt py-3.5 text-center font-heading text-base font-medium text-text-muted"
-            aria-label="This product is currently sold out"
+            aria-label={unavailableAria}
           >
-            Sold Out
+            {unavailableLabel}
           </div>
         )}
       </div>
@@ -175,12 +176,17 @@ const allImages = [image, ...thumbnails].filter(Boolean);
   const qtyDisplay = document.getElementById('qty-display');
   const decreaseBtn = document.getElementById('qty-decrease');
   const increaseBtn = document.getElementById('qty-increase');
-  const addToCartBtn = document.getElementById('add-to-cart-btn');
+  const addToCartBtn = document.getElementById('add-to-cart-btn') as HTMLAnchorElement | null;
+  const baseUrl = addToCartBtn?.dataset.baseUrl || '';
   let quantity = 1;
   function updateQuantity(newQty: number): void {
     quantity = Math.max(1, newQty);
     if (qtyDisplay) qtyDisplay.textContent = String(quantity);
-    if (addToCartBtn) addToCartBtn.setAttribute('data-item-quantity', String(quantity));
+    if (addToCartBtn && baseUrl) {
+      const url = new URL(baseUrl);
+      url.searchParams.set('prefilled_quantity', String(quantity));
+      addToCartBtn.setAttribute('href', url.toString());
+    }
   }
   decreaseBtn?.addEventListener('click', () => updateQuantity(quantity - 1));
   increaseBtn?.addEventListener('click', () => updateQuantity(quantity + 1));
