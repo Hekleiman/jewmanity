@@ -103,7 +103,7 @@ export async function getProducts() {
       slug,
       price,
       description,
-      snipcartId,
+      stripePaymentLinkUrl,
       mainImage,
       gallery,
       features,

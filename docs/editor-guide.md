@@ -345,7 +345,7 @@ These are intentionally built into the site's code, not in Studio. If any of the
 - **Donation widget:** The Givebutter widget on the Donate page is managed in code. Branding, preset amounts, and platform fee mode (0% with donor tips, or 3% flat with Stripe) are all configured in the Givebutter dashboard, not in Studio or code.
 - **International crisis country dropdown** (Resources page): The 35+ countries and their phone numbers are currently in code. Contact your developer to update.
 - **Page layouts and visual design:** Colors, fonts, spacing, button styles, card shapes, etc. are part of the design system. Changing these requires design and development work.
-- **Product shop cart behavior:** The "Add to Cart" and checkout flow is managed by a service called Snipcart.
+- **Product shop checkout:** Each product's "Add to Cart" button links to a Stripe Payment Link URL (set per-product in Studio under Products > [product] > Stripe Payment Link URL). The hosted checkout page is configured in the Stripe dashboard, not in Studio.
 
 ---
 

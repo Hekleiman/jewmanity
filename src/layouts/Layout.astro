@@ -63,7 +63,6 @@ if (sameAs.length === 0) {
   );
 }
 
-const SNIPCART_API_KEY = import.meta.env.PUBLIC_SNIPCART_API_KEY || 'YzI4MTdlM2YtN2U2NS00YTIxLWE1NGUtNWUwOTU3YzFhZjJkNjM5MDk2MjU4MDY4MDc3ODg1'; // fallback: Snipcart TEST key (also used when env var is empty string)
 ---
 <!doctype html>
 <html lang="en">
@@ -123,13 +122,6 @@ const SNIPCART_API_KEY = import.meta.env.PUBLIC_SNIPCART_API_KEY || 'YzI4MTdlM2Y
       "sameAs": sameAs
     })} />
 
-    <!-- Snipcart E-Commerce -->
-    <link rel="preconnect" href="https://app.snipcart.com" />
-    <link rel="stylesheet" href="https://cdn.snipcart.com/themes/v3.7.1/default/snipcart.css" />
-    <script async src="https://cdn.snipcart.com/themes/v3.7.1/default/snipcart.js"></script>
-    <div hidden id="snipcart" data-api-key={SNIPCART_API_KEY} data-config-modal-style="side"></div>
-    <!-- API key is read from PUBLIC_SNIPCART_API_KEY env var. Falls back to a TEST key if unset.
-         Set PUBLIC_SNIPCART_API_KEY in Vercel env vars to a LIVE key before launch. -->
   </head>
   <body class="bg-bg-page text-text-body font-body antialiased">
     <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:bg-white focus:text-primary focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-lg">

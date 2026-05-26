@@ -8,9 +8,15 @@ interface Props {
   description: string;
   image: string;
   inStock?: boolean;
+  stripePaymentLinkUrl?: string;
 }
 
-const { id, name, price, priceNum, href, description, image, inStock = true } = Astro.props;
+const { name, price, href, image, inStock = true, stripePaymentLinkUrl } = Astro.props;
+const canPurchase = inStock && !!stripePaymentLinkUrl;
+const unavailableLabel = inStock ? 'Coming Soon' : 'Sold Out';
+const unavailableAria = inStock
+  ? 'This product is not yet available for purchase'
+  : 'This product is currently sold out';
 ---
 
 <article class="overflow-hidden rounded-[24px] border-[0.5px] border-border-card bg-white shadow-[0px_16px_32px_rgba(12,12,13,0.1),0px_4px_4px_rgba(12,12,13,0.05)]">
@@ -28,24 +34,19 @@ const { id, name, price, priceNum, href, description, image, inStock = true } = 
       </h3>
       <span class="shrink-0 font-heading text-lg font-medium text-primary">{price}</span>
     </div>
-    {inStock ? (
-      <button
-        class="snipcart-add-item mt-4 w-full rounded-[100px] bg-primary py-3 font-heading text-sm font-medium text-white transition-colors hover:bg-primary-hover"
-        data-item-id={id}
-        data-item-name={name}
-        data-item-price={priceNum}
-        data-item-url="/shop"
-        data-item-description={description}
-        data-item-image={image}
+    {canPurchase ? (
+      <a
+        href={stripePaymentLinkUrl}
+        class="mt-4 block w-full rounded-[100px] bg-primary py-3 text-center font-heading text-sm font-medium text-white transition-colors hover:bg-primary-hover"
       >
         Add to Cart +
-      </button>
+      </a>
     ) : (
       <div
         class="mt-4 w-full rounded-[100px] bg-bg-section-alt py-3 text-center font-heading text-sm font-medium text-text-muted"
-        aria-label="This product is currently sold out"
+        aria-label={unavailableAria}
       >
-        Sold Out
+        {unavailableLabel}
       </div>
     )}
   </div>

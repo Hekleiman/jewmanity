@@ -41,13 +41,13 @@ Status icons:
 - **Description:** Belinda must finish Givebutter signup, configure the campaign per `docs/givebutter-campaign-config.md` (six Chai presets + ASK BELINDA decisions), and deliver `ACCOUNT_ID` + `WIDGET_ID`.
 - **Next action:** Wait on Belinda. When delivered, follow runbook.
 
-### A2. Snipcart LIVE API key
+### A2. Stripe Payment Links per product
 - **Status:** [ ]
-- **Owner:** Belinda (provides) → CC (wires)
-- **Blocker level:** 🚫 BLOCKER
-- **Source:** `src/layouts/Layout.astro:94-95` (`<div hidden id="snipcart" data-api-key="YzI4...">` followed by `<!-- NOTE: This is the TEST API key. Switch to live key before production deployment. -->`); `DEPLOYMENT.md` post-deploy checklist line 1: "Switch Snipcart from Test to Live mode (Dashboard → toggle)".
-- **Description:** A Snipcart **test** API key is currently hardcoded in `Layout.astro` and ships in every page's HTML on staging. Test keys cannot accept real payments — every Add-to-Cart on the new site today routes to Snipcart's sandbox. Live key swap requires (a) Belinda toggling Snipcart from Test → Live mode in her Snipcart dashboard, (b) Belinda providing the live API key, (c) CC swapping the key in `Layout.astro` (and ideally moving it to an env var as part of C1 below).
-- **Next action:** Belinda toggles to Live and shares the key. Hard-fail launch blocker — donors cannot purchase merch with the test key.
+- **Owner:** Belinda (creates links + pastes URLs into Studio)
+- **Blocker level:** 🚫 BLOCKER (for any product Belinda wants buyable at launch; non-blocker for products that can ship as "Coming Soon")
+- **Source:** `sanity/schemas/documents/product.ts` field `stripePaymentLinkUrl`; `src/components/shop/ProductCard.astro`, `src/components/shop/ProductDetail.astro` render "Coming Soon" when the URL is empty.
+- **Description:** Each product needs a Stripe Payment Link URL pasted into its Sanity document (Products > [product] > Stripe Payment Link URL). Belinda creates the Payment Link in Stripe dashboard (Products > Payment Links), copies the resulting `https://buy.stripe.com/...` URL, pastes into Studio, publishes. Products without a URL set show a "Coming Soon" indicator instead of "Add to Cart", so the site ships fine with empty fields, but no shop purchases will go through until URLs are pasted in.
+- **Next action:** Belinda creates a Jewmanity Stripe account (separate from any Givebutter-managed Stripe) and adds Payment Links for the products she wants live at launch.
 
 ### A3. Donorbox production campaign confirmation
 - **Status:** [ ]
@@ -123,13 +123,12 @@ Most active content items live in `docs/pending-content-tasks.md`. Cross-referen
 
 ## Category C: Code hygiene (CC- or Er-owned)
 
-### C1. Snipcart key → env var (paired with A2)
-- **Status:** [ ]
-- **Owner:** CC
-- **Blocker level:** 🟡 (functional fix is the live-key swap A2; env-var move is hygiene)
-- **Source:** `src/layouts/Layout.astro:94`. Pattern: `data-api-key="..."` is a hardcoded string in the component.
-- **Description:** Move the Snipcart API key out of source code into `import.meta.env.PUBLIC_SNIPCART_API_KEY` (must be `PUBLIC_*` prefix to be readable in client-side template). Add to `.env.example` and Vercel env vars. Keeps the value out of git history and lets test/live mode swap via env without code changes.
-- **Next action:** Do this at the same time as A2 — single commit that moves the key to env and switches to live in Vercel env config.
+### C1. ~~Shop API key to env var~~ (RESOLVED, superseded by Stripe Payment Links)
+- **Status:** [x]
+- **Owner:** n/a
+- **Blocker level:** n/a
+- **Source:** N/A. The previous shopping-cart provider was removed entirely; checkout is now Stripe Payment Links keyed off Sanity (`product.stripePaymentLinkUrl`).
+- **Description:** No more shop API key in the codebase. Payment Link URLs live on each Sanity product document, so the test/live distinction is handled inside Stripe (live mode is the default for Payment Links). See A2 for the per-product link setup.
 
 ### C2. ~~`info@jewmanity.com` vs `info@jewmanity.org` typo~~ — RESOLVED
 - **Status:** [x]
@@ -192,13 +191,13 @@ Most active content items live in `docs/pending-content-tasks.md`. Cross-referen
 - **Description:** Run a $1 donation through the live Donorbox campaign on staging. Confirm: (a) widget renders interactively, (b) `?amount=180` URL-param pre-select works, (c) donation completes, (d) Stripe receipt arrives at the configured receipt email, (e) funds appear in Donorbox dashboard, (f) tax-receipt template includes Jewmanity 501(c)(3) EIN.
 - **Next action:** Run before DNS cutover.
 
-### D2. Snipcart sandbox checkout test (test mode)
+### D2. Stripe Payment Link checkout test
 - **Status:** [ ]
-- **Owner:** Er
-- **Blocker level:** 🟡 (test before A2 live-key swap; live-mode test required after)
-- **Source:** `DEPLOYMENT.md` post-deploy checklist line 5: "Test Add to Cart + checkout flow (Snipcart)".
-- **Description:** With the current TEST API key, run a test checkout on the staging URL: add a product (e.g., heads-up-water-bottle), proceed to checkout, complete with a Stripe test card. Confirms cart UI, shipping, payment integration end-to-end. After A2 lands (live key), repeat in live mode with a real card and refund.
-- **Next action:** Test mode now; live mode after A2.
+- **Owner:** Er + Belinda
+- **Blocker level:** 🟡 (only blocks if Belinda wants the shop live at launch)
+- **Source:** `DEPLOYMENT.md` post-deploy checklist: "Test Add to Cart + checkout flow (clicks through to Stripe-hosted checkout)".
+- **Description:** After Belinda pastes a Stripe Payment Link URL into a product in Sanity Studio (see A2) and Vercel redeploys, click the product's "Add to Cart" on the live site. Confirm: (a) anchor redirects to the Stripe-hosted `buy.stripe.com/...` checkout, (b) quantity selector on `/shop/[slug]` updates the URL with `?prefilled_quantity=N`, (c) a $1 test purchase (or a real $30 hat purchase + same-day refund) completes, (d) receipt email arrives from Stripe, (e) payout appears in the Stripe dashboard.
+- **Next action:** Run once A2 is done for at least one product.
 
 ### D3. Formspree submission test (contact + volunteer)
 - **Status:** [ ]
@@ -233,8 +232,8 @@ Most active content items live in `docs/pending-content-tasks.md`. Cross-referen
 - **Owner:** Er
 - **Blocker level:** 🟡
 - **Source:** `DEPLOYMENT.md` post-deploy checklist line 7: "Run Lighthouse audit — target 95+ across all categories".
-- **Description:** Run Lighthouse against the Vercel staging URL on key pages: `/`, `/donate`, `/programs/heads-up`, `/community/recipes`, `/get-involved/volunteer`, `/about/team`. Target ≥95 in Performance, Accessibility, Best Practices, SEO. Largest expected weak spot: Performance on `/` and `/donate` due to the synchronous Donorbox `widget.js` and synchronous Snipcart `snipcart.js` script tags blocking initial render.
-- **Next action:** Run audit; if Performance <95, evaluate making third-party scripts `async` or `defer` (Donorbox already loads sync because that's their embed pattern; consider whether Snipcart's `async` flag is actually being respected).
+- **Description:** Run Lighthouse against the Vercel staging URL on key pages: `/`, `/donate`, `/programs/heads-up`, `/community/recipes`, `/get-involved/volunteer`, `/about/team`. Target ≥95 in Performance, Accessibility, Best Practices, SEO. Largest expected weak spot: Performance on `/donate` due to the synchronous Donorbox/Givebutter widget script blocking initial render. Shop pages no longer load a third-party cart bundle since the checkout is a plain anchor to Stripe.
+- **Next action:** Run audit; if Performance <95, evaluate making third-party scripts `async` or `defer` (Donorbox/Givebutter widgets load sync because that's their embed pattern).
 
 ### E2. Mobile responsive sweep at 375px
 - **Status:** [ ]
@@ -257,7 +256,7 @@ Most active content items live in `docs/pending-content-tasks.md`. Cross-referen
 - **Owner:** Er
 - **Blocker level:** 🟡
 - **Source:** No formal crawl run. `dist/sitemap-0.xml` lists 38 URLs.
-- **Description:** Crawl all 38 sitemap URLs + every `<a href>` on each page. Report 4xx/5xx hits. Particular concern: external links to Belinda's Squarespace pages (if any), Donorbox campaign URL, Snipcart product pages, Sanity CDN image URLs (CMS-driven; check that all images resolve).
+- **Description:** Crawl all 38 sitemap URLs + every `<a href>` on each page. Report 4xx/5xx hits. Particular concern: external links to Belinda's Squarespace pages (if any), Donorbox campaign URL, Stripe Payment Link URLs (one per product, set in Sanity), Sanity CDN image URLs (CMS-driven; check that all images resolve).
 - **Next action:** Run a crawler (e.g., `lychee`, `linkchecker`, or `wget --spider`) against the Vercel staging URL. Fix any 4xx hits before cutover.
 
 ### E5. OG / social-share preview check
@@ -290,7 +289,7 @@ Most active content items live in `docs/pending-content-tasks.md`. Cross-referen
   - `PUBLIC_SANITY_DATASET=production`
   - `SANITY_API_TOKEN=` (write token — used at build time only, not exposed to client because no `PUBLIC_*` prefix)
   - `ANTHROPIC_API_KEY=` (only needed if `scripts/visual-qa.mjs` runs in CI; not required for site build)
-  - When C1 lands: add `PUBLIC_SNIPCART_API_KEY` (live key)
+  - No shop env vars needed: Stripe Payment Link URLs live on Sanity product documents.
 - **Next action:** Spot-check Vercel dashboard. Add any missing.
 
 ### F2. DNS cutover — `jewmanity.com` → Vercel
