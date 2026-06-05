@@ -130,7 +130,7 @@ export default defineType({
               type: 'string',
               title: 'Alt text',
               description: 'Describe the image for screen readers and visitors who can\'t see it (e.g., "Participants gathered around a fire pit at sunset").',
-              validation: (rule) => rule.required().error('Add alt text so this image is accessible.'),
+              validation: (rule) => rule.required().warning('Add alt text so this image is accessible.'),
             },
           ],
         }),
