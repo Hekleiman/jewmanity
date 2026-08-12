@@ -36,6 +36,49 @@ export function urlForCropped(source: SanityImageSource, width: number, height: 
   return builder.image(source).width(width).height(height).fit('crop');
 }
 
+/**
+ * Shape of a raw Sanity image field (as returned by GROQ when the whole
+ * image object is selected), for reading editor-set hotspot/crop metadata.
+ */
+interface SanityImageWithHotspot {
+  hotspot?: { x?: number; y?: number };
+  crop?: { top?: number; bottom?: number; left?: number; right?: number };
+}
+
+/**
+ * Derives a CSS `object-position` value from an image's editor-set hotspot,
+ * for full-bleed / variable-aspect containers (heroes, fixed-height cards)
+ * where the browser does the cropping via `object-fit: cover`.
+ *
+ * Sanity's hotspot coordinates are relative to the ORIGINAL image, while the
+ * CDN URL may already have the editor's crop rect applied (urlFor emits
+ * `rect=` whenever the source has crop metadata). So the hotspot is remapped
+ * into the cropped image's coordinate space before converting to percentages.
+ *
+ * Returns `fallback` when no hotspot has been set in the Studio.
+ */
+export function hotspotPosition(source: unknown, fallback = '50% 50%'): string {
+  const image = source as SanityImageWithHotspot | null | undefined;
+  const hotspot = image?.hotspot;
+  if (!hotspot || typeof hotspot.x !== 'number' || typeof hotspot.y !== 'number') {
+    return fallback;
+  }
+  let { x, y } = hotspot as { x: number; y: number };
+  const crop = image?.crop;
+  if (crop) {
+    const left = crop.left ?? 0;
+    const right = crop.right ?? 0;
+    const top = crop.top ?? 0;
+    const bottom = crop.bottom ?? 0;
+    const cropWidth = 1 - left - right;
+    const cropHeight = 1 - top - bottom;
+    if (cropWidth > 0) x = (x - left) / cropWidth;
+    if (cropHeight > 0) y = (y - top) / cropHeight;
+  }
+  const toPercent = (value: number) => Math.min(100, Math.max(0, value * 100)).toFixed(2);
+  return `${toPercent(x)}% ${toPercent(y)}%`;
+}
+
 // ============ Collection Queries ============
 
 export async function getRecipes() {

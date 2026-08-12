@@ -1,7 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import RetreatArticle from '../../components/programs/RetreatArticle.astro';
-import { getRetreats, getProgramsPastRetreatsPage, urlFor } from '../../lib/sanity';
+import { getRetreats, getProgramsPastRetreatsPage, urlFor, hotspotPosition } from '../../lib/sanity';
 
 interface ContentBlock {
   type: 'paragraph' | 'heading' | 'image';
@@ -41,6 +41,9 @@ const author = (retreat.author as string) || '';
 const coverImage = retreat.coverImage
   ? urlFor(retreat.coverImage as any).width(1920).url()
   : '/images/hero/retreat-article.jpg';
+// Honor the editor-set hotspot from Sanity so the visible area of the cover
+// follows the subject on wide (desktop) viewports instead of a fixed crop.
+const coverPosition = hotspotPosition(retreat.coverImage, 'center 25%');
 
 const cmsGallery = retreat.gallery as Record<string, unknown>[] | undefined;
 const gallery: { url: string; alt?: string }[] = Array.isArray(cmsGallery)
@@ -76,6 +79,7 @@ const body: ContentBlock[] = cmsBody.map((block) => {
     subtitle={subtitle}
     author={author}
     coverImage={coverImage}
+    coverPosition={coverPosition}
     body={body}
     gallery={gallery}
     galleryHeading={pastRetreatsPage?.detailGalleryHeading}

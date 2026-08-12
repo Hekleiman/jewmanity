@@ -7,6 +7,7 @@ interface Retreat {
   description: string;
   href: string;
   image?: string;
+  imagePosition?: string;
 }
 
 interface Props {
@@ -72,6 +73,7 @@ const displaySubtitle = subtitle ?? 'These retreats are part of the Heads Up × 
           description={retreat.description}
           href={retreat.href}
           image={retreat.image}
+          imagePosition={retreat.imagePosition}
         />
       ))}
     </div>

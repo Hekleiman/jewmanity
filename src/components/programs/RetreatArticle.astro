@@ -17,6 +17,7 @@ interface Props {
   subtitle: string;
   author: string;
   coverImage?: string;
+  coverPosition?: string;
   body?: ContentBlock[];
   gallery?: GalleryImage[];
   galleryHeading?: string;
@@ -28,6 +29,7 @@ const {
   subtitle,
   author,
   coverImage = '/images/hero/retreat-article.jpg',
+  coverPosition = 'center 25%',
   body = [],
   gallery = [],
   galleryHeading,
@@ -41,7 +43,7 @@ const carouselId = `gc-${Math.random().toString(36).slice(2, 8)}`;
 
 <!-- Hero image -->
 <section class="relative flex min-h-[55vh] items-end overflow-hidden md:min-h-[60vh]">
-  <img src={coverImage} alt={title} class="absolute inset-0 h-full w-full object-cover object-[center_25%]" width="1920" height="1080" loading="eager" />
+  <img src={coverImage} alt={title} class="absolute inset-0 h-full w-full object-cover" style={`object-position: ${coverPosition}`} width="1920" height="1080" loading="eager" />
   <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
 
   <div class="relative z-10 mx-auto w-full max-w-[800px] px-6 pb-10 pt-20">
@@ -66,18 +68,32 @@ const carouselId = `gc-${Math.random().toString(36).slice(2, 8)}`;
       <div class="gc-carousel relative mt-8" data-carousel-id={carouselId}>
         <div class="relative aspect-[16/10] w-full overflow-hidden rounded-2xl">
           {galleryImages.map((img, i) => (
-            <img
-              src={img.url}
-              alt={img.alt || title}
+            <div
               class:list={[
-                'gc-slide absolute inset-0 h-full w-full object-cover transition-opacity duration-300',
+                'gc-slide absolute inset-0 transition-opacity duration-300',
                 i === 0 ? 'opacity-100' : 'opacity-0 pointer-events-none',
               ]}
-              width="1280"
-              height="800"
-              loading={i === 0 ? 'eager' : 'lazy'}
               data-index={i}
-            />
+            >
+              <!-- Blurred fill so portrait photos display uncropped inside the landscape frame -->
+              <img
+                src={img.url}
+                alt=""
+                aria-hidden="true"
+                class="absolute inset-0 h-full w-full scale-110 object-cover opacity-60 blur-xl"
+                width="1280"
+                height="800"
+                loading={i === 0 ? 'eager' : 'lazy'}
+              />
+              <img
+                src={img.url}
+                alt={img.alt || title}
+                class="relative h-full w-full object-contain"
+                width="1280"
+                height="800"
+                loading={i === 0 ? 'eager' : 'lazy'}
+              />
+            </div>
           ))}
           {galleryImages.length > 1 && (
             <>
@@ -172,7 +188,7 @@ const carouselId = `gc-${Math.random().toString(36).slice(2, 8)}`;
   // Retreat gallery carousel (renders only when gallery has 2+ images)
   document.querySelectorAll<HTMLElement>('.gc-carousel').forEach((carousel) => {
     const id = carousel.dataset.carouselId!;
-    const slides = carousel.querySelectorAll<HTMLImageElement>('.gc-slide');
+    const slides = carousel.querySelectorAll<HTMLElement>('.gc-slide');
     const dots = carousel.querySelectorAll<HTMLButtonElement>(`.gc-dot[data-carousel-id="${id}"]`);
     const prev = carousel.querySelector<HTMLButtonElement>(`.gc-prev[data-carousel-id="${id}"]`);
     const next = carousel.querySelector<HTMLButtonElement>(`.gc-next[data-carousel-id="${id}"]`);
