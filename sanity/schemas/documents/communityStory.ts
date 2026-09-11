@@ -40,6 +40,7 @@ export default defineType({
           { title: 'Jewmanity Retreat', value: 'Jewmanity Retreat' },
           { title: 'Jewmanity Volunteer', value: 'Jewmanity Volunteer' },
           { title: 'Community Impact', value: 'Community Impact' },
+          { title: 'Community Event', value: 'Community Event' },
         ],
       },
     }),

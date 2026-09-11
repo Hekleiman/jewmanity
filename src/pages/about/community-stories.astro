@@ -2,7 +2,8 @@
 import Layout from '../../layouts/Layout.astro';
 import HeroSection from '../../components/shared/HeroSection.astro';
 import CTASection from '../../components/shared/CTASection.astro';
-import { getAboutCommunityStoriesPage, getTestimonials, urlFor, urlForCropped } from '../../lib/sanity';
+import StoriesGrid from '../../components/about/StoriesGrid.astro';
+import { getAboutCommunityStoriesPage, getCommunityStories, getTestimonials, urlFor, urlForCropped } from '../../lib/sanity';
 import type { SanityImageSource } from '@sanity/image-url/lib/types/types';
 
 interface PersonalStory {
@@ -79,6 +80,43 @@ try {
 if (personalStories.length === 0) {
   personalStories = fallbackStories;
 }
+
+interface GridStory {
+  title: string;
+  slug?: string;
+  description?: string;
+  image?: string;
+  alt?: string;
+  url?: string;
+  external?: boolean;
+  tag?: string;
+}
+
+let gridStories: GridStory[] = [];
+try {
+  const rawStories = await getCommunityStories();
+  if (rawStories && rawStories.length > 0) {
+    gridStories = rawStories
+      .filter((s: Record<string, unknown>) => s.slug)
+      .map((s: Record<string, unknown>) => {
+        const paragraphs = (s.paragraphs as string[]) || [];
+        return {
+          title: (s.title as string) || '',
+          slug: s.slug as string,
+          tag: (s.tag as string) || undefined,
+          description: (s.excerpt as string) || paragraphs[0] || '',
+          image: s.image
+            ? urlForCropped(s.image as SanityImageSource, 600, 400).url()
+            : undefined,
+          alt: (s.title as string) || '',
+          url: (s.externalUrl as string) || `/about/community-stories/${s.slug}`,
+          external: Boolean(s.externalUrl),
+        };
+      });
+  }
+} catch (e) {
+  console.warn('Sanity fetch failed for community stories grid, using hardcoded fallbacks');
+}
 ---
 <Layout title="Community Stories | Jewmanity" description="Inspiring stories of compassion, service, and solidarity from Jewish communities around the world.">
   <HeroSection
@@ -100,6 +138,8 @@ if (personalStories.length === 0) {
       </div>
     </div>
   </section>
+
+  <StoriesGrid stories={gridStories} />
 
   <!-- Voices from Our Community -->
   <section id="voices" class="bg-bg-section-alt py-16 md:py-20 lg:py-24">

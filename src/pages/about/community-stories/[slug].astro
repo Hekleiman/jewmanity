@@ -1,6 +1,6 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
-import { getCommunityStories, urlFor } from '../../../lib/sanity';
+import { getCommunityStories, urlForCropped } from '../../../lib/sanity';
 import type { SanityImageSource } from '@sanity/image-url/lib/types/types';
 
 interface StoryData {
@@ -23,7 +23,7 @@ const fallbackStories: Record<string, StoryData> = {
     pullQuote: "You literally saved our lives. You're the best!",
     pullAttribution: 'Commanding Officer, First Retreat',
   },
-  'golani-boys-return': {
+  'golani-boys': {
     title: 'The Golani Boys Return',
     tag: 'Jewmanity Retreat',
     paragraphs: [
@@ -41,7 +41,7 @@ const fallbackStories: Record<string, StoryData> = {
       'The retreat marked a milestone for Jewmanity and Heads Up: the first time the program welcomed an all-female group. The experience reinforced what the organizers had always believed \u2014 that healing happens through connection, and that every person who served deserves the chance to be seen, heard, and supported.',
     ],
   },
-  'fathers-fighters-finding-peace': {
+  'fathers-fighters': {
     title: 'Fathers, Fighters, and Finding Peace',
     tag: 'Jewmanity Retreat',
     paragraphs: [
@@ -52,7 +52,7 @@ const fallbackStories: Record<string, StoryData> = {
     pullQuote: 'We sat there for a long time, talking, sharing stories about their grandmothers born in Jaffa before World War II, and their children born after COVID.',
     pullAttribution: 'Kate H., Retreat Assistant',
   },
-  'joy-of-giving': {
+  'dahlia-volunteer': {
     title: "The Joy of Giving: A Volunteer\u2019s Journey",
     tag: 'Jewmanity Volunteer',
     paragraphs: [
@@ -63,7 +63,7 @@ const fallbackStories: Record<string, StoryData> = {
     pullQuote: "The joy of giving to them feels endless, and I\u2019m grateful to be part of their journey.",
     pullAttribution: 'Dahlia, Jewmanity Volunteer',
   },
-  'believing-again': {
+  'Matan-journey': {
     title: "Believing Again: Matan\u2019s Journey Home",
     tag: 'Jewmanity Retreat',
     paragraphs: [
@@ -84,7 +84,7 @@ export async function getStaticPaths() {
     console.warn('Sanity fetch failed for community story paths, using fallback');
   }
 
-  const fallbackSlugs = ['first-retreat', 'golani-boys-return', 'brave-girls', 'fathers-fighters-finding-peace', 'joy-of-giving', 'believing-again'];
+  const fallbackSlugs = ['first-retreat', 'golani-boys', 'brave-girls', 'fathers-fighters', 'dahlia-volunteer', 'Matan-journey'];
 
   const cmsPaths = cmsStories
     .filter((s) => s.slug)
@@ -110,6 +110,12 @@ const tag = (cmsStory?.tag as string) || fallback?.tag;
 const paragraphs: string[] = (cmsStory?.paragraphs as string[]) || fallback?.paragraphs || [];
 const pullQuote = (cmsStory?.pullQuote as string) || fallback?.pullQuote;
 const pullAttribution = (cmsStory?.pullQuoteAttribution as string) || (cmsStory?.pullAttribution as string) || fallback?.pullAttribution;
+
+// Story photo. Sanity applies the editor-set hotspot automatically on fit('crop'),
+// so Belinda can reframe a portrait shot without touching code.
+const imageUrl = cmsStory?.image
+  ? urlForCropped(cmsStory.image as SanityImageSource, 1200, 800).url()
+  : null;
 ---
 
 <Layout title={`${title} | Jewmanity`} description={paragraphs[0]?.slice(0, 160) || ''}>
@@ -129,6 +135,17 @@ const pullAttribution = (cmsStory?.pullQuoteAttribution as string) || (cmsStory?
       <h1 class="font-heading text-[clamp(28px,4vw,42px)] font-medium leading-tight text-text-heading">
         {title}
       </h1>
+
+      {imageUrl && (
+        <img
+          src={imageUrl}
+          alt={title}
+          class="mt-8 aspect-[3/2] w-full rounded-[24px] object-cover"
+          width="1200"
+          height="800"
+          loading="eager"
+        />
+      )}
 
       <div class="mt-10 space-y-6 font-body text-base leading-[1.8] text-text-body md:text-[17px]">
         {paragraphs.map((p) => (
