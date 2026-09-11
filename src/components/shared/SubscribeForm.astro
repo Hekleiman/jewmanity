@@ -9,6 +9,26 @@
  * The honeypot field name is derived from the u= and id= params in that URL.
  * If the variable is missing or malformed, the form is replaced by a short
  * placeholder rather than rendering a control that silently fails.
+ *
+ * SUBMISSION MODEL
+ * Mailchimp's classic /subscribe/post endpoint sends no CORS headers, so a
+ * fetch() POST is blocked by the browser, and the post-json JSONP endpoint
+ * returns 404 on this account (verified 2026-09-11, both host forms). The
+ * workable no-backend option is to point the form at a hidden same-page
+ * iframe: a normal form POST, no cross-origin read, and the visitor never
+ * leaves the site.
+ *
+ * The trade-off is that the iframe's response cannot be read cross-origin, so
+ * we cannot tell "new subscriber" from "already on the list" or from a
+ * previously-unsubscribed address that Mailchimp wants to re-confirm. The
+ * success copy is therefore written to be true in all three cases. If double
+ * opt-in is ever enabled on the audience, pass the confirm-flavoured
+ * successMessage (see DEFAULT_SUCCESS_DOUBLE below) so the copy keeps matching
+ * what actually happens.
+ *
+ * Progressive enhancement: the iframe target is attached by script. With
+ * JavaScript off the form keeps its target="_blank" and still subscribes, it
+ * just opens Mailchimp's own page as before.
  */
 interface Props {
   variant?: 'light' | 'dark';
@@ -16,8 +36,16 @@ interface Props {
   emailPlaceholder?: string;
   buttonText?: string;
   configurationPending?: string;
+  successMessage?: string;
+  errorMessage?: string;
   class?: string;
 }
+
+// Accurate while the audience is single opt-in (the current setting).
+const DEFAULT_SUCCESS_SINGLE = "Thanks for subscribing. You're on the list.";
+// Use this instead if double opt-in is turned on in Mailchimp. It is also the
+// honest wording for an address Mailchimp asks to re-confirm.
+const DEFAULT_SUCCESS_DOUBLE = 'Almost there. Check your email to confirm your subscription.';
 
 const {
   variant = 'light',
@@ -25,6 +53,8 @@ const {
   emailPlaceholder = 'Enter your email',
   buttonText = 'Subscribe',
   configurationPending = 'Newsletter signup is being configured. Subscribe at launch.',
+  successMessage = DEFAULT_SUCCESS_SINGLE,
+  errorMessage = 'Something went wrong. Please try again, or email us.',
   class: className = '',
 } = Astro.props;
 
@@ -47,40 +77,134 @@ if (formAction && formAction !== 'your_mailchimp_form_action_url') {
   }
 }
 
-const inputClass =
-  variant === 'dark'
-    ? 'min-w-0 flex-1 rounded-l-[100px] border border-r-0 border-[rgba(250,248,245,0.3)] bg-[rgba(250,248,245,0.1)] px-5 py-3 font-body text-base text-[#FAF8F5] placeholder:text-[rgba(250,248,245,0.6)] focus:border-[#FAF8F5] focus:outline-none focus:ring-1 focus:ring-[#FAF8F5]'
-    : 'min-w-0 flex-1 rounded-l-[100px] border border-r-0 border-border-card bg-white px-5 py-3 font-body text-base text-text-heading placeholder:text-text-muted focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary';
+const frameName = `${id}-frame`;
+const isDark = variant === 'dark';
 
-const buttonClass =
-  variant === 'dark'
-    ? 'shrink-0 rounded-r-[100px] bg-[#FAF8F5] px-6 py-3 font-heading text-sm font-medium text-bg-footer transition-colors hover:bg-white'
-    : 'shrink-0 rounded-r-[100px] bg-primary px-6 py-3 font-heading text-sm font-medium text-white transition-colors hover:bg-primary-hover';
+const inputClass = isDark
+  ? 'min-w-0 flex-1 rounded-l-[100px] border border-r-0 border-[rgba(250,248,245,0.3)] bg-[rgba(250,248,245,0.1)] px-5 py-3 font-body text-base text-[#FAF8F5] placeholder:text-[rgba(250,248,245,0.6)] focus:border-[#FAF8F5] focus:outline-none focus:ring-1 focus:ring-[#FAF8F5] read-only:opacity-60'
+  : 'min-w-0 flex-1 rounded-l-[100px] border border-r-0 border-border-card bg-white px-5 py-3 font-body text-base text-text-heading placeholder:text-text-muted focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary read-only:opacity-60';
 
-const pendingClass =
-  variant === 'dark'
-    ? 'mx-auto max-w-[450px] text-center font-body text-sm text-[rgba(250,248,245,0.7)]'
-    : 'mx-auto mt-4 max-w-[450px] text-center font-body text-sm text-text-muted';
+const buttonClass = isDark
+  ? 'shrink-0 rounded-r-[100px] bg-[#FAF8F5] px-6 py-3 font-heading text-sm font-medium text-bg-footer transition-colors hover:bg-white disabled:opacity-60'
+  : 'shrink-0 rounded-r-[100px] bg-primary px-6 py-3 font-heading text-sm font-medium text-white transition-colors hover:bg-primary-hover disabled:opacity-60';
+
+const noteClass = isDark
+  ? 'mx-auto max-w-[450px] text-center font-body text-sm text-[rgba(250,248,245,0.7)]'
+  : 'mx-auto mt-4 max-w-[450px] text-center font-body text-sm text-text-muted';
+
+const successClass = isDark
+  ? 'mx-auto max-w-[450px] text-center font-body text-sm font-medium text-[#FAF8F5]'
+  : 'mx-auto mt-4 max-w-[450px] text-center font-body text-sm font-medium text-primary';
 ---
 
 {isConfigured ? (
-  <form method="POST" action={formAction} target="_blank" class:list={['flex w-full max-w-[450px]', className]}>
-    <label for={id} class="sr-only">Email address</label>
-    <input
-      id={id}
-      type="email"
-      name="EMAIL"
-      required
-      placeholder={emailPlaceholder}
-      class={inputClass}
-    />
-    <button type="submit" class={buttonClass}>
-      {buttonText}
-    </button>
-    <div aria-hidden="true" style="position: absolute; left: -5000px;">
-      <input type="text" name={honeypotName} tabindex="-1" value="" />
-    </div>
-  </form>
+  <div class:list={['w-full', className]} data-subscribe-root data-frame={frameName} data-variant={variant}>
+    <form
+      method="POST"
+      action={formAction}
+      target="_blank"
+      class="mx-auto flex w-full max-w-[450px]"
+      data-subscribe-form
+    >
+      <label for={id} class="sr-only">Email address</label>
+      <input
+        id={id}
+        type="email"
+        name="EMAIL"
+        required
+        placeholder={emailPlaceholder}
+        class={inputClass}
+        data-subscribe-input
+      />
+      <button type="submit" class={buttonClass} data-subscribe-button>
+        {buttonText}
+      </button>
+      <div aria-hidden="true" style="position: absolute; left: -5000px;">
+        <input type="text" name={honeypotName} tabindex="-1" value="" />
+      </div>
+    </form>
+
+    <p
+      class:list={[successClass, 'hidden']}
+      role="status"
+      aria-live="polite"
+      data-subscribe-status
+      data-success={successMessage}
+      data-error={errorMessage}
+      data-pending="Subscribing..."
+    ></p>
+
+    <iframe name={frameName} title="Subscribe" aria-hidden="true" tabindex="-1" style="display:none" data-subscribe-frame></iframe>
+  </div>
 ) : (
-  <p class={pendingClass}>{configurationPending}</p>
+  <p class={noteClass}>{configurationPending}</p>
 )}
+
+<script>
+  // Keeps the visitor on the page: retarget the Mailchimp POST into a hidden
+  // iframe and swap the control for a status line. Attached per instance, so
+  // the homepage section and the footer stay independent.
+  function initSubscribe(root: HTMLElement) {
+    const form = root.querySelector<HTMLFormElement>('[data-subscribe-form]');
+    const input = root.querySelector<HTMLInputElement>('[data-subscribe-input]');
+    const button = root.querySelector<HTMLButtonElement>('[data-subscribe-button]');
+    const status = root.querySelector<HTMLElement>('[data-subscribe-status]');
+    const frame = root.querySelector<HTMLIFrameElement>('[data-subscribe-frame]');
+    const frameName = root.dataset.frame;
+    if (!form || !input || !button || !status || !frame || !frameName) return;
+
+    // Only now do we take over from the target="_blank" fallback, so a visitor
+    // with JavaScript disabled keeps a working (if off-site) signup.
+    form.target = frameName;
+
+    let submitted = false;
+    let settled = false;
+
+    const errorColor = root.dataset.variant === 'dark' ? '#FFC9C9' : '#B42318';
+
+    function show(message: string, isError: boolean) {
+      status.textContent = message;
+      status.classList.remove('hidden');
+      // Set directly rather than via a utility class: a Tailwind class that only ever
+      // appears inside a <script> block is not reliably emitted into the stylesheet.
+      status.style.color = isError ? errorColor : '';
+    }
+
+    form.addEventListener('submit', (event) => {
+      // The first POST is already in flight; do not send a second one.
+      if (submitted) {
+        event.preventDefault();
+        return;
+      }
+      if (!form.reportValidity()) return;
+      submitted = true;
+      // readOnly, not disabled: the form data is collected after this handler
+      // returns, and a disabled field is left out of it, so disabling the input
+      // here would POST without EMAIL. The button has no name, so it is safe.
+      input.readOnly = true;
+      button.disabled = true;
+      show(status.dataset.pending || 'Subscribing...', false);
+
+      // The iframe is cross-origin so its load event is all we get. If it never
+      // fires, fail open rather than leaving the visitor on "Subscribing...".
+      window.setTimeout(() => {
+        if (settled) return;
+        settled = true;
+        form.classList.add('hidden');
+        show(status.dataset.error || '', true);
+      }, 10000);
+    });
+
+    frame.addEventListener('load', () => {
+      // Fires once when the blank iframe is first parsed; ignore that one.
+      if (!submitted || settled) return;
+      settled = true;
+      form.classList.add('hidden');
+      show(status.dataset.success || '', false);
+    });
+  }
+
+  document
+    .querySelectorAll<HTMLElement>('[data-subscribe-root]')
+    .forEach((root) => initSubscribe(root));
+</script>
