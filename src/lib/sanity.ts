@@ -618,6 +618,8 @@ export async function getSiteSettings() {
       address,
       legalLinks,
       footerDisclaimer,
+      subscribeHeading,
+      subscribeDescription,
       givebutterAccountId,
       givebutterWidgetId
     }

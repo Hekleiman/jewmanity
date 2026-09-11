@@ -1,4 +1,6 @@
 ---
+import SubscribeForm from '../shared/SubscribeForm.astro';
+
 interface Props {
   heading?: string;
   description?: string;
@@ -20,25 +22,6 @@ const {
 const displayHeading = heading || 'Stay Connected';
 const displayDescription = description || 'Receive updates on our programs, resources, and how your support is making a difference. We respect your privacy and will never share your information.';
 
-const formAction = import.meta.env.PUBLIC_MAILCHIMP_FORM_ACTION;
-
-let isConfigured = false;
-let honeypotName = '';
-
-if (formAction && formAction !== 'your_mailchimp_form_action_url') {
-  try {
-    const url = new URL(formAction);
-    const userId = url.searchParams.get('u');
-    const listId = url.searchParams.get('id');
-    if (userId && listId) {
-      isConfigured = true;
-      honeypotName = `b_${userId}_${listId}`;
-    }
-  } catch {
-    // Invalid URL, leave isConfigured false.
-  }
-}
-
 const PRIVACY_LINK_TARGET = 'Privacy Policy';
 const footnoteParts = footnote.split(PRIVACY_LINK_TARGET);
 const footnoteBefore = footnoteParts[0];
@@ -57,32 +40,14 @@ const hasPrivacyLink = footnoteParts.length > 1;
       </p>
     </div>
 
-    {isConfigured ? (
-    <form method="POST" action={formAction} target="_blank" class="mx-auto flex max-w-[450px]">
-      <label for="newsletter-email" class="sr-only">Email address</label>
-      <input
-        id="newsletter-email"
-        type="email"
-        name="EMAIL"
-        required
-        placeholder={emailPlaceholder}
-        class="min-w-0 flex-1 rounded-l-[100px] border border-r-0 border-border-card bg-white px-5 py-3 font-body text-base text-text-heading placeholder:text-text-muted focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
-      />
-      <button
-        type="submit"
-        class="shrink-0 rounded-r-[100px] bg-primary px-6 py-3 font-heading text-sm font-medium text-white transition-colors hover:bg-primary-hover"
-      >
-        {buttonText}
-      </button>
-      <div aria-hidden="true" style="position: absolute; left: -5000px;">
-        <input type="text" name={honeypotName} tabindex="-1" value="" />
-      </div>
-    </form>
-    ) : (
-    <p class="mx-auto mt-4 max-w-[450px] text-center font-body text-sm text-text-muted">
-      {configurationPending}
-    </p>
-    )}
+    <SubscribeForm
+      id="newsletter-email"
+      variant="light"
+      emailPlaceholder={emailPlaceholder}
+      buttonText={buttonText}
+      configurationPending={configurationPending}
+      class="mx-auto"
+    />
 
     <p class="mx-auto mt-4 max-w-[450px] text-center font-body text-xs text-text-muted">
       {hasPrivacyLink ? (

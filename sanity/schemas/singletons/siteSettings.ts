@@ -78,6 +78,21 @@ export default defineType({
       ],
     }),
     defineField({
+      name: 'subscribeHeading',
+      title: 'Footer Signup Heading',
+      type: 'string',
+      group: 'footer',
+      description: 'Heading above the email signup box in the footer. Defaults to "Stay Connected".',
+    }),
+    defineField({
+      name: 'subscribeDescription',
+      title: 'Footer Signup Description',
+      type: 'text',
+      rows: 2,
+      group: 'footer',
+      description: 'One or two lines explaining what subscribers will receive.',
+    }),
+    defineField({
       name: 'footerTagline',
       title: 'Footer Tagline',
       type: 'string',

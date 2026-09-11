@@ -1,4 +1,6 @@
 ---
+import SubscribeForm from './shared/SubscribeForm.astro';
+
 interface SocialLinks {
   facebook?: string | null;
   instagram?: string | null;
@@ -19,6 +21,8 @@ interface SiteSettings {
   footerTagline?: string | null;
   legalLinks?: LegalLink[] | null;
   footerDisclaimer?: string | null;
+  subscribeHeading?: string | null;
+  subscribeDescription?: string | null;
 }
 
 interface Props {
@@ -50,11 +54,31 @@ const footerDisclaimer =
   siteSettings?.footerDisclaimer
     || 'All donations are tax-deductible to the fullest extent allowed by law.';
 
+const subscribeHeading = siteSettings?.subscribeHeading || 'Stay Connected';
+const subscribeDescription =
+  siteSettings?.subscribeDescription
+  || 'Get updates on our programs, retreats, and the people your support is helping.';
+
 const currentYear = new Date().getFullYear();
 ---
 
 <footer class="bg-bg-footer px-6 py-16">
   <div class="mx-auto flex max-w-4xl flex-col items-center gap-12">
+    <!-- Subscribe -->
+    <div class="flex w-full flex-col items-center gap-4">
+      <h2 class="font-heading text-xl font-medium leading-tight text-[#FAF8F5]">
+        {subscribeHeading}
+      </h2>
+      <p class="max-w-[520px] text-center font-body text-sm leading-relaxed text-[rgba(250,248,245,0.7)]">
+        {subscribeDescription}
+      </p>
+      <SubscribeForm
+        id="footer-subscribe-email"
+        variant="dark"
+        configurationPending="Email signup is being configured."
+      />
+    </div>
+
     <!-- Social Icons -->
     <div class="flex items-center gap-6">
       {facebook && (

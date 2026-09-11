@@ -1,0 +1,86 @@
+---
+/**
+ * Mailchimp email-capture form. Single source of truth for the subscribe
+ * wiring so the homepage "Stay Connected" section and the site-wide footer
+ * can never drift apart.
+ *
+ * Configured by PUBLIC_MAILCHIMP_FORM_ACTION (Audience > Signup Forms >
+ * Embedded Forms > "Naked" embed, copy the action="..." URL verbatim).
+ * The honeypot field name is derived from the u= and id= params in that URL.
+ * If the variable is missing or malformed, the form is replaced by a short
+ * placeholder rather than rendering a control that silently fails.
+ */
+interface Props {
+  variant?: 'light' | 'dark';
+  id: string;
+  emailPlaceholder?: string;
+  buttonText?: string;
+  configurationPending?: string;
+  class?: string;
+}
+
+const {
+  variant = 'light',
+  id,
+  emailPlaceholder = 'Enter your email',
+  buttonText = 'Subscribe',
+  configurationPending = 'Newsletter signup is being configured. Subscribe at launch.',
+  class: className = '',
+} = Astro.props;
+
+const formAction = import.meta.env.PUBLIC_MAILCHIMP_FORM_ACTION;
+
+let isConfigured = false;
+let honeypotName = '';
+
+if (formAction && formAction !== 'your_mailchimp_form_action_url') {
+  try {
+    const url = new URL(formAction);
+    const userId = url.searchParams.get('u');
+    const listId = url.searchParams.get('id');
+    if (userId && listId) {
+      isConfigured = true;
+      honeypotName = `b_${userId}_${listId}`;
+    }
+  } catch {
+    // Invalid URL, leave isConfigured false.
+  }
+}
+
+const inputClass =
+  variant === 'dark'
+    ? 'min-w-0 flex-1 rounded-l-[100px] border border-r-0 border-[rgba(250,248,245,0.3)] bg-[rgba(250,248,245,0.1)] px-5 py-3 font-body text-base text-[#FAF8F5] placeholder:text-[rgba(250,248,245,0.6)] focus:border-[#FAF8F5] focus:outline-none focus:ring-1 focus:ring-[#FAF8F5]'
+    : 'min-w-0 flex-1 rounded-l-[100px] border border-r-0 border-border-card bg-white px-5 py-3 font-body text-base text-text-heading placeholder:text-text-muted focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary';
+
+const buttonClass =
+  variant === 'dark'
+    ? 'shrink-0 rounded-r-[100px] bg-[#FAF8F5] px-6 py-3 font-heading text-sm font-medium text-bg-footer transition-colors hover:bg-white'
+    : 'shrink-0 rounded-r-[100px] bg-primary px-6 py-3 font-heading text-sm font-medium text-white transition-colors hover:bg-primary-hover';
+
+const pendingClass =
+  variant === 'dark'
+    ? 'mx-auto max-w-[450px] text-center font-body text-sm text-[rgba(250,248,245,0.7)]'
+    : 'mx-auto mt-4 max-w-[450px] text-center font-body text-sm text-text-muted';
+---
+
+{isConfigured ? (
+  <form method="POST" action={formAction} target="_blank" class:list={['flex w-full max-w-[450px]', className]}>
+    <label for={id} class="sr-only">Email address</label>
+    <input
+      id={id}
+      type="email"
+      name="EMAIL"
+      required
+      placeholder={emailPlaceholder}
+      class={inputClass}
+    />
+    <button type="submit" class={buttonClass}>
+      {buttonText}
+    </button>
+    <div aria-hidden="true" style="position: absolute; left: -5000px;">
+      <input type="text" name={honeypotName} tabindex="-1" value="" />
+    </div>
+  </form>
+) : (
+  <p class={pendingClass}>{configurationPending}</p>
+)}
